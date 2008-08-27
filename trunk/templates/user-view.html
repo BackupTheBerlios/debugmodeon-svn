@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid_8">
+	<h2>Usuario {{ this_user.nickname }}</h2>
+	<p class="info options">&nbsp;</p>
+	
+	{% include 'inc-item-list.html' %}
+	
+</div>
+
+<div class="grid_4">
+	{% include 'inc-quick-links.html' %}
+	<p>&nbsp;</p>
+</div>
+<div class="clear">&nbsp;</div>
+{% endblock %}

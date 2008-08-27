@@ -1,0 +1,240 @@
+/*
+paleta:
+#607890 azul
+#7890a8 zul claro
+#f0f0f0 casi blanco
+#a8a878 marron
+#909060 marron oscuro
+
+#d81c1c rojo
+*/
+
+html { overflow-y: scroll; overflow-x: auto; }
+
+h1, h1 a {
+	text-decoration: none;
+	color: #607890;
+	font-family: 'Consolas', serif;
+	margin:0;
+}
+
+h2, h2 a {
+	color: #7890a8;
+	margin:0;
+	margin-top: 10px;
+	background-color: #f0f0f0;
+	-moz-border-radius: 3px;
+	font-family: 'Lucida sans', sans-serif;
+}
+
+h3, h3 a {
+	color: #7890a8;
+	margin:0;
+	margin-top: 10px;
+	background-color: #f0f0f0;
+	-moz-border-radius: 3px;
+	font-family: 'Lucida sans', sans-serif;
+	margin-bottom: 5px;
+}
+
+/* menú de navegación */
+
+#nav {
+	background-color: #7890a8;
+	-moz-border-radius: 3px;
+}
+
+#nav ul {
+	margin: 0;
+	padding: 5px;
+	list-style-type: none;
+}
+
+#nav li {
+	display: inline;
+}
+
+#nav a {
+	text-decoration: none;
+	color: white
+}
+
+#nav a:hover, #nav a.selected {
+	border-bottom: 2px solid white;
+}
+
+#footer {
+	background-color: #7890a8;
+	color: #f0f0f0;
+	-moz-border-radius: 5px;
+}
+
+#footer div div {
+	padding: 10px;
+}
+
+#footer a {
+	color: white;
+}
+
+#quick-links a {
+	text-decoration: none;
+}
+
+p.info {
+	color: #888;
+}
+
+p.options a {
+	text-decoration: none;
+}
+
+p.options a:hover{
+	background-color:#e8eef7;
+}
+
+.more {
+	font-weight: bold;
+}
+
+img.icon {
+	vertical-align: middle;
+}
+
+div.box {
+	border: 1px solid #7890a8;
+	margin-bottom: 10px;
+	margin-top: 10px;
+	-moz-border-radius: 3px;
+}
+
+p.title {
+	background-color: #7890a8;
+	text-align: center;
+	color: white;
+}
+
+#search div {
+	padding: 3px;
+	float: right
+}
+
+input.search {
+	background-image: url(/static/images/magnifier.png);
+	background-repeat: no-repeat;
+	background-position: center right;
+	padding: 2px 25px 2px 2px;
+	border: 1px solid rgb(127, 157, 185);
+}
+
+div.form p {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	color: #777;
+}
+
+div.form label {
+	display: block
+}
+
+div.comment {
+	background-color: #f0f0f0;
+	padding: 10px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	-moz-border-radius: 5px;
+}
+
+p.comment-info {
+	text-align: right;
+	padding: 5px;
+	margin-top: 1px;
+}
+
+p.pagination {
+	text-align: center;
+}
+
+pre {
+	background-color: #ffa;
+	overflow: auto;
+}
+
+/* display the individual items next to each other, not one-per-line */
+.tag-cloud { margin:0; padding:10px; }
+.tag-cloud li { display: inline; margin:0; padding:0; }
+/* hide the extra context from CSS-enabled browsers, but not screenreaders */
+.tag-cloud span { position: absolute; left: -999px; width: 990px; }
+/* size is purely presentational, based upon the class */
+.tag-cloud .size1 { font-size: 1em; }
+.tag-cloud .size2 { font-size: 1.3em; }
+.tag-cloud .size3 { font-size: 1.6em; }
+.tag-cloud .size4 { font-size: 1.9em; }
+.tag-cloud .size5 { font-size: 2.2em; }
+.tag-cloud .size6 { font-size: 2.5em; }
+
+
+#markdown_example {
+	width:100%;
+	height:400px;
+}
+
+#markdown_toolbar {
+	position:relative;
+	list-style:none;
+	border:1px solid #d7d7d7;
+	background-color:#F6F6F6;
+	margin:0;
+	padding:0;
+	height:18px;
+	margin-bottom:2px;
+}
+
+#markdown_toolbar li {
+	list-style:none;
+	margin:0;
+	padding:0;
+	float:left;
+}
+
+#markdown_toolbar li a {
+	width:24px;
+	height:16px;
+	float:left;
+	display:block;
+	background-image:url("/static/images/markdown_icons.gif");
+	border:1px solid #fff;
+	border-right-color:#d7d7d7;
+}
+
+#markdown_toolbar li a:hover {
+	border-color:#900;
+}
+
+#markdown_toolbar li span {
+	display:none;
+}
+
+#markdown_toolbar li a#markdown_help_button {
+	position:absolute;
+	top:0;
+	right:0;
+	border-left-color:#d7d7d7;
+	border-right-color:#fff;
+}
+
+#markdown_toolbar li a#markdown_help_button:hover {
+	border-left-color:#900;
+	border-right-color:#900;
+}
+
+#markdown_italics_button { background-position: 0 -119px; }
+#markdown_bold_button { background-position: 0 -102px; }
+#markdown_link_button { background-position: 0 0; }
+#markdown_image_button { background-position: 0 -170px; }
+#markdown_unordered_list_button { background-position: 0 -34px; }
+#markdown_ordered_list_button { background-position: 0 -51px; }
+#markdown_quote_button { background-position: 0 -68px; }
+#markdown_code_button { background-position: 0 -136px; }
+#markdown_help_button { background-position: 0 -153px; }
+#markdown_heading_button { background-position: 0 -85px; }

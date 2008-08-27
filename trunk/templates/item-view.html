@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% block title %} {{ item.title|escape }} // debug_mode=ON{% endblock %}
+
+
+{% block head %}
+<link href="/static/css/prettify.css" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+<div class="grid_8">
+	<div class="grid_8 alpha omega">
+		<h2>{{ item.title|escape }}</h2>
+		<p class="info options">
+			Escrito por <strong><a href="/user/{{ item.author.nickname|escape}}">{{ item.author.nickname|escape }}</a></strong> el <strong>{{ item.creation_date|date:"d/m/Y" }}</strong> <br/>
+		</p>
+   
+		<div id="item">
+		{{ item.content|markdown }}
+		</div>
+   
+		<p class="info options">
+			Etiquetas:
+			{% for tag in item.tags %}
+				<a href="/tag/{{ tag|escape}}">{{ tag|escape}}</a>,
+			{% endfor %}
+			| <a href="#comments"><img src="/static/images/comments.png" class="icon" alt="" /> {{ item.responses }} comentarios</a>
+			| {{ item.views }} visitas
+			{% ifequal user item.author %}
+			| <a href="/item.edit?key={{ item.key }}">editar</a>
+			{% endifequal %}
+			<br/>
+			{% ifequal item.lic 'copyright' %}
+			&copy; Todos los derechos reservados
+			{% else %}
+				{% ifequal item.lic 'pd' %}
+				Esta obra está en <a href="http://creativecommons.org/licenses/publicdomain/">Dominio Público</a>
+				{% else %}
+				Esta obra est&#225; bajo una <a rel="license" href="http://creativecommons.org/licenses/{{ item.lic }}/3.0/">licencia de Creative Commons</a>
+				<a rel="license" href="http://creativecommons.org/licenses/{{ item.lic }}/3.0/">
+					<img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/{{ item.lic }}/3.0/80x15.png" class="icon" />
+				</a>
+				{% endifequal %}
+			{% endifequal %}
+		</p>
+	</div>
+	<div class="clear">&nbsp;</div>
+
+{% ifnotequal len 0 %}
+	<div class="grid_8 alpha omega">
+		<h3><a name="comments">Comentarios</a></h3>
+	</div>
+	<div class="clear">&nbsp;</div>
+{% for comment in comments %}
+	<div class="grid_2 alpha">
+		<p class="info comment-info">
+			<img src="http://www.gravatar.com/avatar/79472daa31ea8050b09fbc6893c9dc50?s=32&amp;d=identicon" alt="gimenete-32" /> <br/>
+			<a href="/user/{{ comment.author.nickname|escape }}">{{ comment.author.nickname|escape }}</a> escribió <br/> el <strong>{{ comment.creation_date|date:"d/m/Y G:i:s" }}</strong>
+		</p>
+	</div>
+	<div class="grid_6 omega">
+		<div class="comment">
+			{{ comment.content|escape|markdown }}
+		</div>
+	</div>
+	<div class="clear">&nbsp;</div>
+{% endfor %}
+{% endifnotequal %}
+
+{% if prev or next %}
+	<div class="grid_2 alpha">
+		<p>&nbsp;</p>
+	</div>
+	<div class="grid_6 omega">
+		<p class="pagination">
+			{% if prev %}
+			<a href="?p={{ prev }}#comments">« anterior</a> |
+			{% endif %}
+			Página {{ p }}
+			{% if next %}
+			| <a href="?p={{ next }}#comments">siguiente »</a></p>
+			{% endif %}
+		</p>
+	</div>
+	<div class="clear">&nbsp;</div>
+{% endif %}
+
+	<div class="grid_8 alpha omega">
+		<h3>Deja tu comentario</h3>
+	</div>
+	<div class="clear">&nbsp;</div>
+	<div class="grid_2 alpha">
+		<p>&nbsp;</p>
+	</div>
+	<div class="grid_6 omega">
+		<form action="/item.comment" method="post" accept-charset="utf-8">
+			<input type="hidden" name="key" value="{{ item.key }}" />
+			
+			<textarea name="content" rows="8" cols="54" id="markdown_example"></textarea>
+		
+			<p><input type="submit" value="Publicar comentario" /></p>
+		</form>
+		
+		<p>
+			<label for="preview">Vista previa</label>
+			<div class="comment"><div id="markdown_formatted"></div></div>
+		</p>
+	</div>
+	<div class="clear">&nbsp;</div>
+</div>
+
+<div class="grid_4">
+	{% include 'inc-quick-links.html' %}
+	<p>&nbsp;</p>
+</div>
+<div class="clear">&nbsp;</div>
+
+<script type="text/javascript" src="/static/js/prototype.js"></script>
+<script type="text/javascript" src="/static/js/livepipe.js"></script>
+<script type="text/javascript" src="/static/js/textarea.js"></script>
+<script type="text/javascript" src="/static/js/showdown.js"></script>
+<script type="text/javascript" src="/static/js/showtextarea.js"></script>
+
+<script type="text/javascript" src="/static/js/prettify.js"></script>
+<script type="text/javascript" charset="utf-8">
+	var d = $$('#item pre');
+	d.each(function(node) {
+		node.addClassName('prettyprint');
+	});
+	
+	prettyPrint();
+</script>
+{% endblock %}

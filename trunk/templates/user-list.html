@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid_8">
+	<h2>Usuarios</h2>
+	<p class="info options">&nbsp;</p>
+	<ul>
+{% for user in users %}
+		<li><a href="/user/{{ user.nickname|escape }}">{{ user.nickname|escape }}</a> ({{ user.items }} items, {{ user.comments }} comentarios)</li>
+{% endfor %}
+	</ul>
+
+
+{% if prev or next %}
+	<p class="pagination">
+		{% if prev %}
+		<a href="?p={{ prev }}#comments">« anterior</a> |
+		{% endif %}
+		Página {{ p }}
+		{% if next %}
+		| <a href="?p={{ next }}#comments">siguiente »</a></p>
+		{% endif %}
+	</p>
+{% endif %}
+</div>
+
+<div class="grid_4">
+	<div class="box">
+		<p class="title">Título</p>
+		<ul>
+			<li>foo</li>
+			<li>bar</li>
+			<li>fud</li>
+		</ul>
+	</div>
+</div>
+<div class="clear">&nbsp;</div>
+{% endblock %}

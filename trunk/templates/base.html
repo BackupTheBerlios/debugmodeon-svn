@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
+<head>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<link rel="stylesheet" href="/static/css/960.css" type="text/css" media="screen" charset="utf-8" />
+	<link rel="stylesheet" href="/static/css/reset.css" type="text/css" media="screen" charset="utf-8" />
+	<link rel="stylesheet" href="/static/css/text.css" type="text/css" media="screen" charset="utf-8" />
+	<link rel="stylesheet" href="/static/css/style.css" type="text/css" />
+	<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="/feed/" />
+	<!-- <link rel="icon" href="/favicon.ico" type="image/x-icon" /> -->
+	<title>{% block title %}debug_mode = ON{% endblock %}</title>
+	{% block head %}{% endblock %}
+</head>
+<body>
+	<div class="container_12">
+		<div class="grid_8">
+			<h1><a href="/">debug_mode=ON</a></h1>
+		</div>
+		<div class="grid_4">
+			<p class="options" style="text-align: right">
+			{% if user %}
+				Hola {{ user.nickname }} <!-- | <a href="#">preferencias</a> --> | <a href="{{ logout }}">desconectar</a>
+			{% else %}
+				<a href="{{ login }}">Login o regístrate</a>
+			{% endif %}
+			</p>
+		</div>
+		<div class="clear">&nbsp;</div>
+		<div class="grid_12" id="nav">
+			<form action="/buscar" method="post" accept-charset="utf-8" id="search">
+				<div>
+					<input type="text" name="q" value="" class="search" size="29" />
+					<input type="submit" value="Buscar" />
+				</div>
+			</form>
+			<ul>
+				<li><a href="/" class="selected">Inicio</a></li>
+				<li><a href="/item.list">Artículos</a></li>
+				<li><a href="/user.list">Usuarios</a></li>
+				
+				<!-- <li><a href="#">Grupos</a></li>
+				<li><a href="#">Code snippets</a></li>
+				<li><a href="#">Blogs</a></li>
+				<li><a href="#">¿Qué es debug_mode=ON?</a></li> -->
+			</ul>
+		</div>
+		<div class="clear">&nbsp;</div>
+{% block content %}{% endblock %}
+		<div class="grid_12" id="footer">
+			<div class="grid_4 alpha">
+				<div>
+					<p>Artículos más populares</p>
+					<ul>
+						<li><a href="#">Crear un directorio estático en App Engine</a></li>
+						<li><a href="#">Obtener la ruta del ejecutable en Java</a></li>
+						<li><a href="#">Gestión de errores en páginas JSP</a></li>
+						<li><a href="#">Expresiones regulares en Perl</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="grid_4">
+				<div>
+					<p>Grupos más populares</p>
+					<ul>
+						<li><a href="#">Java Swing. Componentes y frameworks</a></li>
+						<li><a href="#">Spring MVC. Buenas prácticas</a></li>
+						<li><a href="#">Google App Engine</a></li>
+						<li><a href="#">Visual Basic .Net</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="grid_4 omega">
+				<div>
+					<p>Blogs más populares</p>
+					<ul>
+						<li><a href="http://plunchete.wordpress.com/">Thirsty of code</a></li>
+						<li><a href="http://gnucrash.wordpress.com/">Inf-o-matic</a></li>
+						<li><a href="http://nestor.babuine.net/">Midnight illusions</a></li>
+						<li><a href="http://gimenete.net/">Fascinación por la vida</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="clear">&nbsp;</div>
+			<div class="grid_12 alpha omega">
+				<div style="text-align: right">
+					<p>&copy; Copyright debug_mode_on 2008 <br/>
+					<a href="#">contacto@example.com</a></p>
+				</div>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-396707-4");
+pageTracker._trackPageview();
+</script>
+</body>
+</html>

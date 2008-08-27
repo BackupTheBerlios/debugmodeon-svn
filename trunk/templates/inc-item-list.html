@@ -1,0 +1,35 @@
+{% ifequal len 0 %}
+	<p>No hay artículos</p>
+{% endifequal %}
+{% for item in items %}
+	<h2><a href="/item/{{ item.url_path }}">{{ item.title|escape }}</a></h2>
+	<p class="info options">
+		Escrito por <strong><a href="/user/{{ item.author.nickname|escape}}">{{ item.author.nickname|escape }}</a></strong> el <strong>{{ item.creation_date|date:"d/m/Y" }}</strong>
+	</p>
+
+	<p>{{ item.description|escape }}</p>
+
+	<p class="info options">
+		Etiquetas:
+		{% for tag in item.tags %}
+			<a href="/tag/{{ tag|escape}}">{{ tag|escape}}</a>,
+		{% endfor %}
+		| <a href="/item/{{ item.url_path }}#comments"><img src="/static/images/comments.png" class="icon" alt="" /> {{ item.responses }} comentarios</a>
+		| {{ item.views }} visitas
+		{% ifequal user item.author %}
+		| <a href="/item.edit?key={{ item.key }}">editar</a>
+		{% endifequal %}
+	</p>
+{% endfor %}
+
+{% if prev or next %}
+	<p class="pagination">
+		{% if prev %}
+		<a href="?p={{ prev }}">« anterior</a> |
+		{% endif %}
+		Página {{ p }}
+		{% if next %}
+		| <a href="?p={{ next }}">siguiente »</a></p>
+		{% endif %}
+	</p>
+{% endif %}
