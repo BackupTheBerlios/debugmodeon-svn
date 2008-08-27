@@ -46,6 +46,15 @@ h2, h2 a {
 	font-family: 'Lucida sans', sans-serif;
 }
 
+h2, h3 {
+	border: 1px solid #bbb;
+	padding-left: 10px;
+}
+
+h2 a, h3 a {
+	text-decoration: none;
+}
+
 h3, h3 a {
 	color: #7890a8;
 	margin:0;
@@ -125,6 +134,7 @@ div.box {
 	margin-bottom: 10px;
 	margin-top: 10px;
 	-moz-border-radius: 3px;
+	background-color: #eaefef;
 }
 
 p.title {
@@ -162,6 +172,7 @@ div.comment {
 	margin-top: 5px;
 	margin-bottom: 5px;
 	-moz-border-radius: 5px;
+	border: 1px solid #bbb;
 }
 
 p.comment-info {
