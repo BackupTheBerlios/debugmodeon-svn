@@ -38,7 +38,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<p class="info options">
 		{{ group.members }} miembros
 		| {{ group.items }} artículos
-		| <a href="/group.thread.list/{{ item.url_path }}#comments"><img src="/static/images/comments.png" class="icon" alt="" /> {{ group.threads }} temas en el foro</a>
+		| <a href="/group.forum.list/{{ group.url_path }}"><img src="/static/images/comments.png" class="icon" alt="" /> {{ group.threads }} temas en el foro</a>
 		{% ifequal user group.owner %}
 		| <a href="/group.edit?key={{ group.key }}">editar</a>
 		{% endifequal %}

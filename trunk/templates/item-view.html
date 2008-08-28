@@ -90,15 +90,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<p>&nbsp;</p>
 	</div>
 	<div class="grid_6 omega">
-		<p class="pagination">
-			{% if prev %}
-			<a href="?p={{ prev }}#comments">« anterior</a> |
-			{% endif %}
-			Página {{ p }}
-			{% if next %}
-			| <a href="?p={{ next }}#comments">siguiente »</a></p>
-			{% endif %}
-		</p>
+		{% include 'pagination.html' %}
 	</div>
 	<div class="clear">&nbsp;</div>
 {% endif %}

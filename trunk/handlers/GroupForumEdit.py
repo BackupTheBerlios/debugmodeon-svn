@@ -41,5 +41,8 @@ class GroupForumEdit(AuthenticatedHandler):
 			content=self.get_param('content'),
 			responses=0)
 		thread.put()
+		
+		group.threads = group.threads + 1
+		group.put()
 
 		self.redirect('/group.forum/%s' % thread.url_path)

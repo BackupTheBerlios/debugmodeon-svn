@@ -38,5 +38,8 @@ class GroupForumReply(AuthenticatedHandler):
 		
 		thread.responses = thread.responses + 1
 		thread.put()
+		
+		group.responses = group.responses + 1
+		group.put()
 
 		self.redirect('/group.forum/%s#comments' % thread.url_path)
