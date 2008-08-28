@@ -1,0 +1,128 @@
+{% comment %}
+(C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+{% endcomment %}
+
+{% extends "base.html" %}
+
+{% block title %} {{ group.title|escape }} // debug_mode=ON{% endblock %}
+
+{% block content %}
+<div class="grid_8">
+	<div class="grid_8 alpha omega">
+		<h2><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></h2>
+		<p class="info options">Creado por {{ group.owner.nickname|escape }} el <strong>{{ group.creation_date|date:"d/m/Y" }}</strong> </p>
+   
+		<h3>{{ thread.title|escape }}</h3>
+		<p class="info options">Iniciado por {{ thread.author.nickname|escape }} el <strong>{{ thread.creation_date|date:"d/m/Y G:i:s" }}</strong> </p>
+   
+		{{ thread.content|markdown }}
+	</div>
+	<div class="clear">&nbsp;</div>
+
+{% ifnotequal len 0 %}
+	<div class="grid_8 alpha omega">
+		<h3><a name="comments">Comentarios</a></h3>
+	</div>
+	<div class="clear">&nbsp;</div>
+	
+{% for comment in responses %}
+	<div class="grid_2 alpha">
+		<p class="info comment-info">
+			<img src="http://www.gravatar.com/avatar/79472daa31ea8050b09fbc6893c9dc50?s=32&amp;d=identicon" alt="gimenete-32" /> <br/>
+			<a href="/user/{{ comment.author.nickname|escape }}">{{ comment.author.nickname|escape }}</a> escribió <br/> el <strong>{{ comment.creation_date|date:"d/m/Y G:i:s" }}</strong>
+		</p>
+	</div>
+	<div class="grid_6 omega">
+		<div class="comment">
+			{{ comment.content|markdown }}
+		</div>
+	</div>
+	<div class="clear">&nbsp;</div>
+{% endfor %}
+{% endifnotequal %}
+
+
+{% if prev or next %}
+	<div class="grid_2 alpha">
+		<p>&nbsp;</p>
+	</div>
+	<div class="grid_6 omega">
+		<p class="pagination">
+			{% if prev %}
+			<a href="?p={{ prev }}#comments">« anterior</a> |
+			{% endif %}
+			Página {{ p }}
+			{% if next %}
+			| <a href="?p={{ next }}#comments">siguiente »</a></p>
+			{% endif %}
+		</p>
+	</div>
+	<div class="clear">&nbsp;</div>
+{% endif %}
+
+	<div class="grid_8 alpha omega">
+		<h3>Deja tu respuesta</h3>
+	</div>
+	<div class="clear">&nbsp;</div>
+	<div class="grid_2 alpha">
+		<p>&nbsp;</p>
+	</div>
+	<div class="grid_6 omega">
+
+	<form action="/group.forum.reply" method="post" accept-charset="utf-8">
+		<input type="hidden" name="key" value="{{ thread.key }}" />
+
+		<div class="form">
+
+		<textarea name="content" rows="8" cols="54" id="markdown_example"></textarea>
+
+		<p><input type="submit" value="Publicar respuesta" /></p>
+
+		<p>
+			<label for="preview">Vista previa</label>
+			<div class="comment"><div id="markdown_formatted"></div></div>
+		</p>
+
+		</div>
+	</form>
+	</div>
+	<div class="clear">&nbsp;</div>
+</div>
+
+<div class="grid_4">
+	{% include 'inc-quick-links.html' %}
+	<p>&nbsp;</p>
+</div>
+<div class="clear">&nbsp;</div>
+
+<script type="text/javascript" src="/static/js/prototype.js"></script>
+<script type="text/javascript" src="/static/js/livepipe.js"></script>
+<script type="text/javascript" src="/static/js/textarea.js"></script>
+<script type="text/javascript" src="/static/js/showdown.js"></script>
+<script type="text/javascript" src="/static/js/showtextarea.js"></script>
+
+<script type="text/javascript" src="/static/js/prettify.js"></script>
+<script type="text/javascript" charset="utf-8">
+	var d = $$('#item pre');
+	d.each(function(node) {
+		node.addClassName('prettyprint');
+	});
+
+	prettyPrint();
+</script>
+{% endblock %}

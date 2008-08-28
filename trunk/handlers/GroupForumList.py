@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
 # 
@@ -17,28 +20,16 @@
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-from handlers.MainPage import *
+from google.appengine.ext import db
+from handlers.BaseHandler import *
 
-# items
-from handlers.ItemList import *
-from handlers.ItemEdit import *
-from handlers.ItemView import *
-from handlers.ItemComment import *
+class GroupForumList(BaseHandler):
 
-# users
-from handlers.UserList import *
-from handlers.UserView import *
+	def execute(self):
+		url_path = self.request.path.split('/', 2)[2]
+		group = model.Group.gql('WHERE url_path=:1', url_path).get()
 
-# groups
-from handlers.GroupList import *
-from handlers.GroupEdit import *
-from handlers.GroupView import *
-
-# forum groups
-from handlers.GroupForumList import *
-from handlers.GroupForumEdit import *
-from handlers.GroupForumView import *
-from handlers.GroupForumReply import *
-
-# feed RSS
-from handlers.Feed import *
+		self.values['group'] = group
+		query = model.Thread.all().filter('group =', group).order('creation_date')
+		self.values['threads'] = self.paging(query, 10)
+		self.render('templates/group-forum-list.html')

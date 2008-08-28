@@ -32,12 +32,25 @@ webapp.template.register_template_library('django.contrib.markup.templatetags.ma
 def main():
 	application = webapp.WSGIApplication(
 									   [('/', MainPage),
-									   ('/item.list', ItemList),
-									   ('/item.edit', ItemEdit),
-									   ('/item/.*', ItemView),
-									   ('/item.comment', ItemComment),
-									   ('/user.list', UserList),
-									   ('/user/.*', UserView),
+									   # items
+									   ('/item.list',		ItemList),
+									   ('/item.edit',		ItemEdit),
+									   ('/item/.*',			ItemView),
+									   ('/item.comment',	ItemComment),
+									   # users
+									   ('/user.list',	UserList),
+									   ('/user/.*',		UserView),
+									   # groups
+									   ('/group.list',	GroupList),
+									   ('/group.edit',	GroupEdit),
+									   ('/group/.*',	GroupView),
+									   # group forum
+									   ('/group.forum.list/.*',	GroupForumList),
+									   ('/group.forum.edit',	GroupForumEdit),
+									   ('/group.forum/.*',		GroupForumView),
+									   ('/group.forum.reply',	GroupForumReply),
+									   
+									   # rss
 									   ('/feed/', Feed)],
 									   debug=True)
 	wsgiref.handlers.CGIHandler().run(application)

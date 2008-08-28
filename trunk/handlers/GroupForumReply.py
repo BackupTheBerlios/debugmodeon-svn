@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
 # 
@@ -17,28 +20,23 @@
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-from handlers.MainPage import *
+from google.appengine.ext import db
+from handlers.AuthenticatedHandler import *
 
-# items
-from handlers.ItemList import *
-from handlers.ItemEdit import *
-from handlers.ItemView import *
-from handlers.ItemComment import *
+class GroupForumReply(AuthenticatedHandler):
 
-# users
-from handlers.UserList import *
-from handlers.UserView import *
+	def execute(self):
+		user = self.values['user']
+		key = self.get_param('key')
+		thread = model.Thread.get(key)
+		group = thread.group
 
-# groups
-from handlers.GroupList import *
-from handlers.GroupEdit import *
-from handlers.GroupView import *
+		response = model.ThreadResponse(thread=thread,
+			author=user,
+			content=self.get_param('content'))
+		response.put()
+		
+		thread.responses = thread.responses + 1
+		thread.put()
 
-# forum groups
-from handlers.GroupForumList import *
-from handlers.GroupForumEdit import *
-from handlers.GroupForumView import *
-from handlers.GroupForumReply import *
-
-# feed RSS
-from handlers.Feed import *
+		self.redirect('/group.forum/%s#comments' % thread.url_path)

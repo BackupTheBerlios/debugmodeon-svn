@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
 # 
@@ -17,28 +20,26 @@
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-from handlers.MainPage import *
+from google.appengine.ext import db
+from handlers.AuthenticatedHandler import *
 
-# items
-from handlers.ItemList import *
-from handlers.ItemEdit import *
-from handlers.ItemView import *
-from handlers.ItemComment import *
+class GroupForumEdit(AuthenticatedHandler):
 
-# users
-from handlers.UserList import *
-from handlers.UserView import *
+	def execute(self):
+		user = self.values['user']
+		key = self.get_param('key')
+		group = model.Group.get(key)
+		
+		title = self.get_param('title')
+		url_path = ('%s/%s') % (group.url_path, self.to_url_path(title))
+		url_path = self.unique_url_path(model.Thread, url_path)
 
-# groups
-from handlers.GroupList import *
-from handlers.GroupEdit import *
-from handlers.GroupView import *
+		thread = model.Thread(group=group,
+			author=user,
+			title=title,
+			url_path=url_path,
+			content=self.get_param('content'),
+			responses=0)
+		thread.put()
 
-# forum groups
-from handlers.GroupForumList import *
-from handlers.GroupForumEdit import *
-from handlers.GroupForumView import *
-from handlers.GroupForumReply import *
-
-# feed RSS
-from handlers.Feed import *
+		self.redirect('/group.forum/%s' % thread.url_path)

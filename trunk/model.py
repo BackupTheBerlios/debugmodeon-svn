@@ -87,3 +87,48 @@ class UserData(db.Model):
 	creation_date = db.DateTimeProperty(auto_now_add=True)
 	deletion_date = db.DateTimeProperty()
 
+class Group(search.SearchableModel):
+	owner = db.UserProperty(required=True)
+	title = db.StringProperty(required=True)
+	description = db.StringProperty(required=True)
+	url_path = db.StringProperty(required=True)
+	
+	members = db.IntegerProperty(required=True)
+	items = db.IntegerProperty(required=True)
+	threads = db.IntegerProperty(required=True)
+	responses = db.IntegerProperty(required=True)
+
+	last_update = db.DateTimeProperty(auto_now=True)
+	creation_date = db.DateTimeProperty(auto_now_add=True)
+	deletion_date = db.DateTimeProperty()
+
+class GroupUser(db.Model):
+	user = db.UserProperty(required=True)
+	group = db.ReferenceProperty(Group,required=True)
+
+class GroupItem(db.Model):
+	user = db.UserProperty(required=True)
+	item = db.ReferenceProperty(Group,required=True)
+
+class Thread(db.Model):
+	group = db.ReferenceProperty(Group,required=True)
+	author = db.UserProperty(required=True)
+	title = db.StringProperty(required=True)
+	url_path = db.StringProperty(required=True)
+	content = db.TextProperty(required=True)
+	
+	responses = db.IntegerProperty(required=True)
+	latest_response = db.DateTimeProperty()
+
+	last_update = db.DateTimeProperty(auto_now=True)
+	creation_date = db.DateTimeProperty(auto_now_add=True)
+	deletion_date = db.DateTimeProperty()
+
+class ThreadResponse(db.Model):
+	thread = db.ReferenceProperty(Thread,required=True)
+	author = db.UserProperty(required=True)
+	content = db.TextProperty(required=True)
+
+	last_update = db.DateTimeProperty(auto_now=True)
+	creation_date = db.DateTimeProperty(auto_now_add=True)
+	deletion_date = db.DateTimeProperty()

@@ -1,0 +1,98 @@
+{% comment %}
+(C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+{% endcomment %}
+
+{% extends "base.html" %}
+
+{% block title %} {{ group.title|escape }} // debug_mode=ON{% endblock %}
+
+{% block content %}
+<div class="grid_8">
+	<h2><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></h2>
+	<p class="info options">Creado por {{ group.owner.nickname|escape }} el <strong>{{ group.creation_date|date:"d/m/Y" }}</strong> </p>
+
+	<p>{{ group.description|escape }}</p>
+
+	<table class="forum">
+		<thead>
+		    <th class="subject">Tema</th>
+			<th>Iniciado en</th>
+			<th>Respuestas</th>
+			<th>Última actualización</th>
+		</thead>
+		<tbody>
+		{% for thread in threads %}
+			<tr>
+				<td class="subject"><a href="/group.forum/{{ thread.url_path }}">{{ thread.title|escape }}</a></td>
+				<td>{{ thread.creation_date|date:"d/m/Y G:i:s" }}</td>
+				<td>{{ thread.responses }}</td>
+				<td>{{ thread.last_update|date:"d/m/Y G:i:s" }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+
+{% include 'inc-pagination.html' %}
+	
+	<h3>Inicia un tema</h3>
+	
+	<form action="/group.forum.edit" method="post" accept-charset="utf-8">
+		<input type="hidden" name="key" value="{{ group.key }}" />
+		
+		<div class="form">
+		
+		<p>
+		<label for="title">Título</label>
+		<input type="text" name="title" style="font-size: 200%" size="45" value="Asunto..." />
+		</p>
+		
+		<p>
+		<label for="content">Contenido</label>
+		<textarea name="content" rows="8" cols="70" id="markdown_example"></textarea>
+		</p>
+	
+		<p><input type="submit" value="Iniciar tema" /></p>
+
+		<p>
+			<label for="preview">Vista previa</label>
+			<div class="comment"><div id="markdown_formatted"></div></div>
+		</p>
+		
+		</div>
+	</form>
+	
+</div>
+
+<div class="grid_4">
+	<div class="box">
+		<p class="title">Título</p>
+		<ul>
+			<li>foo</li>
+			<li>bar</li>
+			<li>fud</li>
+		</ul>
+	</div>
+</div>
+<div class="clear">&nbsp;</div>
+
+<script type="text/javascript" src="/static/js/prototype.js"></script>
+<script type="text/javascript" src="/static/js/livepipe.js"></script>
+<script type="text/javascript" src="/static/js/textarea.js"></script>
+<script type="text/javascript" src="/static/js/showdown.js"></script>
+<script type="text/javascript" src="/static/js/showtextarea.js"></script>
+{% endblock %}

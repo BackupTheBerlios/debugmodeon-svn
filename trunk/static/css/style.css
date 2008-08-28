@@ -190,6 +190,24 @@ pre {
 	overflow: auto;
 }
 
+table.forum {
+	width: 100%;
+	text-align: right;
+}
+
+table.forum .subject {
+	text-align: left;
+}
+
+table.forum th {
+	background-color: #607890;
+	color: white;
+}
+
+table.forum th, table.forum td {
+	padding: 3px;
+}
+
 /* display the individual items next to each other, not one-per-line */
 .tag-cloud { margin:0; padding:10px; }
 .tag-cloud li { display: inline; margin:0; padding:0; }

@@ -10,7 +10,7 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
-# Used 138 times in query history.
+# Unused in query history -- copied from input.
 - kind: Comment
   properties:
   - name: item
@@ -28,14 +28,20 @@ indexes:
   - name: database
   - name: creation_date
 
-# Used 5 times in query history.
+# Used 3 times in query history.
+- kind: Group
+  properties:
+  - name: creation_date
+    direction: desc
+
+# Unused in query history -- copied from input.
 - kind: Item
   properties:
   - name: author
   - name: creation_date
     direction: desc
 
-# Used 68 times in query history.
+# Used 2 times in query history.
 - kind: Item
   properties:
   - name: creation_date
@@ -47,7 +53,19 @@ indexes:
   - name: form
   - name: creation_date
 
-# Used 8 times in query history.
+# Used 2 times in query history.
+- kind: Thread
+  properties:
+  - name: group
+  - name: creation_date
+
+# Used once in query history.
+- kind: ThreadResponse
+  properties:
+  - name: thread
+  - name: creation_date
+
+# Unused in query history -- copied from input.
 - kind: UserData
   properties:
   - name: creation_date
