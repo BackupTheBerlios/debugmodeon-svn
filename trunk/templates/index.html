@@ -18,14 +18,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
 
 {% extends "base.html" %}
-{% block content %}
-<div class="grid_8">
-	<h2>Artículos</h2>
-	<p class="info options">&nbsp;</p>
-{% include 'inc-item-list.html' %}
-</div>
-<div class="grid_4">
-	{% include 'inc-quick-links.html' %}
+{% block sidebar %}
 	<div class="box">
 		<p class="title">Nube de tags</p>
 		<ol class='tag-cloud'>
@@ -34,6 +27,17 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		{% endfor %}
 		</ol>
 	</div>
-</div>
-<div class="clear">&nbsp;</div>
+{% endblock %}
+
+{% block content %}
+	<h2>Inicio</h2>
+	<p class="info options">&nbsp;</p>
+	
+	<p><strong>debug_mode=ON</strong> es una red social y de contenidos sobre programación.</p>
+	
+	<ul>
+		<li><a href="/item.list">Artículos</a></li>
+		<li><a href="/group.list">Grupos</a></li>
+		<li><a href="/user.list">Usuarios</a></li>
+	</ul>
 {% endblock %}

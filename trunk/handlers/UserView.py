@@ -26,7 +26,7 @@ from google.appengine.api import users
 class UserView(BaseHandler):
 
 	def execute(self):
-		self.values['tab'] = '/'
+		self.values['tab'] = '/user.list'
 		nickname = self.request.path.split('/', 2)[2]
 		this_user = model.UserData.gql('WHERE nickname=:1', nickname).get()
 		self.values['this_user'] = this_user

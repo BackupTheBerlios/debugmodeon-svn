@@ -26,6 +26,7 @@ from handlers.AuthenticatedHandler import *
 class GroupForumView(BaseHandler):
 
 	def execute(self):
+		self.values['tab'] = '/group.list'
 		user = self.values['user']
 		url_path = self.request.path.split('/', 2)[2]
 		thread = model.Thread.gql('WHERE url_path=:1', url_path).get()

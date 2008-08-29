@@ -26,6 +26,7 @@ from handlers.BaseHandler import *
 class ItemView(BaseHandler):
 
 	def execute(self):
+		self.values['tab'] = '/item.list'
 		url_path = self.request.path.split('/', 2)[2]
 		item = model.Item.gql('WHERE url_path=:1', url_path).get()
 		user = self.values['user']

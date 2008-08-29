@@ -25,7 +25,7 @@ from handlers.BaseHandler import *
 class GroupList(BaseHandler):
 
 	def execute(self):
-		self.values['tab'] = '/'
+		self.values['tab'] = '/group.list'
 		query = model.Group.all().order('-creation_date')
 		self.values['groups'] = self.paging(query, 10)
 		self.render('templates/group-list.html')

@@ -26,6 +26,7 @@ from handlers.BaseHandler import *
 class GroupView(BaseHandler):
 
 	def execute(self):
+		self.values['tab'] = '/group.list'
 		url_path = self.request.path.split('/', 2)[2]
 		group = model.Group.gql('WHERE url_path=:1', url_path).get()
 

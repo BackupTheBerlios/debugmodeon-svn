@@ -28,20 +28,20 @@ indexes:
   - name: database
   - name: creation_date
 
-# Used 9 times in query history.
+# Used 15 times in query history.
 - kind: Group
   properties:
   - name: creation_date
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used once in query history.
 - kind: Item
   properties:
   - name: author
   - name: creation_date
     direction: desc
 
-# Used 13 times in query history.
+# Used 26 times in query history.
 - kind: Item
   properties:
   - name: creation_date
@@ -65,7 +65,7 @@ indexes:
   - name: thread
   - name: creation_date
 
-# Unused in query history -- copied from input.
+# Used 2 times in query history.
 - kind: UserData
   properties:
   - name: creation_date

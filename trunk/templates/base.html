@@ -54,10 +54,10 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				</div>
 			</form>
 			<ul>
-				<li><a href="/" class="selected">Inicio</a></li>
-				<li><a href="/item.list">Artículos</a></li>
-				<li><a href="/group.list">Grupos</a></li>
-				<li><a href="/user.list">Usuarios</a></li>
+				<li><a href="/"{%ifequal tab '/' %} class="selected"{% endifequal %}>Inicio</a></li>
+				<li><a href="/item.list"{%ifequal tab '/item.list' %} class="selected"{% endifequal %}>Artículos</a></li>
+				<li><a href="/group.list"{%ifequal tab '/group.list' %} class="selected"{% endifequal %}>Grupos</a></li>
+				<li><a href="/user.list"{%ifequal tab '/user.list' %} class="selected"{% endifequal %}>Usuarios</a></li>
 				
 				<!-- <li><a href="#">Grupos</a></li>
 				<li><a href="#">Code snippets</a></li>
@@ -66,9 +66,16 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			</ul>
 		</div>
 		<div class="clear">&nbsp;</div>
+		<div class="grid_3">
+			{% include 'inc-quick-links.html' %}
+{% block sidebar %}{% endblock %}
+		</div>
+		<div class="grid_9">
 {% block content %}{% endblock %}
+		</div>
+		<div class="clear">&nbsp;</div>
 		<div class="grid_12" id="footer">
-			<div class="grid_4 alpha">
+			<!-- <div class="grid_4 alpha">
 				<div>
 					<p>Artículos más populares</p>
 					<ul>
@@ -101,7 +108,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 					</ul>
 				</div>
 			</div>
-			<div class="clear">&nbsp;</div>
+			<div class="clear">&nbsp;</div> -->
 			<div class="grid_12 alpha omega">
 				<div style="text-align: right">
 					<p>&copy; Copyright debug_mode_on 2008 <br/>

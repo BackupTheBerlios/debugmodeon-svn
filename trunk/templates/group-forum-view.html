@@ -22,8 +22,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% block title %} {{ group.title|escape }} // debug_mode=ON{% endblock %}
 
 {% block content %}
-<div class="grid_8">
-	<div class="grid_8 alpha omega">
+	<div class="grid_9 alpha omega">
 		<h2><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></h2>
 		<p class="info options">Creado por {{ group.owner.nickname|escape }} el <strong>{{ group.creation_date|date:"d/m/Y" }}</strong> </p>
    
@@ -37,7 +36,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<div class="clear">&nbsp;</div>
 
 {% ifnotequal len 0 %}
-	<div class="grid_8 alpha omega">
+	<div class="grid_9 alpha omega">
 		<h3><a name="comments">Comentarios</a></h3>
 	</div>
 	<div class="clear">&nbsp;</div>
@@ -49,7 +48,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<a href="/user/{{ comment.author.nickname|escape }}">{{ comment.author.nickname|escape }}</a> escribió <br/> el <strong>{{ comment.creation_date|date:"d/m/Y G:i:s" }}</strong>
 		</p>
 	</div>
-	<div class="grid_6 omega">
+	<div class="grid_7 omega">
 		<div class="comment">
 			{{ comment.content|markdown }}
 		</div>
@@ -63,7 +62,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<div class="grid_2 alpha">
 		<p>&nbsp;</p>
 	</div>
-	<div class="grid_6 omega">
+	<div class="grid_7 omega">
 		<p class="pagination">
 			{% if prev %}
 			<a href="?p={{ prev }}#comments">« anterior</a> |
@@ -77,14 +76,14 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<div class="clear">&nbsp;</div>
 {% endif %}
 
-	<div class="grid_8 alpha omega">
+	<div class="grid_9 alpha omega">
 		<h3>Deja tu respuesta</h3>
 	</div>
 	<div class="clear">&nbsp;</div>
 	<div class="grid_2 alpha">
 		<p>&nbsp;</p>
 	</div>
-	<div class="grid_6 omega">
+	<div class="grid_7 omega">
 
 	<form action="/group.forum.reply" method="post" accept-charset="utf-8">
 		<input type="hidden" name="key" value="{{ thread.key }}" />
@@ -104,13 +103,6 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	</form>
 	</div>
 	<div class="clear">&nbsp;</div>
-</div>
-
-<div class="grid_4">
-	{% include 'inc-quick-links.html' %}
-	<p>&nbsp;</p>
-</div>
-<div class="clear">&nbsp;</div>
 <script type="text/javascript" src="/static/js/prototype.js"></script>
 <script type="text/javascript" src="/static/js/livepipe.js"></script>
 <script type="text/javascript" src="/static/js/textarea.js"></script>

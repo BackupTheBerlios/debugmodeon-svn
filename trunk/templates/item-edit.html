@@ -19,21 +19,17 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 {% extends "base.html" %}
 {% block content %}
-<div class="grid_12">
 	{% if key %}
 		<h2>Editar artículo</h2>
 	{% else %}
 		<h2>Nuevo artículo</h2>
 	{% endif %}
-</div>
-<div class="clear">&nbsp;</div>
 
 <form action="/item.edit" method="post" accept-charset="utf-8">
 	{% if key %}
 		<input type="hidden" name="key" value="{{ key|escape }}" />
 	{% endif %}
 
-<div class="grid_12">
 	<div class="form">
 		<p>
 			<label for="title">Título</label>
@@ -58,26 +54,18 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<label for="description">Resumen</label>
 			<textarea name="description" rows="4" cols="50">{{ description|escape }}</textarea>
 		</p>
-	</div>
-</div>
-<div class="grid_6">
-	<div class="form">
 		<p>
 			<label for="content">Contenido</label>
 			<textarea name="content" rows="30" cols="50" id="markdown_example">{{ content|escape }}</textarea>
 		</p>
    
 		<p><input type="submit" value="Publicar artículo" /></p>
-	</div>
-</div>
-<div class="grid_6">
-	<div class="form">
+		
 		<p>
 		    <label for="preview">Vista previa</label>
 			<div class="comment"><div id="markdown_formatted"></div></div>
 		</p>
 	</div>
-</div>
 </form>
 <script type="text/javascript" src="/static/js/prototype.js"></script>
 <script type="text/javascript" src="/static/js/livepipe.js"></script>

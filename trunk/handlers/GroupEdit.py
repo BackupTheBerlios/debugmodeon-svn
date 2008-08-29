@@ -26,6 +26,7 @@ from handlers.AuthenticatedHandler import *
 class GroupEdit(AuthenticatedHandler):
 
 	def execute(self):
+		self.values['tab'] = '/group.list'
 		method = self.request.method
 		user = self.values['user']
 		key = self.get_param('key')

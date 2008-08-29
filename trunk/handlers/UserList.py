@@ -25,7 +25,7 @@ from handlers.BaseHandler import *
 class UserList(BaseHandler):
 
 	def execute(self):
-		self.values['tab'] = '/'
+		self.values['tab'] = '/user.list'
 		query = model.UserData.all().order('-creation_date')
 		self.values['users'] = self.paging(query, 10)
 		self.render('templates/user-list.html')

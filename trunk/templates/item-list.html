@@ -18,34 +18,21 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
 
 {% extends "base.html" %}
-{% block content %}
-{% if key %}
-	<h2>Editar grupo</h2>
-{% else %}
-	<h2>Nuevo grupo</h2>
-{% endif %}
-
-<form action="/group.edit" method="post" accept-charset="utf-8">
-	{% if key %}
-		<input type="hidden" name="key" value="{{ key|escape }}" />
-	{% endif %}
-
-	<div class="form">
-		<p>
-			<label for="title">Título</label>
-			<input type="text" name="title" value="{{ title|escape }}" style="font-size:200%" size="40" />
-		</p>
-
-		<p>
-			<label for="description">Descripción</label>
-			<textarea name="description" rows="4" cols="50">{{ description|escape }}</textarea>
-		</p>
-
-	{% if key %}
-		<p><input type="submit" value="Guardar cambios" /></p>
-	{% else %}
-		<p><input type="submit" value="Crear grupo" /></p>
-	{% endif %}
+{% block sidebar %}
+	<div class="box">
+		<p class="title">Nube de tags</p>
+		<ol class='tag-cloud'>
+		{% for tag in taglist %}
+			<li class="size{{tag.1}}"><span>{{tag.2}} items etiquetados con </span><a href='/tag/{{tag.0}}' class='tag'>{{tag.0}}</a></li>
+		{% endfor %}
+		</ol>
 	</div>
-</form>
+{% endblock %}
+
+{% block content %}
+	<h2>Artículos</h2>
+	<p class="info options">&nbsp;</p>
+{% include 'inc-item-list.html' %}
+
+<div class="clear">&nbsp;</div>
 {% endblock %}

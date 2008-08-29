@@ -22,7 +22,6 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% block title %} {{ group.title|escape }} // debug_mode=ON{% endblock %}
 
 {% block content %}
-<div class="grid_8">
 	<h2>{{ group.title|escape }}</h2>
 	<p class="info options">Creado por {{ group.owner.nickname|escape }} el <strong>{{ group.creation_date|date:"d/m/Y" }}</strong> </p>
 	
@@ -33,17 +32,4 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<li>Artículos</li>
 		<li><a href="/group.forum.list/{{ group.url_path }}">Foro</a></li>
 	</ul>
-</div>
-
-<div class="grid_4">
-	<div class="box">
-		<p class="title">Título</p>
-		<ul>
-			<li>foo</li>
-			<li>bar</li>
-			<li>fud</li>
-		</ul>
-	</div>
-</div>
-<div class="clear">&nbsp;</div>
 {% endblock %}
