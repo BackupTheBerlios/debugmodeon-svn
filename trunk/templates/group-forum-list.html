@@ -47,7 +47,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	</table>
 
 {% include 'inc-pagination.html' %}
-	
+{% if user %}
 	<h3>Inicia un tema</h3>
 	
 	<form action="/group.forum.edit" method="post" accept-charset="utf-8">
@@ -74,12 +74,14 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		
 		</div>
 	</form>
-	
+{% endif %}
 {% endblock %}
 {% block javascript %}
+{% if user %}
 <script type="text/javascript" src="/static/js/prototype.js"></script>
 <script type="text/javascript" src="/static/js/livepipe.js"></script>
 <script type="text/javascript" src="/static/js/textarea.js"></script>
 <script type="text/javascript" src="/static/js/showdown.js"></script>
 <script type="text/javascript" src="/static/js/showtextarea.js"></script>
+{% endif %}
 {% endblock %}
