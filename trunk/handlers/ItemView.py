@@ -37,5 +37,5 @@ class ItemView(BaseHandler):
 		self.values['item'] = item
 		query = model.Comment.all().filter('item =', item).order('creation_date')
 		self.values['comments'] = self.paging(query, 10)
-		self.values['url_path'] = url_path
+		self.values['keywords'] = ', '.join(item.tags)
 		self.render('templates/item-view.html')

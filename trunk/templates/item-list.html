@@ -18,6 +18,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
 
 {% extends "base.html" %}
+{% block title %} Artículos {% endblock %}
+
 {% block sidebar %}
 	<div class="box">
 		<p class="title">Nube de tags</p>
@@ -30,7 +32,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endblock %}
 
 {% block content %}
-	<h2>Artículos</h2>
+	<h1>Artículos</h1>
 	<p class="info options">&nbsp;</p>
 {% include 'inc-item-list.html' %}
 

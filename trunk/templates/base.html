@@ -28,13 +28,16 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<link rel="stylesheet" href="/static/css/style.css" type="text/css" />
 	<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="/feed/" />
 	<!-- <link rel="icon" href="/favicon.ico" type="image/x-icon" /> -->
-	<title>{% block title %}debug_mode = ON{% endblock %}</title>
-	{% block head %}{% endblock %}
+	<title>{% block title %}{% endblock %} // debug_mode=ON</title>
+	{% block head %}
+	<meta name="description" content="Red de contenidos y red social con artículos, grupos, foros,..." />
+	<meta name="keywords" content="red social, programacion, artículos" />
+	{% endblock %}
 </head>
 <body>
 	<div class="container_12">
 		<div class="grid_8">
-			<h1><a href="/">debug_mode=ON</a></h1>
+			<p id="heading"><a href="/">debug_mode=ON</a></p>
 		</div>
 		<div class="grid_4">
 			<p class="options" style="text-align: right">
@@ -116,7 +119,10 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				</div>
 			</div>
 		</div>
+		<div class="clear">&nbsp;</div>
 	</div>
+
+{% block javascript %}{% endblock %}
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));

@@ -18,6 +18,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
 
 {% extends "base.html" %}
+{% block title %} Inicio {% endblock %}
 {% block sidebar %}
 	<div class="box">
 		<p class="title">Nube de tags</p>
@@ -30,14 +31,48 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endblock %}
 
 {% block content %}
-	<h2>Inicio</h2>
-	<p class="info options">&nbsp;</p>
-	
-	<p><strong>debug_mode=ON</strong> es una red social y de contenidos sobre programación.</p>
-	
-	<ul>
-		<li><a href="/item.list">Artículos</a></li>
-		<li><a href="/group.list">Grupos</a></li>
-		<li><a href="/user.list">Usuarios</a></li>
-	</ul>
+	<div class="grid_9 alpha omega">
+		<h1>Inicio :: debug_mode=ON</h1>
+		<p class="info options">&nbsp;</p>
+   
+		<p><strong>debug_mode=ON</strong> es una red social y de contenidos sobre programación.</p>
+   
+		<ul>
+			<li><a href="/item.list">Artículos</a></li>
+			<li><a href="/group.list">Grupos</a></li>
+			<li><a href="/user.list">Usuarios</a></li>
+		</ul>
+	</div>
+	<div class="clear">&nbsp;</div>
+	<div class="grid_3 alpha">
+		<div class="box">
+			<p class="title">Artículos</p>
+			<ul>
+			    <li>foo</li>
+				<li>bar</li>
+				<li>fud</li>
+			</ul>
+		</div>
+	</div>
+	<div class="grid_3">
+		<div class="box">
+			<p class="title">Grupos</p>
+			<ul>
+				<li>foo</li>
+				<li>bar</li>
+				<li>fud</li>
+			</ul>
+		</div>
+	</div>
+	<div class="grid_3 omega">
+		<div class="box">
+			<p class="title">Usuarios</p>
+			<ul>
+				<li>foo</li>
+				<li>bar</li>
+				<li>fud</li>
+			</ul>
+		</div>
+	</div>
+	<div class="clear">&nbsp;</div>
 {% endblock %}

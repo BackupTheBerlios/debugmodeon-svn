@@ -17,59 +17,68 @@ You should have received a copy of the GNU Affero General Public License
 along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*
-paleta:
-#607890 azul
-#7890a8 zul claro
-#f0f0f0 casi blanco
-#a8a878 marron
-#909060 marron oscuro
-
-#d81c1c rojo
-*/
-
 html { overflow-y: scroll; overflow-x: auto; }
 
-h1, h1 a {
+#heading, #heading a {
+	font-size:25px;
 	text-decoration: none;
+	font-weight: bold;
 	color: #607890;
-	font-family: 'Consolas', serif;
+	font-family: 'Consolas', monospace;
 	margin:0;
 }
 
-h2, h2 a {
+h2 {
+	margin:0;
+	background-color: #4e5d6d;
+	padding-left: 10px;
+	-moz-border-radius: 3px;
+	background-image: url(/static/images/bg2.png);
+	background-repeat: repeat-x;
+	background-position: top;
+	color: white;
+}
+
+h2 a {
+	text-decoration: none;
+	color: white;
+}
+
+h1, h1 a {
 	color: #7890a8;
 	margin:0;
 	margin-top: 10px;
-	background-color: #f0f0f0;
-	-moz-border-radius: 3px;
-	font-family: 'Lucida sans', sans-serif;
-}
-
-h2, h3 {
-	border: 1px solid #bbb;
-	padding-left: 10px;
 }
 
 h2 a, h3 a {
 	text-decoration: none;
 }
 
-h3, h3 a {
-	color: #7890a8;
+h3 {
+	padding-left: 10px;
 	margin:0;
 	margin-top: 10px;
-	background-color: #f0f0f0;
+	background-color: #4e5d6d;
 	-moz-border-radius: 3px;
-	font-family: 'Lucida sans', sans-serif;
 	margin-bottom: 5px;
+	background-image: url(/static/images/bg2.png);
+	background-repeat: repeat-x;
+	background-position: top;
+	color: white;
+}
+
+h3, h3 a {
+	color: white;
 }
 
 /* menú de navegación */
 
 #nav {
-	background-color: #7890a8;
+	background-color: #18485f;
 	-moz-border-radius: 3px;
+	background-image: url(/static/images/bg1.png);
+	background-repeat: repeat-x;
+	background-position: top;
 }
 
 #nav ul {
@@ -92,9 +101,12 @@ h3, h3 a {
 }
 
 #footer {
-	background-color: #7890a8;
+	background-color: #2b7ea8;
 	color: #f0f0f0;
 	-moz-border-radius: 5px;
+	background-image: url(/static/images/bg1.png);
+	background-repeat: repeat-x;
+	background-position: bottom;
 }
 
 #footer div div {
@@ -135,12 +147,18 @@ div.box {
 	margin-top: 10px;
 	-moz-border-radius: 3px;
 	background-color: #eaefef;
+	background-image: url(/static/images/bg3.png);
+	background-repeat: repeat-x;
+	background-position: bottom;
 }
 
 p.title {
-	background-color: #7890a8;
+	background-color: #4e5d6d;
 	text-align: center;
 	color: white;
+	background-image: url(/static/images/bg2.png);
+	background-repeat: repeat-x;
+	background-position: top;
 }
 
 #search div {
@@ -167,12 +185,14 @@ div.form label {
 }
 
 div.comment {
-	background-color: #f0f0f0;
+	background-color: #eaefef;
 	padding: 10px;
 	margin-top: 5px;
 	margin-bottom: 5px;
 	-moz-border-radius: 5px;
-	border: 1px solid #bbb;
+	background-image: url(/static/images/bg3.png);
+	background-repeat: repeat-x;
+	background-position: bottom;
 }
 
 p.comment-info {
@@ -200,8 +220,11 @@ table.forum .subject {
 }
 
 table.forum th {
-	background-color: #607890;
+	background-color: #4e5d6d;
 	color: white;
+	background-image: url(/static/images/bg2.png);
+	background-repeat: repeat-x;
+	background-position: top;
 }
 
 table.forum th, table.forum td {

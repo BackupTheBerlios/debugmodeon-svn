@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
 # 
@@ -17,30 +20,14 @@
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-from handlers.MainPage import *
+from handlers.BaseHandler import *
 
-# items
-from handlers.ItemList import *
-from handlers.ItemEdit import *
-from handlers.ItemView import *
-from handlers.ItemComment import *
+class Tag(BaseHandler):
 
-# users
-from handlers.UserList import *
-from handlers.UserView import *
-
-# groups
-from handlers.GroupList import *
-from handlers.GroupEdit import *
-from handlers.GroupView import *
-
-# forum groups
-from handlers.GroupForumList import *
-from handlers.GroupForumEdit import *
-from handlers.GroupForumView import *
-from handlers.GroupForumReply import *
-
-# feed RSS
-from handlers.Feed import *
-
-from handlers.Tag import *
+	def execute(self):
+		tag = self.request.path.split('/', 2)[2]
+		query = model.Item.all().filter('tags =', tag).order('-creation_date')
+		self.values['items'] = self.paging(query, 10)
+		self.values['taglist'] = self.tag_list(model.Tag.all())
+		self.values['tag'] = tag
+		self.render('templates/tag.html')

@@ -19,10 +19,13 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 {% extends "base.html" %}
 
-{% block title %} {{ group.title|escape }} // debug_mode=ON{% endblock %}
+{% block title %} {{ group.title|escape }} {% endblock %}
+{% block head %}
+	<meta name="description" content="{{ group.description|escape }}" />
+{% endblock %}
 
 {% block content %}
-	<h2>{{ group.title|escape }}</h2>
+	<h1>{{ group.title|escape }}</h1>
 	<p class="info options">Creado por {{ group.owner.nickname|escape }} el <strong>{{ group.creation_date|date:"d/m/Y" }}</strong> </p>
 	
 	<p>{{ group.description|escape }}</p>

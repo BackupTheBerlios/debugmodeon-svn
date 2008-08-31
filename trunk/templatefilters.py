@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
 # 
@@ -17,30 +20,32 @@
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-from handlers.MainPage import *
+from google.appengine.ext import webapp
 
-# items
-from handlers.ItemList import *
-from handlers.ItemEdit import *
-from handlers.ItemView import *
-from handlers.ItemComment import *
+register = webapp.template.create_template_register()
 
-# users
-from handlers.UserList import *
-from handlers.UserView import *
+import datetime
 
-# groups
-from handlers.GroupList import *
-from handlers.GroupEdit import *
-from handlers.GroupView import *
+def relativize(value):
+	now = datetime.datetime.now()
+	diff = now - value
+	days = diff.days
+	seconds = diff.seconds
+	if days > 365:
+		return "%d años" % (days / 365, )
+	if days > 30:
+		return "%d meses" % (days / 30, )
+	if days > 0:
+		return "%d días" % (days, )
+	
+	if seconds > 3600:
+		return "%d horas" % (seconds / 3600, )
+	if seconds > 60:
+		return "%d minutos" % (seconds / 60, )
+		
+	return "%d segundos" % (seconds, )
+register.filter(relativize)
 
-# forum groups
-from handlers.GroupForumList import *
-from handlers.GroupForumEdit import *
-from handlers.GroupForumView import *
-from handlers.GroupForumReply import *
-
-# feed RSS
-from handlers.Feed import *
-
-from handlers.Tag import *
+def nolinebreaks(value):
+	return ' '.join(str(value).splitlines())
+register.filter(nolinebreaks)

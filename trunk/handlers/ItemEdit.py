@@ -75,7 +75,7 @@ class ItemEdit(AuthenticatedHandler):
 				item.title = self.get_param('title')
 				item.lic = self.get_param('lic')
 				item.tags = [self.to_url_path(t) for t in self.get_param('tags').split(',')]
-				item.description = self.get_param('description')
+				item.description = ' '.join(self.get_param('description').splitlines())
 				item.content = self.get_param('content')
 				item.put()
 				self.update_tags(item.tags)
@@ -90,7 +90,7 @@ class ItemEdit(AuthenticatedHandler):
 				
 				item = model.Item(author=user,
 					title=title,
-					description=self.get_param('description'),
+					description=' '.join(self.get_param('description').splitlines()),
 					content=self.get_param('content'),
 					lic=self.get_param('lic'),
 					url_path=url_path,

@@ -18,11 +18,19 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
 
 {% extends "base.html" %}
+{% block title %}
+	{% if key %}
+		Editando: {{ title|escape }}
+	{% else %}
+		Nuevo artículo
+	{% endif %}
+{% endblock %}
+
 {% block content %}
 	{% if key %}
-		<h2>Editar artículo</h2>
+		<h1>Editar artículo</h1>
 	{% else %}
-		<h2>Nuevo artículo</h2>
+		<h1>Nuevo artículo</h1>
 	{% endif %}
 
 <form action="/item.edit" method="post" accept-charset="utf-8">
@@ -59,7 +67,11 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<textarea name="content" rows="30" cols="50" id="markdown_example">{{ content|escape }}</textarea>
 		</p>
    
+	{% if key %}
+		<p><input type="submit" value="Guardar cambios" /></p>
+	{% else %}
 		<p><input type="submit" value="Publicar artículo" /></p>
+	{% endif %}
 		
 		<p>
 		    <label for="preview">Vista previa</label>
@@ -67,6 +79,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		</p>
 	</div>
 </form>
+{% endblock %}
+{% block javascript %}
 <script type="text/javascript" src="/static/js/prototype.js"></script>
 <script type="text/javascript" src="/static/js/livepipe.js"></script>
 <script type="text/javascript" src="/static/js/textarea.js"></script>

@@ -28,6 +28,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 
 webapp.template.register_template_library('django.contrib.markup.templatetags.markup')
+webapp.template.register_template_library('templatefilters')
 
 def main():
 	application = webapp.WSGIApplication(
@@ -51,7 +52,9 @@ def main():
 									   ('/group.forum.reply',	GroupForumReply),
 									   
 									   # rss
-									   ('/feed/', Feed)],
+									   ('/feed/', Feed),
+									   
+									   ('/tag/.*', Tag)],
 									   debug=True)
 	wsgiref.handlers.CGIHandler().run(application)
 

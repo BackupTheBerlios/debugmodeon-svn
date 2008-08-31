@@ -18,8 +18,10 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
 
 {% extends "base.html" %}
+{% block title %} Grupos {% endblock %}
+
 {% block content %}
-	<h2>Grupos</h2>
+	<h1>Grupos</h1>
 	<p class="info options">&nbsp;</p>
 
 {% ifequal len 0 %}

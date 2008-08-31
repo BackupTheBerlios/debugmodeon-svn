@@ -18,16 +18,16 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
 
 {% extends "base.html" %}
-{% block title %} {{ item.title|escape }} // debug_mode=ON{% endblock %}
-
-
+{% block title %} {{ item.title|escape }} {% endblock %}
 {% block head %}
-<link href="/static/css/prettify.css" type="text/css" rel="stylesheet" />
+	<meta name="description" content="{{ item.description|escape }}" />
+	<meta name="keywords" content="{{ keywords }}" />
+	<link href="/static/css/prettify.css" type="text/css" rel="stylesheet" />
 {% endblock %}
 
 {% block content %}
 	<div class="grid_9 alpha omega">
-		<h2>{{ item.title|escape }}</h2>
+		<h1>{{ item.title|escape }}</h1>
 		<p class="info options">
 			Escrito por <strong><a href="/user/{{ item.author.nickname|escape}}">{{ item.author.nickname|escape }}</a></strong> el <strong>{{ item.creation_date|date:"d/m/Y" }}</strong> <br/>
 		</p>
@@ -116,7 +116,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		</p>
 	</div>
 	<div class="clear">&nbsp;</div>
-
+{% endblock %}
+{% block javascript %}
 <script type="text/javascript" src="/static/js/prototype.js"></script>
 <script type="text/javascript" src="/static/js/livepipe.js"></script>
 <script type="text/javascript" src="/static/js/textarea.js"></script>

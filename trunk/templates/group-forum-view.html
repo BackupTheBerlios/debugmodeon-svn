@@ -19,14 +19,18 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 {% extends "base.html" %}
 
-{% block title %} {{ group.title|escape }} // debug_mode=ON{% endblock %}
+{% block title %} {{ group.title|escape }} {% endblock %}
+{% block head %}
+	<meta name="description" content="{{ group.description|escape }}" />
+	<link href="/static/css/prettify.css" type="text/css" rel="stylesheet" />
+{% endblock %}
 
 {% block content %}
 	<div class="grid_9 alpha omega">
-		<h2><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></h2>
+		<h1><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></h1>
 		<p class="info options">Creado por {{ group.owner.nickname|escape }} el <strong>{{ group.creation_date|date:"d/m/Y" }}</strong> </p>
    
-		<h3>{{ thread.title|escape }}</h3>
+		<h2>{{ thread.title|escape }}</h2>
 		<p class="info options">Iniciado por {{ thread.author.nickname|escape }} el <strong>{{ thread.creation_date|date:"d/m/Y G:i:s" }}</strong> </p>
 
 		<div id="thread">
@@ -103,6 +107,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	</form>
 	</div>
 	<div class="clear">&nbsp;</div>
+{% endblock %}
+{% block javascript %}
 <script type="text/javascript" src="/static/js/prototype.js"></script>
 <script type="text/javascript" src="/static/js/livepipe.js"></script>
 <script type="text/javascript" src="/static/js/textarea.js"></script>
