@@ -33,6 +33,7 @@ class GroupForumView(BaseHandler):
 		group = thread.group
 
 		self.values['group'] = group
+		self.values['joined'] = self.joined(group)
 		self.values['thread'] = thread
 		query = model.ThreadResponse.all().filter('thread =', thread).order('creation_date')
 		self.values['responses'] = self.paging(query, 10)

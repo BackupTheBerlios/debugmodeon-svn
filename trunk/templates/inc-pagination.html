@@ -1,11 +1,11 @@
 {% if prev or next %}
 	<p class="pagination">
 		{% if prev %}
-		<a href="?p={{ prev }}#comments">« anterior</a> |
+		<a href="?p={{ prev }}&amp;q={{ q|escape }}#comments">« anterior</a> |
 		{% endif %}
 		Página {{ p }}
 		{% if next %}
-		| <a href="?p={{ next }}#comments">siguiente »</a></p>
+		| <a href="?p={{ next }}&amp;q={{ q|escape }}#comments">siguiente »</a></p>
 		{% endif %}
 	</p>
 {% endif %}

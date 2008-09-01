@@ -68,6 +68,7 @@ class UserData(db.Model):
 	email = db.StringProperty(required=True)
 	avatar = db.BlobProperty()
 	thumbnail = db.BlobProperty()
+	public = db.BooleanProperty(required=True)
 	# items
 	items = db.IntegerProperty(required=True)
 	draft_items = db.IntegerProperty(required=True)
@@ -79,6 +80,11 @@ class UserData(db.Model):
 	# rating
 	rating_count = db.IntegerProperty(required=True)
 	rating_total = db.IntegerProperty(required=True)
+	# forums
+	threads = db.IntegerProperty(required=True)
+	responses = db.IntegerProperty(required=True)
+	# groups
+	groups = db.IntegerProperty(required=True)
 	# others
 	country = db.StringProperty()
 	city = db.StringProperty()
@@ -107,8 +113,8 @@ class GroupUser(db.Model):
 	group = db.ReferenceProperty(Group,required=True)
 
 class GroupItem(db.Model):
-	user = db.UserProperty(required=True)
-	item = db.ReferenceProperty(Group,required=True)
+	item = db.ReferenceProperty(Item,required=True)
+	group = db.ReferenceProperty(Group,required=True)
 
 class Thread(db.Model):
 	group = db.ReferenceProperty(Group,required=True)

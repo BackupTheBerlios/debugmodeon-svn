@@ -20,18 +20,15 @@
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-from google.appengine.ext import db
-from handlers.BaseHandler import *
+from handlers.AuthenticatedHandler import *
 
-class GroupForumList(BaseHandler):
+class GroupItemRemove(AuthenticatedHandler):
 
 	def execute(self):
-		self.values['tab'] = '/group.list'
-		url_path = self.request.path.split('/', 2)[2]
-		group = model.Group.gql('WHERE url_path=:1', url_path).get()
-
-		self.values['group'] = group
-		self.values['joined'] = self.joined(group)
-		query = model.Thread.all().filter('group =', group).order('creation_date')
-		self.values['threads'] = self.paging(query, 10)
-		self.render('templates/group-forum-list.html')
+		item = model.Item.get(self.get_param('item'))
+		group = model.Group.get(self.get_param('group'))
+		
+		gi = model.GroupItem.gql('WHERE group=:1 and item=:2', group, item).get()
+		if self.values['user'] == item.author:
+			gi.delete()
+		self.redirect('/item/%s' % item.url_path)

@@ -18,7 +18,11 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
 
 {% extends "base.html" %}
-{% block title %} Inicio {% endblock %}
+{% block head %}
+	<meta name="description" content="Red de contenidos y red social con artículos, grupos, foros,..." />
+	<meta name="keywords" content="red social, programacion, artículos" />
+{% endblock %}
+{% block title %} debug_mode=ON | Red social y de contenidos para programadores. Artículos, grupos, foros,... {% endblock %}
 {% block sidebar %}
 	<div class="box">
 		<p class="title">Nube de tags</p>
@@ -44,7 +48,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		</ul>
 	</div>
 	<div class="clear">&nbsp;</div>
-	<div class="grid_3 alpha">
+	<!-- <div class="grid_3 alpha">
 		<div class="box">
 			<p class="title">Artículos</p>
 			<ul>
@@ -74,5 +78,5 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			</ul>
 		</div>
 	</div>
-	<div class="clear">&nbsp;</div>
+	<div class="clear">&nbsp;</div> -->
 {% endblock %}

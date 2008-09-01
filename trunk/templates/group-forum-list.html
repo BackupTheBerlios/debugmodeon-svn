@@ -18,13 +18,17 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
 
 {% extends "base.html" %}
-{% block title %} Foro {{ group.title|escape }} {% endblock %}
+{% block title %} {{ group.title|escape }} | Foro de discusión{% endblock %}
 {% block head %}
 	<meta name="description" content="{{ group.description|escape }}" />
 {% endblock %}
 
+{% block sidebar %}
+{% include 'inc-group-member.html' %}
+{% endblock %}
+
 {% block content %}
-	<h1><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></h1>
+	<h1><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a> // Foro</h1>
 	<p class="info options">Creado por {{ group.owner.nickname|escape }} el <strong>{{ group.creation_date|date:"d/m/Y" }}</strong> </p>
 
 	<p>{{ group.description|escape }}</p>

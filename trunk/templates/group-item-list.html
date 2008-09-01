@@ -18,8 +18,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
 
 {% extends "base.html" %}
-
-{% block title %} {{ group.title|escape }} {% endblock %}
+{% block title %} {{ group.title|escape }} | Artículos publicados {% endblock %}
 {% block head %}
 	<meta name="description" content="{{ group.description|escape }}" />
 {% endblock %}
@@ -29,14 +28,10 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endblock %}
 
 {% block content %}
-	<h1>{{ group.title|escape }}</h1>
+	<h1><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a> // Artículos publicados</h1>
 	<p class="info options">Creado por {{ group.owner.nickname|escape }} el <strong>{{ group.creation_date|date:"d/m/Y" }}</strong> </p>
-	
+
 	<p>{{ group.description|escape }}</p>
 	
-	<ul>
-		<li><a href="/group.user.list/{{ group.url_path }}">Miembros</a></li>
-		<li><a href="/group.item.list/{{ group.url_path }}">Artículos</a></li>
-		<li><a href="/group.forum.list/{{ group.url_path }}">Foro</a></li>
-	</ul>
+	{% include 'inc-item-list.html' %}
 {% endblock %}

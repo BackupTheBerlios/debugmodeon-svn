@@ -152,13 +152,22 @@ div.box {
 	background-position: bottom;
 }
 
-p.title {
+div.box p {
+	padding-left: 7px;
+	padding-right: 7px;
+	margin: 5px;
+}
+
+div.box p.title {
 	background-color: #4e5d6d;
 	text-align: center;
 	color: white;
 	background-image: url(/static/images/bg2.png);
 	background-repeat: repeat-x;
 	background-position: top;
+	padding: 0;
+	margin: 0;
+	margin-bottom: 5px;
 }
 
 #search div {
@@ -244,6 +253,11 @@ table.forum th, table.forum td {
 .tag-cloud .size5 { font-size: 2.2em; }
 .tag-cloud .size6 { font-size: 2.5em; }
 
+span.highlight {
+	background-color: #ffa;
+	color: black;
+	position: static; /* to avoid tags in tag cloud to be hidden*/
+}
 
 #markdown_example {
 	width:100%;

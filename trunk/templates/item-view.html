@@ -25,6 +25,36 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<link href="/static/css/prettify.css" type="text/css" rel="stylesheet" />
 {% endblock %}
 
+{% block sidebar %}
+{% if groups or all_groups %}
+<div class="box">
+	<p class="title">Grupos</p>
+{% if groups %}
+	<p>Este artículo está en</p>
+	<ul>
+{% for group in groups %}
+		<li><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a> {% ifequal user item.author %} [<a href="/group.item.remove?item={{ item.key }}&amp;group={{ group.key }}">eliminar</a>] {% endifequal %}</li>
+{% endfor %}
+	</ul>
+{% endif %}
+
+{% if all_groups %}
+<form action="/group.item.add" method="post" accept-charset="utf-8">
+	<input type="hidden" name="item" value="{{ item.key }}" />
+	<p><select name="group">
+{% for group in all_groups %}
+	<option value="{{ group.key }}">{{ group.title|escape }}</option>
+{% endfor %}
+	</select>
+	</p>
+
+	<p><input type="submit" value="Añadir al grupo" /></p>
+</form>
+{% endif %}
+</div>
+{% endif %}
+{% endblock %}
+
 {% block content %}
 	<div class="grid_9 alpha omega">
 		<h1>{{ item.title|escape }}</h1>

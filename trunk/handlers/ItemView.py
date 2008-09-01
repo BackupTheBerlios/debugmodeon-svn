@@ -38,4 +38,18 @@ class ItemView(BaseHandler):
 		query = model.Comment.all().filter('item =', item).order('creation_date')
 		self.values['comments'] = self.paging(query, 10)
 		self.values['keywords'] = ', '.join(item.tags)
+		
+		groups = [g.group for g in model.GroupItem.all().filter('item =', item)]
+		self.values['groups'] = groups
+		
+		if item.author == user:
+			all_groups = [g.group for g in model.GroupUser.all().filter('user =', user)]
+			
+			# TODO: this could be improved
+			for g in groups:
+				for gr in all_groups:
+					if str(gr.key()) == str(g.key()):
+						all_groups.remove(gr)
+				
+			self.values['all_groups'] = all_groups
 		self.render('templates/item-view.html')

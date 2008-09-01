@@ -18,25 +18,29 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
 
 {% extends "base.html" %}
-
-{% block title %} {{ group.title|escape }} {% endblock %}
-{% block head %}
-	<meta name="description" content="{{ group.description|escape }}" />
-{% endblock %}
-
+{% block title %} Artículos etiquetados con "{{ tag }}" {% endblock %}
 {% block sidebar %}
-{% include 'inc-group-member.html' %}
+	<div class="box">
+		<p class="title">Nube de tags</p>
+		<ol class='tag-cloud'>
+		{% for tag in taglist %}
+			<li class="size{{tag.1}}"><span>{{tag.2}} items etiquetados con </span><a href='/tag/{{tag.0}}' class='tag'>{{tag.0}}</a></li>
+		{% endfor %}
+		</ol>
+	</div>
 {% endblock %}
 
 {% block content %}
-	<h1>{{ group.title|escape }}</h1>
-	<p class="info options">Creado por {{ group.owner.nickname|escape }} el <strong>{{ group.creation_date|date:"d/m/Y" }}</strong> </p>
-	
-	<p>{{ group.description|escape }}</p>
-	
-	<ul>
-		<li><a href="/group.user.list/{{ group.url_path }}">Miembros</a></li>
-		<li><a href="/group.item.list/{{ group.url_path }}">Artículos</a></li>
-		<li><a href="/group.forum.list/{{ group.url_path }}">Foro</a></li>
-	</ul>
+	<h1>Artículos que contengan "<em>{{ q|escape }}</em>"</h1>
+	<p class="info options">&nbsp;</p>
+{% include 'inc-item-list.html' %}
+
+<div class="clear">&nbsp;</div>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="/static/js/searchTerms.js"></script>
+<script type="text/javascript" charset="utf-8">
+	highlightSearchTerms('{{ q|escape }}', false, false, '<span class="highlight">', '</span>');
+</script>
 {% endblock %}

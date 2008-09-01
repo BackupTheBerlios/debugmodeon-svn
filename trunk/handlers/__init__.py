@@ -34,13 +34,24 @@ from handlers.GroupList import *
 from handlers.GroupEdit import *
 from handlers.GroupView import *
 
-# forum groups
+# group forums
 from handlers.GroupForumList import *
 from handlers.GroupForumEdit import *
 from handlers.GroupForumView import *
 from handlers.GroupForumReply import *
 
+# group items
+from handlers.GroupItemList import *
+from handlers.GroupItemAdd import *
+from handlers.GroupItemRemove import *
+
+# group users
+from handlers.GroupUserList import *
+from handlers.GroupUserUnjoin import *
+from handlers.GroupUserJoin import *
+
 # feed RSS
 from handlers.Feed import *
 
 from handlers.Tag import *
+from handlers.Search import *

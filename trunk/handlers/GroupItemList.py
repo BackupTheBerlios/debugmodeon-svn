@@ -23,7 +23,7 @@
 from google.appengine.ext import db
 from handlers.BaseHandler import *
 
-class GroupForumList(BaseHandler):
+class GroupItemList(BaseHandler):
 
 	def execute(self):
 		self.values['tab'] = '/group.list'
@@ -32,6 +32,7 @@ class GroupForumList(BaseHandler):
 
 		self.values['group'] = group
 		self.values['joined'] = self.joined(group)
-		query = model.Thread.all().filter('group =', group).order('creation_date')
-		self.values['threads'] = self.paging(query, 10)
-		self.render('templates/group-forum-list.html')
+		query = model.GroupItem.all().filter('group =', group)
+		items = self.paging(query, 10)
+		self.values['items'] = [i.item for i in items]
+		self.render('templates/group-item-list.html')

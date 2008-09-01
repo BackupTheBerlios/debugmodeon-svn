@@ -24,7 +24,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<p class="info options">&nbsp;</p>
 	<ul>
 {% for user in users %}
-		<li><a href="/user/{{ user.nickname|escape }}">{{ user.nickname|escape }}</a> ({{ user.items }} items, {{ user.comments }} comentarios)</li>
+		<li><a href="/user/{{ user.nickname|escape }}">{{ user.nickname|escape }}</a> ({{ user.items }} items, {{ user.comments }} comentarios, {{ user.groups }} grupos, {{ user.threads }} temas, {{ user.responses }} respuestas)</li>
 {% endfor %}
 	</ul>
 

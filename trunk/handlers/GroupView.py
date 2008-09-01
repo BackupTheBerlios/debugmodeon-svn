@@ -31,6 +31,7 @@ class GroupView(BaseHandler):
 		group = model.Group.gql('WHERE url_path=:1', url_path).get()
 
 		self.values['group'] = group
+		self.values['joined'] = self.joined(group)
 		"""
 		query = model.Comment.all().filter('item =', item).order('creation_date')
 		self.values['comments'] = self.paging(query, 10)

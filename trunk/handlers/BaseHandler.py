@@ -79,7 +79,11 @@ class BaseHandler(webapp.RequestHandler):
 					draft_messages=0,
 					comments=0,
 					rating_count=0,
-					rating_total=0)
+					rating_total=0,
+					threads=0,
+					responses=0,
+					groups=0,
+					public=False)
 				user_data.put()
 			self.values['user_data'] = user_data
 		else:
@@ -167,3 +171,6 @@ class BaseHandler(webapp.RequestHandler):
 		taglist = [(tag, 6*tagdict[tag]/maxcount, tagdict[tag]) for tag in tagdict.keys()]
 		taglist.sort()
 		return taglist
+	
+	def joined(self, group):
+		return model.GroupUser.gql('WHERE group=:1 and user=:2', group, self.values['user']).get()

@@ -45,16 +45,25 @@ def main():
 									   ('/group.list',	GroupList),
 									   ('/group.edit',	GroupEdit),
 									   ('/group/.*',	GroupView),
-									   # group forum
+									   # group forums
 									   ('/group.forum.list/.*',	GroupForumList),
 									   ('/group.forum.edit',	GroupForumEdit),
 									   ('/group.forum/.*',		GroupForumView),
 									   ('/group.forum.reply',	GroupForumReply),
+									   # group items
+									   ('/group.item.list/.*',	GroupItemList),
+									   ('/group.item.add',		GroupItemAdd),
+									   ('/group.item.remove',	GroupItemRemove),
+									   # group users
+									   ('/group.user.list/.*',	GroupUserList),
+									   ('/group.user.unjoin',	GroupUserUnjoin),
+									   ('/group.user.join',		GroupUserJoin),
 									   
 									   # rss
 									   ('/feed/', Feed),
 									   
-									   ('/tag/.*', Tag)],
+									   ('/tag/.*', Tag),
+									   ('/search', Search)],
 									   debug=True)
 	wsgiref.handlers.CGIHandler().run(application)
 
