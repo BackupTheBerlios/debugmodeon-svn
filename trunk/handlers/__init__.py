@@ -23,6 +23,7 @@ from handlers.MainPage import *
 from handlers.ItemList import *
 from handlers.ItemEdit import *
 from handlers.ItemView import *
+from handlers.ItemVote import *
 from handlers.ItemComment import *
 
 # users

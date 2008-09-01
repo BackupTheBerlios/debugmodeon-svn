@@ -36,6 +36,7 @@ def main():
 									   # items
 									   ('/item.list',		ItemList),
 									   ('/item.edit',		ItemEdit),
+									   ('/item.vote',		ItemVote),
 									   ('/item/.*',			ItemView),
 									   ('/item.comment',	ItemComment),
 									   # users
