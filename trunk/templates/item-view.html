@@ -94,6 +94,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<div class="clear">&nbsp;</div>
 	<div>
 		<h3><a name="ratings">Valora este artículo</a></h3>
+		{%if canvote%}
 			<ul class= "rating star{{item.rating_average}}">
 				<li class="one"><a title="1 Star" href="/item.vote?key={{ item.key }}&amp;rating=1">1</a></li>
 				<li class="two"><a title="2 Stars" href="/item.vote?key={{ item.key }}&amp;rating=2">2</a></li>
@@ -101,6 +102,15 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<li class="four"><a title="4 Stars" href="/item.vote?key={{ item.key }}&amp;rating=4">4</a></li>
 				<li class="five"><a title="5 Stars" href="/item.vote?key={{ item.key }}&amp;rating=5">5</a></li>
 			</ul> 
+		{%else%}
+		 	<ul class= "rating star{{item.rating_average}}">
+                              <!--  <li class="one a">1</a></li>
+                                <li class="two a">2</a></li>
+                                <li class="three a">3</a></li>
+                                <li class="four a">4</a></li>
+                                <li class="five a ">5</a></li> -->
+                        </ul> 
+		{%endif%}
 	</div>
 {% ifnotequal len 0 %}
 	<div class="grid_9 alpha omega">

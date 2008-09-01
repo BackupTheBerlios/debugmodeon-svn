@@ -29,7 +29,9 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<p>{{ item.description|escape }}</p>
 
 	<p class="info options">
-		Etiquetas:
+	 	<ul class= "rating star{{item.rating_average}}"></ul></br>
+		{{item.rating_count}} votos 
+                | Etiquetas:
 		{% for tag in item.tags %}
 			<a href="/tag/{{ tag|escape}}">{{ tag|escape}}</a>,
 		{% endfor %}

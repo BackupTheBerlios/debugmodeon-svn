@@ -34,6 +34,9 @@ class ItemView(BaseHandler):
 			item.views = item.views + 1
 			item.put()
 		
+		if user and not model.Vote.gql('WHERE user=:1 AND item=:2',self.values['user'], item).get():
+			self.values['canvote']=1
+
 		self.values['item'] = item
 		query = model.Comment.all().filter('item =', item).order('creation_date')
 		self.values['comments'] = self.paging(query, 10)
