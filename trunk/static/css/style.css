@@ -342,7 +342,7 @@ background:url(/static/images/star-matrix.gif) no-repeat scroll 0 0;
 .star2 {background-position:0 -32px;}
 .star3 {background-position:0 -48px;}
 .star4 {background-position:0 -64px;}
-.estar5 {background-position:0 -80px;}
+.star5 {background-position:0 -80px;}
 ul.rating li {
 cursor:pointer;
 float:left;
