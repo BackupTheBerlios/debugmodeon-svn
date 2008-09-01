@@ -109,8 +109,8 @@ class GroupUser(db.Model):
 	group = db.ReferenceProperty(Group,required=True)
 
 class GroupItem(db.Model):
-	user = db.UserProperty(required=True)
-	item = db.ReferenceProperty(Group,required=True)
+	item = db.ReferenceProperty(Item,required=True)
+	group = db.ReferenceProperty(Group,required=True)
 
 class Thread(db.Model):
 	group = db.ReferenceProperty(Group,required=True)

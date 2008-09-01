@@ -52,4 +52,5 @@ class ItemView(BaseHandler):
 						all_groups.remove(gr)
 				
 			self.values['all_groups'] = all_groups
+		
 		self.render('templates/item-view.html')
