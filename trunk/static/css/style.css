@@ -323,3 +323,56 @@ span.highlight {
 #markdown_code_button { background-position: 0 -136px; }
 #markdown_help_button { background-position: 0 -153px; }
 #markdown_heading_button { background-position: 0 -85px; }
+
+
+
+
+.rating {
+width:80px;
+height:16px;
+margin:0 0 20px 0;
+padding:0;
+list-style:none;
+clear:both;
+position:relative;
+background:url(/static/images/star-matrix.gif) no-repeat scroll 0 0;
+}
+.star0 {background-position:0 0;}
+.star1 {background-position:0 -16px;}
+.star2 {background-position:0 -32px;}
+.star3 {background-position:0 -48px;}
+.star4 {background-position:0 -64px;}
+.estar5 {background-position:0 -80px;}
+ul.rating li {
+cursor:pointer;
+float:left;
+text-indent:-999em;
+}
+ul.rating li a {
+height:16px;
+left:0;
+position:absolute;
+text-decoration:none;
+top:0;
+width:16px;
+z-index:200;
+}
+ul.rating li.one a {left:0;}
+ul.rating li.two a {left:16px;}
+ul.rating li.three a {left:32px;}
+ul.rating li.four a {left:48px;}
+ul.rating li.five a {left:64px;}
+ul.rating li a:hover {
+background:url(/static/images/star-matrix.gif) no-repeat scroll 0 0;
+height:16px;
+left:0;
+overflow:hidden;
+width:80px;
+z-index:2;
+}
+ul.rating li.one a:hover {background-position:0 -96px;}
+ul.rating li.two a:hover {background-position:0 -112px;}
+ul.rating li.three a:hover {background-position:0 -128px;}
+ul.rating li.four a:hover {background-position:0 -144px;}
+ul.rating li.five a:hover {background-position:0 -160px;}
+

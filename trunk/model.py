@@ -33,6 +33,7 @@ class Item(search.SearchableModel):
 	views = db.IntegerProperty(required=True)
 	rating_count = db.IntegerProperty(required=True)
 	rating_total = db.IntegerProperty(required=True)
+	rating_average = db.IntegerProperty()
 	url_path = db.StringProperty(required=True)
 	responses = db.IntegerProperty(required=True)
 	tags = db.StringListProperty()
@@ -57,7 +58,7 @@ class Comment(db.Model):
 class Vote(db.Model):
 	user = db.UserProperty(required=True)
 	item = db.ReferenceProperty(Item,required=True)
-	vote = db.BooleanProperty(required=True)
+	rating = db.IntegerProperty(required=True)
 
 class Tag(db.Model):
 	tag = db.StringProperty(required=True)
@@ -68,7 +69,6 @@ class UserData(db.Model):
 	email = db.StringProperty(required=True)
 	avatar = db.BlobProperty()
 	thumbnail = db.BlobProperty()
-	public = db.BooleanProperty(required=True)
 	# items
 	items = db.IntegerProperty(required=True)
 	draft_items = db.IntegerProperty(required=True)
@@ -80,11 +80,7 @@ class UserData(db.Model):
 	# rating
 	rating_count = db.IntegerProperty(required=True)
 	rating_total = db.IntegerProperty(required=True)
-	# forums
-	threads = db.IntegerProperty(required=True)
-	responses = db.IntegerProperty(required=True)
-	# groups
-	groups = db.IntegerProperty(required=True)
+	rating_average = db.IntegerProperty()
 	# others
 	country = db.StringProperty()
 	city = db.StringProperty()
@@ -113,8 +109,8 @@ class GroupUser(db.Model):
 	group = db.ReferenceProperty(Group,required=True)
 
 class GroupItem(db.Model):
-	item = db.ReferenceProperty(Item,required=True)
-	group = db.ReferenceProperty(Group,required=True)
+	user = db.UserProperty(required=True)
+	item = db.ReferenceProperty(Group,required=True)
 
 class Thread(db.Model):
 	group = db.ReferenceProperty(Group,required=True)
