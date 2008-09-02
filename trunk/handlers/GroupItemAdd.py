@@ -31,7 +31,7 @@ class GroupItemAdd(AuthenticatedHandler):
 		gu = self.joined(group)
 		if gu:
 			gi = model.GroupItem.gql('WHERE group=:1 and item=:2', group, item).get()
-			if not gi and user == item.author:
+			if not gi and user.nickname == item.author.nickname:
 				gi = model.GroupItem(item=item, group=group)
 				group.items += 1
 				group.put()

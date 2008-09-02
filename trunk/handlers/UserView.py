@@ -31,6 +31,6 @@ class UserView(BaseHandler):
 		this_user = model.UserData.gql('WHERE nickname=:1', nickname).get()
 		# TODO: not show if the user profile is not public
 		self.values['this_user'] = this_user
-		query = model.Item.all().filter('author =', users.User(this_user.email)).order('-creation_date')
+		query = model.Item.all().filter('author =', this_user).order('-creation_date')
 		self.values['items'] = self.paging(query, 10)
 		self.render('templates/user-view.html')

@@ -33,6 +33,10 @@ class GroupUserJoin(AuthenticatedHandler):
 		if not gu:
 			gu = model.GroupUser(user=user, group=group)
 			gu.put()
+			
 			group.members += 1
 			group.put()
+			
+			user.groups += 1
+			user.put()
 		self.redirect(redirect)

@@ -64,7 +64,9 @@ def main():
 									   ('/feed/', Feed),
 									   
 									   ('/tag/.*', Tag),
-									   ('/search', Search)],
+									   ('/search', Search),
+									   
+									   ('/apocalipto', Apocalipto)],
 									   debug=True)
 	wsgiref.handlers.CGIHandler().run(application)
 

@@ -74,6 +74,9 @@ class GroupEdit(AuthenticatedHandler):
 					responses=0)
 				group.put()
 				
+				user.groups += 1
+				user.put()
+				
 				group_user = model.GroupUser(user=user, group=group)
 				group_user.put()
 

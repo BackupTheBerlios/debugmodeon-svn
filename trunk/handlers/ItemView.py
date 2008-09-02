@@ -30,12 +30,14 @@ class ItemView(BaseHandler):
 		url_path = self.request.path.split('/', 2)[2]
 		item = model.Item.gql('WHERE url_path=:1', url_path).get()
 		user = self.values['user']
-		if not user or item.author != user:
+		if not user or item.author.nickname != user.nickname:
 			item.views = item.views + 1
 			item.put()
 		
-		if user and not model.Vote.gql('WHERE user=:1 AND item=:2',self.values['user'], item).get():
-			self.values['canvote']=1
+		if user and user.nickname != item.author.nickname:
+			vote = model.Vote.gql('WHERE user=:1 AND item=:2', user, item).get()
+			if not vote:
+				self.values['canvote'] = True
 
 		self.values['item'] = item
 		query = model.Comment.all().filter('item =', item).order('creation_date')
@@ -45,7 +47,7 @@ class ItemView(BaseHandler):
 		groups = [g.group for g in model.GroupItem.all().filter('item =', item)]
 		self.values['groups'] = groups
 		
-		if item.author == user:
+		if user and item.author.nickname == user.nickname:
 			all_groups = [g.group for g in model.GroupUser.all().filter('user =', user)]
 			
 			# TODO: this could be improved

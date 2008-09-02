@@ -24,8 +24,39 @@ from google.appengine.ext import db
 from google.appengine.api import users
 from google.appengine.ext import search
 
+class UserData(db.Model):
+	nickname = db.StringProperty(required=True)
+	email = db.StringProperty(required=True)
+	avatar = db.BlobProperty()
+	thumbnail = db.BlobProperty()
+	# items
+	items = db.IntegerProperty(required=True)
+	draft_items = db.IntegerProperty(required=True)
+	# messages
+	messages = db.IntegerProperty(required=True)
+	draft_messages = db.IntegerProperty(required=True)
+	# comments
+	comments = db.IntegerProperty(required=True)
+	# rating
+	rating_count = db.IntegerProperty(required=True)
+	rating_total = db.IntegerProperty(required=True)
+	rating_average = db.IntegerProperty(required=True)
+	# forums
+	threads = db.IntegerProperty(required=True)
+	responses = db.IntegerProperty(required=True)
+	# groups
+	groups = db.IntegerProperty(required=True)
+	# others
+	country = db.StringProperty()
+	city = db.StringProperty()
+	public = db.BooleanProperty(required=True)
+
+	last_update = db.DateTimeProperty(auto_now=True)
+	creation_date = db.DateTimeProperty(auto_now_add=True)
+	deletion_date = db.DateTimeProperty()
+
 class Item(search.SearchableModel):
-	author = db.UserProperty(required=True)
+	author = db.ReferenceProperty(UserData,required=True)
 	title = db.StringProperty(required=True)
 	description = db.StringProperty(required=True)
 	content = db.TextProperty(required=True)
@@ -49,14 +80,14 @@ class Item(search.SearchableModel):
 class Comment(db.Model):
 	content = db.TextProperty(required=True)
 	item = db.ReferenceProperty(Item,required=True)
-	author = db.UserProperty(required=True)
+	author = db.ReferenceProperty(UserData,required=True)
 	
 	last_update = db.DateTimeProperty(auto_now=True)
 	creation_date = db.DateTimeProperty(auto_now_add=True)
 	deletion_date = db.DateTimeProperty()
 
 class Vote(db.Model):
-	user = db.UserProperty(required=True)
+	user = db.ReferenceProperty(UserData,required=True)
 	item = db.ReferenceProperty(Item,required=True)
 	rating = db.IntegerProperty(required=True)
 
@@ -64,33 +95,8 @@ class Tag(db.Model):
 	tag = db.StringProperty(required=True)
 	count = db.IntegerProperty(required=True)
 
-class UserData(db.Model):
-	nickname = db.StringProperty(required=True)
-	email = db.StringProperty(required=True)
-	avatar = db.BlobProperty()
-	thumbnail = db.BlobProperty()
-	# items
-	items = db.IntegerProperty(required=True)
-	draft_items = db.IntegerProperty(required=True)
-	# messages
-	messages = db.IntegerProperty(required=True)
-	draft_messages = db.IntegerProperty(required=True)
-	# comments
-	comments = db.IntegerProperty(required=True)
-	# rating
-	rating_count = db.IntegerProperty(required=True)
-	rating_total = db.IntegerProperty(required=True)
-	rating_average = db.IntegerProperty()
-	# others
-	country = db.StringProperty()
-	city = db.StringProperty()
-	
-	last_update = db.DateTimeProperty(auto_now=True)
-	creation_date = db.DateTimeProperty(auto_now_add=True)
-	deletion_date = db.DateTimeProperty()
-
 class Group(search.SearchableModel):
-	owner = db.UserProperty(required=True)
+	owner = db.ReferenceProperty(UserData,required=True)
 	title = db.StringProperty(required=True)
 	description = db.StringProperty(required=True)
 	url_path = db.StringProperty(required=True)
@@ -105,7 +111,7 @@ class Group(search.SearchableModel):
 	deletion_date = db.DateTimeProperty()
 
 class GroupUser(db.Model):
-	user = db.UserProperty(required=True)
+	user = db.ReferenceProperty(UserData,required=True)
 	group = db.ReferenceProperty(Group,required=True)
 
 class GroupItem(db.Model):
@@ -114,7 +120,7 @@ class GroupItem(db.Model):
 
 class Thread(db.Model):
 	group = db.ReferenceProperty(Group,required=True)
-	author = db.UserProperty(required=True)
+	author = db.ReferenceProperty(UserData,required=True)
 	title = db.StringProperty(required=True)
 	url_path = db.StringProperty(required=True)
 	content = db.TextProperty(required=True)
@@ -128,7 +134,7 @@ class Thread(db.Model):
 
 class ThreadResponse(db.Model):
 	thread = db.ReferenceProperty(Thread,required=True)
-	author = db.UserProperty(required=True)
+	author = db.ReferenceProperty(UserData,required=True)
 	content = db.TextProperty(required=True)
 
 	last_update = db.DateTimeProperty(auto_now=True)

@@ -48,7 +48,7 @@ class ItemEdit(AuthenticatedHandler):
 			if key:
 				# show edit form
 				item = model.Item.get(key)
-				if not user == item.author:
+				if not user.nickname == item.author.nickname:
 					self.forbidden()
 					return
 				self.values['key'] = key
@@ -68,7 +68,7 @@ class ItemEdit(AuthenticatedHandler):
 			if key:
 				# update item
 				item = model.Item.get(key)
-				if not user.email == item.author.email:
+				if not user.nickname == item.author.nickname:
 					self.forbidden()
 					return
 				self.delete_tags(item.tags)
@@ -103,9 +103,8 @@ class ItemEdit(AuthenticatedHandler):
 					rating_total=0)
 				item.put()
 				
-				user_data = model.UserData.gql('WHERE email=:1', user.email()).get()
-				user_data.items = user_data.items + 1
-				user_data.put()
+				user.items += 1
+				user.put()
 				
 				self.update_tags(tags)
 

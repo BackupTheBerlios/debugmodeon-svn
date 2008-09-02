@@ -33,7 +33,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<p>Este artículo está en</p>
 	<ul>
 {% for group in groups %}
-		<li><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a> {% ifequal user item.author %} [<a href="/group.item.remove?item={{ item.key }}&amp;group={{ group.key }}">eliminar</a>] {% endifequal %}</li>
+		<li><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a> {% ifequal user.nickname item.author.nickname %} [<a href="/group.item.remove?item={{ item.key }}&amp;group={{ group.key }}">eliminar</a>] {% endifequal %}</li>
 {% endfor %}
 	</ul>
 {% endif %}
@@ -66,6 +66,17 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		{{ item.content|markdown }}
 		</div>
    
+		{% if canvote %}
+			<ul class="rating star{{item.rating_average}}" style="float:right">
+				<li class="one"><a title="Muy malo" href="/item.vote?key={{ item.key }}&amp;rating=1">1</a></li>
+				<li class="two"><a title="Malo" href="/item.vote?key={{ item.key }}&amp;rating=2">2</a></li>
+				<li class="three"><a title="Regular" href="/item.vote?key={{ item.key }}&amp;rating=3">3</a></li>
+				<li class="four"><a title="Bueno" href="/item.vote?key={{ item.key }}&amp;rating=4">4</a></li>
+				<li class="five"><a title="Muy bueno" href="/item.vote?key={{ item.key }}&amp;rating=5">5</a></li>
+			</ul> 
+		{% else %}
+			<p class="rating star{{item.rating_average}}" style="float:right"></p>
+		{% endif %}
 		<p class="info options">
 			Etiquetas:
 			{% for tag in item.tags %}
@@ -73,7 +84,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			{% endfor %}
 			| <a href="#comments"><img src="/static/images/comments.png" class="icon" alt="" /> {{ item.responses }} comentarios</a>
 			| {{ item.views }} visitas
-			{% ifequal user item.author %}
+			| {{item.rating_count}} votos
+			{% ifequal user.nickname item.author.nickname %}
 			| <a href="/item.edit?key={{ item.key }}">editar</a>
 			{% endifequal %}
 			<br/>
@@ -92,20 +104,6 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		</p>
 	</div>
 	<div class="clear">&nbsp;</div>
-	<div>
-		<h3><a name="ratings">Valora este artículo</a></h3>
-		{%if canvote%}
-			<ul class= "rating star{{item.rating_average}}">
-				<li class="one"><a title="1 Star" href="/item.vote?key={{ item.key }}&amp;rating=1">1</a></li>
-				<li class="two"><a title="2 Stars" href="/item.vote?key={{ item.key }}&amp;rating=2">2</a></li>
-				<li class="three"><a title="3 Stars" href="/item.vote?key={{ item.key }}&amp;rating=3">3</a></li>
-				<li class="four"><a title="4 Stars" href="/item.vote?key={{ item.key }}&amp;rating=4">4</a></li>
-				<li class="five"><a title="5 Stars" href="/item.vote?key={{ item.key }}&amp;rating=5">5</a></li>
-			</ul> 
-		{%else%}
-		 	<ul class= "rating star{{item.rating_average}}"></ul> 
-		{%endif%}
-	</div>
 {% ifnotequal len 0 %}
 	<div class="grid_9 alpha omega">
 		<h3><a name="comments">Comentarios</a></h3>

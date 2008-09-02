@@ -20,17 +20,27 @@
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-from handlers.AuthenticatedHandler import *
+from google.appengine.ext import db
+from handlers.BaseHandler import *
+from google.appengine.ext import webapp
+from google.appengine.ext.webapp import template
 
-class GroupItemRemove(AuthenticatedHandler):
+class Apocalipto(webapp.RequestHandler):
 
-	def execute(self):
-		item = model.Item.get(self.get_param('item'))
-		group = model.Group.get(self.get_param('group'))
-		
-		gi = model.GroupItem.gql('WHERE group=:1 and item=:2', group, item).get()
-		if self.values['user'].nickname == item.author.nickname:
-			gi.delete()
-			group.items -= 1
-			group.put()
-		self.redirect('/item/%s' % item.url_path)
+	def get(self):
+		"""
+		self.kill(model.Item.all())
+		self.kill(model.Comment.all())
+		self.kill(model.UserData.all())
+		self.kill(model.GroupItem.all())
+		self.kill(model.GroupUser.all())
+		self.kill(model.Group.all())
+		self.kill(model.Tag.all())
+		self.kill(model.Thread.all())
+		self.kill(model.ThreadResponse.all())
+		"""
+		self.redirect('/')
+	
+	def kill(self, all):
+		for l in all:
+			l.delete()

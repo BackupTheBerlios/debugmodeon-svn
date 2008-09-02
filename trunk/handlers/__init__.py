@@ -56,3 +56,5 @@ from handlers.Feed import *
 
 from handlers.Tag import *
 from handlers.Search import *
+
+from handlers.Apocalipto import *

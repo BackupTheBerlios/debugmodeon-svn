@@ -39,9 +39,8 @@ class ItemComment(AuthenticatedHandler):
 		item.responses = item.responses + 1
 		item.put()
 		
-		user_data = model.UserData.gql('WHERE email=:1', user.email()).get()
-		user_data.comments = user_data.comments + 1
-		user_data.put()
+		user.comments += 1
+		user.put()
 		
 		subject = u"[debug_mode=ON] Comentario: '%s'" % item.url_path
 
@@ -51,6 +50,6 @@ http://debugmodeon.com/item/%s#comments
 
 """ % item.url_path
 		
-		mail.send_mail(user.email(), item.author.email(), subject, body)
+		mail.send_mail(user.email, item.author.email, subject, body)
 		
 		self.redirect('/item/%s#comments' % (item.url_path, ))

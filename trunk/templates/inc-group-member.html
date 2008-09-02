@@ -2,7 +2,7 @@
 {% if joined %}
 	<div class="box">
 		<p class="title">Miembro</p>
-		<p>Perteneces a este grupo {% ifnotequal user group.owner %}[<a href="/group.user.unjoin?group={{ group.key }}&amp;redirect={{ redirect }}">eliminarte del grupo</a>]{% endifnotequal %}</p>
+		<p>Perteneces a este grupo {% ifnotequal user.nickname group.owner.nickname %}[<a href="/group.user.unjoin?group={{ group.key }}&amp;redirect={{ redirect }}">eliminarte del grupo</a>]{% endifnotequal %}</p>
 	</div>
 {% else %}
 	<div class="box">

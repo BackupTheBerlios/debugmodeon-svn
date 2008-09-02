@@ -27,17 +27,16 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	</p>
 
 	<p>{{ item.description|escape }}</p>
- 	<p class= "rating star{{item.rating_average}}">
-	 <br/><strong>{{item.rating_count}} votos</strong> 
-	</p>
+ 	<p class="rating star{{item.rating_average}}" style="float:right">&nbsp;</p>
 	<p class="info options">
-                | Etiquetas:
+		Etiquetas:
 		{% for tag in item.tags %}
 			<a href="/tag/{{ tag|escape}}">{{ tag|escape}}</a>,
 		{% endfor %}
 		| <a href="/item/{{ item.url_path }}#comments"><img src="/static/images/comments.png" class="icon" alt="" /> {{ item.responses }} comentarios</a>
 		| {{ item.views }} visitas
-		{% ifequal user item.author %}
+		| {{item.rating_count}} votos
+		{% ifequal user.nickname item.author.nickname %}
 		| <a href="/item.edit?key={{ item.key }}">editar</a>
 		{% endifequal %}
 	</p>

@@ -66,7 +66,6 @@ class BaseHandler(webapp.RequestHandler):
 		
 		user = users.get_current_user()
 		if user:
-			self.values['user'] = user
 			self.values['logout'] = users.create_logout_url(self.values['redirect'])
 			
 			user_data = model.UserData.gql('WHERE email=:1', user.email()).get()
@@ -80,12 +79,13 @@ class BaseHandler(webapp.RequestHandler):
 					comments=0,
 					rating_count=0,
 					rating_total=0,
+					rating_average=0,
 					threads=0,
 					responses=0,
 					groups=0,
 					public=False)
 				user_data.put()
-			self.values['user_data'] = user_data
+			self.values['user'] = user_data
 		else:
 			self.values['user'] = None
 			self.values['login'] = users.create_login_url(self.values['redirect'])
