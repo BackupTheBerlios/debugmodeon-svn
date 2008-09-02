@@ -21,32 +21,31 @@
 # 
 
 from google.appengine.ext import db
-from handlers.BaseHandler import *
-#from handlers.AuthenticatedHandler import *
+from handlers.AuthenticatedHandler import *
 
-class ItemVote(BaseHandler):
+class ItemVote(AuthenticatedHandler):
 	
-	def execute (self):
-	        key = self.get_param('key')
-	        item = model.Item.get(self.get_param('key'))
+	def execute(self):
+		item = model.Item.get(self.get_param('key'))
 		rating = int(self.get_param('rating'))
-			
-		vote = model.Vote(user=self.values['user'],rating=rating,item=item)
-		vote.put()
-		item.rating_count = item.rating_count + 1
-		item.rating_total = item.rating_total + vote.rating
+		if rating < 0:
+			rating = 0
+		else if rating > 5:
+			rating = 5
 		
-		if item.rating_count > 0 :
+		if item:
+			vote = model.Vote(user=self.values['user'],rating=rating,item=item)
+			vote.put()
+
+			item.rating_count = += 1
+			item.rating_total = += vote.rating
 			item.rating_average = int(item.rating_total / item.rating_count)
-		
-		item.put()
-		user = model.UserData.gql('WHERE nickname=:1', item.author.nickname()).get()
-		user.rating_count =user.rating_count + 1
-		user.rating_total =user.rating_total +  vote.rating
-		
-		if user.rating_count > 0 :
-			user.rating_average = int(user.rating_total / user.rating_count )
-		user.put()
-		
+			item.put()
+
+			user = model.UserData.gql('WHERE nickname=:1', item.author.nickname()).get()
+			user.rating_count = += 1
+			user.rating_total = += vote.rating
+			user.rating_average = int(user.rating_total / user.rating_count)
+			user.put()
 				
 		self.redirect('/item/%s' % item.url_path)
