@@ -33,19 +33,23 @@ class ItemVote(AuthenticatedHandler):
 		elif rating > 5:
 			rating = 5
 		
-		if item:
-			vote = model.Vote(user=self.values['user'],rating=rating,item=item)
-			vote.put()
-
-			item.rating_count += 1
-			item.rating_total += vote.rating
-			item.rating_average = int(item.rating_total / item.rating_count)
-			item.put()
-
-			user = model.UserData.gql('WHERE nickname=:1', item.author.nickname()).get()
-			user.rating_count += 1
-			user.rating_total += vote.rating
-			user.rating_average = int(user.rating_total / user.rating_count)
-			user.put()
+		user = self.values['user']
+		
+		if item and item.author != user:
+			vote = model.Vote.gql('WHERE user=:1 and item=:2', user, item).get()
+			if not vote:
+				vote = model.Vote(user=user,rating=rating,item=item)
+				vote.put()
+   
+				item.rating_count += 1
+				item.rating_total += rating
+				item.rating_average = int(item.rating_total / item.rating_count)
+				item.put()
+   
+				author = model.UserData.gql('WHERE nickname=:1', item.author.nickname()).get()
+				author.rating_count += 1
+				author.rating_total += rating
+				author.rating_average = int(author.rating_total / author.rating_count)
+				author.put()
 				
 		self.redirect('/item/%s' % item.url_path)
