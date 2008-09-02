@@ -30,7 +30,7 @@ class ItemVote(AuthenticatedHandler):
 		rating = int(self.get_param('rating'))
 		if rating < 0:
 			rating = 0
-		else if rating > 5:
+		elif rating > 5:
 			rating = 5
 		
 		if item:
