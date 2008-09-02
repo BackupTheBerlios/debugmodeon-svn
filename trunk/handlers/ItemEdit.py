@@ -74,7 +74,7 @@ class ItemEdit(AuthenticatedHandler):
 				self.delete_tags(item.tags)
 				item.title = self.get_param('title')
 				item.lic = self.get_param('lic')
-				item.tags = [self.to_url_path(t) for t in self.get_param('tags').split(',')]
+				item.tags = self.parse_tags(self.get_param('tags'))
 				item.description = ' '.join(self.get_param('description').splitlines())
 				item.content = self.get_param('content')
 				item.put()
@@ -86,7 +86,7 @@ class ItemEdit(AuthenticatedHandler):
 				title = self.get_param('title')
 				url_path = '%02d/%02d/%d/%s' % (today.day, today.month, today.year, self.to_url_path(title))
 				url_path = self.unique_url_path(model.Item, url_path)
-				tags = [self.to_url_path(t) for t in self.get_param('tags').split(',')]
+				tags = self.parse_tags(self.get_param('tags'))
 				
 				item = model.Item(author=user,
 					title=title,

@@ -143,6 +143,7 @@ class BaseHandler(webapp.RequestHandler):
 		return a
 	
 	def delete_tags(self, tags):
+		tags=set(tags)
 		for tag in tags:
 			t = model.Tag.gql('WHERE tag=:1', tag).get()
 			if t:
@@ -153,6 +154,7 @@ class BaseHandler(webapp.RequestHandler):
 					t.put()
 	
 	def update_tags(self, tags):
+		tags=set(tags)
 		for tag in tags:
 			t = model.Tag.gql('WHERE tag=:1', tag).get()
 			if not t:
@@ -175,3 +177,7 @@ class BaseHandler(webapp.RequestHandler):
 	
 	def joined(self, group):
 		return model.GroupUser.gql('WHERE group=:1 and user=:2', group, self.values['user']).get()
+	
+	def parse_tags(self, tag_string):
+		tags = [self.to_url_path(t) for t in tag_string.split(',')]
+		return list(set(tags))
