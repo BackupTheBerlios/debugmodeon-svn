@@ -30,11 +30,5 @@ class UserList(BaseHandler):
 		# .filter('public =', True)
 		query = model.UserData.all().order('-creation_date')
 		us = self.paging(query, 10)
-		"""
-		for user in us:
-			groups = model.GroupUser.all().filter('user =', user).count(1000)
-			user.groups = groups
-			user.put()
-		"""
 		self.values['users'] = us
 		self.render('templates/user-list.html')

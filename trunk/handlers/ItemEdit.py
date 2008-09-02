@@ -100,7 +100,8 @@ class ItemEdit(AuthenticatedHandler):
 					views=0,
 					responses=0,
 					rating_count=0,
-					rating_total=0)
+					rating_total=0,
+					favourites=0)
 				item.put()
 				
 				user.items += 1

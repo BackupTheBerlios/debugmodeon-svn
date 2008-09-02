@@ -83,6 +83,7 @@ class BaseHandler(webapp.RequestHandler):
 					threads=0,
 					responses=0,
 					groups=0,
+					favourites=0,
 					public=False)
 				user_data.put()
 			self.values['user'] = user_data
