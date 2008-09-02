@@ -33,5 +33,7 @@ class GroupItemAdd(AuthenticatedHandler):
 			gi = model.GroupItem.gql('WHERE group=:1 and item=:2', group, item).get()
 			if not gi and user == item.author:
 				gi = model.GroupItem(item=item, group=group)
+				group.items += 1
+				group.put()
 				gi.put()
 		self.redirect('/item/%s' % item.url_path)

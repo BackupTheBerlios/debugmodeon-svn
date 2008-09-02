@@ -31,4 +31,6 @@ class GroupItemRemove(AuthenticatedHandler):
 		gi = model.GroupItem.gql('WHERE group=:1 and item=:2', group, item).get()
 		if self.values['user'] == item.author:
 			gi.delete()
+			group.items -= 1
+			group.put()
 		self.redirect('/item/%s' % item.url_path)

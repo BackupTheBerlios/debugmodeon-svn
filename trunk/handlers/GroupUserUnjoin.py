@@ -32,4 +32,6 @@ class GroupUserUnjoin(AuthenticatedHandler):
 		gu = self.joined(group)
 		if gu and user != group.owner:
 			gu.delete()
+			group.members -= 1
+			group.put()
 		self.redirect(redirect)

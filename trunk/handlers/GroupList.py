@@ -27,5 +27,10 @@ class GroupList(BaseHandler):
 	def execute(self):
 		self.values['tab'] = '/group.list'
 		query = model.Group.all().order('-creation_date')
-		self.values['groups'] = self.paging(query, 10)
+		groups = self.paging(query, 10)
+		for g in groups:
+			g.items = model.GroupItem.all().filter('group =', g).count(1000)
+			g.members = model.GroupUser.all().filter('group =', g).count(1000)
+			g.put()
+		self.values['groups'] = groups
 		self.render('templates/group-list.html')
