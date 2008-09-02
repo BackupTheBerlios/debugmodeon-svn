@@ -47,7 +47,7 @@ class UserData(db.Model):
 	# groups
 	groups = db.IntegerProperty(required=True)
 	# favourites
-	favourites = db.IntegerProperty()
+	favourites = db.IntegerProperty(required=True)
 	# others
 	country = db.StringProperty()
 	city = db.StringProperty()
@@ -70,7 +70,7 @@ class Item(search.SearchableModel):
 	url_path = db.StringProperty(required=True)
 	responses = db.IntegerProperty(required=True)
 	tags = db.StringListProperty()
-	favourites = db.IntegerProperty()
+	favourites = db.IntegerProperty(required=True)
 	
 	draft = db.BooleanProperty(required=True)
 	item_type = db.StringProperty(required=True)
