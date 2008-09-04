@@ -38,7 +38,12 @@ class ItemView(BaseHandler):
 			vote = model.Vote.gql('WHERE user=:1 AND item=:2', user, item).get()
 			if not vote:
 				self.values['canvote'] = True
-
+		if user:
+			added = model.Favourite.gql('WHERE user=:1 AND item=:2',user,item).get()
+			if not added:
+				self.values['canadd'] = True
+		
+		
 		self.values['item'] = item
 		query = model.Comment.all().filter('item =', item).order('creation_date')
 		self.values['comments'] = self.paging(query, 10)

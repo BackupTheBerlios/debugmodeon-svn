@@ -143,3 +143,8 @@ class ThreadResponse(db.Model):
 	last_update = db.DateTimeProperty(auto_now=True)
 	creation_date = db.DateTimeProperty(auto_now_add=True)
 	deletion_date = db.DateTimeProperty()
+
+class Favourite(db.Model):
+	item=db.ReferenceProperty(Item,required=True)
+	user=db.ReferenceProperty(UserData,required=True)
+	

@@ -28,6 +28,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% block sidebar %}
 {% if groups or all_groups %}
 <div class="box">
+
 	<p class="title">Grupos</p>
 {% if groups %}
 	<p>Este artículo está en</p>
@@ -77,6 +78,17 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		{% else %}
 			<p class="rating star{{item.rating_average}}" style="float:right"></p>
 		{% endif %}
+		<p>
+        		{%if canadd%}
+				<a href="/item.favourite?key={{item.key}}" title="añadir a favoritos"><img src="/static/images/add_favourite.png" class="icon" /></a> 
+			{%else%}
+				{%if user%}
+					<a href="/item.favourite?key={{item.key}}" title="eliminar favorito"><img src="/static/images/rm_favourite.png" class="icon" /></a>
+				{%endif%}
+			{%endif%} 
+		
+		
+		</p>
 		<p class="info options">
 			Etiquetas:
 			{% for tag in item.tags %}
@@ -95,6 +107,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				{% ifequal item.lic 'pd' %}
 				Esta obra está en <a href="http://creativecommons.org/licenses/publicdomain/">Dominio Público</a>
 				{% else %}
+				
 				Esta obra est&#225; bajo una <a rel="license" href="http://creativecommons.org/licenses/{{ item.lic }}/3.0/">licencia de Creative Commons</a>
 				<a rel="license" href="http://creativecommons.org/licenses/{{ item.lic }}/3.0/">
 					<img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/{{ item.lic }}/3.0/80x15.png" class="icon" />

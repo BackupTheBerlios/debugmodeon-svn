@@ -25,7 +25,7 @@ from handlers.ItemEdit import *
 from handlers.ItemView import *
 from handlers.ItemVote import *
 from handlers.ItemComment import *
-
+from handlers.ItemFavourite import *
 # users
 from handlers.UserList import *
 from handlers.UserView import *
