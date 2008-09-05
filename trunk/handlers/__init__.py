@@ -29,6 +29,10 @@ from handlers.ItemFavourite import *
 # users
 from handlers.UserList import *
 from handlers.UserView import *
+from handlers.UserLogin import *
+from handlers.UserLogout import *
+from handlers.UserRegister import *
+from handlers.UserChangePassword import *
 
 # groups
 from handlers.GroupList import *

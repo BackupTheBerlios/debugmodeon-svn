@@ -1,0 +1,33 @@
+﻿{% extends "blank.html" %}
+{% block title %}
+	Nuevo usuario
+{% endblock %}
+
+{% block content %}
+    <p class="title">Nuevo usuario</p>
+		<form action="/user.register" method="post" accept-charset="utf-8">
+   
+		<input type="hidden" name="redirect_to" value="{{ redirect_to }}" />
+		
+		{% if error %}
+			<p style="color:red;text-align:center">{{ error }}</p>
+		{% endif %}
+		
+		<div class="form">
+			<p>
+				<label for="nickname">Nombre de usuario</label>
+				<input id="nickname" type="text" name="nickname" value="{{ nickname }}" size="30" maxlength="50" />
+			</p>
+			<p>
+				<label for="email">e-mail</label>
+				<input type="text" name="email" value="{{ email }}" size="30" maxlength="50" />
+			</p>
+			<p>
+				<label for="password">Contraseña</label>
+				<input type="password" name="password" value="" size="30" maxlength="50" />
+			</p>
+			<p><input type="submit" value="Registrarse" /></p>
+		</div>
+
+	</form>
+{% endblock %}

@@ -41,8 +41,12 @@ def main():
 									   ('/item/.*',			ItemView),
 									   ('/item.comment',	ItemComment),
 									   # users
-									   ('/user.list',	UserList),
-									   ('/user/.*',		UserView),
+									   ('/user.list',			UserList),
+									   ('/user/.*',				UserView),
+									   ('/user.register',		UserRegister),
+									   ('/user.login',			UserLogin),
+									   ('/user.logout',			UserLogout),
+									   ('/user.changepassword',	UserChangePassword),
 									   # groups
 									   ('/group.list',	GroupList),
 									   ('/group.edit',	GroupEdit),

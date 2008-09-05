@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<body>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" href="/static/css/960.css" type="text/css" media="screen" charset="utf-8" />
+	<link rel="stylesheet" href="/static/css/reset.css" type="text/css" media="screen" charset="utf-8" />
+	<link rel="stylesheet" href="/static/css/text.css" type="text/css" media="screen" charset="utf-8" />
+	<link rel="stylesheet" href="/static/css/style.css" type="text/css" />
+	<title>{% block title %}{% endblock %}</title>
+	<style type="text/css" media="screen">
+		#center {
+			margin: 0 auto;
+			margin-top: 50px;
+		}
+		#center .box {
+			margin: 0 auto;
+			width: 300px;
+		}
+		#center .box div {
+			margin: 0 auto;
+			width: 250px;
+		}
+		#heading {
+			text-align: center;
+		}
+	</style>
+	
+</head>
+
+<body>
+	<div id="center">
+		<p id="heading"><a href="/">debug_mode=ON</a></p>
+		<div class="box">
+			{% block content %}{% endblock %}
+		</div>
+	</div>
+</body>
+	
+</body>

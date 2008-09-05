@@ -21,9 +21,11 @@
 # 
 
 import re
+import sha
 import model
 import simplejson
 
+from utilities import session
 from google.appengine.ext import db
 from google.appengine.api import users
 from google.appengine.ext import webapp
@@ -60,14 +62,26 @@ class BaseHandler(webapp.RequestHandler):
 		self.common_stuff()
 		self.pre_execute()
 
+	def get_current_user(self):
+		try:		
+			userKey = self.sess['user_key']
+			user = db.get(userKey)
+			return user
+		except KeyError:
+			return None
+
 	def common_stuff(self):
+		self.sess = session.Session()
 		self.values = {}
-		self.values['redirect'] = '%s?%s' % (self.request.path, self.request.query)
+		self.values['sess'] = self.sess
+		redirect = '%s?%s' % (self.request.path, self.request.query)
+		self.values['redirect'] = redirect
 		
-		user = users.get_current_user()
+		user = self.get_current_user()
+		# user = users.get_current_user()
 		if user:
-			self.values['logout'] = users.create_logout_url(self.values['redirect'])
-			
+			self.values['logout'] = '/user.logout?redirect_to=%s' % redirect  # users.create_logout_url(self.values['redirect'])
+			"""
 			user_data = model.UserData.gql('WHERE email=:1', user.email()).get()
 			if not user_data:
 				user_data = model.UserData(email=user.email(),
@@ -87,9 +101,11 @@ class BaseHandler(webapp.RequestHandler):
 					public=False)
 				user_data.put()
 			self.values['user'] = user_data
+			"""
+			self.values['user'] = user
 		else:
 			self.values['user'] = None
-			self.values['login'] = users.create_login_url(self.values['redirect'])
+			self.values['login'] = '/user.login?redirect_to=%s' % redirect # users.create_login_url(self.values['redirect'])
 
 	def to_url_path(self, value):
 		value = value.lower()
@@ -115,7 +131,7 @@ class BaseHandler(webapp.RequestHandler):
 		url_path_base = url_path
 		while True:
 			query = db.Query(model)
-			query.filter('url_path =', url_path)
+			query.filter('title_url =', url_path)
 			count = query.count(1)
 			if count > 0:
 				url_path = '%s-%d' % (url_path_base, c)
@@ -181,3 +197,9 @@ class BaseHandler(webapp.RequestHandler):
 	def parse_tags(self, tag_string):
 		tags = [self.to_url_path(t) for t in tag_string.split(',')]
 		return list(set(tags))
+
+	def hash(self, login, p):
+		p = '%s:%s' % (login, p)
+		for i in range(0, 100):
+			p = sha.new(p).hexdigest()
+		return p
