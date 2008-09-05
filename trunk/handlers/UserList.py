@@ -31,9 +31,5 @@ class UserList(BaseHandler):
 		query = model.UserData.all().order('-creation_date')
 		us = self.paging(query, 10)
 		
-		for u in us:
-			u.password = self.hash(u.nickname, 'debugmodeon')
-			u.put()
-		
 		self.values['users'] = us
 		self.render('templates/user-list.html')

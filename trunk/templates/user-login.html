@@ -16,7 +16,7 @@
 		<div class="form">
 			<p>
 				<label for="nickname">Usuario</label>
-				<input id="input_name" type="text" name="nickname" value="{{ nickname }}" size="30" maxlength="50" />
+				<input id="nickname" type="text" name="nickname" value="{{ nickname }}" size="30" maxlength="50" />
 			</p>
 			<p>
 				<label for="password">Contraseña</label>
@@ -25,4 +25,10 @@
 			<p><input type="submit" value="Continuar" /></p>
 		</div>
 	</form>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" charset="utf-8">
+	$('nickname').focus()
+</script>
 {% endblock %}

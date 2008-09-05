@@ -39,7 +39,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<div class="grid_4">
 			<p class="options" style="text-align: right">
 			{% if sess.user %}
-				Hola {{ sess.user_nickname }} | <a href="/user.changepassword?redirect_to={{ redirect }}">cambiar contraseña</a> | <a href="/user.logout">desconectar</a>
+				Hola {{ sess.user_nickname }} | <a href="/user.logout">desconectar</a>
 			{% else %}
 				<a href="/user.login?redirect_to={{ redirect }}">Login</a> o <a href="/user.register?redirect_to={{ redirect }}">regístrate</a>
 			{% endif %}
