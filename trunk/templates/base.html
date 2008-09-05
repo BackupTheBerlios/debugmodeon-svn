@@ -41,7 +41,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			{% if sess.user %}
 				Hola {{ sess.user_nickname }} | <a href="/user.logout">desconectar</a>
 			{% else %}
-				<a href="/user.login?redirect_to={{ redirect }}">Login</a> o <a href="/user.register?redirect_to={{ redirect }}">regístrate</a>
+				<a href="/user.login?redirect_to={{ redirect }}">Login</a> o <a href="/user.register?redirect_to={{ redirect }}">regístrate</a>.
+				¿<a href="/user.forgotpassword?redirect_to={{ redirect }}">Olvidaste la contraseña</a>?
 			{% endif %}
 			</p>
 		</div>

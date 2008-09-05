@@ -30,10 +30,13 @@ class UserData(db.Model):
 	avatar = db.BlobProperty()
 	thumbnail = db.BlobProperty()
 	
-	password = db.StringProperty()
+	password = db.StringProperty(required=True)
 	rol = db.StringProperty()
 	google_adsense = db.StringProperty()
 	google_adsense_channel = db.StringProperty()
+	token = db.StringProperty()
+	checked = db.BooleanProperty()
+	
 	# items
 	items = db.IntegerProperty(required=True)
 	draft_items = db.IntegerProperty(required=True)

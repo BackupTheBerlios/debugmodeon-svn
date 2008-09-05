@@ -33,6 +33,8 @@ from handlers.UserLogin import *
 from handlers.UserLogout import *
 from handlers.UserRegister import *
 from handlers.UserChangePassword import *
+from handlers.UserForgotPassword import *
+from handlers.UserResetPassword import *
 
 # groups
 from handlers.GroupList import *

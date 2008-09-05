@@ -54,11 +54,11 @@ class UserLogin(BaseHandler):
 					else:
 						self.redirect('/')
 				else:
-					self.error(nickname, 'Usuario o contraseña incorrectos')
+					self.show_error(nickname, 'Usuario o contraseña incorrectos')
 			else:
-				self.error(nickname, 'Usuario o contraseña incorrectos')
+				self.show_error(nickname, 'Usuario o contraseña incorrectos')
 	
-	def error(self, nickname, error):
+	def show_error(self, nickname, error):
 		self.values['nickname'] = nickname
 		self.values['error'] = error
 		self.render('templates/user-login.html')

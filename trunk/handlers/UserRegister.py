@@ -42,35 +42,49 @@ class UserRegister(BaseHandler):
 			nickname = self.request.get('nickname')
 			email = self.request.get('email')
 			password = self.request.get('password')
+			re_email = self.request.get('re_email')
+			re_password = self.request.get('re_password')
 			
 			email = self.match('[\w\.-]{3,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}', email)
 			
 			if not email:
-				self.error(nickname, self.request.get('email'), 'Introduce una dirección de email válida')
+				self.show_error(nickname, self.request.get('email'), 'Introduce una dirección de email válida')
 				return
 
 			nickname = self.match('[a-zA-Z0-9\.-]*', nickname)
 
 			if not nickname:
-				self.error(self.request.get('nickname'), email, 'El nombre de usuario sólo puede contener letras, números, guiones o puntos')
+				self.show_error(self.request.get('nickname'), email, 'El nombre de usuario sólo puede contener letras, números, guiones o puntos')
 				return
 
 			if len(nickname) < 4:
-				self.error(nickname, email, 'El nombre de usuario debe ser de al menos cuatro caracteres')
+				self.show_error(nickname, email, 'El nombre de usuario debe ser de al menos cuatro caracteres')
+				return
+
+			if len(nickname) > 20:
+				self.show_error(nickname, email, 'El nombre de usuario no debe ser mayor de 20 caracteres')
 				return
 			
-			if not password or len(password) < 4:
-				self.error(nickname, email, 'La contraseña debe ser de al menos cuatro caracteres')
+			if not password or len(password) < 4 or len(password) > 12:
+				self.show_error(nickname, email, 'La contraseña debe ser de entre cuatro y doce caracteres')
 				return
 
 			u = model.UserData.all().filter('nickname =', nickname).get()
 			if u:
-				self.error(nickname, email, 'El nombre de usuario ya existe')
+				self.show_error(nickname, email, 'El nombre de usuario ya existe')
 				return
 			
 			u = model.UserData.all().filter('email =', email).get()
 			if u:
-				self.error(nickname, email, 'Ya existe una cuenta con esa dirección de correo electrónico')
+				self.show_error(nickname, email, 'Ya existe una cuenta con esa dirección de correo electrónico')
+				return
+				
+			if email != re_email:
+				self.show_error(nickname, email, 'El e-mail y el e-mail repetido no son iguales')
+				return
+				
+			if password != re_password:
+				self.show_error(nickname, email, 'La contraseña y la contraseña repetida no son iguales')
 				return
 			
 			user = model.UserData(nickname=nickname,
@@ -101,7 +115,7 @@ class UserRegister(BaseHandler):
 				rt = '/'
 			self.redirect(rt)
 
-	def error(self, nickname, email, error):
+	def show_error(self, nickname, email, error):
 		self.values['nickname'] = nickname
 		self.values['email'] = email
 		self.values['error'] = error

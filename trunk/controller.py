@@ -47,6 +47,8 @@ def main():
 									   ('/user.login',			UserLogin),
 									   ('/user.logout',			UserLogout),
 									   ('/user.changepassword',	UserChangePassword),
+									   ('/user.forgotpassword',	UserForgotPassword),
+									   ('/user.resetpassword',	UserResetPassword),
 									   # groups
 									   ('/group.list',	GroupList),
 									   ('/group.edit',	GroupEdit),

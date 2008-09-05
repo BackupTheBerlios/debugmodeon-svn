@@ -22,48 +22,52 @@
 
 import re
 import model
+import random
 
 from img import *
 from utilities import session
+from handlers.BaseHandler import *
+
 from google.appengine.ext import webapp
 from google.appengine.ext import db
-from handlers.AuthenticatedHandler import *
+from google.appengine.api import mail
 from google.appengine.ext.webapp import template
 
-class UserChangePassword(AuthenticatedHandler):
+class UserForgotPassword(BaseHandler):
 
 	def execute(self):
 		method = self.request.method
 
 		if method == 'GET':
 			self.values['redirect_to'] = self.request.get('redirect_to')
-			self.render('templates/user-changepassword.html')
+			self.render('templates/user-forgotpassword.html')
 		else:
-			old_password = self.request.get('old_password')
-			password = self.request.get('password')
-			re_password = self.request.get('re_password')
+			email = self.request.get('email')
+			u = model.UserData.all().filter('email =', email).get()
+			if not u:
+				self.show_error(email, 'No se encuentra un usuario con esa dirección')
+				return
+			
+			u.token = self.hash(str(random.random()), email)
+			u.put()
+			
+			# TODO send mail
+			subject = "[debug_mode=ON] Recuperar password"
+   
+			body = """
+Haz click en el siguiente enlace para proceder a establecer tu password
+http://debugmodeon.com/user.resetpassword?nickname=%s&token=%s
+   
+""" % (u.nickname, u.token)
+   
+			mail.send_mail(u.email, u.email, subject, body)
+			
+			self.values['token'] = u.token
+			self.values['email'] = email
+			self.values['redirect_to'] = self.request.get('redirect_to')
+			self.render('templates/user-forgotpassword-sent.html')
 
-			if not password or len(password) < 4:
-				self.show_error('La contraseña debe ser de al menos cuatro caracteres')
-				return
-			
-			if password != re_password:
-				self.show_error('La nueva contraseña y la nueva contraseña repetida no son iguales')
-				return
-			
-			user = self.values['user']
-			
-			if self.hash(user.nickname, old_password) == user.password:
-				user.password = self.hash(user.nickname, password)
-				user.put()
-				rt = self.request.get('redirect_to')
-				if not rt:
-					rt = '/'
-				self.redirect(rt)
-			else:
-				self.show_error('Contraseña actual incorrecta')
-				return
-
-	def show_error(self, error):
+	def show_error(self, email, error):
+		self.values['email'] = email
 		self.values['error'] = error
-		self.render('templates/user-changepassword.html')
+		self.render('templates/user-forgotpassword.html')
