@@ -34,6 +34,7 @@ class ItemVote(AuthenticatedHandler):
 			rating = 5
 		
 		user = self.values['user']
+		avg = item.rating_average
 		
 		if item and item.author.nickname != user.nickname:
 			vote = model.Vote.gql('WHERE user=:1 and item=:2', user, item).get()
@@ -51,5 +52,9 @@ class ItemVote(AuthenticatedHandler):
 				author.rating_total += rating
 				author.rating_average = int(author.rating_total / author.rating_count)
 				author.put()
+				avg = item.rating_average
 				
-		self.redirect('/item/%s' % item.url_path)
+		if self.get_param('x'):
+			self.render_json({ 'average': avg })
+		else:
+			self.redirect('/item/%s' % item.url_path)

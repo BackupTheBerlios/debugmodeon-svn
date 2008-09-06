@@ -67,17 +67,19 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		{{ item.content|markdown }}
 		</div>
    
+		<div style="float:right">
 		{% if canvote %}
-			<ul class="rating star{{item.rating_average}}" style="float:right">
+			<ul class="rating star{{item.rating_average}}" id="star-rating">
 				<li class="one"><a title="Muy malo" href="/item.vote?key={{ item.key }}&amp;rating=1">1</a></li>
 				<li class="two"><a title="Malo" href="/item.vote?key={{ item.key }}&amp;rating=2">2</a></li>
 				<li class="three"><a title="Regular" href="/item.vote?key={{ item.key }}&amp;rating=3">3</a></li>
 				<li class="four"><a title="Bueno" href="/item.vote?key={{ item.key }}&amp;rating=4">4</a></li>
 				<li class="five"><a title="Muy bueno" href="/item.vote?key={{ item.key }}&amp;rating=5">5</a></li>
-			</ul> 
+			</ul>
 		{% else %}
 			<p class="rating star{{ item.rating_average }}" style="float:right"></p>
 		{% endif %}
+		</div>
 
 		
 		<p class="info options">
@@ -106,10 +108,10 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				{% endifequal %}
 			{% endifequal %}
 			{% if canadd %}
-				<br/> <a href="/item.favourite?key={{ item.key }}" title="añadir a favoritos"><img src="/static/images/add.png" class="icon" /> Añadir a favoritos</a>
+				<br/> <span><a id="item.favourite" href="/item.favourite?key={{ item.key }}" title="añadir a favoritos"><img src="/static/images/add.png" class="icon" /> Añadir a favoritos</a></span>
 			{% else %}
 				{% if user %}
-					<br/> <a href="/item.favourite?key={{ item.key }}" title="eliminar favorito"><img src="/static/images/delete.png" class="icon" /> Eliminar favorito</a>
+					<br/> <span><a id="item.favourite" href="/item.favourite?key={{ item.key }}" title="eliminar favorito"><img src="/static/images/delete.png" class="icon" /> Eliminar favorito</a></span>
 				{% endif %}
 			{% endif %}
 		</p>
@@ -187,5 +189,54 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	});
 	
 	prettyPrint();
+	
+	function ajaxFav() {
+		var fav = $('item.favourite');
+		var parent = $(fav.parentNode);
+		Element.observe(fav, 'click', function(e) {
+			href = fav.href + '&x=1';
+			parent.innerHTML = '<img class="icon" src="/static/images/spinner.gif" />';
+			new Ajax.Request(href, {
+				method: 'get',
+				onSuccess: function(transport, json) {
+					var action = transport.responseText.evalJSON().action;
+					if(action == 'deleted') {
+						parent.innerHTML = '<a id="item.favourite" href="/item.favourite?key={{ item.key }}" title="añadir a favoritos"><img src="/static/images/add.png" class="icon" /> Añadir a favoritos</a>';
+					} else {
+						parent.innerHTML = '<a id="item.favourite" href="/item.favourite?key={{ item.key }}" title="eliminar favorito"><img src="/static/images/delete.png" class="icon" /> Eliminar favorito</a>';
+					}
+					ajaxFav();
+				},
+				onFailure: function() {
+					parent.innerHTML = 'Ocurrió un error :(';
+				}
+			});
+			Event.stop(e);
+		});
+	}
+	
+	ajaxFav();
+	
+	{% if canvote %}
+		var sr = $('star-rating');
+		var parent = $(sr.parentNode);
+		$$('#star-rating a').each(function(node) {
+			Element.observe(node, 'click', function(e) {
+				href = node.href + '&x=1';
+				parent.innerHTML = '<img class="icon" src="/static/images/spinner.gif" />';
+				new Ajax.Request(href, {
+					method: 'get',
+					onSuccess: function(transport, json) {
+						var avg = transport.responseText.evalJSON().average;
+						parent.innerHTML = '<p class="rating star'+avg+'"></p>';
+					},
+					onFailure: function() {
+						parent.innerHTML = 'Ocurrió un error :(';
+					}
+				});
+				Event.stop(e);
+			});
+		});
+	{% endif %}
 </script>
 {% endblock %}
