@@ -36,29 +36,34 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 {% block content %}
 	<div class="grid_9 alpha omega">
-		<h1>Inicio :: debug_mode=ON</h1>
+		<!-- <h1>Inicio :: debug_mode=ON</h1> -->
 		<p class="info options">&nbsp;</p>
    
-		<p><strong>debug_mode=ON</strong> es una red social y de contenidos sobre programación.</p>
+		<h3><p><strong>debug_mode=ON</strong> es una red social y de contenidos sobre programación.</p></h3>
    
-		<ul>
+	<!--	<ul>
 			<li><a href="/item.list">Artículos</a></li>
 			<li><a href="/group.list">Grupos</a></li>
 			<li><a href="/user.list">Usuarios</a></li>
-		</ul>
+		</ul> -->
 	</div>
 	<div class="clear">&nbsp;</div>
-	<!-- <div class="grid_3 alpha">
-		<div class="box">
-			<p class="title">Artículos</p>
-			<ul>
-			    <li>foo</li>
-				<li>bar</li>
-				<li>fud</li>
-			</ul>
-		</div>
+	
+	<div> 
+		<p class="title">Artículos más recientes
+			{% for item in items %}
+ 			<ul>
+					<li><a href="/item/{{ item.url_path }}">{{ item.title|escape }}</a> por <a href="/user/{{ item.author.nickname|escape}}">{{ item.author.nickname|escape }}</a></li>
+				</ul>
+
+        	</p>
+			{% endfor %}
 	</div>
-	<div class="grid_3">
+	
+	<div align="right">
+           <p ><h3 class="grid_3 omega"  ><a  href="/item.list">Ver más </a></h3></p>			
+	</div>
+	<!--  <div class="grid_3">
 		<div class="box">
 			<p class="title">Grupos</p>
 			<ul>
@@ -77,6 +82,6 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<li>fud</li>
 			</ul>
 		</div>
-	</div>
-	<div class="clear">&nbsp;</div> -->
+	</div> -->
+	<div class="clear">&nbsp;</div> 
 {% endblock %}
