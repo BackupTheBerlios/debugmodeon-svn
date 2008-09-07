@@ -3,6 +3,7 @@
 
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+# (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -26,6 +27,6 @@ class MainPage(BaseHandler):
 
 	def execute(self):
 		self.values['tab'] = '/'
-		self.values['items'] = model.Item.all().order('-creation_date').fetch(5)
+		self.values['items'] = model.Item.all().filter('draft', False).order('-creation_date').fetch(5)
 		self.values['taglist'] = self.tag_list(model.Tag.all())
 		self.render('templates/index.html')

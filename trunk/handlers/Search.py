@@ -3,6 +3,7 @@
 
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+# (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -26,7 +27,7 @@ class Search(BaseHandler):
 
 	def execute(self):
 		q = self.get_param('q')
-		query = model.Item.all().search(q)
+		query = model.Item.all().filter('draft =', False).search(q)
 		self.values['items'] = self.paging(query, 10)
 		self.values['taglist'] = self.tag_list(model.Tag.all())
 		self.values['q'] = q

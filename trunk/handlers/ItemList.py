@@ -3,6 +3,7 @@
 
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+# (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -26,7 +27,7 @@ class ItemList(BaseHandler):
 
 	def execute(self):
 		self.values['tab'] = '/item.list'
-		query = model.Item.all().order('-creation_date')
+		query = model.Item.all().filter('draft =', False).order('-creation_date')
 		self.values['items'] = self.paging(query, 10)
 		self.values['taglist'] = self.tag_list(model.Tag.all())
 		self.render('templates/item-list.html')

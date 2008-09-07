@@ -3,6 +3,7 @@
 
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+# (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -32,6 +33,10 @@ class ItemEdit(AuthenticatedHandler):
 		method = self.request.method
 		user = self.values['user']
 		key = self.get_param('key')
+		x = self.get_param('x')
+		draft = False
+		if self.get_param('save_draft'):
+			draft = True
 		
 		licenses = [ { 'id': 'copyright', 'lic': '&copy; Todos los derechos reservados' },
 			{ 'id': 'pd', 'lic': 'Dominio público' },
@@ -58,6 +63,7 @@ class ItemEdit(AuthenticatedHandler):
 				self.values['tags'] = ', '.join(item.tags)
 				self.values['description'] = item.description
 				self.values['content'] = item.content
+				self.values['draft'] = item.draft
 				self.render('templates/item-edit.html')
 			else:
 				# show an empty form
@@ -65,21 +71,40 @@ class ItemEdit(AuthenticatedHandler):
 				self.values['lic'] = 'copyright'
 				self.render('templates/item-edit.html')
 		else:
+			if x and draft:
+				#check mandatory fields
+				if not self.get_param('title') or not self.get_param('tags') or not self.get_param('description') or not self.get_param('content'):
+					self.render_json({ 'saved': False })
+					return
 			if key:
 				# update item
 				item = model.Item.get(key)
 				if not user.nickname == item.author.nickname:
 					self.forbidden()
 					return
-				self.delete_tags(item.tags)
+				if  not item.draft:
+					self.delete_tags(item.tags)
 				item.title = self.get_param('title')
 				item.lic = self.get_param('lic')
 				item.tags = self.parse_tags(self.get_param('tags'))
 				item.description = ' '.join(self.get_param('description').splitlines())
 				item.content = self.get_param('content')
+				if item.draft and not draft:
+					item.draft = draft
+					user.items += 1
+					user.draft_items -=1
+					user.put()
+					item.creation_date = datetime.datetime.now()
+				
 				item.put()
-				self.update_tags(item.tags)
-				self.redirect('/item/%s' % (item.url_path, ))
+				
+				if not draft:
+					self.update_tags(item.tags)
+				if x:
+					date = str(item.last_update.hour) + ":" + str(item.last_update.minute) + ":" + str(item.last_update.second)
+					self.render_json({ 'saved': True, 'key' : str(item.key()), 'date' : date, 'updated' : True, "draft_items" : str(user.draft_items) })
+				else :
+					self.redirect('/item/%s' % (item.url_path, ))
 			else:
 				# new item
 				today = datetime.date.today()
@@ -95,7 +120,7 @@ class ItemEdit(AuthenticatedHandler):
 					lic=self.get_param('lic'),
 					url_path=url_path,
 					tags=tags,
-					draft=False,
+					draft=draft,
 					item_type='article',
 					views=0,
 					responses=0,
@@ -103,10 +128,15 @@ class ItemEdit(AuthenticatedHandler):
 					rating_total=0,
 					favourites=0)
 				item.put()
-				
-				user.items += 1
-				user.put()
-				
-				self.update_tags(tags)
-
-				self.redirect('/item/%s' % (item.url_path, ))
+				if not draft:
+					user.items += 1
+					user.put()
+					self.update_tags(tags)
+				else:
+					user.draft_items += 1
+					user.put()
+				if x:
+					date = str(item.last_update.hour) + ":" + str(item.last_update.minute) + ":" + str(item.last_update.second)
+					self.render_json({ 'saved': True, 'key' : str(item.key()), 'date' : date, "updated" : False, "draft_items" : str(user.draft_items) })
+				else :	
+					self.redirect('/item/%s' % (item.url_path, ))

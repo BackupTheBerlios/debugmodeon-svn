@@ -1,6 +1,6 @@
 {% comment %}
 (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
-
+(C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 This file is part of "debug_mode_on".
 
 "debug_mode_on" is free software: you can redistribute it and/or modify
@@ -33,9 +33,11 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<h1>Nuevo artículo</h1>
 	{% endif %}
 
-<form action="/item.edit" method="post" accept-charset="utf-8">
+<form id="form" action="/item.edit" method="post" accept-charset="utf-8">
 	{% if key %}
-		<input type="hidden" name="key" value="{{ key|escape }}" />
+		<input id="key" type="hidden" name="key" value="{{ key|escape }}" />
+	{% else %}
+		<input id="key" type="hidden" name="key" value="" />
 	{% endif %}
 
 	<div class="form">
@@ -67,10 +69,10 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<textarea name="content" rows="30" cols="50" id="markdown_example">{{ content|escape }}</textarea>
 		</p>
    
-	{% if key %}
+	{% if key and not draft%}
 		<p><input type="submit" value="Guardar cambios" /></p>
 	{% else %}
-		<p><input type="submit" value="Publicar artículo" /></p>
+		<p><input type="submit" value="Publicar artículo" />&nbsp;<input type="submit" name="save_draft" value="Guardar Borrador" />&nbsp;<label id="auto_saved"></label></p>
 	{% endif %}
 		
 		<p>
@@ -86,4 +88,39 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 <script type="text/javascript" src="/static/js/textarea.js"></script>
 <script type="text/javascript" src="/static/js/showdown.js"></script>
 <script type="text/javascript" src="/static/js/showtextarea.js"></script>
+{% if draft or not key %}
+<script type="text/javascript" charset="utf-8">
+	setTimeout("saveChanges()", 30000);
+	
+	function saveChanges() {
+		var form = $('form');
+		var href = form.action + "?x=1&save_draft=1";
+		var pars = Form.serialize('form');
+		
+		new Ajax.Request(href, {
+	    	method: 'post',
+			parameters: pars,
+			onSuccess: function(transport, json) {
+				var saved = transport.responseText.evalJSON().saved;
+				if (saved) {
+					var updated = transport.responseText.evalJSON().updated;
+					if (!updated) {
+						var key = transport.responseText.evalJSON().key;
+						$('key').value = key;
+						var draft_items = transport.responseText.evalJSON().draft_items;
+						$('drafts').innerHTML = "<img src='/static/images/page_white_text.png' alt='' class='icon' /> Borradores (" + draft_items + ")";
+					}	
+					var date = transport.responseText.evalJSON().date;
+					$('auto_saved').innerHTML = "Guardado automáticamente a las " + date;
+					
+				}
+				setTimeout("saveChanges()", 30000);
+			},
+			onFailure: function() {
+				parent.innerHTML = 'Ocurrió un error :(';
+			}
+		});
+	}
+</script>
+{% endif %}
 {% endblock %}

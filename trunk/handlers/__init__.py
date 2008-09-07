@@ -1,5 +1,6 @@
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+# (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -35,6 +36,7 @@ from handlers.UserRegister import *
 from handlers.UserChangePassword import *
 from handlers.UserForgotPassword import *
 from handlers.UserResetPassword import *
+from handlers.UserDrafts import *
 
 # groups
 from handlers.GroupList import *

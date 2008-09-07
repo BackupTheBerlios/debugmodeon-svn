@@ -3,6 +3,7 @@
 
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+# (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -49,6 +50,7 @@ def main():
 									   ('/user.changepassword',	UserChangePassword),
 									   ('/user.forgotpassword',	UserForgotPassword),
 									   ('/user.resetpassword',	UserResetPassword),
+									   ('/user.drafts',			UserDrafts),
 									   # groups
 									   ('/group.list',	GroupList),
 									   ('/group.edit',	GroupEdit),

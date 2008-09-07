@@ -3,6 +3,7 @@
 
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+# (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -30,6 +31,11 @@ class ItemView(BaseHandler):
 		url_path = self.request.path.split('/', 2)[2]
 		item = model.Item.gql('WHERE url_path=:1', url_path).get()
 		user = self.values['user']
+		if item.draft:
+			if not user or not user.nickname == item.author.nickname:
+				self.forbidden()
+				return
+		
 		if not user or item.author.nickname != user.nickname:
 			item.views = item.views + 1
 			item.put()
