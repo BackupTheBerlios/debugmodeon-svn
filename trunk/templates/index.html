@@ -36,40 +36,35 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 {% block content %}
 	<div class="grid_9 alpha omega">
-		<!-- <h1>Inicio :: debug_mode=ON</h1> -->
+		<h1>Inicio :: debug_mode=ON</h1>
 		<p class="info options">&nbsp;</p>
    
-		<h3><p><strong>debug_mode=ON</strong> es una red social y de contenidos sobre programación.</p></h3>
+		<p><strong>debug_mode=ON</strong> es una red social y de contenidos sobre programación.</p>
    
-	<!--	<ul>
-			<li><a href="/item.list">Artículos</a></li>
-			<li><a href="/group.list">Grupos</a></li>
-			<li><a href="/user.list">Usuarios</a></li>
-		</ul> -->
 	</div>
 	<div class="clear">&nbsp;</div>
 	
-	<div> 
-		<p class="title">Artículos más recientes
+	<div class="grid_3 alpha">
+		<div class="box">
+			<p class="title">Últimos artículos</p>
+			<ul>
 			{% for item in items %}
- 			<ul>
-					<li><a href="/item/{{ item.url_path }}">{{ item.title|escape }}</a> por <a href="/user/{{ item.author.nickname|escape}}">{{ item.author.nickname|escape }}</a></li>
-				</ul>
-
-        	</p>
+				<li>
+					<strong><a href="/item/{{ item.url_path }}">{{ item.title|escape }}</a></strong>
+					<br/> por <a href="/user/{{ item.author.nickname|escape}}">{{ item.author.nickname|escape }}</a>
+				</li>
 			{% endfor %}
+			</ul>
+			<p style="text-align:right"><a href="/item.list">Ver todos</a></p>
+		</div>
 	</div>
-	
-	<div align="right">
-           <p ><h3 class="grid_3 omega"  ><a  href="/item.list">Ver más </a></h3></p>			
-	</div>
-	<!--  <div class="grid_3">
+	<div class="grid_3">
 		<div class="box">
 			<p class="title">Grupos</p>
 			<ul>
-				<li>foo</li>
+				<!-- <li>foo</li>
 				<li>bar</li>
-				<li>fud</li>
+				<li>fud</li> -->
 			</ul>
 		</div>
 	</div>
@@ -77,11 +72,11 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<div class="box">
 			<p class="title">Usuarios</p>
 			<ul>
-				<li>foo</li>
+				<!-- <li>foo</li>
 				<li>bar</li>
-				<li>fud</li>
+				<li>fud</li> -->
 			</ul>
 		</div>
-	</div> -->
+	</div>
 	<div class="clear">&nbsp;</div> 
 {% endblock %}

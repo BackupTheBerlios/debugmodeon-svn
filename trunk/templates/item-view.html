@@ -192,6 +192,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	
 	function ajaxFav() {
 		var fav = $('item.favourite');
+		if(fav == null) return;
 		var parent = $(fav.parentNode);
 		Element.observe(fav, 'click', function(e) {
 			href = fav.href + '&x=1';

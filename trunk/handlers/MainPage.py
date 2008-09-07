@@ -26,7 +26,6 @@ class MainPage(BaseHandler):
 
 	def execute(self):
 		self.values['tab'] = '/'
-		query = model.Item.all().order('-creation_date')
-		self.values['items'] = self.paging(query, 10)
+		self.values['items'] = model.Item.all().order('-creation_date').fetch(5)
 		self.values['taglist'] = self.tag_list(model.Tag.all())
 		self.render('templates/index.html')
