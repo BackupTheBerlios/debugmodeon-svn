@@ -29,14 +29,64 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endblock %}
 
 {% block content %}
-	<h1>{{ group.title|escape }}</h1>
-	<p class="info options">Creado por {{ group.owner.nickname|escape }} el <strong>{{ group.creation_date|date:"d/m/Y" }}</strong> </p>
+	<div class="grid_9 alpha omega">
+		<div class="info">
+			<h1>{{ group.title|escape }}</h1>
+			<p class="options">Creado por <strong><a href="/user/{{ group.owner.nickname }}">{{ group.owner.nickname }}</a></strong> hace <strong>{{ group.creation_date|relativize }}</strong></p>
+		</div>
+   
+		<p>{{ group.description|escape }}</p>
+	</div>
+	<div class="clear">&nbsp;</div>
 	
-	<p>{{ group.description|escape }}</p>
-	
-	<ul>
-		<li><a href="/group.user.list/{{ group.url_path }}">Miembros</a></li>
-		<li><a href="/group.item.list/{{ group.url_path }}">Artículos</a></li>
-		<li><a href="/group.forum.list/{{ group.url_path }}">Foro</a></li>
-	</ul>
+	<div class="grid_3 alpha">
+		<div class="box">
+			<p class="title">Últimos artículos</p>
+			{% if not items %}
+				<p style="text-align:center">No hay artículos</p>
+			{% else %}
+				<ul>
+				{% for item in items %}
+					<li>
+						<strong><a href="/item/{{ item.url_path }}">{{ item.title|escape }}</a></strong>
+						<br/><span style="color: #777">por <a href="/user/{{ item.author.nickname|escape}}">{{ item.author.nickname|escape }}</a></span>
+					</li>
+				{% endfor %}
+				</ul>
+				<p style="text-align:right"><strong><a href="/group.item.list/{{ group.url_path }}">Ver todos »</a></strong></p>
+			{% endif %}
+		</div>
+	</div>
+	<div class="grid_3">
+		<div class="box">
+			<p class="title">Foro</p>
+			{% if not threads %}
+				<p style="text-align:center">No hay mensajes</p>
+			{% else %}
+				<ul>
+				{% for thread in threads %}
+					<li>
+						<strong><a href="/group.forum/{{ thread.url_path }}">{{ thread.title|escape }}</a></strong>
+						<br/><span style="color: #777">actualizado hace {{ thread.last_update|relativize }}</span>
+					</li>
+				{% endfor %}
+				</ul>
+				<p style="text-align:right"><strong><a href="/group.forum.list/{{ group.url_path }}">Ver todos »</a></strong></p>
+			{% endif %}
+		</div>
+	</div>
+	<div class="grid_3 omega">
+		<div class="box">
+			<p class="title">Miembros</p>
+			<ul>
+			{% for u in users %}
+				<li>
+					<strong><a href="/user/{{ u.nickname }}">{{ u.nickname }}</a></strong>
+				</li>
+			{% endfor %}
+			</ul>
+			<p style="text-align:right"><strong><a href="/group.user.list/{{ group.url_path }}">Ver todos »</a></strong></p>
+		</div>
+	</div>
+	<div class="clear">&nbsp;</div> 
 {% endblock %}

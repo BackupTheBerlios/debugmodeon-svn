@@ -41,12 +41,12 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<div class="form">
 		<p>
 			<label for="title">Título</label>
-			<input type="text" name="title" value="{{ title|escape }}" style="font-size:200%" size="40" />
+			<input id="title" type="text" name="title" value="{{ title|escape }}" style="font-size:200%" size="40" />
 		</p>
 
 		<p>
 			<label for="description">Descripción</label>
-			<textarea name="description" rows="4" cols="50">{{ description|escape }}</textarea>
+			<textarea id="description" name="description" rows="4" cols="50">{{ description|escape }}</textarea>
 		</p>
 
 	{% if key %}
@@ -56,4 +56,16 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	{% endif %}
 	</div>
 </form>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="/static/js/prototype.js"></script>
+<script type="text/javascript" src="/static/js/validation.js"></script>
+<script type="text/javascript" charset="utf-8">
+	var title = new LiveValidation('title', { validMessage: "", wait: 500 });
+	title.add(Validate.Presence, { failureMessage: "Campo obligatorio" });
+	
+	var description = new LiveValidation('description', { validMessage: "", wait: 500 });
+	description.add(Validate.Presence, { failureMessage: "Campo obligatorio" });
+</script>
 {% endblock %}

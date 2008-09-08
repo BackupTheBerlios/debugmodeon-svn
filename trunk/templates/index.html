@@ -37,9 +37,13 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% block content %}
 	<div class="grid_9 alpha omega">
 		<h1>Inicio :: debug_mode=ON</h1>
-		<p class="info options">&nbsp;</p>
    
-		<p><strong>debug_mode=ON</strong> es una red social y de contenidos sobre programación.</p>
+		<p><strong>debug_mode=ON</strong> es una red social y de contenidos sobre programación en español.</p>
+		
+		<ul>
+		    <li><strong>Publica artículos</strong>. Si eres usuario de Google Adsense <strong>puedes ganar dinero</strong> con tus artículos.</li>
+			<li><strong>Crea grupos</strong>. Tienen foros y puedes añadir artículos a ellos.</li>
+		</ul>
    
 	</div>
 	<div class="clear">&nbsp;</div>
@@ -51,31 +55,39 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			{% for item in items %}
 				<li>
 					<strong><a href="/item/{{ item.url_path }}">{{ item.title|escape }}</a></strong>
-					<br/> por <a href="/user/{{ item.author.nickname|escape}}">{{ item.author.nickname|escape }}</a>
+					<br/><span style="color: #777">por <a href="/user/{{ item.author.nickname|escape}}">{{ item.author.nickname|escape }}</a></span>
 				</li>
 			{% endfor %}
 			</ul>
-			<p style="text-align:right"><a href="/item.list">Ver todos</a></p>
+			<p style="text-align:right"><strong><a href="/item.list">Ver todos »</a></strong></p>
 		</div>
 	</div>
 	<div class="grid_3">
 		<div class="box">
-			<p class="title">Grupos</p>
+			<p class="title">Últimos grupos</p>
 			<ul>
-				<!-- <li>foo</li>
-				<li>bar</li>
-				<li>fud</li> -->
+			{% for group in groups %}
+				<li>
+					<strong><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></strong>
+					<br/><span style="color: #777">por <a href="/user/{{ group.owner.nickname|escape}}">{{ group.owner.nickname|escape }}</a></span>
+				</li>
+			{% endfor %}
 			</ul>
+			<p style="text-align:right"><strong><a href="/group.list">Ver todos »</a></strong></p>
 		</div>
 	</div>
 	<div class="grid_3 omega">
 		<div class="box">
-			<p class="title">Usuarios</p>
+			<p class="title">Usuarios más activos</p>
 			<ul>
-				<!-- <li>foo</li>
-				<li>bar</li>
-				<li>fud</li> -->
+			{% for u in users %}
+				<li>
+					<strong><a href="/user/{{ u.nickname }}">{{ u.nickname }}</a></strong>
+					<br/><span style="color: #777"> {{ u.items }} artículos publicados</span>
+				</li>
+			{% endfor %}
 			</ul>
+			<p style="text-align:right"><strong><a href="/user.list">Ver todos »</a></strong></p>
 		</div>
 	</div>
 	<div class="clear">&nbsp;</div> 

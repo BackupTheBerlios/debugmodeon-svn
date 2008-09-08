@@ -31,11 +31,15 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 {% block content %}
 	<div class="grid_9 alpha omega">
-		<h1><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></h1>
-		<p class="info options">Creado por {{ group.owner.nickname|escape }} el <strong>{{ group.creation_date|date:"d/m/Y" }}</strong> </p>
+		<div class="info">
+			<h1><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></h1>
+			<p class="options">Creado por <strong><a href="/user/{{ group.owner.nickname }}">{{ group.owner.nickname }}</a></strong> hace <strong>{{ group.creation_date|relativize }}</strong></p>
+		</div>
    
-		<h2>{{ thread.title|escape }}</h2>
-		<p class="info options">Iniciado por {{ thread.author.nickname|escape }} el <strong>{{ thread.creation_date|date:"d/m/Y G:i:s" }}</strong> </p>
+   		<div class="info">
+			<h2>{{ thread.title|escape }}</h2>
+			<p class="options">Iniciado por {{ thread.author.nickname|escape }} hace <strong>{{ thread.creation_date|relativize }}</strong> </p>
+		</div>
 
 		<div id="thread">
 		{{ thread.content|markdown }}
@@ -53,7 +57,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<div class="grid_2 alpha">
 		<p class="info comment-info">
 			<img src="http://www.gravatar.com/avatar/79472daa31ea8050b09fbc6893c9dc50?s=32&amp;d=identicon" alt="gimenete-32" /> <br/>
-			<a href="/user/{{ comment.author.nickname|escape }}">{{ comment.author.nickname|escape }}</a> escribió <br/> el <strong>{{ comment.creation_date|date:"d/m/Y G:i:s" }}</strong>
+			<a href="/user/{{ comment.author.nickname|escape }}">{{ comment.author.nickname|escape }}</a> escribió <br/> hace <strong>{{ comment.creation_date|relativize }}</strong>
 		</p>
 	</div>
 	<div class="grid_7 omega">

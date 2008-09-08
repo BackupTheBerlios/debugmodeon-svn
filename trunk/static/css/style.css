@@ -29,7 +29,6 @@ html { overflow-y: scroll; overflow-x: auto; }
 }
 
 h2 {
-	margin:0;
 	background-color: #4e5d6d;
 	padding-left: 10px;
 	-moz-border-radius: 3px;
@@ -46,8 +45,15 @@ h2 a {
 
 h1, h1 a {
 	color: #7890a8;
-	margin:0;
 	margin-top: 10px;
+}
+
+div.info h1, div.info h2 {
+	margin-bottom:0;
+}
+
+div.info p, p.info {
+	color: #888;
 }
 
 h2 a, h3 a {
@@ -121,10 +127,6 @@ h3, h3 a {
 	text-decoration: none;
 }
 
-p.info {
-	color: #888;
-}
-
 p.options a {
 	text-decoration: none;
 }
@@ -168,6 +170,33 @@ div.box p.title {
 	padding: 0;
 	margin: 0;
 	margin-bottom: 5px;
+}
+
+div.box ul {
+	margin-right: 20px;
+}
+
+div.box ul li {
+	border-bottom: 1px dotted #7890a8;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+div.box strong a {
+	color: blue;
+}
+
+.box ul a {
+	color: #333;
+	text-decoration: none;
+}
+
+div.box a:hover {
+	text-decoration: underline;
+}
+
+ul {
+	list-style-image: url(/static/images/bullet.gif);
 }
 
 #search div {
@@ -376,3 +405,31 @@ ul.rating li.three a:hover {background-position:0 -128px;}
 ul.rating li.four a:hover {background-position:0 -144px;}
 ul.rating li.five a:hover {background-position:0 -160px;}
 
+.LV_validation_message{
+	font-weight:bold;
+	margin:0 0 0 5px;
+}
+
+.LV_valid {
+	color:#00CC00;
+}
+
+.LV_invalid {
+	color:#CC0000;
+}
+
+.LV_valid_field,
+input.LV_valid_field:hover, 
+input.LV_valid_field:active,
+textarea.LV_valid_field:hover, 
+textarea.LV_valid_field:active {
+	/* border: 1px solid #00CC00; */
+}
+
+.LV_invalid_field, 
+input.LV_invalid_field:hover, 
+input.LV_invalid_field:active,
+textarea.LV_invalid_field:hover, 
+textarea.LV_invalid_field:active {
+	border: 1px solid #CC0000;
+}

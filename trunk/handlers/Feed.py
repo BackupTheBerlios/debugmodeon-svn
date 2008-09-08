@@ -29,7 +29,7 @@ from time import strftime, gmtime, time
 class Feed(BaseHandler):
 
 	def execute(self):
-		latest = model.Item.gql('ORDER BY creation_date DESC LIMIT 20')
+		latest = model.Item.gql('WHERE draft=:1 ORDER BY creation_date DESC LIMIT 20', False)
 		items = []
 		url = 'http://debugmodeon.com'
 		md = markdown.Markdown()

@@ -131,7 +131,7 @@ class BaseHandler(webapp.RequestHandler):
 		url_path_base = url_path
 		while True:
 			query = db.Query(model)
-			query.filter('title_url =', url_path)
+			query.filter('url_path =', url_path)
 			count = query.count(1)
 			if count > 0:
 				url_path = '%s-%d' % (url_path_base, c)

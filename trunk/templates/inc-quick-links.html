@@ -22,19 +22,20 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<p class="title">Quick links</p>
 {% if user %}
 	<ul>
-		<li><a href="/item.edit"><img src="/static/images/page_white_text.png" alt="" class="icon" /> Nuevo artículo</a></li>
-		<li><a href="/group.edit"><img src="/static/images/group.png" alt="" class="icon" /> Nuevo grupo</a></li>
+		<li><strong><a href="/item.edit"><img src="/static/images/page_white_edit.png" alt="" class="icon" /> Nuevo artículo</a></strong></li>
 		<li><a id="drafts" href="/user.drafts"><img src="/static/images/page_white_text.png" alt="" class="icon" /> Borradores ({{ user.draft_items }})</a></li>
+		<li><a href="/group.edit"><img src="/static/images/group.png" alt="" class="icon" /> Nuevo grupo</a></li>
+		<li><a href="/user/{{ user.nickname }}"><img src="/static/images/user.png" alt="" class="icon" /> Tu perfil público</a></li>
 		<li><a href="/user.changepassword?redirect_to={{ redirect }}"><img src="/static/images/key.png" alt="" class="icon" /> Cambiar contraseña</a></li>
-		<!--
-		<li><a href="#"><img src="/static/images/html.png" alt="" class="icon" /> Nuevo snippet</a></li>
-		<li><a href="#"><img src="/static/images/help.png" alt="" class="icon" /> Nueva pregunta</a></li>
-		<li><a href="#"><img src="/static/images/email.png" alt="" class="icon" /> 5 mensajes sin leer</a></li> -->
 	</ul>
 {% else %}
-	<ul>
-	    <li><a href="/user.login?redirect_to={{ redirect }}">Login</a></li>
-		<li><a href="/user.register?redirect_to={{ redirect }}">Regístrate</a></li>
-	</ul>
+	<p style="text-align: center">
+	{% if sess.user %}
+		Hola {{ sess.user_nickname }} | <a href="/user.logout">desconectar</a>
+	{% else %}
+		<strong><a href="/user.login?redirect_to={{ redirect }}">Login</a></strong> o <a href="/user.register?redirect_to={{ redirect }}">regístrate</a> <br/>
+		¿<a href="/user.forgotpassword?redirect_to={{ redirect }}">Olvidaste la contraseña</a>?
+	{% endif %}
+	</p>
 {% endif %}
 </div>

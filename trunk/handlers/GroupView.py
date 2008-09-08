@@ -32,9 +32,7 @@ class GroupView(BaseHandler):
 
 		self.values['group'] = group
 		self.values['joined'] = self.joined(group)
-		"""
-		query = model.Comment.all().filter('item =', item).order('creation_date')
-		self.values['comments'] = self.paging(query, 10)
-		self.values['url_path'] = url_path
-		"""
+		self.values['items'] = [gi.item for gi in model.GroupItem.all().filter('group =', group).fetch(5)]
+		self.values['threads'] = model.Thread.all().filter('group =', group).order('-last_update').fetch(5)
+		self.values['users'] = [gu.user for gu in model.GroupUser.all().filter('group =', group).fetch(5)]
 		self.render('templates/group-view.html')

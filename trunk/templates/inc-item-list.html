@@ -21,10 +21,12 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<p>No hay artículos</p>
 {% endifequal %}
 {% for item in items %}
-	<h2><a href="/item/{{ item.url_path }}">{{ item.title|escape }}</a></h2>
-	<p class="info options">
-		Escrito por <strong><a href="/user/{{ item.author.nickname|escape}}">{{ item.author.nickname|escape }}</a></strong> hace <strong>{{ item.creation_date|relativize }}</strong> <!-- date:"d/m/Y" -->
-	</p>
+	<div class="info">
+		<h2><a href="/item/{{ item.url_path }}">{{ item.title|escape }}</a></h2>
+		<p class="options">
+			Escrito por <strong><a href="/user/{{ item.author.nickname|escape}}">{{ item.author.nickname|escape }}</a></strong> hace <strong>{{ item.creation_date|relativize }}</strong> <!-- date:"d/m/Y" -->
+		</p>
+	</div>
 
 	<p>{{ item.description|escape }}</p>
  	<p class="rating star{{item.rating_average}}" style="float:right">&nbsp;</p>

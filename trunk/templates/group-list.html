@@ -22,17 +22,18 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 {% block content %}
 	<h1>Grupos</h1>
-	<p class="info options">&nbsp;</p>
 
 {% ifequal len 0 %}
 	<p>No hay grupos</p>
 {% endifequal %}
 
 {% for group in groups %}
-	<h2><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></h2>
-	<p class="info options">
-		Creado por <strong><a href="/user/{{ group.owner.nickname|escape}}">{{ group.owner.nickname|escape }}</a></strong> el <strong>{{ group.creation_date|date:"d/m/Y" }}</strong>
-	</p>
+	<div class="info">
+		<h2><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></h2>
+		<p class="options">
+			Creado por <strong><a href="/user/{{ group.owner.nickname|escape}}">{{ group.owner.nickname|escape }}</a></strong> hace <strong>{{ group.creation_date|relativize }}</strong>
+		</p>
+	</div>
 
 	<p>{{ group.description|escape }}</p>
 

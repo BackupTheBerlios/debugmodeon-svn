@@ -58,10 +58,12 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 {% block content %}
 	<div class="grid_9 alpha omega">
-		<h1>{{ item.title|escape }}</h1>
-		<p class="info options">
-			Escrito por <strong><a href="/user/{{ item.author.nickname|escape}}">{{ item.author.nickname|escape }}</a></strong> el <strong>{{ item.creation_date|date:"d/m/Y" }}</strong> <br/>
-		</p>
+		<div class="info">
+			<h1>{{ item.title|escape }}</h1>
+			<p class="options">
+				Escrito por <strong><a href="/user/{{ item.author.nickname|escape}}">{{ item.author.nickname|escape }}</a></strong> hace <strong>{{ item.creation_date|relativize }}</strong> <br/>
+			</p>
+		</div>
    
 		<div id="item">
 		{{ item.content|markdown }}
