@@ -29,7 +29,26 @@ from time import strftime, gmtime, time
 class Feed(BaseHandler):
 
 	def execute(self):
-		latest = model.Item.gql('WHERE draft=:1 ORDER BY creation_date DESC LIMIT 20', False)
+
+		params = self.request.path.split('/')
+		
+		if  params[2]=='group':
+			group = model.Group.gql('WHERE title=:1',params[3]).get()
+			group_items = model.GroupItem.gql('WHERE group=:1 AND draft=:2 ORDER BY creation_date DESC LIMIT 20',group, False)
+			latest=[i.item for i in group_items]
+			self.to_rss(latest)
+		        
+		elif params[2]=='user':
+		        user = model.UserData.gql('WHERE nickname=:1', params[3]).get()
+			latest = model.Item.gql('WHERE author=:1 AND draft=:2 ORDER BY creation_date DESC LIMIT 20',user,False)
+			self.to_rss(latest)
+	
+		elif not params[2]:
+			latest = model.Item.gql('WHERE draft=:1 ORDER BY creation_date DESC LIMIT 20', False)
+			self.to_rss(latest)
+	
+	def to_rss(self,latest):	
+
 		items = []
 		url = 'http://debugmodeon.com'
 		md = markdown.Markdown()
