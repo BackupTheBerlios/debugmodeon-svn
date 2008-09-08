@@ -128,6 +128,7 @@ class GroupUser(db.Model):
 class GroupItem(db.Model):
 	item = db.ReferenceProperty(Item,required=True)
 	group = db.ReferenceProperty(Group,required=True)
+	creation_date = db.DateTimeProperty(auto_now_add=True)
 
 class Thread(db.Model):
 	group = db.ReferenceProperty(Group,required=True)

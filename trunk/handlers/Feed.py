@@ -32,7 +32,12 @@ class Feed(BaseHandler):
 
 		params = self.request.path.split('/')
 		
-		if params[2] == 'group.forum':
+		if params[2]=='tag':
+			query = model.Item.all().filter('tags =', params[3]).order('-creation_date')
+			latest = self.paging(query,20)
+			self.to_rss(latest)
+			self.to_rss(latest)
+		elif params[2] == 'group.forum':
                        group = model.Group.gql('WHERE title=:1',params[3]).get()
                        threads = model.Thread.gql('WHERE group=:1 ORDER BY creation_date DESC LIMIT 20', group)
                        self.threads_to_rss(threads)	
@@ -40,8 +45,9 @@ class Feed(BaseHandler):
 		
 		elif  params[2]=='group':
 			group = model.Group.gql('WHERE title=:1',params[3]).get()
-			group_items = model.GroupItem.gql('WHERE group=:1 AND draft=:2 ORDER BY creation_date DESC LIMIT 20',group, False)
-			latest=[i.item for i in group_items]
+			group_items = model.GroupItem.gql('WHERE group=:1 ORDER BY creation_date DESC LIMIT 20',group)
+			latest = [gi.item for gi in group_items]
+			
 			self.to_rss(latest)
 		        
 		elif params[2]=='user':
@@ -56,14 +62,16 @@ class Feed(BaseHandler):
 	def threads_to_rss(self,threads):
 
                 items = []
-                url = 'http://debugmodeon.com'
+		url = 'http://debugmodeon.com'
                 md = markdown.Markdown()
                 for i in threads:
                         item = {
                                 'title': i.title,
                                 'link': "%s/group.forum/%s" % (url,i.url_path),
                                 'description': '<![CDATA[%s]]>' % (md.convert(i.content), ),
-                                'pubDate': self.to_rfc822(i.creation_date)
+                                'pubDate': self.to_rfc822(i.creation_date),
+				'guid':"%s/group.forum/%s" % (url,i.url_path)
+				# guid como link para mantener compatibilidad con feed.xml
                         }
                         items.append(item)
 
@@ -89,7 +97,8 @@ class Feed(BaseHandler):
 				'title': i.title,
 				'link': "%s/item/%s" % (url, i.url_path),
 				'description': '<![CDATA[%s]]>' % (md.convert(i.description), ),
-				'pubDate': self.to_rfc822(i.creation_date)
+				'pubDate': self.to_rfc822(i.creation_date),
+				'guid':"%s/item/%d/" % (url, i.key().id())
 			}
 			items.append(item)
 			

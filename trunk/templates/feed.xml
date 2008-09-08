@@ -29,7 +29,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		 <link>{{ item.link }}</link>
 		 <description>{{ item.description }}</description>
 		 <pubDate>{{ item.pubDate }}</pubDate>
-		 <guid>{{ item.link }}</guid>
+		 <guid>{{ item.guid }}</guid>
 	  </item>
 {% endfor %}
    </channel>
