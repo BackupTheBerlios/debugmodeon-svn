@@ -96,6 +96,7 @@ class ItemEdit(AuthenticatedHandler):
 					user.put()
 					item.creation_date = datetime.datetime.now()
 				
+				item.url_path = '%d/%s' % (item.key().id(), self.to_url_path(item.title))
 				item.put()
 				
 				if not draft:
@@ -109,8 +110,6 @@ class ItemEdit(AuthenticatedHandler):
 				# new item
 				today = datetime.date.today()
 				title = self.get_param('title')
-				url_path = '%02d/%02d/%d/%s' % (today.day, today.month, today.year, self.to_url_path(title))
-				url_path = self.unique_url_path(model.Item, url_path)
 				tags = self.parse_tags(self.get_param('tags'))
 				
 				item = model.Item(author=user,
@@ -118,7 +117,7 @@ class ItemEdit(AuthenticatedHandler):
 					description=' '.join(self.get_param('description').splitlines()),
 					content=self.get_param('content'),
 					lic=self.get_param('lic'),
-					url_path=url_path,
+					url_path='empty',
 					tags=tags,
 					draft=draft,
 					item_type='article',
@@ -128,6 +127,10 @@ class ItemEdit(AuthenticatedHandler):
 					rating_total=0,
 					favourites=0)
 				item.put()
+				
+				item.url_path = '%d/%s' % (item.key().id(), self.to_url_path(item.title))
+				item.put()
+				
 				if not draft:
 					user.items += 1
 					user.put()

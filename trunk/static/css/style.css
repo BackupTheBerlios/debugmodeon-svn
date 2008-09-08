@@ -412,6 +412,7 @@ ul.rating li.five a:hover {background-position:0 -160px;}
 
 .LV_valid {
 	color:#00CC00;
+	display: none;
 }
 
 .LV_invalid {

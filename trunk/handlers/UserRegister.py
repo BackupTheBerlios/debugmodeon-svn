@@ -45,16 +45,12 @@ class UserRegister(BaseHandler):
 			re_email = self.request.get('re_email')
 			re_password = self.request.get('re_password')
 			
-			email = self.match('[\w\.-]{3,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}', email)
-			
-			if not email:
-				self.show_error(nickname, self.request.get('email'), 'Introduce una dirección de email válida')
+			if not re.match('^[\w\.-]{3,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}$', email):
+				self.show_error(nickname, email, 'Introduce una dirección de email válida')
 				return
 
-			nickname = self.match('[a-zA-Z0-9\.-]*', nickname)
-
-			if not nickname:
-				self.show_error(self.request.get('nickname'), email, 'El nombre de usuario sólo puede contener letras, números, guiones o puntos')
+			if not re.match('^[\w\.-]+$', nickname):
+				self.show_error(nickname, email, 'El nombre de usuario sólo puede contener letras, números, puntos, guiones y guiones bajos')
 				return
 
 			if len(nickname) < 4:

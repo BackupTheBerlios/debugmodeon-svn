@@ -62,6 +62,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<p class="title">Foro</p>
 			{% if not threads %}
 				<p style="text-align:center">No hay mensajes</p>
+				<p style="text-align:right"><strong><a href="/group.forum.list/{{ group.url_path }}">Nuevo tema »</a></strong></p>
 			{% else %}
 				<ul>
 				{% for thread in threads %}

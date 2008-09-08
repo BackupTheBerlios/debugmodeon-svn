@@ -28,6 +28,8 @@ class ItemList(BaseHandler):
 	def execute(self):
 		self.values['tab'] = '/item.list'
 		query = model.Item.all().filter('draft =', False).order('-creation_date')
-		self.values['items'] = self.paging(query, 10)
+		items = self.paging(query, 10)
+		
+		self.values['items'] = items
 		self.values['taglist'] = self.tag_list(model.Tag.all())
 		self.render('templates/item-list.html')

@@ -27,9 +27,13 @@ from handlers.BaseHandler import *
 class ItemView(BaseHandler):
 
 	def execute(self):
-		self.values['tab'] = '/item.list'
 		url_path = self.request.path.split('/', 2)[2]
-		item = model.Item.gql('WHERE url_path=:1', url_path).get()
+		item = model.Item.get_by_id(int(self.request.path.split('/')[2]))
+		if item.url_path != url_path:
+			self.redirect('/item/%s' % item.url_path)
+			return
+		
+		self.values['tab'] = '/item.list'
 		user = self.values['user']
 		if item.draft:
 			if not user or not user.nickname == item.author.nickname:

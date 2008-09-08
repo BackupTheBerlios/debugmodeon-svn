@@ -20,19 +20,19 @@
 			</p>
 			<p>
 				<label for="email">e-mail</label>
-				<input type="text" name="email" value="{{ email }}" style="width:200px" />
+				<input id="email" type="text" name="email" value="{{ email }}" style="width:200px" />
 			</p>
 			<p>
 				<label for="re_email">Repite el e-mail</label>
-				<input type="text" name="re_email" value="" style="width:200px" />
+				<input id="re_mail" type="text" name="re_email" value="" style="width:200px" />
 			</p>
 			<p>
 				<label for="password">Contraseña</label>
-				<input type="password" name="password" value="" style="width:200px" maxlength="12" />
+				<input id="password" type="password" name="password" value="" style="width:200px" maxlength="12" />
 			</p>
 			<p>
 				<label for="re_password">Repite la contraseña</label>
-				<input type="password" name="re_password" value="" style="width:200px" maxlength="12" />
+				<input id="re_password" type="password" name="re_password" value="" style="width:200px" maxlength="12" />
 			</p>
 			<p><input type="submit" value="Registrarse" /></p>
 		</div>
@@ -43,5 +43,31 @@
 {% block javascript %}
 <script type="text/javascript" charset="utf-8">
 	$('nickname').focus()
+</script>
+<script type="text/javascript" src="/static/js/validation.js"></script>
+<script type="text/javascript" charset="utf-8">
+	function validate_presence(id) {
+		var field = new LiveValidation(id, { validMessage: "", wait: 500 });
+		field.add(Validate.Presence, { failureMessage: "Campo obligatorio" });
+	}
+	function validate_mail(id) {
+		var field = new LiveValidation(id, { validMessage: "", wait: 500 });
+		field.add(Validate.Presence, { failureMessage: "Campo obligatorio" });
+		field.add(Validate.Email, { failureMessage: "Dirección de correo incorrecta" });
+	}
+	function validate_length(id, min, max) {
+		var field = new LiveValidation(id, { validMessage: "", wait: 500 });
+		field.add(Validate.Presence, { failureMessage: "Campo obligatorio" });
+		field.add(Validate.Length, { tooShortMessage: "Introduce al menos "+min+" caracteres", tooLongMessage: "Introduce como máximo "+min+" caracteres", minimum: min, maximum: max } );
+		return field;
+	}
+	
+	field = validate_length('nickname', 4, 20);
+	field.add(Validate.Format, { pattern: /^[\w\.-]+$/, failureMessage: "Sólo se admiten caracteres, números, puntos, guiones y guiones bajos" });
+	
+	validate_mail('email');
+	validate_mail('re_mail');
+	validate_length('password', 4, 12);
+	validate_length('re_password', 4, 12);
 </script>
 {% endblock %}
