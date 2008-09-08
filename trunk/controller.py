@@ -70,7 +70,7 @@ def main():
 									   ('/group.user.join',		GroupUserJoin),
 									   
 									   # rss
-									   ('/feed/', Feed),
+									   ('/feed/.*', Feed),
 									   
 									   ('/tag/.*', Tag),
 									   ('/search', Search),

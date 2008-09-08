@@ -32,7 +32,13 @@ class Feed(BaseHandler):
 
 		params = self.request.path.split('/')
 		
-		if  params[2]=='group':
+		if params[2] == 'group.forum':
+                       group = model.Group.gql('WHERE title=:1',params[3]).get()
+                       threads = model.Thread.gql('WHERE group=:1 ORDER BY creation_date DESC LIMIT 20', group)
+                       self.threads_to_rss(threads)	
+		
+		
+		elif  params[2]=='group':
 			group = model.Group.gql('WHERE title=:1',params[3]).get()
 			group_items = model.GroupItem.gql('WHERE group=:1 AND draft=:2 ORDER BY creation_date DESC LIMIT 20',group, False)
 			latest=[i.item for i in group_items]
@@ -47,6 +53,32 @@ class Feed(BaseHandler):
 			latest = model.Item.gql('WHERE draft=:1 ORDER BY creation_date DESC LIMIT 20', False)
 			self.to_rss(latest)
 	
+	def threads_to_rss(self,threads):
+
+                items = []
+                url = 'http://debugmodeon.com'
+                md = markdown.Markdown()
+                for i in threads:
+                        item = {
+                                'title': i.title,
+                                'link': "%s/group.forum/%s" % (url,i.url_path),
+                                'description': '<![CDATA[%s]]>' % (md.convert(i.content), ),
+                                'pubDate': self.to_rfc822(i.creation_date)
+                        }
+                        items.append(item)
+
+                values = {
+                        'title': 'debug_mode=ON',
+                        'self': url+'/feed',
+                        'link': url,
+                        'description': '',
+                        'items': items
+                }
+                self.response.headers['Content-Type'] = 'application/rss+xml'
+                self.response.out.write(template.render('templates/feed.xml', values))
+
+
+
 	def to_rss(self,latest):	
 
 		items = []
