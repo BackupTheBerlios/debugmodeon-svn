@@ -29,6 +29,9 @@ class GroupForumEdit(AuthenticatedHandler):
 		user = self.values['user']
 		key = self.get_param('key')
 		group = model.Group.get(key)
+		if not group:
+			self.not_found()
+			return
 		
 		title = self.get_param('title')
 		url_path = ('%s/%s') % (group.url_path, self.to_url_path(title))

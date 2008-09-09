@@ -20,21 +20,9 @@
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-from google.appengine.ext import db
 from handlers.BaseHandler import *
 
-class GroupForumList(BaseHandler):
+class NotFound(BaseHandler):
 
 	def execute(self):
-		self.values['tab'] = '/group.list'
-		url_path = self.request.path.split('/', 2)[2]
-		group = model.Group.gql('WHERE url_path=:1', url_path).get()
-		if not group:
-			self.not_found()
-			return
-
-		self.values['group'] = group
-		self.values['joined'] = self.joined(group)
-		query = model.Thread.all().filter('group =', group).order('-last_update')
-		self.values['threads'] = self.paging(query, 10)
-		self.render('templates/group-forum-list.html')
+		self.not_found()

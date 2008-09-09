@@ -29,8 +29,13 @@ class ItemView(BaseHandler):
 	def execute(self):
 		url_path = self.request.path.split('/', 2)[2]
 		item = model.Item.get_by_id(int(self.request.path.split('/')[2]))
+		
+		if not item:
+			self.not_found()
+			return
+		
 		if item.url_path != url_path:
-			self.redirect('/item/%s' % item.url_path)
+			self.redirect('/item/%s' % item.url_path, permanent=True)
 			return
 		
 		self.values['tab'] = '/item.list'

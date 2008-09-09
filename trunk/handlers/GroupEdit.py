@@ -35,7 +35,7 @@ class GroupEdit(AuthenticatedHandler):
 			if key:
 				# show edit form
 				group = model.Group.get(key)
-				if not user == group.owner:
+				if user.nickname != group.owner.nickname:
 					self.forbidden()
 					return
 				self.values['key'] = key
@@ -51,7 +51,7 @@ class GroupEdit(AuthenticatedHandler):
 			if key:
 				# update group
 				group = model.Group.get(key)
-				if user != group.owner:
+				if user.nickname != group.owner.nickname:
 					self.forbidden()
 					return
 				group.title = self.get_param('title')

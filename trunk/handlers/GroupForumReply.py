@@ -29,6 +29,9 @@ class GroupForumReply(AuthenticatedHandler):
 		user = self.values['user']
 		key = self.get_param('key')
 		thread = model.Thread.get(key)
+		if not thread:
+			self.not_found()
+			return
 		group = thread.group
 
 		response = model.ThreadResponse(thread=thread,

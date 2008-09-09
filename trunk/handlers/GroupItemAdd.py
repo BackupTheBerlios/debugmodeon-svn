@@ -27,6 +27,9 @@ class GroupItemAdd(AuthenticatedHandler):
 	def execute(self):
 		item = model.Item.get(self.get_param('item'))
 		group = model.Group.get(self.get_param('group'))
+		if not group or not item:
+			self.not_found()
+			return
 		user = self.values['user']
 		gu = self.joined(group)
 		if gu and not item.draft:

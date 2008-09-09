@@ -30,6 +30,9 @@ class UserView(BaseHandler):
 		self.values['tab'] = '/user.list'
 		nickname = self.request.path.split('/', 2)[2]
 		this_user = model.UserData.gql('WHERE nickname=:1', nickname).get()
+		if not this_user:
+			self.not_found()
+			return
 		# TODO: not show if the user profile is not public
 		self.values['this_user'] = this_user
 		query = model.Item.all().filter('author =', this_user).filter('draft =', False).order('-creation_date')

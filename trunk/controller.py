@@ -75,7 +75,8 @@ def main():
 									   ('/tag/.*', Tag),
 									   ('/search', Search),
 									   
-									   ('/apocalipto', Apocalipto)],
+									   ('/apocalipto', 	Apocalipto),
+									   ('/.*', 			NotFound)],
 									   debug=True)
 	wsgiref.handlers.CGIHandler().run(application)
 

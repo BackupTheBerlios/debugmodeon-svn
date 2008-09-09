@@ -53,6 +53,9 @@ class ItemEdit(AuthenticatedHandler):
 			if key:
 				# show edit form
 				item = model.Item.get(key)
+				if not item:
+					self.not_found()
+					return
 				if not user.nickname == item.author.nickname:
 					self.forbidden()
 					return
@@ -79,6 +82,9 @@ class ItemEdit(AuthenticatedHandler):
 			if key:
 				# update item
 				item = model.Item.get(key)
+				if not item:
+					self.not_found()
+					return
 				if not user.nickname == item.author.nickname:
 					self.forbidden()
 					return

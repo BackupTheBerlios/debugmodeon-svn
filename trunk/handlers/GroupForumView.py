@@ -30,6 +30,9 @@ class GroupForumView(BaseHandler):
 		user = self.values['user']
 		url_path = self.request.path.split('/', 2)[2]
 		thread = model.Thread.gql('WHERE url_path=:1', url_path).get()
+		if not thread:
+			self.not_found()
+			return
 		group = thread.group
 
 		self.values['group'] = group

@@ -66,3 +66,4 @@ from handlers.Tag import *
 from handlers.Search import *
 
 from handlers.Apocalipto import *
+from handlers.NotFound import *

@@ -27,6 +27,9 @@ class GroupUserJoin(AuthenticatedHandler):
 	def execute(self):
 		user = self.values['user']
 		group = model.Group.get(self.get_param('group'))
+		if not group:
+			self.not_found()
+			return
 		redirect = self.get_param('redirect')
 		
 		gu = self.joined(group)

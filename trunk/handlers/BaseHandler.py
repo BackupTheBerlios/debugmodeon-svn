@@ -203,3 +203,17 @@ class BaseHandler(webapp.RequestHandler):
 		for i in range(0, 100):
 			p = sha.new(p).hexdigest()
 		return p
+	
+	"""
+	def handle_exception(self, exception, debug_mode):
+		self.response.clear()
+		self.response.set_status(500)
+		
+		self.render('templates/error500.html')
+	"""
+	
+	def not_found(self):
+		self.response.clear()
+		self.response.set_status(404)
+
+		self.render('templates/error404.html')

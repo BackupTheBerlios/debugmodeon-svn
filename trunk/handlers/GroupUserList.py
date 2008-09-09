@@ -29,6 +29,9 @@ class GroupUserList(BaseHandler):
 		self.values['tab'] = '/group.list'
 		url_path = self.request.path.split('/', 2)[2]
 		group = model.Group.gql('WHERE url_path=:1', url_path).get()
+		if not group:
+			self.not_found()
+			return
 
 		self.values['group'] = group
 		self.values['joined'] = self.joined(group)

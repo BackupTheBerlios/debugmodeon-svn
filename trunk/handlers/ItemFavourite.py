@@ -29,6 +29,9 @@ class ItemFavourite(AuthenticatedHandler):
 	def execute(self):
 		item = model.Item.get(self.get_param('key'))
 		user = self.values['user']
+		if not item:
+			self.not_found()
+			return
 
 		if not model.Favourite.gql('WHERE user=:1 AND item=:2', user, item).get():
 			favourite = model.Favourite(item=item,user=user)

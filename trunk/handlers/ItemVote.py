@@ -27,6 +27,9 @@ class ItemVote(AuthenticatedHandler):
 	
 	def execute(self):
 		item = model.Item.get(self.get_param('key'))
+		if not item:
+			self.not_found()
+			return
 		rating = int(self.get_param('rating'))
 		if rating < 0:
 			rating = 0

@@ -33,6 +33,9 @@ class ItemComment(AuthenticatedHandler):
 		user = self.values['user']
 		key = self.get_param('key')
 		item = model.Item.get(key)
+		if not item:
+			self.not_found()
+			return
 		
 		if item.draft:
 			self.redirect('/item/%s#comments' % (item.url_path, ))
