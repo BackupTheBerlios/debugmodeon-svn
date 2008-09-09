@@ -78,4 +78,15 @@ class ItemView(BaseHandler):
 				
 			self.values['all_groups'] = all_groups
 		
+		related = model.Item.all() \
+			.filter('author =', item.author) \
+			.filter('draft =', False) \
+			.order('-rating_average').fetch(11)
+		related = [i for i in related]
+		if item in related:
+			related.remove(item)
+		else:
+			related = related[:-1]
+		
+		self.values['related'] = related
 		self.render('templates/item-view.html')

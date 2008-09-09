@@ -50,7 +50,7 @@ class Feed(BaseHandler):
 		elif params[2] == 'user':
 			user = model.UserData.gql('WHERE nickname=:1', params[3]).get()
 			latest = model.Item.gql('WHERE author=:1 AND draft=:2 ORDER BY creation_date DESC LIMIT 20', user, False)
-			self.to_rss(u'Artículos de  %s' % user.nickname, latest)
+			self.to_rss(u'Artículos de %s' % user.nickname, latest)
 	
 		elif not params[2]:
 			latest = model.Item.gql('WHERE draft=:1 ORDER BY creation_date DESC LIMIT 20', False)

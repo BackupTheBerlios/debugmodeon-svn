@@ -58,6 +58,22 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 </div>
 {% endif %}
 {% endif %}
+
+{% if related %}
+<div class="box">
+	<p class="title">Otros artículos de {{ item.author.nickname }}</p>
+	<ul>
+	{% for item in related %}
+		<li>
+			<strong><a href="/item/{{ item.url_path }}">{{ item.title|escape }}</a></strong> <br/>
+			<p class="rating star{{ item.rating_average }}">&nbsp;</p>
+		</li>
+	{% endfor %}
+	</ul>
+	<p style="text-align:right"><strong><a href="/user/{{ item.author.nickname }}">Ver todos »</a></strong></p>
+</div>
+{% endif %}
+
 {% endblock %}
 
 {% block content %}
@@ -83,7 +99,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<li class="five"><a title="Muy bueno" href="/item.vote?key={{ item.key }}&amp;rating=5">5</a></li>
 			</ul>
 		{% else %}
-			<p class="rating star{{ item.rating_average }}" style="float:right"></p>
+			<p class="rating star{{ item.rating_average }}"></p>
 		{% endif %}
 		</div>
 
