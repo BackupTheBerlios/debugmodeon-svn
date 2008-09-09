@@ -20,6 +20,8 @@
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
 
+import datetime
+
 from handlers.BaseHandler import *
 from google.appengine.api import users
 
@@ -29,7 +31,5 @@ class UserList(BaseHandler):
 		self.values['tab'] = '/user.list'
 		# .filter('public =', True)
 		query = model.UserData.all().order('-creation_date')
-		us = self.paging(query, 10)
-		
-		self.values['users'] = us
+		self.values['users'] = self.paging(query, 10)
 		self.render('templates/user-list.html')

@@ -10,7 +10,7 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
-# Used 30 times in query history.
+# Used 72 times in query history.
 - kind: Comment
   properties:
   - name: item
@@ -28,16 +28,16 @@ indexes:
   - name: database
   - name: creation_date
 
-# Used 22 times in query history.
+# Used 45 times in query history.
 - kind: Group
   properties:
   - name: creation_date
     direction: desc
 
-# Unused in query history -- copied from input.
-- kind: Item
+# Used 14 times in query history.
+- kind: GroupItem
   properties:
-  - name: author
+  - name: group
   - name: creation_date
     direction: desc
 
@@ -45,7 +45,6 @@ indexes:
 - kind: Item
   properties:
   - name: author
-  - name: draft
   - name: creation_date
     direction: desc
 
@@ -54,23 +53,31 @@ indexes:
   properties:
   - name: author
   - name: draft
+  - name: creation_date
+    direction: desc
+
+# Used 4 times in query history.
+- kind: Item
+  properties:
+  - name: author
+  - name: draft
   - name: last_update
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used 82 times in query history.
 - kind: Item
   properties:
   - name: creation_date
     direction: desc
 
-# Used 23 times in query history.
+# Used 116 times in query history.
 - kind: Item
   properties:
   - name: draft
   - name: creation_date
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used 2 times in query history.
 - kind: Item
   properties:
   - name: tags
@@ -83,32 +90,32 @@ indexes:
   - name: form
   - name: creation_date
 
-# Unused in query history -- copied from input.
+# Used 4 times in query history.
 - kind: Thread
   properties:
   - name: group
   - name: creation_date
 
-# Used 3 times in query history.
+# Used 17 times in query history.
 - kind: Thread
   properties:
   - name: group
   - name: last_update
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used 2 times in query history.
 - kind: ThreadResponse
   properties:
   - name: thread
   - name: creation_date
 
-# Used once in query history.
+# Used 12 times in query history.
 - kind: UserData
   properties:
   - name: creation_date
     direction: desc
 
-# Used 18 times in query history.
+# Used 25 times in query history.
 - kind: UserData
   properties:
   - name: items
