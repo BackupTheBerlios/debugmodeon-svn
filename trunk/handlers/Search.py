@@ -27,7 +27,7 @@ class Search(BaseHandler):
 
 	def execute(self):
 		q = self.get_param('q')
-		query = model.Item.all().filter('draft =', False).search(q)
+		query = model.Item.all().filter('draft =', False).filter('deletion_date', None).search(q)
 		self.values['items'] = self.paging(query, 10)
 		self.values['taglist'] = self.tag_list(model.Tag.all())
 		self.values['q'] = q

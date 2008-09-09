@@ -48,7 +48,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 10 times in query history.
+# Used 12 times in query history.
 - kind: GroupUser
   properties:
   - name: user
@@ -62,7 +62,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 14 times in query history.
+# Used 16 times in query history.
 - kind: Item
   properties:
   - name: author
