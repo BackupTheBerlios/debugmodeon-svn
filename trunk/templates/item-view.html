@@ -1,4 +1,4 @@
-{% comment %}
+﻿{% comment %}
 (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
 
 This file is part of "debug_mode_on".
@@ -26,6 +26,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endblock %}
 
 {% block sidebar %}
+
+{% if not item.draft %}
 {% if groups or all_groups %}
 <div class="box">
 
@@ -37,6 +39,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<li><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a> {% ifequal user.nickname item.author.nickname %} [<a href="/group.item.remove?item={{ item.key }}&amp;group={{ group.key }}">eliminar</a>] {% endifequal %}</li>
 {% endfor %}
 	</ul>
+{% endif %}
 {% endif %}
 
 {% if all_groups %}
@@ -119,6 +122,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		</p>
 	</div>
 	<div class="clear">&nbsp;</div>
+{% if not item.draft %}
 {% ifnotequal len 0 %}
 	<div class="grid_9 alpha omega">
 		<h3><a name="comments">Comentarios</a></h3>
@@ -139,7 +143,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<div class="clear">&nbsp;</div>
 {% endfor %}
 {% endifnotequal %}
-
+{% endif %}
 {% if prev or next %}
 	<div class="grid_2 alpha">
 		<p>&nbsp;</p>
@@ -150,7 +154,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<div class="clear">&nbsp;</div>
 {% endif %}
 
-{% if user %}
+{% if user and not item.draft %}
 	<div class="grid_9 alpha omega">
 		<h3>Deja tu comentario</h3>
 	</div>
@@ -177,7 +181,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endblock %}
 {% block javascript %}
 <script type="text/javascript" src="/static/js/prototype.js"></script>
-{% if user %}
+{% if user and not item.draft%}
 <script type="text/javascript" src="/static/js/livepipe.js"></script>
 <script type="text/javascript" src="/static/js/textarea.js"></script>
 <script type="text/javascript" src="/static/js/showdown.js"></script>

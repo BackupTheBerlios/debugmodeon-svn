@@ -29,7 +29,7 @@ class GroupItemAdd(AuthenticatedHandler):
 		group = model.Group.get(self.get_param('group'))
 		user = self.values['user']
 		gu = self.joined(group)
-		if gu:
+		if gu and not item.draft:
 			gi = model.GroupItem.gql('WHERE group=:1 and item=:2', group, item).get()
 			if not gi and user.nickname == item.author.nickname:
 				gi = model.GroupItem(item=item, group=group)

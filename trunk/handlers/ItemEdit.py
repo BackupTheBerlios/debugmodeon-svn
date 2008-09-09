@@ -1,4 +1,4 @@
-#!/usr/bin/python
+﻿#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #
@@ -102,8 +102,7 @@ class ItemEdit(AuthenticatedHandler):
 				if not draft:
 					self.update_tags(item.tags)
 				if x:
-					date = str(item.last_update.hour) + ":" + str(item.last_update.minute) + ":" + str(item.last_update.second)
-					self.render_json({ 'saved': True, 'key' : str(item.key()), 'date' : date, 'updated' : True, "draft_items" : str(user.draft_items) })
+					self.render_json({ 'saved': True, 'key' : str(item.key()), 'updated' : True, "draft_items" : str(user.draft_items) })
 				else :
 					self.redirect('/item/%s' % (item.url_path, ))
 			else:
@@ -139,7 +138,6 @@ class ItemEdit(AuthenticatedHandler):
 					user.draft_items += 1
 					user.put()
 				if x:
-					date = str(item.last_update.hour) + ":" + str(item.last_update.minute) + ":" + str(item.last_update.second)
-					self.render_json({ 'saved': True, 'key' : str(item.key()), 'date' : date, "updated" : False, "draft_items" : str(user.draft_items) })
+					self.render_json({ 'saved': True, 'key' : str(item.key()), "updated" : False, "draft_items" : str(user.draft_items) })
 				else :	
 					self.redirect('/item/%s' % (item.url_path, ))

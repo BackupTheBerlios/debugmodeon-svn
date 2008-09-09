@@ -34,6 +34,9 @@ class ItemComment(AuthenticatedHandler):
 		key = self.get_param('key')
 		item = model.Item.get(key)
 		
+		if item.draft:
+			self.redirect('/item/%s#comments' % (item.url_path, ))
+			return
 		comment = model.Comment(item=item, author=user, content=self.get_param('content'))
 		comment.put()
 		item.responses = item.responses + 1
