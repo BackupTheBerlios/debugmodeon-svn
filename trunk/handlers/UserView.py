@@ -35,6 +35,6 @@ class UserView(BaseHandler):
 			return
 		# TODO: not show if the user profile is not public
 		self.values['this_user'] = this_user
-		query = model.Item.all().filter('author =', this_user).filter('draft =', False).order('-creation_date')
-		self.values['items'] = self.paging(query, 10)
+		self.values['items'] = model.Item.all().filter('author =', this_user).filter('draft =', False).filter('deletion_date', None).order('-creation_date').fetch(5)
+		self.values['groups'] = [gi.group for gi in model.GroupUser.all().filter('user =', this_user).order('-creation_date').fetch(5)]
 		self.render('templates/user-view.html')

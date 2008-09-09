@@ -87,6 +87,7 @@ class Item(search.SearchableModel):
 	last_update = db.DateTimeProperty(auto_now=True)
 	creation_date = db.DateTimeProperty(auto_now_add=True)
 	deletion_date = db.DateTimeProperty()
+	deletion_message = db.StringProperty()
 
 class Comment(db.Model):
 	content = db.TextProperty(required=True)
@@ -124,6 +125,7 @@ class Group(search.SearchableModel):
 class GroupUser(db.Model):
 	user = db.ReferenceProperty(UserData,required=True)
 	group = db.ReferenceProperty(Group,required=True)
+	creation_date = db.DateTimeProperty(auto_now_add=True)
 
 class GroupItem(db.Model):
 	item = db.ReferenceProperty(Item,required=True)
@@ -154,6 +156,6 @@ class ThreadResponse(db.Model):
 	deletion_date = db.DateTimeProperty()
 
 class Favourite(db.Model):
-	item=db.ReferenceProperty(Item,required=True)
-	user=db.ReferenceProperty(UserData,required=True)
+	item = db.ReferenceProperty(Item,required=True)
+	user = db.ReferenceProperty(UserData,required=True)
 	

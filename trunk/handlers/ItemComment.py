@@ -33,7 +33,7 @@ class ItemComment(AuthenticatedHandler):
 		user = self.values['user']
 		key = self.get_param('key')
 		item = model.Item.get(key)
-		if not item:
+		if not item or item.draft or item.deletion_date:
 			self.not_found()
 			return
 		

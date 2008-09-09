@@ -18,16 +18,11 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
 
 {% extends "base.html" %}
-{% block title %} Grupos {% endblock %}
-
+{% block title %} Usuario {{ this_user.nickname }} {% endblock %}
 {% block content %}
-	<h1>Grupos</h1>
+	<h1>Grupos a los que pertenece {{ this_user.nickname }}</h1>
 
-{% ifequal len 0 %}
-	<p>No hay grupos</p>
-{% endifequal %}
-
-{% include 'inc-group-list.html' %}
-
-{% include 'inc-pagination.html' %}
+	{% include 'inc-group-list.html' %}
+	
+	{% include 'inc-pagination.html' %}
 {% endblock %}

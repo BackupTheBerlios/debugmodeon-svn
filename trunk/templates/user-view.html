@@ -20,7 +20,48 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% extends "base.html" %}
 {% block title %} Usuario {{ this_user.nickname }} {% endblock %}
 {% block content %}
-	<h1>Usuario {{ this_user.nickname }}</h1>
-	
-	{% include 'inc-item-list.html' %}
+	<div class="grid_9 alpha omega">
+		<h1>Usuario {{ this_user.nickname }}</h1>
+	</div>
+	<div class="clear">&nbsp;</div>
+
+	<div class="grid_3 alpha">
+		<div class="box">
+			<p class="title">Últimos artículos</p>
+			{% if not items %}
+				<p style="text-align:center">No hay artículos</p>
+			{% else %}
+				<ul>
+				{% for item in items %}
+					<li>
+						<strong><a href="/item/{{ item.url_path }}">{{ item.title|escape }}</a></strong>
+						<br/><span style="color: #777">por <a href="/user/{{ item.author.nickname|escape}}">{{ item.author.nickname|escape }}</a></span>
+					</li>
+				{% endfor %}
+				</ul>
+				<p style="text-align:right"><strong><a href="/user.items/{{ this_user.nickname }}">Ver todos »</a></strong></p>
+			{% endif %}
+		</div>
+	</div>
+	<div class="grid_3">
+		<div class="box">
+			<p class="title">Grupos</p>
+			{% if not groups %}
+				<p style="text-align:center">No pertenece a ningún grupo</p>
+			{% else %}
+				<ul>
+				{% for group in groups %}
+					<li>
+						<strong><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></strong>
+					</li>
+				{% endfor %}
+				</ul>
+				<p style="text-align:right"><strong><a href="/user.groups/{{ this_user.nickname }}">Ver todos »</a></strong></p>
+			{% endif %}
+		</div>
+	</div>
+	<div class="grid_3 omega">
+		<p>&nbsp;</p>
+	</div>
+	<div class="clear">&nbsp;</div> 
 {% endblock %}

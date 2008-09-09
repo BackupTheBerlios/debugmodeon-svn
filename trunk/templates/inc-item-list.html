@@ -22,7 +22,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endifequal %}
 {% for item in items %}
 	<div class="info">
-		<h2><a href="/item/{{ item.url_path }}">{{ item.title|escape }}</a></h2>
+		<h2>{% if item.draft %}Borrador: {% endif %}{% if item.deletion_date %}Eliminado: {% endif %} <a href="/item/{{ item.url_path }}">{{ item.title|escape }}</a></h2>
 		<p class="options">
 			Escrito por <strong><a href="/user/{{ item.author.nickname|escape}}">{{ item.author.nickname|escape }}</a></strong> hace <strong>{{ item.creation_date|relativize }}</strong> <!-- date:"d/m/Y" -->
 		</p>

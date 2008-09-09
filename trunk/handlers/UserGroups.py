@@ -3,7 +3,6 @@
 
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
-# (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -22,13 +21,21 @@
 # 
 
 from handlers.BaseHandler import *
+from google.appengine.api import users
 
-class MainPage(BaseHandler):
+class UserGroups(BaseHandler):
 
 	def execute(self):
-		self.values['tab'] = '/'
-		self.values['items'] = model.Item.all().filter('draft', False).filter('deletion_date', None).order('-creation_date').fetch(5)
-		self.values['groups'] = model.Group.all().order('-creation_date').fetch(5)
-		self.values['users'] = model.UserData.all().filter('items >', 0).order('-items').fetch(5)
-		self.values['taglist'] = self.tag_list(model.Tag.all())
-		self.render('templates/index.html')
+		self.values['tab'] = '/user.list'
+		nickname = self.request.path.split('/', 2)[2]
+		this_user = model.UserData.gql('WHERE nickname=:1', nickname).get()
+		if not this_user:
+			self.not_found()
+			return
+		# TODO: not show if the user profile is not public
+		self.values['this_user'] = this_user
+		query = model.GroupUser.all().filter('user', this_user).order('-creation_date')
+		groups = self.paging(query, 10)
+		groups = [g.group for g in groups]
+		self.values['groups'] = groups
+		self.render('templates/user-groups.html')

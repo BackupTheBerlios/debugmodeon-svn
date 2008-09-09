@@ -29,7 +29,7 @@ class ItemFavourite(AuthenticatedHandler):
 	def execute(self):
 		item = model.Item.get(self.get_param('key'))
 		user = self.values['user']
-		if not item:
+		if not item or item.draft or item.deletion_date:
 			self.not_found()
 			return
 

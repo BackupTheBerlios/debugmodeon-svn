@@ -22,13 +22,19 @@
 # 
 
 from handlers.BaseHandler import *
+from google.appengine.api import users
 
-class MainPage(BaseHandler):
+class UserItems(BaseHandler):
 
 	def execute(self):
-		self.values['tab'] = '/'
-		self.values['items'] = model.Item.all().filter('draft', False).filter('deletion_date', None).order('-creation_date').fetch(5)
-		self.values['groups'] = model.Group.all().order('-creation_date').fetch(5)
-		self.values['users'] = model.UserData.all().filter('items >', 0).order('-items').fetch(5)
-		self.values['taglist'] = self.tag_list(model.Tag.all())
-		self.render('templates/index.html')
+		self.values['tab'] = '/user.list'
+		nickname = self.request.path.split('/', 2)[2]
+		this_user = model.UserData.gql('WHERE nickname=:1', nickname).get()
+		if not this_user:
+			self.not_found()
+			return
+		# TODO: not show if the user profile is not public
+		self.values['this_user'] = this_user
+		query = model.Item.all().filter('author =', this_user).filter('draft =', False).filter('deletion_date', None).order('-creation_date')
+		self.values['items'] = self.paging(query, 10)
+		self.render('templates/user-items.html')

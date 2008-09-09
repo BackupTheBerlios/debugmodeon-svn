@@ -79,9 +79,17 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% block content %}
 	<div class="grid_9 alpha omega">
 		<div class="info">
-			<h1>{{ item.title|escape }}</h1>
+			<h1>{% if item.draft %}Borrador: {% endif %}{% if item.deletion_date %}Eliminado: {% endif %}{{ item.title|escape }}</h1>
 			<p class="options">
-				Escrito por <strong><a href="/user/{{ item.author.nickname|escape}}">{{ item.author.nickname|escape }}</a></strong> hace <strong>{{ item.creation_date|relativize }}</strong> <br/>
+				Escrito por <strong><a href="/user/{{ item.author.nickname|escape}}">{{ item.author.nickname|escape }}</a></strong> hace <strong>{{ item.creation_date|relativize }}</strong>
+				{% ifequal user.rol 'admin' %}
+					| <a href="/item.delete?key={{ item.key }}">eliminar</a>
+				{% else %}
+					{% ifequal user.nickname item.author.nickname %}
+						| <a href="/item.delete?key={{ item.key }}">eliminar</a>
+					{% endifequal %}
+				{% endifequal %}
+				 <br/>
 			</p>
 		</div>
    

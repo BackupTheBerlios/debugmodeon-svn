@@ -32,7 +32,7 @@ class Feed(BaseHandler):
 		params = self.request.path.split('/')
 		
 		if params[2] == 'tag':
-			query = model.Item.all().filter('tags =', params[3]).order('-creation_date')
+			query = model.Item.all().filter('deletion_date', None).filter('tags =', params[3]).order('-creation_date')
 			latest = self.paging(query,20)
 			self.to_rss(u'Artículos etiquetados con %s' % params[3], latest)
 			
@@ -41,7 +41,7 @@ class Feed(BaseHandler):
 			threads = model.Thread.gql('WHERE group=:1 ORDER BY creation_date DESC LIMIT 20', group)
 			self.threads_to_rss(u'Foro %s' % group.title, threads) # TODO: escape
 		
-		elif  params[2] == 'group':
+		elif params[2] == 'group':
 			group = model.Group.gql('WHERE url_path=:1',params[3]).get()
 			group_items = model.GroupItem.gql('WHERE group=:1 ORDER BY creation_date DESC LIMIT 20', group)
 			latest = [gi.item for gi in group_items]
@@ -49,11 +49,11 @@ class Feed(BaseHandler):
 
 		elif params[2] == 'user':
 			user = model.UserData.gql('WHERE nickname=:1', params[3]).get()
-			latest = model.Item.gql('WHERE author=:1 AND draft=:2 ORDER BY creation_date DESC LIMIT 20', user, False)
+			latest = model.Item.gql('WHERE author=:1 AND draft=:2 AND deletion_date=:3 ORDER BY creation_date DESC LIMIT 20', user, False, None)
 			self.to_rss(u'Artículos de %s' % user.nickname, latest)
 	
 		elif not params[2]:
-			latest = model.Item.gql('WHERE draft=:1 ORDER BY creation_date DESC LIMIT 20', False)
+			latest = model.Item.gql('WHERE draft=:1 AND deletion_date=:2 ORDER BY creation_date DESC LIMIT 20', False, None)
 			self.to_rss('debug_mode=ON', latest)
 		
 		else:

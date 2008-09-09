@@ -1,0 +1,28 @@
+{% extends "blank.html" %}
+{% block title %}
+	Borrar artículo
+{% endblock %}
+
+{% block content %}
+	<p class="title">Borrar artículo</p>
+
+	<form action="/item.delete" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+		<input type="hidden" name="key" value="{{ item.key }}" />
+		
+		<p style="text-align: center">Introduce un mensaje explicando por qué deseas eliminar el artículo titulado <br/> <strong>{{ item.title|escape }}</strong></p>
+
+		<div class="form">
+			<p>
+				<label for="message">Mensaje</label>
+				<input id="message" type="text" name="message" value="" style="width:200px" />
+			</p>
+			<p><input type="submit" value="Eliminar artículo" /></p>
+		</div>
+	</form>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" charset="utf-8">
+	$('message').focus()
+</script>
+{% endblock %}

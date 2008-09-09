@@ -25,12 +25,16 @@ from handlers.ItemList import *
 from handlers.ItemEdit import *
 from handlers.ItemView import *
 from handlers.ItemVote import *
+from handlers.ItemDelete import *
 from handlers.ItemComment import *
 from handlers.ItemFavourite import *
+
 # users
 from handlers.UserList import *
 from handlers.UserView import *
+from handlers.UserItems import *
 from handlers.UserLogin import *
+from handlers.UserGroups import *
 from handlers.UserLogout import *
 from handlers.UserRegister import *
 from handlers.UserChangePassword import *

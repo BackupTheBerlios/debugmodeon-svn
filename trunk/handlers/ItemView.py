@@ -38,6 +38,12 @@ class ItemView(BaseHandler):
 			self.redirect('/item/%s' % item.url_path, permanent=True)
 			return
 		
+		if item.deletion_date:
+			self.values['item'] = item
+			self.error(404)
+			self.render('templates/item-deleted.html')
+			return
+		
 		self.values['tab'] = '/item.list'
 		user = self.values['user']
 		if item.draft:
@@ -81,6 +87,7 @@ class ItemView(BaseHandler):
 		related = model.Item.all() \
 			.filter('author =', item.author) \
 			.filter('draft =', False) \
+			.filter('deletion_date =', None) \
 			.order('-rating_average').fetch(11)
 		related = [i for i in related]
 		if item in related:

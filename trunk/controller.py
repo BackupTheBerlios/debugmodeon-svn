@@ -37,10 +37,11 @@ def main():
 									   # items
 									   ('/item.list',		ItemList),
 									   ('/item.edit',		ItemEdit),
-									   ('/item.favourite',		ItemFavourite),
+									   ('/item.favourite',	ItemFavourite),
 									   ('/item.vote',		ItemVote),
 									   ('/item/.*',			ItemView),
 									   ('/item.comment',	ItemComment),
+									   ('/item.delete',		ItemDelete),
 									   # users
 									   ('/user.list',			UserList),
 									   ('/user/.*',				UserView),
@@ -51,6 +52,8 @@ def main():
 									   ('/user.forgotpassword',	UserForgotPassword),
 									   ('/user.resetpassword',	UserResetPassword),
 									   ('/user.drafts',			UserDrafts),
+									   ('/user.items/.*',		UserItems),
+									   ('/user.groups/.*',		UserGroups),
 									   # groups
 									   ('/group.list',	GroupList),
 									   ('/group.edit',	GroupEdit),

@@ -27,7 +27,7 @@ class ItemList(BaseHandler):
 
 	def execute(self):
 		self.values['tab'] = '/item.list'
-		query = model.Item.all().filter('draft =', False).order('-creation_date')
+		query = model.Item.all().filter('draft =', False).filter('deletion_date', None).order('-creation_date')
 		items = self.paging(query, 10)
 		
 		self.values['items'] = items
