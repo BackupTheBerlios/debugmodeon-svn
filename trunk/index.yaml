@@ -117,7 +117,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 31 times in query history.
+# Used 32 times in query history.
 - kind: Item
   properties:
   - name: deletion_date
