@@ -19,11 +19,17 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 {% extends "base.html" %}
 {% block head %}
+	<link rel="alternate" type="application/rss+xml" title="Últimos artículos" href="/feed/" />
 	<meta name="description" content="Red de contenidos y red social con artículos, grupos, foros,..." />
 	<meta name="keywords" content="red social, programacion, artículos" />
 {% endblock %}
 {% block title %} debug_mode=ON | Red social y de contenidos para programadores. Artículos, grupos, foros,... {% endblock %}
 {% block sidebar %}
+	<div class="box">
+		<p class="title">Sindicación RSS</p>
+		<p style="text-align:center" class="options"><a href="/feed/"><img src="/static/images/feed.png" alt="feed" class="icon" /> Últimos artículos publicados</a></p>
+	</div>
+	
 	<div class="box">
 		<p class="title">Nube de tags</p>
 		<ol class='tag-cloud'>

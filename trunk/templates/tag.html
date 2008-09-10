@@ -18,8 +18,19 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
 
 {% extends "base.html" %}
-{% block title %} Artículos etiquetados con "{{ tag }}" {% endblock %}
+
+{% block title %} Artículos etiquetados con "{{ tag|escape }}" {% endblock %}
+
+{% block head %}
+	<link rel="alternate" type="application/rss+xml" title="Artículos etiquetados con {{ tag|escape }}" href="/feed/tag/{{ tag|escape }}" />
+{% endblock %}
+
 {% block sidebar %}
+	<div class="box">
+		<p class="title">Sindicación RSS</p>
+		<p style="text-align:center" class="options"><a href="/feed/tag/{{ tag|escape }}"><img src="/static/images/feed.png" alt="feed" class="icon" /> Artículos etiquetados con {{ tag|escape }}</a></p>
+	</div>
+	
 	<div class="box">
 		<p class="title">Nube de tags</p>
 		<ol class='tag-cloud'>
@@ -31,7 +42,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endblock %}
 
 {% block content %}
-	<h1>Artículos etiquetados con "<em>{{ tag }}</em>"</h1>
+	<h1>Artículos etiquetados con "<em>{{ tag|escape }}</em>"</h1>
 {% include 'inc-item-list.html' %}
 
 <div class="clear">&nbsp;</div>

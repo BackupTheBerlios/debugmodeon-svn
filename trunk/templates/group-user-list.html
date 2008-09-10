@@ -20,8 +20,18 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% extends "base.html" %}
 {% block title %} {{ group.title|escape }} | Usuarios miembros {% endblock %}
 
+{% block head %}
+	<link rel="alternate" type="application/rss+xml" title="Artículos del grupo {{ group.title|escape }}" href="/feed/group/{{ group.url_path }}" />
+	<link rel="alternate" type="application/rss+xml" title="Foro del grupo {{ group.title|escape }}" href="/feed/group.forum/{{ group.url_path }}" />
+{% endblock %}
+
 {% block sidebar %}
 {% include 'inc-group-member.html' %}
+	<div class="box">
+		<p class="title">Sindicación RSS</p>
+		<p class="options"><a href="/feed/group/{{ group.url_path }}"><img src="/static/images/feed.png" alt="feed" class="icon" /> Artículos del grupo {{ group.title|escape }}</a></p>
+		<p class="options"><a href="/feed/group.forum/{{ group.url_path }}"><img src="/static/images/feed.png" alt="feed" class="icon" /> Temas del foro {{ group.title|escape }}</a></p>
+	</div>
 {% endblock %}
 
 {% block content %}
