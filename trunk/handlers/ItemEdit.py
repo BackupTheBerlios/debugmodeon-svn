@@ -88,10 +88,16 @@ class ItemEdit(AuthenticatedHandler):
 				if not user.nickname == item.author.nickname:
 					self.forbidden()
 					return
+				
+				lic = self.get_param('lic')
+				lics = [license['id'] for license in licenses]
+				if not lic in lics:
+					lic = 'copyright'
+				
 				if  not item.draft:
 					self.delete_tags(item.tags)
 				item.title = self.get_param('title')
-				item.lic = self.get_param('lic')
+				item.lic = lic
 				item.tags = self.parse_tags(self.get_param('tags'))
 				item.description = ' '.join(self.get_param('description').splitlines())
 				item.content = self.get_param('content')
@@ -117,11 +123,16 @@ class ItemEdit(AuthenticatedHandler):
 				title = self.get_param('title')
 				tags = self.parse_tags(self.get_param('tags'))
 				
+				lic = self.get_param('lic')
+				lics = [license['id'] for license in licenses]
+				if not lic in lics:
+					lic = 'copyright'
+				
 				item = model.Item(author=user,
 					title=title,
 					description=' '.join(self.get_param('description').splitlines()),
 					content=self.get_param('content'),
-					lic=self.get_param('lic'),
+					lic=lic,
 					url_path='empty',
 					tags=tags,
 					draft=draft,
