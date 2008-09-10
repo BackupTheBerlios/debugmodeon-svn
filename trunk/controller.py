@@ -45,6 +45,7 @@ def main():
 									   # users
 									   ('/user.list',			UserList),
 									   ('/user/.*',				UserView),
+									   ('/user.edit',			UserEdit),
 									   ('/user.register',		UserRegister),
 									   ('/user.login',			UserLogin),
 									   ('/user.logout',			UserLogout),

@@ -32,6 +32,7 @@ from handlers.ItemFavourite import *
 # users
 from handlers.UserList import *
 from handlers.UserView import *
+from handlers.UserEdit import *
 from handlers.UserItems import *
 from handlers.UserLogin import *
 from handlers.UserGroups import *

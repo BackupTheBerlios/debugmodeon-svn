@@ -57,6 +57,7 @@ class UserData(db.Model):
 	# favourites
 	favourites = db.IntegerProperty(required=True)
 	# others
+	real_name = db.StringProperty()
 	country = db.StringProperty()
 	city = db.StringProperty()
 	public = db.BooleanProperty(required=True)

@@ -1,0 +1,66 @@
+{% comment %}
+(C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+{% endcomment %}
+
+{% extends "base.html" %}
+{% block title %} Preferencias {% endblock %}
+{% block content %}
+	<h1>Preferencias</h1>
+	
+	<form action="/user.edit" method="post" accept-charset="utf-8">
+		
+		<div class="form">
+		
+			<p>
+				<label for="real_name">Nombre real</label>
+				<input type="text" name="real_name" value="{{ real_name }}" id="real_name" size="30" maxlength="30" />
+			</p>
+			
+			<p>
+				<label for="country">País</label>
+				<input type="text" name="country" value="{{ country }}" size="30" maxlength="30" />
+			</p>
+			
+			<p>
+				<label for="city">Ciudad</label>
+				<input type="text" name="city" value="{{ city }}" size="30" maxlength="30" />
+			</p>
+
+			<p>
+				<label for="google_adsense">Id de Google Adsense</label>
+				<input type="text" name="google_adsense" value="{{ google_adsense }}" />
+			</p>
+
+			<p>
+				<label for="google_adsense_channel">Id de canal Google Adsense</label>
+				<input type="text" name="google_adsense_channel" value="{{ google_adsense_channel }}" />
+			</p>
+	
+			<p><input type="submit" value="Guardar cambios" /></p>
+			
+		</div>
+	</form>
+	
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="/static/js/prototype.js"></script>
+<script type="text/javascript" charset="utf-8">
+	$('real_name').focus();
+</script>
+{% endblock %}
