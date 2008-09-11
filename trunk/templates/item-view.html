@@ -101,6 +101,25 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% if item.author.google_adsense %}
 <script type="text/javascript"><!--
 google_ad_client = "{{ item.author.google_adsense|escape }}";
+google_ad_width = 468;
+google_ad_height = 60;
+google_ad_format = "468x60_as";
+google_ad_type = "text_image";
+{% comment %}
+if (!empty($globals['user_adchannel'])) 
+	google_ad_channel ="'.$globals['user_adchannel'].'";
+{% endcomment %}
+google_color_border = "336699";
+google_color_bg = "FFFFFF";
+google_color_link = "0000FF";
+google_color_url = "008000";
+google_color_text = "000000";
+//--></script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+{% comment %}
+<script type="text/javascript"><!--
+google_ad_client = "{{ item.author.google_adsense|escape }}";
 /* 468x60, creado 10/09/08 */
 google_ad_slot = "4401900756";
 google_ad_width = 468;
@@ -110,6 +129,7 @@ google_ad_height = 60;
 <script type="text/javascript"
 src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </script>
+{% endcomment %}
 {% endif %}
    
 		<div id="item">

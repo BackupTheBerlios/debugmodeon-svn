@@ -10,7 +10,7 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
-# Used 137 times in query history.
+# Used 140 times in query history.
 - kind: Comment
   properties:
   - name: item
@@ -28,7 +28,7 @@ indexes:
   - name: database
   - name: creation_date
 
-# Used 70 times in query history.
+# Used 73 times in query history.
 - kind: Group
   properties:
   - name: creation_date
@@ -48,7 +48,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 28 times in query history.
+# Used 30 times in query history.
 - kind: GroupUser
   properties:
   - name: user
@@ -62,7 +62,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 35 times in query history.
+# Used 37 times in query history.
 - kind: Item
   properties:
   - name: author
@@ -71,7 +71,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 27 times in query history.
+# Used 30 times in query history.
 - kind: Item
   properties:
   - name: author
@@ -117,7 +117,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 32 times in query history.
+# Used 35 times in query history.
 - kind: Item
   properties:
   - name: deletion_date
@@ -185,7 +185,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 45 times in query history.
+# Used 48 times in query history.
 - kind: UserData
   properties:
   - name: items

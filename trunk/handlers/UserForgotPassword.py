@@ -60,7 +60,7 @@ http://debugmodeon.com/user.resetpassword?nickname=%s&token=%s
    
 """ % (u.nickname, u.token)
    
-			mail.send_mail(u.email, u.email, subject, body)
+			mail.send_mail('gimenete@gmail.com', u.email, subject, body)
 			
 			self.values['token'] = u.token
 			self.values['email'] = email
