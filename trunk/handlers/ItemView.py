@@ -38,7 +38,8 @@ class ItemView(BaseHandler):
 			self.redirect('/item/%s' % item.url_path, permanent=True)
 			return
 		
-		if item.deletion_date:
+		user = self.values['user']
+		if item.deletion_date and (not user or (user.rol != 'admin' and item.author.nickname != user.nickname)):
 			self.values['item'] = item
 			self.error(404)
 			self.render('templates/item-deleted.html')
@@ -46,15 +47,14 @@ class ItemView(BaseHandler):
 		
 		self.values['tab'] = '/item.list'
 		user = self.values['user']
-		if item.draft:
-			if not user or not user.nickname == item.author.nickname:
-				self.forbidden()
-				return
+		if item.draft and (not user or not user.nickname == item.author.nickname):
+			self.forbidden()
+			return
 		
 		if not user or item.author.nickname != user.nickname:
 			item.views = item.views + 1
 			item.put()
-		
+
 		if user and user.nickname != item.author.nickname:
 			vote = model.Vote.gql('WHERE user=:1 AND item=:2', user, item).get()
 			if not vote:

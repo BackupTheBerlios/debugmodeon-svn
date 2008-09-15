@@ -89,6 +89,7 @@ class Item(search.SearchableModel):
 	creation_date = db.DateTimeProperty(auto_now_add=True)
 	deletion_date = db.DateTimeProperty()
 	deletion_message = db.StringProperty()
+	deletion_user = db.ReferenceProperty(UserData,collection_name='du')
 
 class Comment(db.Model):
 	content = db.TextProperty(required=True)

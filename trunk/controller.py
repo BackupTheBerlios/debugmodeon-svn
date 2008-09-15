@@ -80,6 +80,7 @@ def main():
 									   ('/search', Search),
 									   
 									   ('/apocalipto', 	Apocalipto),
+									   ('/html/.*', 	Static),
 									   ('/.*', 			NotFound)],
 									   debug=True)
 	wsgiref.handlers.CGIHandler().run(application)

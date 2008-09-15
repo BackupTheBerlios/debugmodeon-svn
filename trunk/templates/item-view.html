@@ -84,7 +84,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% block content %}
 	<div class="grid_9 alpha omega">
 		<div class="info">
-			<h1>{% if item.draft %}Borrador: {% endif %}{% if item.deletion_date %}Eliminado: {% endif %}{{ item.title|escape }}</h1>
+			<h1>{% if item.deletion_date %}Eliminado: {% else %}{% if item.draft %}Borrador: {% endif %}{% endif %}{{ item.title|escape }}</h1>
 			<p class="options">
 				Escrito por <strong><a href="/user/{{ item.author.nickname|escape}}">{{ item.author.nickname|escape }}</a></strong> hace <strong>{{ item.creation_date|relativize }}</strong>
 				{% ifequal user.rol 'admin' %}
@@ -97,6 +97,14 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				 <br/>
 			</p>
 		</div>
+		
+		{% if item.deletion_date %}
+		<div class="error">
+			<a href="/user/{{ item.deletion_user.nickname }}"><strong>{{ item.deletion_user.nickname }}</strong></a> borró este artículo con el mensaje: <em>{{ item.deletion_message|escape }}</em>.
+			Hace {{ item.deletion_date|relativize }}. <br/>
+			Sólo el autor o un administrador de la página pueden verlo.
+		</div>
+		{% else %}
 		
 {% if item.author.google_adsense %}
 <script type="text/javascript"><!--
@@ -131,6 +139,8 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </script>
 {% endcomment %}
 {% endif %}
+
+		{% endif %}
    
 		<div id="item">
 		{{ item.content|markdown }}
