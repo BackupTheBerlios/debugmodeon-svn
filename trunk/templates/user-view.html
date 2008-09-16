@@ -33,30 +33,31 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endblock %}
 
 {% block content %}
-	<!--<div class="grid_9 alpha omega">
-		<h1>Usuario {{ this_user.nickname }}</h1>
-	
-		<ul>
-			<li>Registrado hace {{ this_user.creation_date|relativize }}</li>
-			{% if this_user.real_name %}<li>Nombre completo: {{ this_user.real_name|escape }}</li> {% endif %}
-			{% if this_user.country %}<li>País: {{ this_user.country|escape }}</li> {% endif %}
-			{% if this_user.city %}<li>Ciudad: {{ this_user.city|escape }}</li> {% endif %}
-		</ul>
+	<div class="grid_9 alpha omega">
+		<div class="info">
+			<h1>Usuario {{ this_user.nickname }}</h1>
+			<p class="options">
+				{% if canadd %}
+					{% if is_contact %}
+						<span><a id="contact" href="/user.contact?user_to={{ this_user.nickname }}"><img src="/static/images/delete.png" alt="" class="icon" /> Eliminar de contactos</a></span>
+					{% else %}
+						<span><a id="contact" href="/user.contact?user_to={{ this_user.nickname }}"><img src="/static/images/add.png" alt="" class="icon" /> Añadir a contactos</a></span>
+					{% endif %}
+				{% endif %}
+			</p>
+		</div>
 	
 	</div>
-	<div class="clear">&nbsp;</div>-->
+	<div class="clear">&nbsp;</div>
 
 	<div class="grid_3 alpha">
-		<div class="box">
-			<p class="title">Usuario {{ this_user.nickname }}</p>
-				<p style="text-align:center"><img src="/images/user/avatar/{{ this_user.nickname }}" alt""></p>
-			<ul>
-				<li>Registrado hace {{ this_user.creation_date|relativize }}</li>
-				{% if this_user.real_name %}<li>Nombre completo: {{ this_user.real_name|escape }}</li> {% endif %}
-				{% if this_user.country %}<li>País: {{ this_user.country|escape }}</li> {% endif %}
-				{% if this_user.city %}<li>Ciudad: {{ this_user.city|escape }}</li> {% endif %}
-			</ul>
-		</div>
+		<p style="text-align:center;margin-top:10px"><img src="/images/user/avatar/{{ this_user.nickname }}" alt"{{ this_user.nickname }}" /></p>
+		<ul>
+			{% if this_user.real_name %}<li>Nombre completo: <br/><strong>{{ this_user.real_name|escape }}</strong></li> {% endif %}
+			{% if this_user.country %}<li>País: <br/><strong>{{ this_user.country|escape }}</strong></li> {% endif %}
+			{% if this_user.city %}<li>Ciudad: <br/><strong>{{ this_user.city|escape }}</strong></li> {% endif %}
+			<li>Registrado hace {{ this_user.creation_date|relativize }}</li>
+		</ul>
 	</div>
 	<div class="grid_3">
 		<div class="box">
@@ -77,7 +78,6 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		</div>
 	</div>
 	<div class="grid_3 omega">
-		<!--<p>&nbsp;</p>-->
 		<div class="box">
 			<p class="title">Grupos</p>
 			{% if not groups %}
@@ -93,6 +93,54 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<p style="text-align:right"><strong><a href="/user.groups/{{ this_user.nickname }}">Ver todos »</a></strong></p>
 			{% endif %}
 		</div>
+		<div class="box">
+			<p class="title">Contactos</p>
+			{% if not contacts %}
+				<p style="text-align:center">No tiene contactos</p>
+			{% else %}
+				<ul>
+				{% for contact in contacts %}
+					<li>
+						<strong><a href="/user/{{ contact.nickname }}"><img src="/images/user/thumbnail/{{ contact.nickname }}" alt="{{ contact.nickname }}" /> {{ contact.nickname }}</a></strong>
+					</li>
+				{% endfor %}
+				</ul>
+				<!-- <p style="text-align:right"><strong><a href="/user.groups/{{ this_user.nickname }}">Ver todos »</a></strong></p> -->
+			{% endif %}
+		</div>
 	</div>
 	<div class="clear">&nbsp;</div> 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="/static/js/prototype.js"></script>
+<script type="text/javascript" charset="utf-8">
+	{% if canadd %}
+	function add_contact() {
+		var contact = $('contact');
+		var parent = $(contact.parentNode);
+		Element.observe(contact, 'click', function(e) {
+			href = contact.href + '&x=1';
+			parent.innerHTML = '<img class="icon" src="/static/images/spinner.gif" />';
+			new Ajax.Request(href, {
+				method: 'get',
+				onSuccess: function(transport, json) {
+					var action = transport.responseText.evalJSON().action;
+					if(action == 'deleted') {
+						parent.innerHTML = '<a id="contact" href="/user.contact?user_to={{ this_user.nickname }}"><img src="/static/images/add.png" alt="" class="icon" /> Añadir a contactos</a>';
+					} else {
+						parent.innerHTML = '<a id="contact" href="/user.contact?user_to={{ this_user.nickname }}"><img src="/static/images/delete.png" alt="" class="icon" /> Eliminar de contactos</a>';
+					}
+					add_contact();
+				},
+				onFailure: function() {
+					parent.innerHTML = 'Ocurrió un error :(';
+				}
+			});
+			Event.stop(e);
+		});
+	}
+	add_contact();
+	{% endif %}
+</script>
 {% endblock %}

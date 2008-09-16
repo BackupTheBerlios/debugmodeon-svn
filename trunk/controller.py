@@ -55,6 +55,7 @@ def main():
 									   ('/user.drafts',			UserDrafts),
 									   ('/user.items/.*',		UserItems),
 									   ('/user.groups/.*',		UserGroups),
+									   ('/user.contact',		UserContact),
 									   # groups
 									   ('/group.list',	GroupList),
 									   ('/group.edit',	GroupEdit),

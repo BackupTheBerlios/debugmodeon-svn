@@ -34,7 +34,12 @@ class UserView(BaseHandler):
 			self.not_found()
 			return
 		# TODO: not show if the user profile is not public
+		user = self.values['user']
+		if user and user.nickname != this_user.nickname:
+			self.values['canadd'] = True
+			self.values['is_contact'] = self.is_contact(this_user)
 		self.values['this_user'] = this_user
 		self.values['items'] = model.Item.all().filter('author =', this_user).filter('draft =', False).filter('deletion_date', None).order('-creation_date').fetch(5)
 		self.values['groups'] = [gi.group for gi in model.GroupUser.all().filter('user =', this_user).order('-creation_date').fetch(5)]
+		self.values['contacts'] = [c.user_to for c in model.Contact.all().filter('user_from', this_user).order('-creation_date').fetch(5)]
 		self.render('templates/user-view.html')

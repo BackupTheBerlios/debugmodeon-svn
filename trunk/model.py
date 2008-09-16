@@ -61,10 +61,12 @@ class UserData(db.Model):
 	country = db.StringProperty()
 	city = db.StringProperty()
 	public = db.BooleanProperty(required=True)
+	contacts = db.IntegerProperty()
 
 	last_update = db.DateTimeProperty(auto_now=True)
 	creation_date = db.DateTimeProperty(auto_now_add=True)
 	deletion_date = db.DateTimeProperty()
+	last_login = db.DateTimeProperty()
 
 class Item(search.SearchableModel):
 	author = db.ReferenceProperty(UserData,required=True)
@@ -161,3 +163,7 @@ class Favourite(db.Model):
 	item = db.ReferenceProperty(Item,required=True)
 	user = db.ReferenceProperty(UserData,required=True)
 	
+class Contact(db.Model):
+	user_from = db.ReferenceProperty(UserData,required=True,collection_name='cf')
+	user_to = db.ReferenceProperty(UserData,required=True,collection_name='ct')
+	creation_date = db.DateTimeProperty(auto_now_add=True)

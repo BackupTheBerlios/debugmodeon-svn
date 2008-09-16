@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 #
-# (C) Copyright 2008 Juan Luis Belmonte <jlbelmonte@gmail.com>,
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
@@ -21,37 +20,47 @@
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-from google.appengine.ext import db
+from google.appengine.api import mail
 from handlers.AuthenticatedHandler import *
 
-class ItemFavourite(AuthenticatedHandler):
-	
+class UserContact(AuthenticatedHandler):
+
 	def execute(self):
-		item = model.Item.get(self.get_param('key'))
 		user = self.values['user']
-		if not item or item.draft or item.deletion_date:
+		user_to = model.UserData.all().filter('nickname', self.get_param('user_to')).get()
+		if not user_to:
 			self.not_found()
 			return
-
-		favourite = model.Favourite.gql('WHERE user=:1 AND item=:2', user, item).get()
-		if not favourite:
-			favourite = model.Favourite(item=item,user=user)
-			favourite.put()
-
-			user.favourites += 1
+		
+		contact = model.Contact.all().filter('user_from', user).filter('user_to', user_to).get()
+		if not contact:
+			contact = model.Contact(user_from=user, user_to=user_to)
+			contact.put()
+			
+			user.contacts += 1
 			user.put()
+			
+			subject = "[debug_mode=ON] %s te ha agregado como contacto" % user.nickname
+
+			body = """
+%s te ha agregado como contacto en http://debugmodeon.com
+Puedes visitar su perfil en: http://debugmodeon.com/user/%s
+
+""" % (user.nickname, user.nickname)
+
+			mail.send_mail('gimenete@gmail.com', user_to.email, subject, body)
 			
 			if self.get_param('x'):
 				self.render_json({ 'action': 'added' })
 			else:
-				self.redirect('/item/%s' % item.url_path)
+				self.redirect('/user/%s' % user_to.nickname)
 		else:
-			favourite.delete()
+			contact.delete()
 			
-			user.favourites -= 1
+			user.contacts -= 1
 			user.put()
-		
+			
 			if self.get_param('x'):
 				self.render_json({ 'action': 'deleted' })
 			else:
-				self.redirect('/item/%s' % item.url_path)
+				self.redirect('/user/%s' % user_to.nickname)

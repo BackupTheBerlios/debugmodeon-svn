@@ -46,6 +46,7 @@ class ItemDelete(AuthenticatedHandler):
 			# mark as deleted
 			item.deletion_message = self.get_param('message')
 			item.deletion_date = datetime.datetime.now()
+			item.deletion_user = user
 			item.put()
 			
 			# decrement tag counters

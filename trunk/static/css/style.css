@@ -191,6 +191,10 @@ div.box strong a {
 	text-decoration: none;
 }
 
+.box ul li img {
+	vertical-align: middle;
+}
+
 div.box a:hover {
 	text-decoration: underline;
 }

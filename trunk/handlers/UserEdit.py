@@ -45,8 +45,8 @@ class UserEdit(AuthenticatedHandler):
 			image = self.request.get("img")
 			if image:
 				image = images.im_feeling_lucky(image, images.JPEG)
-				user.avatar = img.resize(image, 80, 80)
-				user.thumbnail = img.resize(image, 32, 32)
+				user.avatar = img.resize(image, 128, 128)
+				user.thumbnail = img.resize(image, 48, 48)
 
 			user.city = self.get_param('city')
 			user.put()

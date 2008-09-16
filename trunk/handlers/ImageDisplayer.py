@@ -33,16 +33,16 @@ class ImageDisplayer(BaseHandler):
 				return
 
 			if params[3] == 'avatar':
-				self.showImage(user.avatar)
+				self.showImage(user.avatar, 'user128.jpg')
 			elif params[3] == 'thumbnail':
-				self.showImage(user.thumbnail)
+				self.showImage(user.thumbnail, 'user48.jpg')
 		else:
 			self.not_found()
 			return
 
-	def showImage(self, image):
+	def showImage(self, image, default):
 		if image:
 			self.response.headers['Content-Type'] = 'image/jpg'
 			self.response.out.write(image)
 		else:
-			self.redirect('/static/noimage.jpg')
+			self.redirect('/static/images/%s' % default)

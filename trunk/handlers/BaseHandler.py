@@ -221,3 +221,11 @@ class BaseHandler(webapp.RequestHandler):
 		self.response.set_status(404)
 
 		self.render('templates/error404.html')
+	
+	def is_contact(self, this_user):
+		user = self.values['user']
+		if not user:
+			return False
+		if model.Contact.all().filter('user_from', user).filter('user_to', this_user).get():
+			return True
+		return False

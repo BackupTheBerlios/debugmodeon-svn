@@ -44,6 +44,10 @@ class UserRegister(BaseHandler):
 			password = self.request.get('password')
 			re_email = self.request.get('re_email')
 			re_password = self.request.get('re_password')
+
+			if not self.get_param('terms-and-conditions'):
+				self.show_error(nickname, email, u'Debes aceptar los términos y condiciones del servicio')
+				return
 			
 			if not re.match('^[\w\.-]{3,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}$', email):
 				self.show_error(nickname, email, 'Introduce una dirección de email válida')
@@ -60,8 +64,8 @@ class UserRegister(BaseHandler):
 			if len(nickname) > 20:
 				self.show_error(nickname, email, 'El nombre de usuario no debe ser mayor de 20 caracteres')
 				return
-			
-			if not password or len(password) < 4 or len(password) > 12:
+
+			if not password or len(password) < 4 or len(password) > 30:
 				self.show_error(nickname, email, 'La contraseña debe ser de entre cuatro y doce caracteres')
 				return
 

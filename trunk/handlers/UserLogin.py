@@ -21,6 +21,8 @@
 # 
 
 import model
+import datetime
+
 from utilities import session
 from handlers.BaseHandler import *
 
@@ -43,6 +45,8 @@ class UserLogin(BaseHandler):
 			if user:
 				if self.hash(nickname, password) == user.password:
 					values['user'] = user
+					user.last_login = datetime.datetime.now()
+					user.put()
 					self.sess = session.Session()
 					self.sess['user_nickname'] = user.nickname
 					self.sess['user_email'] = user.email

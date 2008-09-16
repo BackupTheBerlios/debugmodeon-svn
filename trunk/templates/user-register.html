@@ -35,7 +35,7 @@
 				<input id="re_password" type="password" name="re_password" value="" style="width:200px" maxlength="12" />
 			</p>
 			<p>
-				<input type="checkbox" name="terms-and-conditions" value="" id="terms-and-conditions" /> He leído y acepto los <br/> <strong><a href="/html/aviso-legal.html">términos y condiciones</a></strong>
+				<input type="checkbox" name="terms-and-conditions" value="true" id="terms-and-conditions" /> He leído y acepto los <br/> <strong><a href="/html/aviso-legal.html">términos y condiciones</a></strong>
 			</p>
 			<p><input type="submit" value="Registrarse" /></p>
 		</div>
@@ -65,12 +65,17 @@
 		return field;
 	}
 	
+	/*
 	field = validate_length('nickname', 4, 20);
 	field.add(Validate.Format, { pattern: /^[\w\.-]+$/, failureMessage: "Sólo se admiten caracteres, números, puntos, guiones y guiones bajos" });
 	
 	validate_mail('email');
 	validate_mail('re_mail');
-	validate_length('password', 4, 12);
-	validate_length('re_password', 4, 12);
+	validate_length('password', 4, 30);
+	validate_length('re_password', 4, 30);
+	
+	var terms = new LiveValidation('terms-and-conditions', { validMessage: "", wait: 500 });
+	terms.add(Validate.Acceptance, { failureMessage: "Debes aceptar los términos y condiciones del servicio." });
+	*/
 </script>
 {% endblock %}

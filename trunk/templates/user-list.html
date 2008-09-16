@@ -19,11 +19,20 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 {% extends "base.html" %}
 {% block title %} Usuarios {% endblock %}
+{% block head %}
+<style type="text/css" media="screen">
+	td {
+		vertical-align: middle;
+	}
+</style>
+
+{% endblock %}
 {% block content %}
 	<h1>Usuarios</h1>
 	
 	<table class="forum">
 		<thead>
+			<th></th>
 		    <th class="subject">Usuario</th>
 			<th>País</th>
 			<th>Ciudad</th>
@@ -33,6 +42,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<tbody>
 {% for user in users %}
 			<tr>
+				<td><img src="/images/user/thumbnail/{{ user.nickname }}" alt"{{ user.nickname }}" /></td>
 				<td class="subject"><strong><a href="/user/{{ user.nickname|escape }}">{{ user.nickname|escape }}</a></strong></td>
 				<td>{% if user.country %}{{ user.country|escape }}{% endif %}</td>
 				<td>{% if user.city %}{{ user.city|escape }}{% endif %}</td>
