@@ -3,6 +3,7 @@
 
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+# (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -41,6 +42,12 @@ class UserEdit(AuthenticatedHandler):
 			user.google_adsense_channel = self.get_param('google_adsense_channel')
 			user.real_name = self.get_param('real_name')
 			user.country = self.get_param('country')
+			image = self.request.get("img")
+			if image:
+				image = images.im_feeling_lucky(image, images.JPEG)
+				user.avatar = img.resize(image, 80, 80)
+				user.thumbnail = img.resize(image, 32, 32)
+
 			user.city = self.get_param('city')
 			user.put()
 			self.redirect('/user/%s' % user.nickname)
@@ -49,3 +56,6 @@ class UserEdit(AuthenticatedHandler):
 		if not value:
 			return ''
 		return value
+		
+		
+		

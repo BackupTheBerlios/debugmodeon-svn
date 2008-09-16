@@ -1,4 +1,4 @@
-#!/usr/bin/python
+﻿#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #
@@ -24,12 +24,16 @@ import re
 import sha
 import model
 import simplejson
+import img
+
+import struct
 
 from utilities import session
 from google.appengine.ext import db
 from google.appengine.api import users
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
+from google.appengine.api import images
 
 class BaseHandler(webapp.RequestHandler):
 
@@ -211,7 +215,7 @@ class BaseHandler(webapp.RequestHandler):
 		
 		self.render('templates/error500.html')
 	"""
-	
+
 	def not_found(self):
 		self.response.clear()
 		self.response.set_status(404)

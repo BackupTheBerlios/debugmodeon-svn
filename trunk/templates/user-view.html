@@ -1,5 +1,6 @@
 {% comment %}
 (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+(C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 
 This file is part of "debug_mode_on".
 
@@ -32,7 +33,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endblock %}
 
 {% block content %}
-	<div class="grid_9 alpha omega">
+	<!--<div class="grid_9 alpha omega">
 		<h1>Usuario {{ this_user.nickname }}</h1>
 	
 		<ul>
@@ -43,9 +44,21 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		</ul>
 	
 	</div>
-	<div class="clear">&nbsp;</div>
+	<div class="clear">&nbsp;</div>-->
 
 	<div class="grid_3 alpha">
+		<div class="box">
+			<p class="title">Usuario {{ this_user.nickname }}</p>
+				<p style="text-align:center"><img src="/images/user/avatar/{{ this_user.nickname }}" alt""></p>
+			<ul>
+				<li>Registrado hace {{ this_user.creation_date|relativize }}</li>
+				{% if this_user.real_name %}<li>Nombre completo: {{ this_user.real_name|escape }}</li> {% endif %}
+				{% if this_user.country %}<li>País: {{ this_user.country|escape }}</li> {% endif %}
+				{% if this_user.city %}<li>Ciudad: {{ this_user.city|escape }}</li> {% endif %}
+			</ul>
+		</div>
+	</div>
+	<div class="grid_3">
 		<div class="box">
 			<p class="title">Últimos artículos</p>
 			{% if not items %}
@@ -63,7 +76,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			{% endif %}
 		</div>
 	</div>
-	<div class="grid_3">
+	<div class="grid_3 omega">
+		<!--<p>&nbsp;</p>-->
 		<div class="box">
 			<p class="title">Grupos</p>
 			{% if not groups %}
@@ -79,9 +93,6 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<p style="text-align:right"><strong><a href="/user.groups/{{ this_user.nickname }}">Ver todos »</a></strong></p>
 			{% endif %}
 		</div>
-	</div>
-	<div class="grid_3 omega">
-		<p>&nbsp;</p>
 	</div>
 	<div class="clear">&nbsp;</div> 
 {% endblock %}

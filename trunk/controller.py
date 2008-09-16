@@ -79,6 +79,9 @@ def main():
 									   ('/tag/.*', Tag),
 									   ('/search', Search),
 									   
+									   # images
+									   ('/images/.*', ImageDisplayer),
+									   
 									   ('/apocalipto', 	Apocalipto),
 									   ('/html/.*', 	Static),
 									   ('/.*', 			NotFound)],

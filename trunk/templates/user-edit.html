@@ -1,4 +1,4 @@
-{% comment %}
+﻿{% comment %}
 (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
 
 This file is part of "debug_mode_on".
@@ -22,10 +22,13 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% block content %}
 	<h1>Preferencias</h1>
 	
-	<form action="/user.edit" method="post" accept-charset="utf-8">
+	<form action="/user.edit" method="post" accept-charset="utf-8" enctype="multipart/form-data">
 		
 		<div class="form">
-		
+			<p>
+				<label for"user_image">Imagen de Usuario</label>
+				<input type="file" name="img" />
+			</p>
 			<p>
 				<label for="real_name">Nombre real</label>
 				<input type="text" name="real_name" value="{{ real_name }}" id="real_name" size="30" maxlength="30" />
@@ -40,7 +43,6 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<label for="city">Ciudad</label>
 				<input type="text" name="city" value="{{ city }}" size="30" maxlength="30" />
 			</p>
-
 			<p>
 				<label for="google_adsense">Identificador de Google Adsense</label>
 				<input type="text" name="google_adsense" value="{{ google_adsense }}" /> Formato pub-xxxxxxxxxxxxxxxx
