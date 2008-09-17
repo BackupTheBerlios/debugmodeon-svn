@@ -56,12 +56,14 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<p><input type="submit" value="Añadir al grupo" /></p>
 </form>
 {% endif %}
+<p class="end-box">&nbsp;</p>
 </div>
 {% endif %}
 {% endif %}
 	<div class="box">
 		<p class="title">Sindicación RSS</p>
 		<p style="text-align:center" class="options"><a href="/feed/user/{{ item.author.nickname }}"><img src="/static/images/feed.png" alt="feed" class="icon" /> Últimos artículos de {{ item.author.nickname}}</a></p>
+		<p class="end-box">&nbsp;</p>
 	</div>
 
 {% if related %}
@@ -76,6 +78,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	{% endfor %}
 	</ul>
 	<p style="text-align:right"><strong><a href="/user/{{ item.author.nickname }}">Ver todos »</a></strong></p>
+	<p class="end-box">&nbsp;</p>
 </div>
 {% endif %}
 

@@ -3,11 +3,13 @@
 	<div class="box">
 		<p class="title">Miembro</p>
 		<p>Perteneces a este grupo {% ifnotequal user.nickname group.owner.nickname %}[<a href="/group.user.unjoin?group={{ group.key }}&amp;redirect={{ redirect }}">eliminarte del grupo</a>]{% endifnotequal %}</p>
+		<p class="end-box">&nbsp;</p>
 	</div>
 {% else %}
 	<div class="box">
 		<p class="title">Unirse</p>
 		<p><a href="/group.user.join?group={{ group.key|escape }}&amp;redirect={{ redirect }}">Únete a este grupo</a></p>
+		<p class="end-box">&nbsp;</p>
 	</div>
 {% endif %}
 {% endif %}

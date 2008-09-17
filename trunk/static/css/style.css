@@ -144,14 +144,13 @@ img.icon {
 }
 
 div.box {
-	border: 1px solid #7890a8;
 	margin-bottom: 10px;
 	margin-top: 10px;
 	-moz-border-radius: 3px;
-	background-color: #eaefef;
-	background-image: url(/static/images/bg3.png);
-	background-repeat: repeat-x;
-	background-position: bottom;
+	background-color: #fafafa;
+	background-image: url(/static/images/bg4.png);
+	background-repeat: repeat-y;
+	background-position: left;
 }
 
 div.box p {
@@ -161,15 +160,31 @@ div.box p {
 }
 
 div.box p.title {
-	background-color: #4e5d6d;
+	/*
+	font-size: 120%;
+	font-weight: bold;
+	*/
+	font-weight: bold;
 	text-align: center;
-	color: white;
-	background-image: url(/static/images/bg2.png);
-	background-repeat: repeat-x;
-	background-position: top;
 	padding: 0;
+	padding-top: 2px;
 	margin: 0;
 	margin-bottom: 5px;
+	
+	/*
+	color: #007;
+	background-color: #fff;
+	background-image: url(/static/images/bg6.png);
+	background-repeat: repeat-y;
+	background-position: top;
+	border-bottom: 1px dotted #007;
+	*/
+
+	color: white;
+	background-color: #4e5d6d;
+	background-image: url(/static/images/bg9.png);
+	background-repeat: repeat-y;
+	background-position: top;
 }
 
 div.box ul {
@@ -197,6 +212,15 @@ div.box strong a {
 
 div.box a:hover {
 	text-decoration: underline;
+}
+
+div.box p.end-box {
+	background-image: url(/static/images/bg5.png);
+	background-repeat: no-repeat;
+	background-position: left bottom;
+	margin:0;
+	padding:0;
+	height: 6px;
 }
 
 ul {

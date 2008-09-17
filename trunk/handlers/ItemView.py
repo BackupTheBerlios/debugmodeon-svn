@@ -90,9 +90,11 @@ class ItemView(BaseHandler):
 			.filter('deletion_date =', None) \
 			.order('-rating_average').fetch(11)
 		related = [i for i in related]
-		if item in related:
-			related.remove(item)
-		else:
+		for i in related:
+			if i.key() == item.key():
+				related.remove(i)
+				break
+		if len(related) > 10:
 			related = related[:-1]
 		
 		self.values['related'] = related

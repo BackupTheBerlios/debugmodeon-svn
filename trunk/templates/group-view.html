@@ -33,6 +33,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<p class="title">Sindicación RSS</p>
 		<p class="options"><a href="/feed/group/{{ group.url_path }}"><img src="/static/images/feed.png" alt="feed" class="icon" /> Artículos del grupo {{ group.title|escape }}</a></p>
 		<p class="options"><a href="/feed/group.forum/{{ group.url_path }}"><img src="/static/images/feed.png" alt="feed" class="icon" /> Foro del grupo {{ group.title|escape }}</a></p>
+		<p class="end-box">&nbsp;</p>
 	</div>
 {% endblock %}
 
@@ -63,6 +64,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				</ul>
 				<p style="text-align:right"><strong><a href="/group.item.list/{{ group.url_path }}">Ver todos »</a></strong></p>
 			{% endif %}
+			<p class="end-box">&nbsp;</p>
 		</div>
 	</div>
 	<div class="grid_3">
@@ -82,6 +84,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				</ul>
 				<p style="text-align:right"><strong><a href="/group.forum.list/{{ group.url_path }}">Ver todos »</a></strong></p>
 			{% endif %}
+			<p class="end-box">&nbsp;</p>
 		</div>
 	</div>
 	<div class="grid_3 omega">
@@ -90,11 +93,12 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<ul>
 			{% for u in users %}
 				<li>
-					<strong><a href="/user/{{ u.nickname }}">{{ u.nickname }}</a></strong>
+					<strong><a href="/user/{{ u.nickname }}"><img src="/images/user/thumbnail/{{ u.nickname }}" alt="{{ u.nickname }}" /> {{ u.nickname }}</a></strong>
 				</li>
 			{% endfor %}
 			</ul>
 			<p style="text-align:right"><strong><a href="/group.user.list/{{ group.url_path }}">Ver todos »</a></strong></p>
+			<p class="end-box">&nbsp;</p>
 		</div>
 	</div>
 	<div class="clear">&nbsp;</div> 
