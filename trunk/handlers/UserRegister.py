@@ -102,7 +102,8 @@ class UserRegister(BaseHandler):
 				responses=0,
 				groups=0,
 				favourites=0,
-				public=False)
+				public=False,
+				contacts=0)
 			user.put()
 
 			self.sess = session.Session()
