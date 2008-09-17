@@ -29,6 +29,7 @@ class UserData(db.Model):
 	email = db.StringProperty(required=True)
 	avatar = db.BlobProperty()
 	thumbnail = db.BlobProperty()
+	list_urls = db.StringListProperty()
 	
 	password = db.StringProperty(required=True)
 	rol = db.StringProperty()
@@ -125,6 +126,9 @@ class Group(search.SearchableModel):
 	last_update = db.DateTimeProperty(auto_now=True)
 	creation_date = db.DateTimeProperty(auto_now_add=True)
 	deletion_date = db.DateTimeProperty()
+	
+	avatar = db.BlobProperty()
+	thumbnail = db.BlobProperty()
 
 class GroupUser(db.Model):
 	user = db.ReferenceProperty(UserData,required=True)

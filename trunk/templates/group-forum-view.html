@@ -1,5 +1,6 @@
 {% comment %}
 (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+(C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 
 This file is part of "debug_mode_on".
 
@@ -38,17 +39,21 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endblock %}
 
 {% block content %}
-	<div class="grid_9 alpha omega">
+	<div class="grid_2 alpha">
+		<img src="/images/user/avatar/{{ group.owner.nickname }}" alt="{{ comment.author.nickname|escape }}" style="margin-top:15px;"/>
+	</div>
+	<div class="grid_7 omega">
 		<div class="info">
-			<h1><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></h1>
-			<p class="options">Creado por <strong><a href="/user/{{ group.owner.nickname }}">{{ group.owner.nickname }}</a></strong> hace <strong>{{ group.creation_date|relativize }}</strong></p>
+			<h1><a href="/group/{{ group.url_path }}">Grupo: {{ group.title|escape }}</a></h1>
 		</div>
-   
+		<div>&nbsp;</div>
    		<div class="info">
 			<h2>{{ thread.title|escape }}</h2>
-			<p class="options">Iniciado por {{ thread.author.nickname|escape }} hace <strong>{{ thread.creation_date|relativize }}</strong> </p>
+			<p class="options">Iniciado por <a href="/user/{{ thread.author.nickname|escape }}">{{ thread.author.nickname|escape }}</a> hace <strong>{{ thread.creation_date|relativize }}</strong> </p>
 		</div>
-
+	</div>
+	<div class="clear">&nbsp;</div>
+	<div class="grid_9 alpha omega">
 		<div id="thread">
 		{{ thread.content|markdown }}
 		</div>
@@ -64,7 +69,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% for comment in responses %}
 	<div class="grid_2 alpha">
 		<p class="info comment-info">
-			<img src="http://www.gravatar.com/avatar/79472daa31ea8050b09fbc6893c9dc50?s=32&amp;d=identicon" alt="gimenete-32" /> <br/>
+			<img src="/images/user/thumbnail/{{ comment.author.nickname|escape }}" alt="{{ comment.author.nickname|escape }}" /> <br/>
 			<a href="/user/{{ comment.author.nickname|escape }}">{{ comment.author.nickname|escape }}</a> escribió <br/> hace <strong>{{ comment.creation_date|relativize }}</strong>
 		</p>
 	</div>

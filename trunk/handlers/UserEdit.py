@@ -49,6 +49,15 @@ class UserEdit(AuthenticatedHandler):
 				user.thumbnail = img.resize(image, 48, 48)
 
 			user.city = self.get_param('city')
+			user.list_urls = []
+			blog = self.get_param('blog')
+			if blog:
+				user.list_urls.append(blog + '##blog')
+
+			linkedin = self.get_param('linkedin')
+			if linkedin:
+				user.list_urls.append(linkedin + '##linkedin')
+
 			user.put()
 			self.redirect('/user/%s' % user.nickname)
 	

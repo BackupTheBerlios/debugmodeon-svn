@@ -57,6 +57,9 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			{% if this_user.real_name %}<li>Nombre completo: <br/><strong>{{ this_user.real_name|escape }}</strong></li> {% endif %}
 			{% if this_user.country %}<li>País: <br/><strong>{{ this_user.country|escape }}</strong></li> {% endif %}
 			{% if this_user.city %}<li>Ciudad: <br/><strong>{{ this_user.city|escape }}</strong></li> {% endif %}
+			{% for url in urls %}
+
+			{% endfor %}
 			<li>Registrado hace {{ this_user.creation_date|relativize }}</li>
 		</ul>
 	</div>

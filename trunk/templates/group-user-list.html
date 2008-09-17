@@ -40,10 +40,9 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<h1><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a> // Usuarios miembros</h1>
 		<p class="options">Creado por <strong><a href="/user/{{ group.owner.nickname }}">{{ group.owner.nickname }}</a></strong> hace <strong>{{ group.creation_date|relativize }}</strong></p>
 	</div>
-	
 	<ul>
 {% for user in users %}
-		<li><a href="/user/{{ user.nickname|escape }}">{{ user.nickname|escape }}</a></li>
+		<li><strong><img src="/images/user/thumbnail/{{ user.nickname|escape }}" alt="Foto de {{ user.nickname|escape }}" style="vertical-align: middle;" />&nbsp;<a href="/user/{{ user.nickname|escape }}">{{ user.nickname|escape }}</a></strong></li>
 {% endfor %}
 	</ul>
 

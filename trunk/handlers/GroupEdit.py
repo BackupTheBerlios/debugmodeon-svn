@@ -56,6 +56,11 @@ class GroupEdit(AuthenticatedHandler):
 					return
 				group.title = self.get_param('title')
 				group.description = self.get_param('description')
+				image = self.request.get("img")
+				if image:
+					image = images.im_feeling_lucky(image, images.JPEG)
+					group.avatar = img.resize(image, 128, 128)
+					group.thumbnail = img.resize(image, 48, 48)
 				group.put()
 				self.redirect('/group/%s' % (group.url_path, ))
 			else:
@@ -72,6 +77,11 @@ class GroupEdit(AuthenticatedHandler):
 					items=0,
 					threads=0,
 					responses=0)
+				image = self.request.get("img")
+				if image:
+					image = images.im_feeling_lucky(image, images.JPEG)
+					group.avatar = img.resize(image, 128, 128)
+					group.thumbnail = img.resize(image, 48, 48)
 				group.put()
 				
 				user.groups += 1

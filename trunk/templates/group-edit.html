@@ -33,7 +33,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<h1>Nuevo grupo</h1>
 {% endif %}
 
-<form action="/group.edit" method="post" accept-charset="utf-8">
+<form action="/group.edit" method="post" accept-charset="utf-8" enctype="multipart/form-data">
 	{% if key %}
 		<input type="hidden" name="key" value="{{ key|escape }}" />
 	{% endif %}
@@ -48,7 +48,10 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<label for="description">Descripción</label>
 			<textarea id="description" name="description" rows="4" cols="50">{{ description|escape }}</textarea>
 		</p>
-
+		<p>
+			<label for"user_image">Imagen</label>
+			<input type="file" name="img" />&nbsp;Cuadrada queda más cool :)
+		</p>
 	{% if key %}
 		<p><input type="submit" value="Guardar cambios" /></p>
 	{% else %}
