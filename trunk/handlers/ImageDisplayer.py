@@ -37,11 +37,8 @@ class ImageDisplayer(BaseHandler):
 			elif params[3] == 'thumbnail':
 				self.showImage(user.thumbnail, 'user48.jpg')
 		elif params[2] == 'group':
-			logging.info('grupo')
-			#item = model.Item.get_by_id(int(self.request.path.split('/')[2]))
 			group = model.Group.get_by_id(int(params[4]))
 			if not group:
-				logging.info('no imagen')
 				self.not_found()
 				return
 			if params[3] == 'avatar':
@@ -49,7 +46,6 @@ class ImageDisplayer(BaseHandler):
 			elif params[3] == 'thumbnail':
 				self.showImage(group.thumbnail, 'glider48.png')
 		else:
-			logging.info('else')
 			self.not_found()
 			return
 
