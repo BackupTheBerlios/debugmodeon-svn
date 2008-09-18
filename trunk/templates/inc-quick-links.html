@@ -21,12 +21,19 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 <div class="box" id="quick-links">
 	<p class="title">Quick links</p>
 {% if user %}
+	<p><strong>Acciones</strong></p>
 	<ul>
 		<li><strong><a href="/item.edit"><img src="/static/images/page_white_edit.png" alt="" class="icon" /> Nuevo artículo</a></strong></li>
 		<li><a id="drafts" href="/user.drafts"><img src="/static/images/page_white_text.png" alt="" class="icon" /> Borradores ({{ user.draft_items }})</a></li>
 		<li><a href="/group.edit"><img src="/static/images/group.png" alt="" class="icon" /> Nuevo grupo</a></li>
-		<li><a href="/user/{{ user.nickname }}"><img src="/static/images/user.png" alt="" class="icon" /> Tu perfil público</a></li>
 		<li><a href="/user.changepassword?redirect_to={{ redirect }}"><img src="/static/images/key.png" alt="" class="icon" /> Cambiar contraseña</a></li>
+	</ul>
+	<p><strong>Tus cosas</strong></p>
+	<ul>
+		<li><a href="/user/{{ user.nickname }}"><img src="/static/images/user.png" alt="" class="icon" /> Tu perfil público</a></li>
+		<li><a href="/user.favourites/{{ user.nickname }}"><img src="/static/images/star.png" alt="" class="icon" /> Tus favoritos</a></li>
+		<li><a href="/user.groups/{{ user.nickname }}"><img src="/static/images/group.png" alt="" class="icon" /> Tus grupos</a></li>
+		<li><a href="/user.contacts/{{ user.nickname }}"><img src="/static/images/user.png" alt="" class="icon" /> Tus contactos</a></li>
 	</ul>
 {% else %}
 	<p style="text-align: center">

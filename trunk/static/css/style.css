@@ -223,6 +223,13 @@ div.box p.end-box {
 	height: 6px;
 }
 
+.avatar {
+	text-align: center;
+	width: 48px;
+	height: 48px;
+	background-color: #fff;
+}
+
 ul {
 	list-style-image: url(/static/images/bullet.gif);
 }

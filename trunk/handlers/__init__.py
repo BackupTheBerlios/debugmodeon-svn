@@ -43,6 +43,9 @@ from handlers.UserForgotPassword import *
 from handlers.UserResetPassword import *
 from handlers.UserDrafts import *
 from handlers.UserContact import *
+from handlers.UserFavourites import *
+from handlers.UserContacts import *
+
 
 # groups
 from handlers.GroupList import *

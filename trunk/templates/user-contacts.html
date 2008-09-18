@@ -23,7 +23,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<link rel="alternate" type="application/rss+xml" title="Artículos de {{ this_user.nickname }}" href="/feed/user/{{ this_user.nickname }}" />
 {% endblock %}
 
-{% block title %} Grupos a los que pertenece {{ this_user.nickname }} {% endblock %}
+{% block title %} Contactos de {{ this_user.nickname }} {% endblock %}
 
 {% block sidebar %}
 	<div class="box">
@@ -34,9 +34,10 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endblock %}
 
 {% block content %}
-	<h1>Grupos a los que pertenece {{ this_user.nickname }}</h1>
-
-	{% include 'inc-group-list.html' %}
+	<h1>Contactos de {{ this_user.nickname }}</h1>
 	
-	{% include 'inc-pagination.html' %}
+{% include 'inc-user-list.html' %}
+
+{% include 'inc-pagination.html' %}
+	
 {% endblock %}

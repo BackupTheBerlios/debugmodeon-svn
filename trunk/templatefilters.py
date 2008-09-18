@@ -49,3 +49,13 @@ register.filter(relativize)
 def nolinebreaks(value):
 	return ' '.join(str(value).splitlines())
 register.filter(nolinebreaks)
+
+def markdown(value, arg=''):
+	try:
+		import markdown
+	except ImportError:
+		return "error"
+	else:
+		extensions=arg.split(",")
+		return markdown.markdown(value, extensions, safe_mode=True)
+register.filter(markdown)

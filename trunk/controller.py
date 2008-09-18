@@ -28,7 +28,7 @@ from handlers import *
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 
-webapp.template.register_template_library('django.contrib.markup.templatetags.markup')
+# webapp.template.register_template_library('django.contrib.markup.templatetags.markup')
 webapp.template.register_template_library('templatefilters')
 
 def main():
@@ -55,6 +55,8 @@ def main():
 									   ('/user.drafts',			UserDrafts),
 									   ('/user.items/.*',		UserItems),
 									   ('/user.groups/.*',		UserGroups),
+									   ('/user.favourites/.*',	UserFavourites),
+									   ('/user.contacts/.*',	UserContacts),
 									   ('/user.contact',		UserContact),
 									   # groups
 									   ('/group.list',	GroupList),

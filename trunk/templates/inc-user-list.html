@@ -1,0 +1,5 @@
+	<ul>
+{% for user in users %}
+		<li><strong><img src="/images/user/thumbnail/{{ user.nickname|escape }}" alt="Foto de {{ user.nickname|escape }}" style="vertical-align: middle;" />&nbsp;<a href="/user/{{ user.nickname|escape }}">{{ user.nickname|escape }}</a></strong></li>
+{% endfor %}
+	</ul>

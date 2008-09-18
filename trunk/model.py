@@ -167,6 +167,7 @@ class ThreadResponse(db.Model):
 class Favourite(db.Model):
 	item = db.ReferenceProperty(Item,required=True)
 	user = db.ReferenceProperty(UserData,required=True)
+	creation_date = db.DateTimeProperty(auto_now_add=True)
 	
 class Contact(db.Model):
 	user_from = db.ReferenceProperty(UserData,required=True,collection_name='cf')
