@@ -39,21 +39,14 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endblock %}
 
 {% block content %}
-	<div class="grid_2 alpha">
-		<img src="/images/user/avatar/{{ thread.author.nickname }}" alt="{{ thread.author.nickname|escape }}" style="margin-top:15px;"/>
-	</div>
-	<div class="grid_7 omega">
+	{% include 'inc-group-header.html' %}
+	
+	<div class="grid_9 alpha omega">
 		<div class="info">
-			<h1><a href="/group/{{ group.url_path }}">Grupo: {{ group.title|escape }}</a></h1>
-		</div>
-		<div>&nbsp;</div>
-   		<div class="info">
 			<h2>{{ thread.title|escape }}</h2>
 			<p class="options">Iniciado por <a href="/user/{{ thread.author.nickname|escape }}">{{ thread.author.nickname|escape }}</a> hace <strong>{{ thread.creation_date|relativize }}</strong> </p>
 		</div>
-	</div>
-	<div class="clear">&nbsp;</div>
-	<div class="grid_9 alpha omega">
+		
 		<div id="thread">
 		{{ thread.content|markdown }}
 		</div>

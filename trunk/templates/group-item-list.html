@@ -18,7 +18,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
 
 {% extends "base.html" %}
-{% block title %} {{ group.title|escape }} | Artículos publicados {% endblock %}
+{% block title %} {{ group.title|escape }} : artículos publicados {% endblock %}
 {% block head %}
 	<link rel="alternate" type="application/rss+xml" title="Artículos del grupo {{ group.title|escape }}" href="/feed/group/{{ group.url_path }}" />
 	<link rel="alternate" type="application/rss+xml" title="Foro del grupo {{ group.title|escape }}" href="/feed/group.forum/{{ group.url_path }}" />
@@ -36,12 +36,11 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endblock %}
 
 {% block content %}
-	<div class="info">
-		<h1><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a> // Artículos publicados</h1>
-		<p class="options">Creado por <strong><a href="/user/{{ group.owner.nickname }}">{{ group.owner.nickname }}</a></strong> hace <strong>{{ group.creation_date|relativize }}</strong></p>
-	</div>
-
-	<p>{{ group.description|escape }}</p>
+	{% include 'inc-group-header.html' %}
+	
+	<div class="grid_9 alpha omega">
 	
 	{% include 'inc-item-list.html' %}
+	</div>
+	<div class="clear">&nbsp;</div>
 {% endblock %}

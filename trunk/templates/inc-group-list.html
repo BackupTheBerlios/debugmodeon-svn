@@ -18,6 +18,9 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
 
 {% for group in groups %}
+	{% include 'inc-group-header.html' %}
+	<hr/>
+	<!-- 
 	<div class="info">
 		<h2><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></h2>
 		<p class="options">
@@ -34,5 +37,5 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		{% ifequal user.nickname group.owner.nickname %}
 		| <a href="/group.edit?key={{ group.key }}">editar</a>
 		{% endifequal %}
-	</p>
+	</p> -->
 {% endfor %}

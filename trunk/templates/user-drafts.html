@@ -18,9 +18,9 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
 
 {% extends "base.html" %}
-{% block title %} Borradores {% endblock %}
+{% block title %} {{ this_user.nickname }}: borradores {% endblock %}
 {% block content %}
-	<h1>Borradores</h1>
+	<h1><img src="/images/user/thumbnail/{{ this_user.nickname }}" alt="{{ this_user.nickname}}" style="vertical-align: middle" /> <a href="/user/{{ this_user.nickname }}">{{ this_user.nickname }}</a>: borradores</h1>
 	{% include 'inc-item-list.html' %}
 
 {% endblock %}

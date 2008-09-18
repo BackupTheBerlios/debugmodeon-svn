@@ -1,0 +1,21 @@
+<div class="grid_2 alpha">
+	<br/>
+	<a href="/group/{{ group.url_path}}"><img src="/images/group/avatar/{{ group.key.id }}" alt="{{ group.title|escape }}" /></a>
+</div>
+<div class="grid_7 omega">
+	<div class="info">
+		<h1><a href="/group/{{ group.url_path}}">{{ group.title|escape }}</a></h1>
+		<p class="options">
+			<a href="/group.forum.list/{{ group.url_path }}"><img src="/static/images/comments.png" alt="" class="icon" /> Foros</a>
+			| <a href="/group.item.list/{{ group.url_path }}"><img src="/static/images/page_white_edit.png" alt="" class="icon" /> Artículos</a>
+			| <a href="/group.user.list/{{ group.url_path }}"><img src="/static/images/group.png" alt="" class="icon" /> Usuarios</a>
+			{% if user %}
+			{% ifequal user.nickname group.owner.nickname %}
+			| <strong><a href="/group.edit?key={{ group.key }}">Editar grupo</a></strong> (nombre, descripción, imagen)
+			{% endifequal %}
+			{% endif %}
+		</p>
+	</div>
+
+	<p>{{ group.description|escape }}</p>
+</div>

@@ -51,6 +51,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<ul>
 		    <li><strong>Publica artículos</strong>. Si eres usuario de Google Adsense <a href="/item/5674/como-anadir-adsense-a-tus-articulos"><strong>puedes ganar dinero con tus artículos</strong></a>.</li>
 			<li><strong>Crea grupos</strong>. Tienen foros y puedes añadir artículos a ellos.</li>
+			<li><strong><a href="http://debugmodeon.com/group.forum/debug-mode-on/opiniones-sugerencias-feedback-general">Cuéntanos qué te parece la página</a></strong>. Danos tu feedback. Sugerencias, comentarios, bugs,... ¡Estamos en beta y con muchas ganas!</li>
 		</ul>
    
 	</div>
@@ -76,7 +77,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<p class="title">Últimos grupos</p>
 			<ul>
 			{% for group in groups %}
-				<li>
+				<li style="clear:both">
+					<img src="/images/group/thumbnail/{{ group.key.id }}" alt="{{ group.title|escape }}" style="float:left" />
 					<strong><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></strong>
 					<br/><span style="color: #777">por <a href="/user/{{ group.owner.nickname|escape}}">{{ group.owner.nickname|escape }}</a></span>
 				</li>

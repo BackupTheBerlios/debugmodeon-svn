@@ -36,12 +36,9 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endblock %}
 
 {% block content %}
-	<div class="info">
-		<h1><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a> // Foro</h1>
-		<p class="options">Creado por <strong><a href="/user/{{ group.owner.nickname }}">{{ group.owner.nickname }}</a></strong> hace <strong>{{ group.creation_date|relativize }}</strong></p>
-	</div>
+	{% include 'inc-group-header.html' %}
 
-	<p>{{ group.description|escape }}</p>
+	<div class="grid_9 alpha omega">
 
 	<table class="forum">
 		<thead>
@@ -62,7 +59,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		</tbody>
 	</table>
 
-{% include 'inc-pagination.html' %}
+	{% include 'inc-pagination.html' %}
+
 {% if user %}
 	<h3>Inicia un tema</h3>
 	
@@ -91,6 +89,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		</div>
 	</form>
 {% endif %}
+	</div>
+	<div class="clear">&nbsp;</div>
 {% endblock %}
 {% block javascript %}
 {% if user %}

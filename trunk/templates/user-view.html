@@ -60,7 +60,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			{% for link in links %}
 				<li>{{ link.0 }}: <br/> 
 					{% ifequal link.0 'blog' %}
-						<a href="{{ link.1 }}" target="_blank"><img src="http://api.thumbalizr.com/?url={{ link.1 }}&width=128" alt=""></a>
+						<a href="{{ link.1 }}" target="_blank"><img src="http://api.thumbalizr.com/?url={{ link.1 }}&amp;width=128" alt=""></a>
 					{% else %}
 						{% ifequal link.0 'linkedin' %}
 							<a href="{{ link.1 }}" target="_blank"><img src="http://www.linkedin.com/img/webpromo/btn_myprofile_160x33.gif" alt="Mi perfil en LinkedIn"></a>
@@ -99,9 +99,11 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			{% else %}
 				<ul>
 				{% for group in groups %}
-					<li>
-						<strong><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></strong>
-					</li>
+				<li style="clear:both">
+					<img src="/images/group/thumbnail/{{ group.key.id }}" alt="{{ group.title|escape }}" style="float:left" />
+					<strong><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></strong>
+					<br/><span style="color: #777">por <a href="/user/{{ group.owner.nickname|escape}}">{{ group.owner.nickname|escape }}</a></span>
+				</li>
 				{% endfor %}
 				</ul>
 				<p style="text-align:right"><strong><a href="/user.groups/{{ this_user.nickname }}">Ver todos »</a></strong></p>
