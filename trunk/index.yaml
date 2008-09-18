@@ -42,7 +42,7 @@ indexes:
   - name: database
   - name: creation_date
 
-# Used 220 times in query history.
+# Used 222 times in query history.
 - kind: Group
   properties:
   - name: creation_date
@@ -76,7 +76,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 76 times in query history.
+# Used 77 times in query history.
 - kind: Item
   properties:
   - name: author
@@ -131,7 +131,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 189 times in query history.
+# Used 191 times in query history.
 - kind: Item
   properties:
   - name: deletion_date
@@ -208,7 +208,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 195 times in query history.
+# Used 197 times in query history.
 - kind: UserData
   properties:
   - name: items
