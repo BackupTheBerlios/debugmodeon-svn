@@ -46,6 +46,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<table class="forum">
 		<thead>
 		    <th class="subject">Tema</th>
+			<th>Autor</th>
 			<th>Respuestas</th>
 			<th>Última actualización</th>
 		</thead>
@@ -53,8 +54,9 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		{% for thread in threads %}
 			<tr>
 				<td class="subject"><a href="/group.forum/{{ thread.url_path }}">{{ thread.title|escape }}</a></td>
+				<td><a href="/user/{{ thread.author.nickname }}">{{ thread.author.nickname }}</a></td>
 				<td>{{ thread.responses }}</td>
-				<td>{{ thread.last_update|date:"d/m/Y G:i:s" }}</td>
+				<td>hace {{ thread.last_update|relativize }}</td>
 			</tr>
 		{% endfor %}
 		</tbody>

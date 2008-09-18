@@ -1,5 +1,22 @@
-	<ul>
+	<table class="forum">
+		<thead>
+			<th></th>
+			<th class="subject">Usuario</th>
+			<th>País</th>
+			<th>Ciudad</th>
+			<th>Registrado hace</th>
+			<th>Artículos y valoración media</th>
+		</thead>
+		<tbody>
 {% for user in users %}
-		<li><strong><img src="/images/user/thumbnail/{{ user.nickname|escape }}" alt="Foto de {{ user.nickname|escape }}" style="vertical-align: middle;" />&nbsp;<a href="/user/{{ user.nickname|escape }}">{{ user.nickname|escape }}</a></strong></li>
+			<tr>
+				<td><div class="avatar"><img src="/images/user/thumbnail/{{ user.nickname }}" alt"{{ user.nickname }}" /></div></td>
+				<td class="subject"><strong><a href="/user/{{ user.nickname|escape }}">{{ user.nickname|escape }}</a></strong></td>
+				<td>{% if user.country %}{{ user.country|escape }}{% endif %}</td>
+				<td>{% if user.city %}{{ user.city|escape }}{% endif %}</td>
+				<td>{{ user.creation_date|relativize }}</td>
+				<td>{% ifnotequal user.items 0 %}<p class="rating star{{ user.rating_average }}" style="float:right">&nbsp;</p>{{ user.items }}&nbsp;&nbsp;&nbsp;{% endifnotequal %}</td>
+			</tr>
 {% endfor %}
-	</ul>
+		</tbody>
+	</table>

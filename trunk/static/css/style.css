@@ -304,6 +304,10 @@ table.forum th, table.forum td {
 	padding: 3px;
 }
 
+table.forum td {
+	vertical-align: middle;
+}
+
 div.error {
 	border: 1px solid red;
 	text-align: center;

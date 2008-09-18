@@ -20,46 +20,12 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% extends "base.html" %}
 {% block title %} Usuarios {% endblock %}
 {% block head %}
-<style type="text/css" media="screen">
-	td {
-		vertical-align: middle;
-	}
-</style>
 
 {% endblock %}
 {% block content %}
 	<h1>Usuarios</h1>
 	
-	<table class="forum">
-		<thead>
-			<th></th>
-		    <th class="subject">Usuario</th>
-			<th>País</th>
-			<th>Ciudad</th>
-			<th>Registrado hace</th>
-			<th>Artículos y valoración media</th>
-		</thead>
-		<tbody>
-{% for user in users %}
-			<tr>
-				<td><div class="avatar"><img src="/images/user/thumbnail/{{ user.nickname }}" alt"{{ user.nickname }}" /></div></td>
-				<td class="subject"><strong><a href="/user/{{ user.nickname|escape }}">{{ user.nickname|escape }}</a></strong></td>
-				<td>{% if user.country %}{{ user.country|escape }}{% endif %}</td>
-				<td>{% if user.city %}{{ user.city|escape }}{% endif %}</td>
-				<td>{{ user.creation_date|relativize }}</td>
-				<td>{% ifnotequal user.items 0 %}<p class="rating star{{ user.rating_average }}" style="float:right">&nbsp;</p>{{ user.items }}&nbsp;&nbsp;&nbsp;{% endifnotequal %}</td>
-			</tr>
-{% endfor %}
-		</tbody>
-	</table>
-
-{% comment %}
-	<ul>
-{% for user in users %}
-		<li><a href="/user/{{ user.nickname|escape }}">{{ user.nickname|escape }}</a> (, {{ user.comments }} comentarios, {{ user.groups }} grupos, {{ user.threads }} temas, {{ user.responses }} respuestas, {{ user.favourites }} favoritos)</li>
-{% endfor %}
-	</ul>
-{% endcomment %}
+{% include 'inc-user-list.html' %}
 
 {% include 'inc-pagination.html' %}
 

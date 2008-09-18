@@ -42,7 +42,7 @@ indexes:
   - name: database
   - name: creation_date
 
-# Used 222 times in query history.
+# Used 223 times in query history.
 - kind: Group
   properties:
   - name: creation_date
@@ -189,7 +189,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 36 times in query history.
+# Used 38 times in query history.
 - kind: Thread
   properties:
   - name: group
@@ -202,7 +202,7 @@ indexes:
   - name: thread
   - name: creation_date
 
-# Used 43 times in query history.
+# Used 44 times in query history.
 - kind: UserData
   properties:
   - name: creation_date
