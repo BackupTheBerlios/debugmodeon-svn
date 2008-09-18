@@ -48,7 +48,15 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<label for="google_adsense">Identificador de Google Adsense</label>
 				<input type="text" name="google_adsense" value="{{ google_adsense }}" /> Formato pub-xxxxxxxxxxxxxxxx
 			</p>
-			<p><input type="submit" value="Guardar cambios" /></p>
+			<p>
+				<label for="blog">Blog personal</label>
+				<input type="text" name="blog" size="40" value="{% for link in links %}{% ifequal link.0 'blog' %}{{ link.1 }}{% endifequal %}{% endfor %}" />
+			</p>
+			<p>
+				<label for="linkedin">Perfil de LinkedIn</label>
+				<input type="text" name="linkedin" size="40" value="{% for link in links %}{% ifequal link.0 'linkedin' %}{{ link.1 }}{% endifequal %}{% endfor %}" />
+			</p>
+			<p><input type="submit" value="Guardar cambios"/></p>
 			
 		</div>
 	</form>

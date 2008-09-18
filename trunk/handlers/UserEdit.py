@@ -34,6 +34,7 @@ class UserEdit(AuthenticatedHandler):
 			self.values['google_adsense'] = self.not_none(user.google_adsense)
 			self.values['google_adsense_channel'] = self.not_none(user.google_adsense_channel)
 			self.values['real_name'] = self.not_none(user.real_name)
+			self.values['links'] = [(link.split('##', 2)[1], link.split('##', 2)[0]) for link in user.list_urls]
 			self.values['country'] = self.not_none(user.country)
 			self.values['city'] = self.not_none(user.city)
 			self.render('templates/user-edit.html')
