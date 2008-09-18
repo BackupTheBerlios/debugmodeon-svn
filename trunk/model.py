@@ -30,6 +30,7 @@ class UserData(db.Model):
 	avatar = db.BlobProperty()
 	thumbnail = db.BlobProperty()
 	list_urls = db.StringListProperty()
+	about_user = db.TextProperty()
 	
 	password = db.StringProperty(required=True)
 	rol = db.StringProperty()

@@ -199,6 +199,19 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 		</p>
 	</div>
 	<div class="clear">&nbsp;</div>
+		
+	<div class="grid_2 alpha">
+		<img src="/images/user/avatar/{{ item.author.nickname }}" alt="{{ item.author.nickname }}" />
+	</div>
+	<div class="grid_7 omega">
+		<strong>Información sobre el autor:</strong><br/>
+		{% if item.author.about_user %}
+			{{ item.author.about_user|escape}} <a href="/user/{{ item.author.nickname }}">Ver perfil de {{ item.author.nickname }}.</a>
+		{% else %}
+			No existe información acerca de este usuario. {% ifequal user.nickname item.author.nickname %} <a href="/user.edit">Edita tu perfil.</a>{% endifequal%}
+		{% endif %} 
+	</div>
+	<div class="clear">&nbsp;</div>
 {% if not item.draft %}
 {% ifnotequal len 0 %}
 	<div class="grid_9 alpha omega">
@@ -214,7 +227,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 	</div>
 	<div class="grid_7 omega">
 		<div class="comment">
-			{{ comment.content|markdown }}
+			{{ comment.content|markdown }} 
 		</div>
 	</div>
 	<div class="clear">&nbsp;</div>

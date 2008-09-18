@@ -37,6 +37,7 @@ class UserEdit(AuthenticatedHandler):
 			self.values['links'] = [(link.split('##', 2)[1], link.split('##', 2)[0]) for link in user.list_urls]
 			self.values['country'] = self.not_none(user.country)
 			self.values['city'] = self.not_none(user.city)
+			self.values['about'] = self.not_none(user.about_user)
 			self.render('templates/user-edit.html')
 		else:
 			user.google_adsense = self.get_param('google_adsense')
@@ -48,7 +49,6 @@ class UserEdit(AuthenticatedHandler):
 				image = images.im_feeling_lucky(image, images.JPEG)
 				user.avatar = img.resize(image, 128, 128)
 				user.thumbnail = img.resize(image, 48, 48)
-
 			user.city = self.get_param('city')
 			user.list_urls = []
 			blog = self.get_param('blog')
@@ -58,7 +58,7 @@ class UserEdit(AuthenticatedHandler):
 			linkedin = self.get_param('linkedin')
 			if linkedin:
 				user.list_urls.append(linkedin + '##linkedin')
-
+			user.about_user = self.get_param('about_user')
 			user.put()
 			self.redirect('/user/%s' % user.nickname)
 	

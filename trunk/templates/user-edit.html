@@ -56,6 +56,10 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<label for="linkedin">Perfil de LinkedIn</label>
 				<input type="text" name="linkedin" size="40" value="{% for link in links %}{% ifequal link.0 'linkedin' %}{{ link.1 }}{% endifequal %}{% endfor %}" />
 			</p>
+			<p>
+				<label for="linkedin">Sobre ti (Sólo texto plano)</label>
+				<textarea type="text" name="about_user" rows="10" cols="32">{{ about }}</textarea>
+			</p>
 			<p><input type="submit" value="Guardar cambios"/></p>
 			
 		</div>
