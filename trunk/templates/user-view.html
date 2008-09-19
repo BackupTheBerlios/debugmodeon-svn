@@ -1,6 +1,7 @@
 {% comment %}
 (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
 (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
+(C) Copyright 2008 Néstor Salceda <nestor.salceda at gmail dot com>
 
 This file is part of "debug_mode_on".
 
@@ -64,6 +65,9 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 					{% else %}
 						{% ifequal link.0 'linkedin' %}
 							<a href="{{ link.1 }}" target="_blank"><img src="http://www.linkedin.com/img/webpromo/btn_myprofile_160x33.gif" alt="Mi perfil en LinkedIn"></a>
+						{% endifequal %}
+						{% ifequal link.0 'ohloh' %}
+							  <a href="{{link.1}}"><img src="{{link.1}}/widgets/account_detailed.gif" width="191" height="35" alt="Mi perfil en Ohloh"></a>
 						{% endifequal %}
 					{% endifequal %}
 					</li>

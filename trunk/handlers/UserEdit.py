@@ -4,6 +4,7 @@
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
 # (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
+# (C) Copyright 2008 Néstor Salceda <nestor.salceda at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -58,6 +59,11 @@ class UserEdit(AuthenticatedHandler):
 			linkedin = self.get_param('linkedin')
 			if linkedin:
 				user.list_urls.append(linkedin + '##linkedin')
+
+			ohloh = self.get_param('ohloh')
+			if ohloh:
+				user.list_urls.append(ohloh + '##ohloh')
+
 			user.about_user = self.get_param('about_user')
 			user.put()
 			self.redirect('/user/%s' % user.nickname)
