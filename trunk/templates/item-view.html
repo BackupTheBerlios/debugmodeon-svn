@@ -202,14 +202,14 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 	<div class="clear">&nbsp;</div>
 		
 	<div class="grid_2 alpha">
-		<img src="/images/user/avatar/{{ item.author.nickname }}" alt="{{ item.author.nickname }}" />
+		<a href="/user/{{ item.author.nickname }}"><img src="/images/user/avatar/{{ item.author.nickname }}" alt="{{ item.author.nickname }}" /></a>
 	</div>
 	<div class="grid_7 omega">
-		<strong>Información sobre el autor:</strong><br/>
+		<strong>Sobre <a href="/user/{{ item.author.nickname }}">{{ item.author.nickname }}</a>:</strong><br/>
 		{% if item.author.about_user %}
-			{{ item.author.about_user|escape}} <a href="/user/{{ item.author.nickname }}">Ver perfil de {{ item.author.nickname }}.</a>
+			{{ item.author.about_user|escape}}
 		{% else %}
-			No existe información acerca de este usuario. {% ifequal user.nickname item.author.nickname %} <a href="/user.edit">Edita tu perfil.</a>{% endifequal%}
+			No ha escrito su descripción en el perfil. {% ifequal user.nickname item.author.nickname %} <a href="/user.edit">Edita tu perfil.</a>{% endifequal%}
 		{% endif %} 
 	</div>
 	<div class="clear">&nbsp;</div>
