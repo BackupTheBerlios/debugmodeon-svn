@@ -3,7 +3,7 @@
 	<div class="box">
 		<p class="title">Miembro</p>
 		<p style="text-align:center" class="options">Perteneces a este grupo
-		{% ifnotequal user.nickname group.owner.nickname %} <br/> [<a href="/group.user.unjoin?group={{ group.key }}&amp;redirect={{ redirect }}"><img src="/static/images/delete.png" class="icon" alt="" /> eliminarte del grupo</a>]{% endifnotequal %}</p>
+		{% ifnotequal user.nickname group.owner.nickname %} <br/> <a href="/group.user.unjoin?group={{ group.key }}&amp;redirect={{ redirect }}"><img src="/static/images/delete.png" class="icon" alt="" /> eliminarte del grupo</a>{% endifnotequal %}</p>
 		<p class="end-box">&nbsp;</p>
 	</div>
 {% else %}

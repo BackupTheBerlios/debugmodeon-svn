@@ -21,44 +21,56 @@
 # 
 
 import time
+import model
 import datetime
 import markdown
-from handlers.BaseHandler import *
+
+from google.appengine.api import memcache
+from google.appengine.ext import webapp
+from google.appengine.ext.webapp import template
 from time import strftime, gmtime, time
 
-class Feed(BaseHandler):
+class Feed(webapp.RequestHandler):
 
-	def execute(self):
-		params = self.request.path.split('/')
-		
-		if params[2] == 'tag':
-			query = model.Item.all().filter('deletion_date', None).filter('tags =', params[3]).order('-creation_date')
-			latest = self.paging(query,20)
-			self.to_rss(u'Artículos etiquetados con %s' % params[3], latest)
+	def get(self):
+		data = memcache.get(self.request.path)
+		if not data:
+			params = self.request.path.split('/')
+   
+			if params[2] == 'tag':
+				query = model.Item.all().filter('deletion_date', None).filter('tags =', params[3]).order('-creation_date')
+				latest = self.paging(query,20)
+				data = self.to_rss(u'Artículos etiquetados con %s' % params[3], latest)
+   
+			elif params[2] == 'group.forum':
+				group = model.Group.gql('WHERE url_path=:1',params[3]).get()
+				threads = model.Thread.gql('WHERE group=:1 ORDER BY creation_date DESC LIMIT 20', group)
+				data = self.threads_to_rss(u'Foro %s' % group.title, threads) # TODO: escape
+   
+			elif params[2] == 'group':
+				group = model.Group.gql('WHERE url_path=:1',params[3]).get()
+				group_items = model.GroupItem.gql('WHERE group=:1 ORDER BY creation_date DESC LIMIT 20', group)
+				latest = [gi.item for gi in group_items]
+				data = self.to_rss(u'Artículos del grupo %s' % group.title, latest) # TOOD: escape
+   
+			elif params[2] == 'user':
+				user = model.UserData.gql('WHERE nickname=:1', params[3]).get()
+				latest = model.Item.gql('WHERE author=:1 AND draft=:2 AND deletion_date=:3 ORDER BY creation_date DESC LIMIT 20', user, False, None)
+				data = self.to_rss(u'Artículos de %s' % user.nickname, latest)
+   
+			elif not params[2]:
+				latest = model.Item.gql('WHERE draft=:1 AND deletion_date=:2 ORDER BY creation_date DESC LIMIT 20', False, None)
+				data = self.to_rss('debug_mode=ON', latest)
+				
+			else:
+				self.not_found()
+				return
+				
+			memcache.add(self.request.path, data, 600)
 			
-		elif params[2] == 'group.forum':
-			group = model.Group.gql('WHERE url_path=:1',params[3]).get()
-			threads = model.Thread.gql('WHERE group=:1 ORDER BY creation_date DESC LIMIT 20', group)
-			self.threads_to_rss(u'Foro %s' % group.title, threads) # TODO: escape
+		self.response.headers['Content-Type'] = 'application/rss+xml'
+		self.response.out.write(template.render('templates/feed.xml', data))
 		
-		elif params[2] == 'group':
-			group = model.Group.gql('WHERE url_path=:1',params[3]).get()
-			group_items = model.GroupItem.gql('WHERE group=:1 ORDER BY creation_date DESC LIMIT 20', group)
-			latest = [gi.item for gi in group_items]
-			self.to_rss(u'Artículos del grupo %s' % group.title, latest) # TOOD: escape
-
-		elif params[2] == 'user':
-			user = model.UserData.gql('WHERE nickname=:1', params[3]).get()
-			latest = model.Item.gql('WHERE author=:1 AND draft=:2 AND deletion_date=:3 ORDER BY creation_date DESC LIMIT 20', user, False, None)
-			self.to_rss(u'Artículos de %s' % user.nickname, latest)
-	
-		elif not params[2]:
-			latest = model.Item.gql('WHERE draft=:1 AND deletion_date=:2 ORDER BY creation_date DESC LIMIT 20', False, None)
-			self.to_rss('debug_mode=ON', latest)
-		
-		else:
-			self.not_found()
-			return
 	
 	def threads_to_rss(self, title, threads):
 		items = []
@@ -82,8 +94,7 @@ class Feed(BaseHandler):
 			'description': '',
 			'items': items
 		}
-		self.response.headers['Content-Type'] = 'application/rss+xml'
-		self.response.out.write(template.render('templates/feed.xml', values))
+		return values
 
 	def to_rss(self, title, latest):
 		items = []
@@ -106,8 +117,7 @@ class Feed(BaseHandler):
 			'description': '',
 			'items': items
 		}
-		self.response.headers['Content-Type'] = 'application/rss+xml'
-		self.response.out.write(template.render('templates/feed.xml', values))
+		return values
 	
 	def to_rfc822(self, date):
 		return date.strftime("%a, %d %b %Y %H:%M:%S GMT")

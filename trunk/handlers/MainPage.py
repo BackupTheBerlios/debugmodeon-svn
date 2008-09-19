@@ -21,6 +21,7 @@
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
 
+from google.appengine.api import memcache
 from handlers.BaseHandler import *
 
 class MainPage(BaseHandler):
@@ -31,5 +32,12 @@ class MainPage(BaseHandler):
 		self.values['groups'] = model.Group.all().order('-creation_date').fetch(10)
 		# self.values['users'] = model.UserData.all().filter('items >', 0).order('-items').fetch(5)
 		self.values['threads'] = model.Thread.all().order('-last_update').fetch(10)
-		self.values['taglist'] = self.tag_list(model.Tag.all())
+		
+		data = memcache.get("taglist")
+		if data is not None:
+			self.values['taglist'] = data
+		else:
+			data = self.tag_list(model.Tag.all())
+			memcache.add("taglist", data, 600)
+			self.values['taglist'] = data
 		self.render('templates/index.html')

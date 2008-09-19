@@ -20,11 +20,21 @@
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import model
 import logging
-from handlers.BaseHandler import *
 
-class ImageDisplayer(BaseHandler):
-	def execute(self):
+from google.appengine.api import memcache
+from google.appengine.ext import webapp
+
+class ImageDisplayer(webapp.RequestHandler):
+
+	def get(self):
+		image = memcache.get(self.request.path)
+		if image is not None:
+			self.response.headers['Content-Type'] = 'image/jpg'
+			self.response.out.write(image)
+			return
+		
 		params = self.request.path.split('/')
 		if params[2] == 'user':
 			user = model.UserData.gql('WHERE nickname=:1', params[4]).get()
@@ -53,5 +63,6 @@ class ImageDisplayer(BaseHandler):
 		if image:
 			self.response.headers['Content-Type'] = 'image/jpg'
 			self.response.out.write(image)
+			memcache.add(self.request.path, image, 600)
 		else:
 			self.redirect('/static/images/%s' % default)
