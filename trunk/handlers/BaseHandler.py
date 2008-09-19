@@ -49,10 +49,12 @@ class BaseHandler(webapp.RequestHandler):
 
 	def render(self, file):
 		self.response.headers['Content-Type'] = 'text/html;charset=UTF-8'
+		self.response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate'
 		self.response.out.write(template.render(file, self.values))
 	
 	def render_json(self, data):
 		self.response.headers['Content-Type'] = 'application/json;charset=UTF-8'
+		self.response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate'
 		self.response.out.write(simplejson.dumps(data))
 	
 	def pre_execute(self):

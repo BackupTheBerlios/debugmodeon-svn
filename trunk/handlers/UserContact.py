@@ -48,7 +48,7 @@ Puedes visitar su perfil en: http://debugmodeon.com/user/%s
 
 """ % (user.nickname, user.nickname)
 
-			mail.send_mail('gimenete@gmail.com', user_to.email, subject, body)
+			mail.send_mail('contacto@debugmodeon.com', user_to.email, subject, body)
 			
 			if self.get_param('x'):
 				self.render_json({ 'action': 'added' })

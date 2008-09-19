@@ -56,6 +56,6 @@ http://debugmodeon.com/item/%s#comments
 
 """ % item.url_path
 		
-		mail.send_mail(user.email, item.author.email, subject, body)
+		mail.send_mail('contacto@debugmodeon.com', item.author.email, subject, body)
 		
 		self.redirect('/item/%s#comments' % (item.url_path, ))
