@@ -46,16 +46,22 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<h2>{{ thread.title|escape }}</h2>
 			<p class="options">Iniciado por <a href="/user/{{ thread.author.nickname|escape }}">{{ thread.author.nickname|escape }}</a> hace <strong>{{ thread.creation_date|relativize }}</strong> </p>
 		</div>
-		
-		<div id="thread">
+	</div>
+	
+	<div class="grid_2 alpha">
+		<p class="info comment-info">
+			<img src="/images/user/thumbnail/{{ thread.author.nickname|escape }}" alt="{{ thread.author.nickname|escape }}" /> <br/>
+			<a href="/user/{{ thread.author.nickname|escape }}">{{ thread.author.nickname|escape }}</a></strong>
+		</p>
+	</div>
+	<div class="grid_7 omega">
 		{{ thread.content|markdown }}
-		</div>
 	</div>
 	<div class="clear">&nbsp;</div>
 
 {% ifnotequal len 0 %}
 	<div class="grid_9 alpha omega">
-		<h3><a name="comments">Comentarios</a></h3>
+		<h3><a name="comments">Respuestas</a></h3>
 	</div>
 	<div class="clear">&nbsp;</div>
 	
