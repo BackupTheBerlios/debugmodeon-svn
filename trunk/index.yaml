@@ -42,20 +42,20 @@ indexes:
   - name: database
   - name: creation_date
 
-# Used 255 times in query history.
+# Used 258 times in query history.
 - kind: Group
   properties:
   - name: creation_date
     direction: desc
 
-# Used 41 times in query history.
+# Used 42 times in query history.
 - kind: GroupItem
   properties:
   - name: group
   - name: creation_date
     direction: desc
 
-# Used 25 times in query history.
+# Used 26 times in query history.
 - kind: GroupUser
   properties:
   - name: group
@@ -76,7 +76,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 92 times in query history.
+# Used 93 times in query history.
 - kind: Item
   properties:
   - name: author
@@ -131,7 +131,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 218 times in query history.
+# Used 221 times in query history.
 - kind: Item
   properties:
   - name: deletion_date
@@ -189,14 +189,14 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 50 times in query history.
+# Used 51 times in query history.
 - kind: Thread
   properties:
   - name: group
   - name: last_update
     direction: desc
 
-# Used 23 times in query history.
+# Used 26 times in query history.
 - kind: Thread
   properties:
   - name: last_update
@@ -208,7 +208,7 @@ indexes:
   - name: thread
   - name: creation_date
 
-# Used 46 times in query history.
+# Used 50 times in query history.
 - kind: UserData
   properties:
   - name: creation_date

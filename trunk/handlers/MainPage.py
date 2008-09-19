@@ -28,16 +28,31 @@ class MainPage(BaseHandler):
 
 	def execute(self):
 		self.values['tab'] = '/'
-		self.values['items'] = model.Item.all().filter('draft', False).filter('deletion_date', None).order('-creation_date').fetch(10)
-		self.values['groups'] = model.Group.all().order('-creation_date').fetch(10)
+		self.values['items'] = self.cache('index_items', self.get_items)
+		self.values['groups'] = self.cache('index_groups', self.get_groups)
 		# self.values['users'] = model.UserData.all().filter('items >', 0).order('-items').fetch(5)
-		self.values['threads'] = model.Thread.all().order('-last_update').fetch(10)
+		self.values['threads'] = self.cache('index_threads', self.get_threads)
 		
-		data = memcache.get("taglist")
-		if data is not None:
-			self.values['taglist'] = data
-		else:
-			data = self.tag_list(model.Tag.all())
-			memcache.add("taglist", data, 600)
-			self.values['taglist'] = data
+		self.values['taglist'] = self.cache('taglist', self.get_taglist)
 		self.render('templates/index.html')
+	
+	def get_taglist(self):
+		return self.tag_list(model.Tag.all())
+		
+	def get_items(self):
+		return model.Item.all().filter('draft', False).filter('deletion_date', None).order('-creation_date').fetch(10)
+
+	def get_groups(self):
+		return model.Group.all().order('-creation_date').fetch(10)
+
+	def get_threads(self):
+		return model.Thread.all().order('-last_update').fetch(10)
+		
+	def cache(self, key, function, timeout=600):
+		data = memcache.get(key)
+		if data is not None:
+			return data
+		else:
+			data = function.__call__()
+			memcache.add(key, data, 600)
+			return data
