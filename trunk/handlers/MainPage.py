@@ -54,5 +54,5 @@ class MainPage(BaseHandler):
 			return data
 		else:
 			data = function.__call__()
-			memcache.add(key, data, 600)
+			memcache.add(key, data, timeout)
 			return data
