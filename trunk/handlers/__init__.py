@@ -46,6 +46,8 @@ from handlers.UserContact import *
 from handlers.UserFavourites import *
 from handlers.UserContacts import *
 
+# forums
+from handlers.ForumList import *
 
 # groups
 from handlers.GroupList import *

@@ -58,6 +58,8 @@ def main():
 									   ('/user.favourites/.*',	UserFavourites),
 									   ('/user.contacts/.*',	UserContacts),
 									   ('/user.contact',		UserContact),
+									   # forums,
+									   ('/forum.list',			ForumList),
 									   # groups
 									   ('/group.list',	GroupList),
 									   ('/group.edit',	GroupEdit),

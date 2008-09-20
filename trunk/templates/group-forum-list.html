@@ -49,7 +49,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		</thead>
 		<tbody>
 		{% for thread in threads %}
-			<tr>
+			<tr {% if forloop.counter|divisibleby:2 %}class="even"{% endif %}>
 				<td class="subject"><strong><a href="/group.forum/{{ thread.url_path }}">{{ thread.title|escape }}</a></strong></td>
 				<td><a href="/user/{{ thread.author.nickname }}">{{ thread.author.nickname }}</a></td>
 				<td>{{ thread.responses }}</td>

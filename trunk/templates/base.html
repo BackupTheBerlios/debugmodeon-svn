@@ -38,7 +38,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<div class="grid_4">
 			<p class="options" style="text-align: right">
 			{% if sess.user %}
-				Hola <strong>{{ sess.user_nickname }}</strong> | <a href="/user.edit">preferencias</a> | <a href="/user.logout">desconectar</a>
+				Hola <a href="/user/{{ sess.user_nickname }}"><strong>{{ sess.user_nickname }}</strong></a> | <a href="/user.edit">preferencias</a> | <a href="/user.logout">desconectar</a>
 			{% else %}
 				<strong><a href="/user.login?redirect_to={{ redirect }}">Login</a></strong> o <a href="/user.register?redirect_to={{ redirect }}">regístrate</a>.
 				¿<a href="/user.forgotpassword?redirect_to={{ redirect }}">Olvidaste la contraseña</a>?
@@ -57,12 +57,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<li><a href="/"{%ifequal tab '/' %} class="selected"{% endifequal %}>Inicio</a></li>
 				<li><a href="/item.list"{%ifequal tab '/item.list' %} class="selected"{% endifequal %}>Artículos</a></li>
 				<li><a href="/group.list"{%ifequal tab '/group.list' %} class="selected"{% endifequal %}>Grupos</a></li>
+				<li><a href="/forum.list"{%ifequal tab '/forum.list' %} class="selected"{% endifequal %}>Foros</a></li>
 				<li><a href="/user.list"{%ifequal tab '/user.list' %} class="selected"{% endifequal %}>Usuarios</a></li>
-				
-				<!-- <li><a href="#">Grupos</a></li>
-				<li><a href="#">Code snippets</a></li>
-				<li><a href="#">Blogs</a></li>
-				<li><a href="#">¿Qué es debug_mode=ON?</a></li> -->
 			</ul>
 		</div>
 		<div class="clear">&nbsp;</div>

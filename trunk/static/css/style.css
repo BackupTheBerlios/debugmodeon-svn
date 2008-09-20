@@ -220,7 +220,16 @@ div.box p.end-box {
 	background-position: left bottom;
 	margin:0;
 	padding:0;
-	height: 6px;
+	height: 3px;
+}
+
+div.box p.start-box {
+	background-image: url(/static/images/bg8.png);
+	background-repeat: no-repeat;
+	background-position: left top;
+	margin:0;
+	padding:0;
+	height: 3px;
 }
 
 .avatar {
@@ -305,6 +314,10 @@ table.forum th, table.forum td {
 
 table.forum td {
 	vertical-align: middle;
+}
+
+.even {
+	background-color:#eee;
 }
 
 div.error {

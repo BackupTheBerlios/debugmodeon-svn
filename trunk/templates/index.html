@@ -22,6 +22,12 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<link rel="alternate" type="application/rss+xml" title="Últimos artículos" href="/feed/" />
 	<meta name="description" content="Red de contenidos y red social con artículos, grupos, foros,..." />
 	<meta name="keywords" content="red social, programacion, artículos" />
+	<style type="text/css" media="screen">
+		.up {
+			font-size: 140%;
+		}
+	</style>
+	
 {% endblock %}
 {% block title %} debug_mode=ON | Red social y de contenidos para programadores. Artículos, grupos, foros,... {% endblock %}
 {% block sidebar %}
@@ -44,16 +50,43 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 {% block content %}
 	<div class="grid_9 alpha omega">
-		<h1>Inicio :: debug_mode=ON</h1>
-   
-		<p><strong>debug_mode=ON</strong> es una red social y de contenidos en español sobre programación, desarrollo y diseño web, administración de sistemas, redes,...</p>
+		<div class="info">
+			<h1>debug_mode=ON</h1>
+			<p>Red social y de contenidos en español. <br/> Programación, desarrollo y diseño web, administración de sistemas, redes,...</p>
+		</div>
 		
-		<ul>
-		    <li><strong>Publica artículos</strong>. Si eres usuario de Google Adsense <a href="/item/5674/como-anadir-adsense-a-tus-articulos"><strong>puedes ganar dinero con tus artículos</strong></a>.</li>
-			<li><strong>Crea grupos</strong>. Tienen foros y puedes añadir artículos a ellos.</li>
-			<li><strong><a href="http://debugmodeon.com/group.forum/debug-mode-on/opiniones-sugerencias-feedback-general">Cuéntanos qué te parece la página</a></strong>. Danos tu feedback. Sugerencias, comentarios, bugs,... ¡Estamos en beta y con muchas ganas!</li>
-		</ul>
-   
+		<div class="grid_3 alpha">
+			<div class="box" style="text-align:center">
+				<p class="start-box">&nbsp;</p>
+				<p class="up"><img src="/static/images/page_white_edit.png" class="icon" alt="" /> <a href="/item.list"><strong>Artículos</strong></a></p>
+				<p>
+				    ¡Publica! <br/> Si tienes Adsense <br/> <a href="/item/5674/como-anadir-adsense-a-tus-articulos"><strong>puedes ganar dinero</strong></a>
+				</p>
+				<p class="end-box">&nbsp;</p>
+			</div>
+		</div>
+		<div class="grid_3">
+			<div class="box" style="text-align:center">
+				<p class="start-box">&nbsp;</p>
+				<p class="up"><img src="/static/images/group.png" class="icon" alt="" /> <a href="/group.list"><strong>Grupos</strong></a></p>
+				<p>
+					Créalos, únete a ellos. <br/>
+					Tienen <strong><a href="/forum.list">foros</a></strong> y artículos relacionados.
+				</p>
+				<p class="end-box">&nbsp;</p>
+			</div>
+		</div>
+		<div class="grid_3 omega">
+			<div class="box" style="text-align:center">
+				<p class="start-box">&nbsp;</p>
+				<p class="up"><img src="/static/images/help.png" class="icon" alt="" /> <a href="http://debugmodeon.com/group.forum/debug-mode-on/opiniones-sugerencias-feedback-general"><strong>Feedback</strong></a></p>
+				<p>
+					Escríbenos sugerencias, comentarios, bugs,... <br/> ¡Queremos tu feedback!
+				</p>
+				<p class="end-box">&nbsp;</p>
+			</div>
+		</div>
+		
 	</div>
 	<div class="clear">&nbsp;</div>
 	
@@ -99,6 +132,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				</li>
 			{% endfor %}
 			</ul>
+			<p style="text-align:right"><strong><a href="/forum.list">Ver todos »</a></strong></p>
 			<p class="end-box">&nbsp;</p>
 		</div>
 	</div>
