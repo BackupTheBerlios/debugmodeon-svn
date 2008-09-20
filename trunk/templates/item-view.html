@@ -37,9 +37,14 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<p>Este artículo está en</p>
 	<ul>
 {% for group in groups %}
-		<li><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a> {% ifequal user.nickname item.author.nickname %} [<a href="/group.item.remove?item={{ item.key }}&amp;group={{ group.key }}">eliminar</a>] {% endifequal %}</li>
+		<li style="clear:both">
+			<div class="avatar" style="float:left; padding-right: 3px"><a href="/group/{{ group.url_path }}"><img src="/images/group/thumbnail/{{ group.key.id }}" alt="{{ group.title|escape }}" /></a></div>
+			<strong><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></strong>
+			{% ifequal user.nickname item.author.nickname %} <br/>[<a href="/group.item.remove?item={{ item.key }}&amp;group={{ group.key }}"><img src="/static/images/delete.png" class="icon" alt="" /> eliminar</a>] {% endifequal %}
+		</li>
 {% endfor %}
 	</ul>
+	<p style="clear:both;height:0">&nbsp;</p>
 {% endif %}
 
 
