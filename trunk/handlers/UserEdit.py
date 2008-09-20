@@ -39,11 +39,13 @@ class UserEdit(AuthenticatedHandler):
 			self.values['country'] = self.not_none(user.country)
 			self.values['city'] = self.not_none(user.city)
 			self.values['about'] = self.not_none(user.about_user)
+			self.values['personal_message'] = self.not_none(user.personal_message);
 			self.render('templates/user-edit.html')
 		else:
 			user.google_adsense = self.get_param('google_adsense')
 			user.google_adsense_channel = self.get_param('google_adsense_channel')
 			user.real_name = self.get_param('real_name')
+			user.personal_message = self.get_param('personal_message')
 			user.country = self.get_param('country')
 			image = self.request.get("img")
 			if image:

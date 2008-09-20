@@ -26,6 +26,7 @@ from google.appengine.ext import search
 
 class UserData(db.Model):
 	nickname = db.StringProperty(required=True)
+	personal_message = db.StringProperty()
 	email = db.StringProperty(required=True)
 	avatar = db.BlobProperty()
 	thumbnail = db.BlobProperty()
