@@ -20,6 +20,7 @@
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
 
+from google.appengine.api import mail
 from handlers.AuthenticatedHandler import *
 
 class GroupItemAdd(AuthenticatedHandler):
@@ -36,7 +37,26 @@ class GroupItemAdd(AuthenticatedHandler):
 			gi = model.GroupItem.gql('WHERE group=:1 and item=:2', group, item).get()
 			if not gi and user.nickname == item.author.nickname:
 				gi = model.GroupItem(item=item, group=group)
+				gi.put()
+				
+				self.create_group_subscribers(group)
 				group.items += 1
 				group.put()
-				gi.put()
+				
+				subject = u"[debug_mode=ON] Nuevo articulo: '%s'" % self.clean_ascii(item.title)
+   
+				body = u"""
+Nuevo articulo en el grupo %s.
+Titulo del articulo: %s
+Leelo en esta direccion:
+http://debugmodeon.com/item/%s
+
+""" % (self.clean_ascii(group.title), self.clean_ascii(item.title), item.url_path)
+   
+				mail.send_mail(sender='contacto@debugmodeon.com',
+					to='contacto@debugmodeon.com',
+					bcc=group.subscribers,
+					subject=subject,
+					body=body)
+				
 		self.redirect('/item/%s' % item.url_path)

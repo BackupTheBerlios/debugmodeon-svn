@@ -132,6 +132,24 @@ class BaseHandler(webapp.RequestHandler):
 		value = '-'.join(re.findall('[a-zA-Z0-9]+', value))
 		return value
 	
+	def clean_ascii(self, value):
+		# table = maketrans(u'áéíóúÁÉÍÓÚñÑ', u'aeiouAEIOUnN')
+		# value = value.translate(table)
+		value = value.replace(u'á', 'a')
+		value = value.replace(u'é', 'e')
+		value = value.replace(u'í', 'i')
+		value = value.replace(u'ó', 'o')
+		value = value.replace(u'ú', 'u')
+		value = value.replace(u'Á', 'A')
+		value = value.replace(u'É', 'E')
+		value = value.replace(u'Í', 'I')
+		value = value.replace(u'Ó', 'O')
+		value = value.replace(u'Ú', 'U')
+		value = value.replace(u'ñ', 'n')
+		value = value.replace(u'Ñ', 'N')
+		value = ' '.join(re.findall('[a-zA-Z0-9()_\.:;-]+', value))
+		return value
+	
 	def unique_url_path(self, model, url_path):
 		c = 1
 		url_path_base = url_path
@@ -231,3 +249,8 @@ class BaseHandler(webapp.RequestHandler):
 		if model.Contact.all().filter('user_from', user).filter('user_to', this_user).get():
 			return True
 		return False
+
+	def create_group_subscribers(self, group):	
+		if not group.subscribers:
+			com = [g.user.email for g in model.GroupUser.all().filter('group', group).fetch(1000) ]
+			group.subscribers = list(set(com))

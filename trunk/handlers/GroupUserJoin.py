@@ -34,9 +34,12 @@ class GroupUserJoin(AuthenticatedHandler):
 		
 		gu = self.joined(group)
 		if not gu:
+			self.create_group_subscribers(group)
+			
 			gu = model.GroupUser(user=user, group=group)
 			gu.put()
 			
+			group.subscribers.append(user.email)
 			group.members += 1
 			group.put()
 			

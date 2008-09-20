@@ -36,26 +36,37 @@ class ItemComment(AuthenticatedHandler):
 		if not item or item.draft or item.deletion_date:
 			self.not_found()
 			return
-		
-		if item.draft:
-			self.redirect('/item/%s#comments' % (item.url_path, ))
-			return
+			
+		if not item.subscribers:
+			com = [c.author.email for c in model.Comment.all().filter('item', item).fetch(1000) ]
+			com.append(item.author.email)
+			item.subscribers = list(set(com))
+
 		comment = model.Comment(item=item, author=user, content=self.get_param('content'))
 		comment.put()
-		item.responses = item.responses + 1
-		item.put()
 		
 		user.comments += 1
 		user.put()
 		
-		subject = u"[debug_mode=ON] Comentario: '%s'" % item.url_path
+		subject = u"[debug_mode=ON] Nuevo comentario: '%s'" % self.clean_ascii(item.title)
 
 		body = u"""
-Nuevo comentario en el siguiente articulo:
+Nuevo comentario en el articulo %s:
+
+Lee los comentarios en:
 http://debugmodeon.com/item/%s#comments
 
-""" % item.url_path
+""" % (self.clean_ascii(item.title), item.url_path)
 		
-		mail.send_mail('contacto@debugmodeon.com', item.author.email, subject, body)
+		mail.send_mail(sender='contacto@debugmodeon.com',
+			to='contacto@debugmodeon.com',
+			bcc=item.subscribers,
+			subject=subject,
+			body=body)
+			
+		if not user.email in item.subscribers:
+			item.subscribers.append(user.email)
+		item.responses = item.responses + 1
+		item.put()
 		
 		self.redirect('/item/%s#comments' % (item.url_path, ))

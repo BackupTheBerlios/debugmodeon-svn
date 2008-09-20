@@ -76,7 +76,8 @@ class GroupEdit(AuthenticatedHandler):
 					members=1,
 					items=0,
 					threads=0,
-					responses=0)
+					responses=0,
+					subscribers=[user.email])
 				image = self.request.get("img")
 				if image:
 					image = images.im_feeling_lucky(image, images.JPEG)

@@ -21,6 +21,7 @@
 # 
 
 from google.appengine.ext import db
+from google.appengine.api import mail
 from handlers.AuthenticatedHandler import *
 
 class GroupForumEdit(AuthenticatedHandler):
@@ -42,13 +43,32 @@ class GroupForumEdit(AuthenticatedHandler):
 			title=title,
 			url_path=url_path,
 			content=self.get_param('content'),
-			responses=0)
+			responses=0,
+			subscribers=[ user.email ])
 		thread.put()
 		
 		user.threads += 1
 		user.put()
 		
+		self.create_group_subscribers(group)
+
 		group.threads += 1
 		group.put()
+		
+		subject = u"[debug_mode=ON] Nuevo tema: '%s'" % self.clean_ascii(thread.title)
+
+		body = u"""
+Nuevo tema en el grupo %s.
+Titulo del tema: %s
+Entra en el debate:
+http://debugmodeon.com/group.forum/%s
+
+""" % (self.clean_ascii(group.title), self.clean_ascii(thread.title), thread.url_path)
+
+		mail.send_mail(sender='contacto@debugmodeon.com',
+			to='contacto@debugmodeon.com',
+			bcc=group.subscribers,
+			subject=subject,
+			body=body)
 
 		self.redirect('/group.forum/%s' % thread.url_path)

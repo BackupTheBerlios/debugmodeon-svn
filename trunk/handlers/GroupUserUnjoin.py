@@ -34,8 +34,11 @@ class GroupUserUnjoin(AuthenticatedHandler):
 
 		gu = self.joined(group)
 		if gu and user != group.owner:
+			self.create_group_subscribers(group)
 			gu.delete()
 			
+			if user.email in group.subscribers:
+				group.subscribers.remove(user.email)
 			group.members -= 1
 			group.put()
 			

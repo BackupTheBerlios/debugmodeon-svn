@@ -118,6 +118,7 @@ class Group(search.SearchableModel):
 	title = db.StringProperty(required=True)
 	description = db.StringProperty(required=True)
 	url_path = db.StringProperty(required=True)
+	subscribers = db.StringListProperty()
 	
 	members = db.IntegerProperty(required=True)
 	items = db.IntegerProperty(required=True)
@@ -147,6 +148,7 @@ class Thread(db.Model):
 	title = db.StringProperty(required=True)
 	url_path = db.StringProperty(required=True)
 	content = db.TextProperty(required=True)
+	subscribers = db.StringListProperty()
 	
 	responses = db.IntegerProperty(required=True)
 	latest_response = db.DateTimeProperty()

@@ -21,6 +21,7 @@
 # 
 
 from google.appengine.ext import db
+from google.appengine.api import mail
 from handlers.AuthenticatedHandler import *
 
 class GroupForumReply(AuthenticatedHandler):
@@ -39,10 +40,29 @@ class GroupForumReply(AuthenticatedHandler):
 			content=self.get_param('content'))
 		response.put()
 		
+		if not user.email in thread.subscribers:
+			thread.subscribers.append(user.email)
 		thread.responses = thread.responses + 1
 		thread.put()
 		
+		self.create_group_subscribers(group)
 		group.responses = group.responses + 1
 		group.put()
+		
+		
+		subject = u"[debug_mode=ON] Nueva respuesta en: '%s'" % self.clean_ascii(thread.title)
+
+		body = u"""
+Nueva respuesta en %s.
+Entra en el debate:
+http://debugmodeon.com/group.forum/%s
+
+""" % (self.clean_ascii(thread.title), thread.url_path)
+
+		mail.send_mail(sender='contacto@debugmodeon.com',
+			to='contacto@debugmodeon.com',
+			bcc=thread.subscribers,
+			subject=subject,
+			body=body)
 
 		self.redirect('/group.forum/%s#comments' % thread.url_path)
