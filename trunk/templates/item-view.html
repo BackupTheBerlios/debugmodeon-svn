@@ -228,7 +228,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 	<div class="grid_2 alpha">
 		<p class="info comment-info">
 			<img src="/images/user/thumbnail/{{ comment.author.nickname }}" alt"{{ comment.author.nickname }}" /> <br/>
-			<a href="/user/{{ comment.author.nickname|escape }}">{{ comment.author.nickname|escape }}</a> escribió <br/> el <strong>{{ comment.creation_date|date:"d/m/Y G:i:s" }}</strong>
+			<a href="/user/{{ comment.author.nickname|escape }}">{{ comment.author.nickname|escape }}</a> escribió <br/> hace <strong>{{ comment.creation_date|relativize }}</strong>
 		</p>
 	</div>
 	<div class="grid_7 omega">
