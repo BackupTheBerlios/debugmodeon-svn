@@ -212,7 +212,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 	<div class="grid_7 omega">
 		<strong>Sobre <a href="/user/{{ item.author.nickname }}">{{ item.author.nickname }}</a>:</strong><br/>
 		{% if item.author.about_user %}
-			{{ item.author.about_user|escape}}
+			{{ item.author.about_user|escape|linebreaks }}
 		{% else %}
 			No ha escrito su descripción en el perfil. {% ifequal user.nickname item.author.nickname %} <a href="/user.edit">Edita tu perfil.</a>{% endifequal%}
 		{% endif %} 

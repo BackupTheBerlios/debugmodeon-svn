@@ -29,11 +29,10 @@ class MainPage(BaseHandler):
 	def execute(self):
 		self.values['tab'] = '/'
 		self.values['items'] = self.cache('index_items', self.get_items)
+		self.values['taglist'] = self.cache('taglist', self.get_taglist)
 		self.values['groups'] = self.cache('index_groups', self.get_groups)
-		# self.values['users'] = model.UserData.all().filter('items >', 0).order('-items').fetch(5)
 		self.values['threads'] = self.cache('index_threads', self.get_threads)
 		
-		self.values['taglist'] = self.cache('taglist', self.get_taglist)
 		self.render('templates/index.html')
 	
 	def get_taglist(self):
@@ -48,7 +47,7 @@ class MainPage(BaseHandler):
 	def get_threads(self):
 		return model.Thread.all().order('-last_update').fetch(10)
 		
-	def cache(self, key, function, timeout=600):
+	def cache(self, key, function, timeout=0):
 		data = memcache.get(key)
 		if data is not None:
 			return data

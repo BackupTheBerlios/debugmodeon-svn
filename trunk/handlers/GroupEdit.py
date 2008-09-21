@@ -21,6 +21,7 @@
 # 
 
 from google.appengine.ext import db
+from google.appengine.api import memcache
 from handlers.AuthenticatedHandler import *
 
 class GroupEdit(AuthenticatedHandler):
@@ -62,6 +63,9 @@ class GroupEdit(AuthenticatedHandler):
 					group.avatar = img.resize(image, 128, 128)
 					group.thumbnail = img.resize(image, 48, 48)
 				group.put()
+				memcache.delete('/images/group/avatar/%s' % group.key().id())
+				memcache.delete('/images/group/thumbnail/%s' % group.key().id())
+				memcache.delete('index_groups')
 				self.redirect('/group/%s' % (group.url_path, ))
 			else:
 				# new group
@@ -90,6 +94,7 @@ class GroupEdit(AuthenticatedHandler):
 				
 				group_user = model.GroupUser(user=user, group=group)
 				group_user.put()
+				memcache.delete('index_groups')
 
 				# TODO: update a user counter to know how many groups is owner of?
 

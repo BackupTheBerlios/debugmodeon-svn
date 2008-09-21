@@ -3,6 +3,7 @@
 
 #
 # (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
+# (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -32,6 +33,8 @@ class ImageDisplayer(webapp.RequestHandler):
 		image = memcache.get(self.request.path)
 		if image is not None:
 			self.response.headers['Content-Type'] = 'image/jpg'
+			self.response.headers['Pragma'] = 'no-cache'
+			self.response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate'
 			self.response.out.write(image)
 			return
 		
@@ -62,7 +65,9 @@ class ImageDisplayer(webapp.RequestHandler):
 	def showImage(self, image, default):
 		if image:
 			self.response.headers['Content-Type'] = 'image/jpg'
+			self.response.headers['Pragma'] = 'no-cache'
+			self.response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate'
 			self.response.out.write(image)
-			memcache.add(self.request.path, image, 600)
+			memcache.add(self.request.path, image)
 		else:
 			self.redirect('/static/images/%s' % default)

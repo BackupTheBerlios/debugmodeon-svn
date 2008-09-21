@@ -25,6 +25,7 @@ import time
 import datetime
 
 from google.appengine.ext import db
+from google.appengine.api import memcache
 from handlers.AuthenticatedHandler import *
 
 class ItemEdit(AuthenticatedHandler):
@@ -111,6 +112,9 @@ class ItemEdit(AuthenticatedHandler):
 				item.url_path = '%d/%s' % (item.key().id(), self.to_url_path(item.title))
 				item.put()
 				
+				memcache.delete('index_items')
+				memcache.delete('taglist')
+				
 				if not draft:
 					self.update_tags(item.tags)
 				if x:
@@ -146,6 +150,9 @@ class ItemEdit(AuthenticatedHandler):
 				
 				item.url_path = '%d/%s' % (item.key().id(), self.to_url_path(item.title))
 				item.put()
+				
+				memcache.delete('index_items')
+				memcache.delete('taglist')
 				
 				if not draft:
 					user.items += 1

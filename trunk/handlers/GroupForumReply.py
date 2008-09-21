@@ -23,6 +23,7 @@
 
 from google.appengine.ext import db
 from google.appengine.api import mail
+from google.appengine.api import memcache
 from handlers.AuthenticatedHandler import *
 
 class GroupForumReply(AuthenticatedHandler):
@@ -67,5 +68,7 @@ http://debugmodeon.com/group.forum/%s
 			bcc=thread.subscribers,
 			subject=subject,
 			body=body)
+			
+		memcache.delete('index_threads')
 
 		self.redirect('/group.forum/%s#comments' % thread.url_path)

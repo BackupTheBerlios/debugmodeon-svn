@@ -57,6 +57,16 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	</div>
 	<div class="grid_7 omega">
 		{{ thread.content|markdown }}
+		
+		{% if user %}
+			<p class="options">
+			{% if cansubscribe %}
+				<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key }}" title="suscripción por mail"><img src="/static/images/add.png" class="icon" /> Suscribirme por email a las respuestas de este hilo</a>
+			{% else %}
+				<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key }}" title="anular suscripción"><img src="/static/images/delete.png" class="icon" /> Anular mi suscripción a este hilo</a>
+			{% endif %}
+			</p>
+		{% endif %}
 	</div>
 	<div class="clear">&nbsp;</div>
 
@@ -100,13 +110,6 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	</div>
 	<div class="clear">&nbsp;</div>
 {% endif %}
-{% if user %}
-        {%if cansubscribe%}
-                <a id="group.forum.subscribe" href="/group.forum.subscribe?key={{thread.key}}" title="suscripción por mail"<img src="/static/images/add.png" class="icon" /> Suscribirme por mail a las respuestas de este hilo</a>
-        {%else%}
-                <a id="group.forum.subscribe" href="/group.forum.subscribe?key={{thread.key}}" title="anular suscripción"<img src="/static/images/delete.png" class="icon" /> Anular mi suscripción a este hilo</a>
-        {%endif%}
-{%endif%}
 
 
 {% if user %}
@@ -127,7 +130,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<textarea name="content" rows="8" cols="54" id="markdown_example"></textarea>
 
 		<p>
-			<input type="checkbox" name="subscribe" value="True" id="subscribe" />Quiero que me me avisen por correo electrónico de nuevas respuestas.  <br/>
+			<input type="checkbox" name="subscribe" value="True" id="subscribe" />Suscribirme por email
 		</p>
 
 		<p><input type="submit" value="Publicar respuesta" /></p>

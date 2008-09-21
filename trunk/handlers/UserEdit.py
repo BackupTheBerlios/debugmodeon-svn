@@ -23,6 +23,7 @@
 # 
 
 from google.appengine.ext import db
+from google.appengine.api import memcache
 from handlers.AuthenticatedHandler import *
 
 class UserEdit(AuthenticatedHandler):
@@ -52,6 +53,8 @@ class UserEdit(AuthenticatedHandler):
 				image = images.im_feeling_lucky(image, images.JPEG)
 				user.avatar = img.resize(image, 128, 128)
 				user.thumbnail = img.resize(image, 48, 48)
+				memcache.delete('/images/user/avatar/%s' % (user.nickname))
+				memcache.delete('/images/user/thumbnail/%s' % (user.nickname))
 			user.city = self.get_param('city')
 			user.list_urls = []
 			blog = self.get_param('blog')
