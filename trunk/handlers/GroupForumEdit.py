@@ -44,8 +44,7 @@ class GroupForumEdit(AuthenticatedHandler):
 			url_path=url_path,
 			content=self.get_param('content'),
 			responses=0,
-			subscribers=[ user.email ])
-		thread.put()
+			)
 		
 		user.threads += 1
 		user.put()
@@ -55,6 +54,7 @@ class GroupForumEdit(AuthenticatedHandler):
 		if not user.email in thread.subscribers and subscribe:
 			thread.subscribers.append(user.email)
 
+		thread.put()
 		group.threads += 1
 		group.put()
 		
