@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
-# (C) Copyright 2008 Juan Luis Belmonte <jlbelmonte at gmail dot com>
+# (C) Copyright 2008 Juan Luis Belmonte  <jlbelmonte at gmail dot com> 
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -20,32 +19,22 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
-
 from google.appengine.ext import db
 from handlers.AuthenticatedHandler import *
 
-class GroupForumView(BaseHandler):
+
+class GroupForumSubscribe( AuthenticatedHandler ):
 
 	def execute(self):
-		self.values['tab'] = '/group.list'
+		key = self.get_param('key')
+		thread = model.Thread.get(key)
 		user = self.values['user']
-		url_path = self.request.path.split('/', 2)[2]
-		thread = model.Thread.gql('WHERE url_path=:1', url_path).get()
-		if not thread:
-			self.not_found()
-			return
-		group = thread.group
+		mail=user.email	
 
-		self.values['group'] = group
-		self.values['joined'] = self.joined(group)
-		self.values['thread'] = thread
-		query = model.ThreadResponse.all().filter('thread =', thread).order('creation_date')
-		self.values['responses'] = self.paging(query, 10)
-		
-		if user:
-			if user.email in thread.subscribers:
-				self.values['cansubscribe']=False
-			else:
-				self.values['cansubscribe']=True
+		if not mail in thread.subscribers:
+			thread.subscribers.append(user.email)
+		else:
+			thread.subscribers.remove(user.email)
+		thread.put()
+		self.redirect('/group.forum/%s' % thread.url_path)
 
-		self.render('templates/group-forum-view.html')

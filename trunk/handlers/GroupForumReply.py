@@ -3,6 +3,7 @@
 
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+# (C) Copyright 2008 Juan Luis Belmonte <jlbelmonte at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -40,7 +41,9 @@ class GroupForumReply(AuthenticatedHandler):
 			content=self.get_param('content'))
 		response.put()
 		
-		if not user.email in thread.subscribers:
+		
+		subscribe=self.get_param('subscribe')
+		if not user.email in thread.subscribers and subscribe:
 			thread.subscribers.append(user.email)
 		thread.responses = thread.responses + 1
 		thread.put()

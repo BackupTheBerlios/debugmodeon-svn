@@ -51,6 +51,9 @@ class GroupForumEdit(AuthenticatedHandler):
 		user.put()
 		
 		self.create_group_subscribers(group)
+		subscribe=self.get_param('subscribe')
+		if not user.email in thread.subscribers and subscribe:
+			thread.subscribers.append(user.email)
 
 		group.threads += 1
 		group.put()

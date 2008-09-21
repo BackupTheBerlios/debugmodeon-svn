@@ -1,6 +1,7 @@
 {% comment %}
 (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
 (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
+(C) Copyright 2008 Juan Luis Belmonte <jlbelmonte at gmail dot com>
 
 This file is part of "debug_mode_on".
 
@@ -100,6 +101,15 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<div class="clear">&nbsp;</div>
 {% endif %}
 {% if user %}
+        {%if cansubscribe%}
+                <a id="group.forum.subscribe" href="/group.forum.subscribe?key={{thread.key}}" title="suscripción por mail"<img src="/static/images/add.png" class="icon" /> Suscribirme por mail a las respuestas de este hilo</a>
+        {%else%}
+                <a id="group.forum.subscribe" href="/group.forum.subscribe?key={{thread.key}}" title="anular suscripción"<img src="/static/images/delete.png" class="icon" /> Anular mi suscripción a este hilo</a>
+        {%endif%}
+{%endif%}
+
+
+{% if user %}
 	<div class="grid_9 alpha omega">
 		<h3>Deja tu respuesta</h3>
 	</div>
@@ -115,6 +125,10 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<div class="form">
 
 		<textarea name="content" rows="8" cols="54" id="markdown_example"></textarea>
+
+		<p>
+			<input type="checkbox" name="subscribe" value="True" id="subscribe" />Quiero que me me avisen por correo electrónico de nuevas respuestas.  <br/>
+		</p>
 
 		<p><input type="submit" value="Publicar respuesta" /></p>
 

@@ -59,7 +59,7 @@ from handlers.GroupForumList import *
 from handlers.GroupForumEdit import *
 from handlers.GroupForumView import *
 from handlers.GroupForumReply import *
-
+from handlers.GroupForumSubscribe import *
 # group items
 from handlers.GroupItemList import *
 from handlers.GroupItemAdd import *

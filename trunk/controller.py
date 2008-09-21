@@ -69,6 +69,7 @@ def main():
 									   ('/group.forum.edit',	GroupForumEdit),
 									   ('/group.forum/.*',		GroupForumView),
 									   ('/group.forum.reply',	GroupForumReply),
+									   ('/group.forum.subscribe',	GroupForumSubscribe),
 									   # group items
 									   ('/group.item.list/.*',	GroupItemList),
 									   ('/group.item.add',		GroupItemAdd),
