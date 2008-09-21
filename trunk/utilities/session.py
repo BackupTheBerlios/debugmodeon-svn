@@ -1,299 +1,482 @@
-'''
+"""
 Copyright (c) 2008, appengine-utilities project
 All rights reserved.
 
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following
-conditions are met:
-Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following 
-disclaimer in the documentation and/or other materials provided with the distribution.
-Neither the name of the appengine-utilities project nor the names of its contributors may be used to endorse or promote 
-products derived from this software without specific prior written permission.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+- Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+- Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+- Neither the name of the appengine-utilities project nor the names of its
+  contributors may be used to endorse or promote products derived from this
+  software without specific prior written permission.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
-BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
-EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
-CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, 
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
-POSSIBILITY OF SUCH DAMAGE.
-'''
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+"""
+
 # main python imports
-import sha, Cookie, os, time, datetime, random, __main__
+import os
+import time
+import datetime
+import random
+import sha
+import Cookie
+import pickle
+import __main__
 
-# google appengine import
+# google appengine imports
 from google.appengine.ext import db
+from google.appengine.api import memcache
 
-# settings, if you have these set elsewhere, such as your django settings file
+# settings, if you have these set elsewhere, such as your django settings file,
 # you'll need to adjust the values to pull from there.
 
+COOKIE_NAME = 'appengine-utilities-session-sid'
 DEFAULT_COOKIE_PATH = '/'
-SESSION_EXPIRE_TIME = 60*120 # Sessions are valid for 60 seconds * 120, or 2 hours
-CLEAN_CHECK_PERCENT = 15 # 15 percent of all requests will clean the database 
+SESSION_EXPIRE_TIME = 7200 # sessions are valid for 7200 seconds (2 hours)
+CLEAN_CHECK_PERCENT = 15 # 15% of all requests will clean the database
+INTEGRATE_FLASH = True # integrate functionality from flash module?
+CHECK_IP = True # validate sessions by IP
+CHECK_USER_AGENT = True # validate sessions by user agent
+SET_COOKIE_EXPIRES = True # Set to True to add expiration field to cookie
+SESSION_TOKEN_TTL = 5 # Number of seconds a session token is valid for.
 
-class _AppEngineUtilities_Sessions(db.Model):
+
+class _AppEngineUtilities_Session(db.Model):
     """
-    _AppengineUtilities_Sessions is the datastore class for Sessions. This contains the identifier and validation
-    information for the session.
+    Model for the sessions in the datastore. This contains the identifier and
+    validation information for the session.
     """
-    sid = db.StringProperty()
+
+    sid = db.StringListProperty()
     ip = db.StringProperty()
     ua = db.StringProperty()
-    lastActivity = db.DateTimeProperty(auto_now=True)
+    last_activity = db.DateTimeProperty(auto_now=True)
 
-class _AppEngineUtilities_SessionsData(db.Model):
+
+class _AppEngineUtilities_SessionData(db.Model):
     """
-    _AppEngineUtilities_SessionsData is the datastore for the class for the data attributed to a session.
+    Model for the session data in the datastore.
     """
-    sid = db.StringProperty()
+
+    session = db.ReferenceProperty(_AppEngineUtilities_Session)
     keyname = db.StringProperty()
-    content = db.StringProperty()
+    content = db.BlobProperty()
+
 
 class Session(object):
     """
-    Session data is kept in the datastore, with a cookie installed on the browser with a
-    session id used to reference. The session also stores the user agent and ip of the
-    browser to help limit session spoofing. Session data is stored in a referenced entity 
-    for each item in the datastore.
+    Sessions used to maintain user presence between requests.
+
+    Sessions store a unique id as a cookie in the browser and
+    referenced in a datastore object. This maintains user presence
+    by validating requests as visits from the same browser.
+
+    You can add extra data to the session object by using it
+    as a dictionary object. Values can be any python object that
+    can be pickled.
+
+    For extra performance, session objects are also store in
+    memcache and kept consistent with the datastore. This
+    increases the performance of read requests to session
+    data.
     """
-    def __init__(self, cookie_path=DEFAULT_COOKIE_PATH, session_expires=SESSION_EXPIRE_TIME):
-        ''' When instantiated, always check the cookie and create a new one if necessary.'''
+
+    def __init__(self, cookie_path=DEFAULT_COOKIE_PATH,
+            cookie_name=COOKIE_NAME, session_expire_time=SESSION_EXPIRE_TIME,
+            clean_check_percent=CLEAN_CHECK_PERCENT,
+            integrate_flash=INTEGRATE_FLASH, check_ip=CHECK_IP,
+            check_user_agent=CHECK_USER_AGENT,
+            set_cookie_expires=SET_COOKIE_EXPIRES,
+            session_token_ttl=SESSION_TOKEN_TTL):
+        """
+        Initializer
+
+        Args:
+          cookie_name: The name for the session cookie stored in the browser.
+          session_expire_time: The amount of time between requests before the
+              session expires.
+          clean_check_percent: The percentage of requests the will fire off a
+              cleaning routine that deletes stale session data.
+          integrate_flash: If appengine-utilities flash utility should be
+              integrated into the session object.
+          check_ip: If browser IP should be used for session validation
+          check_user_agent: If the browser user agent should be used for
+              sessoin validation.
+          set_cookie_expires: True adds an expires field to the cookie so
+              it saves even if the browser is closed.
+          session_token_ttl: Number of sessions a session token is valid
+              for before it should be regenerated.
+        """
+
+        self.cookie_path = cookie_path
+        self.cookie_name = cookie_name
+        self.session_expire_time = session_expire_time
+        self.clean_check_percent = clean_check_percent
+        self.integrate_flash = integrate_flash
+        self.check_user_agent = check_user_agent
+        self.check_ip = check_ip
+        self.set_cookie_expires = set_cookie_expires
+        self.session_token_ttl = session_token_ttl
+
+        """
+        Check the cookie and, if necessary, create a new one.
+        """
         self.cache = {}
         self.sid = None
         string_cookie = os.environ.get('HTTP_COOKIE', '')
         self.cookie = Cookie.SimpleCookie()
         self.cookie.load(string_cookie)
-        # check for flash data
-        if self.cookie.get('appengine-utilities-session-flash'):
-            self.flash = self.cookie['appengine-utilities-session-flash'].value
-            self.cookie['appengine-utilities-session-flash'] = "" 
-            self.cookie['appengine-utilities-session-flash']['expires'] = 0 
-            print self.cookie
+        # check for existing cookie
+        if self.cookie.get(cookie_name):
+            self.sid = self.cookie[cookie_name].value
+            # If there isn't a valid session for the cookie sid,
+            # start a new session.
+            self.session = self._get_session()
+            if self.session is None:
+                self.sid = self.new_sid()
+                self.session = _AppEngineUtilities_Session()
+                self.session.ua = os.environ['HTTP_USER_AGENT']
+                self.session.ip = os.environ['REMOTE_ADDR']
+                self.session.sid = [self.sid]
+                self.cookie[cookie_name] = self.sid
+                self.cookie[cookie_name]['path'] = cookie_path
+                if set_cookie_expires:
+                    self.cookie[cookie_name]['expires'] = \
+                        self.session_expire_time
+            else:
+                # check the age of the token to determine if a new one
+                # is required
+                duration = datetime.timedelta(seconds=self.session_token_ttl)
+                session_age_limit = datetime.datetime.now() - duration
+                if self.session.last_activity < session_age_limit:
+                    self.sid = self.new_sid()
+                    if len(self.session.sid) > 2:
+                        self.session.sid.remove(self.session.sid[0])
+                    self.session.sid.append(self.sid)
+                else:
+                    self.sid = self.session.sid[-1]
+                self.cookie[cookie_name] = self.sid
+                self.cookie[cookie_name]['path'] = cookie_path
+                if set_cookie_expires:
+                    self.cookie[cookie_name]['expires'] = \
+                        self.session_expire_time
         else:
-            if "flash" in self.__dict__:
-                del self.__dict__["flash"]
-        if self.cookie.get('appengine-utilities-session-sid'):
-            self.sid = self.cookie['appengine-utilities-session-sid'].value
-            if self.validateSid() != True:
-                self.sid = self.newSid()
-                self.cookie['appengine-utilities-session-sid'] = self.sid
-                self.cookie['appengine-utilities-session-sid']['path'] = cookie_path 
-                self.cookie['appengine-utilities-session-sid']['expires'] = session_expires 
-                print self.cookie
-        else:
-            self.sid = self.newSid()
-            self.cookie['appengine-utilities-session-sid'] = self.sid
-            self.cookie['appengine-utilities-session-sid']['path'] = cookie_path 
-            self.cookie['appengine-utilities-session-sid']['expires'] = session_expires 
-            print self.cookie
-        ''' This put is to update the lastActivity field in the datastore. So that every time
-            the sessions is accessed, the lastActivity gets updated.'''
-        self.ds.put()
-        self.cache['sid'] = self.sid
-        ''' Random to check to delete old stale sessions in the datastore. (15% of the time)'''
-        if random.randint(1, 100) < CLEAN_CHECK_PERCENT:
-            self.__cleanOldSessions()
+            self.sid = self.new_sid()
+            self.session = _AppEngineUtilities_Session()
+            self.session.ua = os.environ['HTTP_USER_AGENT']
+            self.session.ip = os.environ['REMOTE_ADDR']
+            self.session.sid = [self.sid]
+            self.cookie[cookie_name] = self.sid
+            self.cookie[cookie_name]['path'] = cookie_path
+            if set_cookie_expires:
+                self.cookie[cookie_name]['expires'] = self.session_expire_time
 
-    def newSid(self):
+        self.cache['sid'] = pickle.dumps(self.sid)
+
+        # update the last_activity field in the datastore every time that
+        # the session is accessed. This also handles the write for all
+        # session data above.
+        self.session.put()
+        print self.cookie
+
+        # fire up a Flash object if integration is enabled
+        if self.integrate_flash:
+            import flash
+            self.flash = flash.Flash(cookie=self.cookie)
+
+        # randomly delete old stale sessions in the datastore (see
+        # CLEAN_CHECK_PERCENT variable)
+        if random.randint(1, 100) < CLEAN_CHECK_PERCENT:
+            self._clean_old_sessions()
+
+    def new_sid(self):
         """
-        newSid will create a new session id, and store it in a cookie in the browser and then
-        instantiate the session in the database.
+        Create a new session id.
         """
-        if self.sid:
-            self.__deleteSession(self.sid)
-        sid = sha.new(repr(time.time())).hexdigest()
-        self.cookie['appengine-utilities-session-sid'] = sid
-        self.sid = sid
-        self.ds = _AppEngineUtilities_Sessions()
-        self.ds.ua = os.environ['HTTP_USER_AGENT']
-        self.ds.ip = os.environ['REMOTE_ADDR']
-        self.ds.sid = sid
-        self.ds.put()
+        sid = sha.new(repr(time.time()) + os.environ['REMOTE_ADDR'] + \
+                str(random.random())).hexdigest()
         return sid
 
-    def validateSid(self):
+    def _get_session(self):
         """
-        validateSid is used to determine if a session cookie passed from the browser is valid. It
-        confirms the session id exists in the data store, and the compares the user agent and ip
-        information stored against the browser to validate it.
+        Get the user's session from the datastore
         """
-        if self.sid == None:
-            raise ValueError, "sid not defined." 
-        self.ds = self.__getSession()
-        if self.ds == None:
+        query = _AppEngineUtilities_Session.all()
+        query.filter('sid', self.sid)
+        if self.check_user_agent:
+            query.filter('ua', os.environ['HTTP_USER_AGENT'])
+        if self.check_ip:
+            query.filter('ip', os.environ['REMOTE_ADDR'])
+        results = query.fetch(1)
+        if len(results) is 0:
             return None
-        sessionAge = datetime.datetime.now() - self.ds.lastActivity
-        if self.ds.ua != os.environ['HTTP_USER_AGENT'] or self.ds.ip != os.environ['REMOTE_ADDR'] or sessionAge.seconds > SESSION_EXPIRE_TIME:
-            if sessionAge.seconds > SESSION_EXPIRE_TIME:
-                self.__deleteSession(self.sid)
-            return None 
         else:
-            return True 
-        
-    def __getSession(self):
-        ''' __getSession uses a session id to return a session from the datastore.'''
-        if self.sid == None:
-            raise ValueError, "sid not defined." 
-        sessions = _AppEngineUtilities_Sessions.gql("WHERE sid = :1 AND ua = :2 LIMIT 1", self.sid, os.environ['HTTP_USER_AGENT'])
-        if sessions.count() == 0:
-            return None 
-        else:
-            return sessions[0]
+            sessionAge = datetime.datetime.now() - results[0].last_activity
+            if sessionAge.seconds > self.session_expire_time:
+                results[0].delete()
+                return None
+            return results[0]
 
-    def getData(self, keyname = None):
+    def _get(self, keyname=None):
         """
-        getData will return all the SessionData object for the session with the session id
-        of sid. Optionally, if keyname is provided, it will return just that instance of SessionsData.
+        Return all of the SessionData object unless keyname is specified, in
+        which case only that instance of SessionData is returned.
+        Important: This does not interact with memcache and pulls directly
+        from the datastore.
+
+        Args:
+            keyname: The keyname of the value you are trying to retrieve.
         """
-        queryStr = "WHERE sid = :1"
-        if keyname != None: 
-            queryStr += " AND keyname = :2"
-            results = _AppEngineUtilities_SessionsData.gql(queryStr, self.ds.sid, keyname)
-        else:
-            results = _AppEngineUtilities_SessionsData.gql(queryStr, self.ds.sid)
-        if results.count() == 0:
+        query = _AppEngineUtilities_SessionData.all()
+        query.filter('session', self.session)
+        if keyname != None:
+            query.filter('keyname =', keyname)
+        results = query.fetch(1000)
+
+        if len(results) is 0:
             return None
         if keyname != None:
             return results[0]
         return results
 
-    def __validateKey(self, keyname = None):
+    def _validate_key(self, keyname):
         """
-        Validates the keyname, making sure it is set and not a reserved name.
+        Validate the keyname, making sure it is set and not a reserved name.
         """
-        if keyname == None:
-            raise ValueError, "You must pass a keyname for the session data content."
-        if keyname == "sid":
-            raise ValueError, "sid is a reserved keyname for session data."
-        if keyname == "flash":
-            raise ValueError, "flash is a reserved keyname for session data."
+        if keyname is None:
+            raise ValueError('You must pass a keyname for the session' + \
+                ' data content.')
+        elif keyname in ('sid', 'flash'):
+            raise ValueError(keyname + ' is a reserved keyname.')
 
-    def putData(self, keyname = None, content = None):
+        if type(keyname) != type([str, unicode]):
+            return str(keyname)
+        return keyname
+
+    def _put(self, keyname, value):
         """
-        putData applies a keyname/value pair in SessionsData for the session.
+        Insert a keyname/value pair into the datastore for the session.
+
+        Args:
+            keyname: The keyname of the mapping.
+            value: The value of the mapping.
         """
-        self.__validateKey(keyname)
-        if content == None:
-            raise ValueError, "You must pass content for the sessions data."
-        sessdata = self.getData(keyname = keyname)
-        if sessdata == None:
-            sessdata = _AppEngineUtilities_SessionsData()
-            sessdata.sid = self.ds.sid 
-            sessdata.keyname = keyname 
-        sessdata.content = str(content)
-        self.cache[keyname] = str(content)
+        keyname = self._validate_key(keyname)
+ 
+        if value is None:
+            raise ValueError('You must pass a value to put.')
+        sessdata = self._get(keyname=keyname)
+        if sessdata is None:
+            sessdata = _AppEngineUtilities_SessionData()
+            sessdata.session = self.session
+            sessdata.keyname = keyname
+        sessdata.content = pickle.dumps(value)
+        self.cache[keyname] = pickle.dumps(value)
         sessdata.put()
-        
-    def __deleteSession(self, sid = None):
+        self._set_memcache()
+
+    def _delete_session(self):
         """
-        __deleteSession deletes the session and all session date for the sid passed.
+        Delete the session and all session data for the sid passed.
         """
-        if sid == None:
-            if self.sid == None:
-                raise ValueError, "sid not defined."
+        sessiondata = self._get()
+        # delete from datastore
+        if sessiondata is not None:
+            for sd in sessiondata:
+                sd.delete()
+        # delete from memcache
+        memcache.delete('sid-'+str(self.session.key()))
+        # delete the session now that all items that reference it are deleted.
+        self.session.delete()
+        # if the event class has been loaded, fire off the sessionDeleted event
+        if 'AEU_Events' in __main__.__dict__:
+            __main__.AEU_Events.fire_event('sessionDelete')
+
+    def delete(self):
+        """
+        Delete the current session and start a new one.
+
+        This is useful for when you need to get rid of all data tied to a
+        current session, such as when you are logging out a user.
+        """
+        self._delete_session()
+
+    def delete_all_sessions(self):
+        """
+        Deletes all sessions and session data from the data store and memcache.
+        """
+        all_sessions_deleted = False
+        all_data_deleted = False
+
+        while not all_sessions_deleted:
+            query = _AppEngineUtilities_Session.all()
+            results = query.fetch(1000)
+            if len(results) is 0:
+                all_sessions_deleted = True
             else:
-                sid = self.sid
-        queryStr = "WHERE sid = :1"
-        sessions = _AppEngineUtilities_Sessions.gql(queryStr, sid)
-        sessionsdata = _AppEngineUtilities_SessionsData.gql(queryStr, sid)
-        if sessions.count() > 0: 
-            if sessionsdata.count() > 0:
-                for sd in sessionsdata:
-                    db.delete(sd)
-            db.delete(sessions)
-        # If the event class has been loaded, fire off the sessionDeleted event
-        if "AEU_Events" in __main__.__dict__:
-            __main__.AEU_Events.fireEvent("sessionDeleted")
+                for result in results:
+                    result.delete()
 
-    def deleteSession(self):
-        """
-        deleteSession deletes the current session and starts a new one. Useful for
-        when you need to get rid of all data tied to a current session, such as
-        when you are logging out a user of a website.
-        """
-        self.__deleteSession()
+        while not all_data_deleted:
+            query = _AppEngineUtilities_SessionData.all()
+            results = query.fetch(1000)
+            if len(results) is 0:
+                all_data_deleted = True
+            else:
+                for result in results:
+                    result.delete()
 
-    def __cleanOldSessions(self):
+    def _clean_old_sessions(self):
         """
-         __cleanOldSessions looks for expired sessions and deletes them from the datastore. This
-        This should not be called on every request as it could be somewhat intensive, rather
-        fire it off a percentage of requests.
-        """
-        sessionAge = datetime.datetime.now() - datetime.timedelta(seconds=SESSION_EXPIRE_TIME)
-        queryStr = "WHERE lastActivity < :1"
-        sessions = _AppEngineUtilities_Sessions.gql(queryStr, sessionAge)
-        if sessions.count() > 0:
-            for session in sessions:
-                self.__deleteSession(session.sid)
+        Delete expired sessions from the datastore.
 
-    def __getitem__(self, k):
-        """ 
-        __getitem__ is necessary for this object to emulate a container.
+        This is only called for CLEAN_CHECK_PERCENT percent of requests because
+        it could be rather intensive.
         """
-        if k in self.cache:
-            return self.cache[k]
-        data = self.getData(k)
+        duration = datetime.timedelta(seconds=self.session_expire_time)
+        session_age = datetime.datetime.now() - duration
+        query = _AppEngineUtilities_Session.all()
+        query.filter('last_activity <', session_age)
+        results = query.fetch(1000)
+        for result in results:
+            data_query = _AppEngineUtilities_SessionData.all()
+            query.filter('session', result)
+            data_results = data_query.fetch(1000)
+            for data_result in data_results:
+                data_result.delete()
+            memcache.delete('sid-'+str(result.key()))
+            result.delete()
+
+    # Implement Python container methods
+
+    def __getitem__(self, keyname):
+        """
+        Get item from session data.
+
+        keyname: The keyname of the mapping.
+        """
+        # flash messages don't go in the datastore
+
+        if self.integrate_flash and (keyname == 'flash'):
+            return self.flash.msg
+        if keyname in self.cache:
+            return pickle.loads(str(self.cache[keyname]))
+        mc = memcache.get('sid-'+str(self.session.key()))
+        if mc is not None:
+            if keyname in mc:
+                return mc[keyname]
+        data = self._get(keyname)
         if data:
-            self.cache[k] = data.content
-            return data.content
+            self.cache[keyname] = data.content
+            self._set_memcache()
+            return pickle.loads(data.content)
         else:
-            raise KeyError, str(k)
+            raise KeyError(str(keyname))
 
-    def __setitem__(self, k, value):
-        """ 
-        __setitem__ is necessary for this object to emulate a container.
+    def __setitem__(self, keyname, value):
         """
-        if type(k) == type(''):
-            return self.putData(k, value)
+        Set item in session data.
+
+        Args:
+            keyname: They keyname of the mapping.
+            value: The value of mapping.
+        """
+ #       if type(keyname) is type(''):
+            # flash messages don't go in the datastore
+
+        if self.integrate_flash and (keyname == 'flash'):
+            self.flash.msg = value
         else:
-            raise TypeError, "Session data objects are only accessible by string keys, not numerical indexes."
+            keyname = self._validate_key(keyname)
+            self.cache[keyname] = value
+            self._set_memcache()
+            return self._put(keyname, value)
+#        else:
+#            raise TypeError('Session data objects are only accessible by' + \
+#                ' string keys, not numerical indexes.')
 
-    def __delitem__(self, k):
+    def __delitem__(self, keyname):
         """
-        Implement the 'del' keyword
+        Delete item from session data.
+
+        Args:
+            keyname: The keyname of the object to delete.
         """
-        self.__validateKey(k)
-        sessdata = self.getData(keyname = k)
-        if sessdata == None:
-            raise KeyError, str(k)
-        db.delete(sessdata)
-        if k in self.cache:
-            del self.cache[k]
-        
+        sessdata = self._get(keyname = keyname)
+        if sessdata is None:
+            raise KeyError(str(keyname))
+        sessdata.delete()
+        if keyname in self.cache:
+            del self.cache[keyname]
+        self._set_memcache()
+
     def __len__(self):
         """
-        Implement the len() function. Note that the GAE documentation says that count()
-        is O(n) so don't use this too often, okay?
+        Return size of session.
         """
-        return _AppEngineUtilities_SessionsData.all().filter("sid =", self.ds.sid).count()
+        # check memcache first
+        mc = memcache.get('sid-'+str(self.session.key()))
+        if mc is not None:
+            return len(mc)
+        results = self._get()
+        return len(results)
 
-    def __contains__(self, elt):
+    def __contains__(self, keyname):
         """
-        Implements "in" operator
+        Check if an item is in the session data.
+
+        Args:
+            keyname: The keyname being searched.
         """
         try:
-            r = self.__getitem__(elt)
+            r = self.__getitem__(keyname)
         except KeyError:
             return False
         return True
 
     def __iter__(self):
         """
-        Returns an iterator for the keys in the session.
-        See __str__ in this class for a demonstration!
+        Iterate over the keys in the session data.
         """
-        for k in _AppEngineUtilities_SessionsData.all().filter("sid =", self.ds.sid):
-            yield k.keyname
+        # try memcache first
+        mc = memcache.get('sid-'+str(self.session.key()))
+        if mc is not None:
+            for k in mc:
+                yield k
+        else:
+            for k in self._get():
+                yield k.keyname
 
     def __str__(self):
         """
-        String representation. 
+        Return string representation.
         """
-        return ", ".join(["(\"%s\" = \"%s\")" % (k, self[k]) for k in self])
+        return ', '.join(['("%s" = "%s")' % (k, self[k]) for k in self])
 
-    def setFlashData(self, val):
+    def _set_memcache(self):
         """
-        Sets a appengine-utilities-session-flash cookie and content.
+        Set a memcache object with all the session date. Optionally you can
+        add a key and value to the memcache for put operations.
         """
-        self.cookie['appengine-utilities-session-flash'] = val
-        print self.cookie
+        # Pull directly from the datastore in order to ensure that the
+        # information is as up to date as possible.
+        data = {}
+        sessiondata = self._get()
+        if sessiondata is not None:
+            for sd in sessiondata:
+                data[sd.keyname] = pickle.loads(sd.content)
+
+        memcache.set('sid-'+str(self.session.key()), data, \
+            self.session_expire_time)

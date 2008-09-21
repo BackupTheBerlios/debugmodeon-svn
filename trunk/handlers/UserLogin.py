@@ -30,7 +30,7 @@ class UserLogin(BaseHandler):
 
 	def execute(self):
 		values = self.values
-		session.Session().deleteSession()
+		session.Session().delete()
 
 		method = self.request.method
 
