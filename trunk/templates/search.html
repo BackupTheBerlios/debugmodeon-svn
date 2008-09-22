@@ -1,5 +1,6 @@
 {% comment %}
 (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+(C) Copyright 2008 Néstor Salceda <nestor.salceda at gmail dot com>
 
 This file is part of "debug_mode_on".
 
@@ -18,7 +19,11 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
 
 {% extends "base.html" %}
-{% block title %} Artículos etiquetados con "{{ tag }}" {% endblock %}
+{% block title %} 
+{% ifequal item_type 'articulos' %}Artículos {% endifequal %}
+{% ifequal item_type 'usuarios' %}Usuarios {% endifequal %}
+{% ifequal item_type 'grupos' %}Grupos {% endifequal %}
+etiquetados con "{{ tag }}" {% endblock %}
 {% block sidebar %}
 	<div class="box">
 		<p class="title">Nube de tags</p>
@@ -31,8 +36,21 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endblock %}
 
 {% block content %}
+
+{% ifequal item_type 'articulos' %}
 	<h1>Artículos que contengan "<em>{{ q|escape }}</em>"</h1>
 {% include 'inc-item-list.html' %}
+{% endifequal %}
+
+{% ifequal item_type 'usuarios' %}
+	<h1>Usuarios que contengan "<em>{{ q|escape }}</em>"</h1>
+{% include 'inc-user-list.html' %}
+{% endifequal %}
+
+{% ifequal item_type 'grupos' %}
+	<h1>Grupos que contengan "<em>{{ q|escape }}</em>"</h1>
+{% include 'inc-group-list.html' %}
+{% endifequal %}
 
 <div class="clear">&nbsp;</div>
 {% endblock %}

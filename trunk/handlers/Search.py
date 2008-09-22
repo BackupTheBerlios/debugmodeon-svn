@@ -4,6 +4,7 @@
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
 # (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
+# (C) Copyright 2008 Néstor Salceda <nestor.salceda at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -27,8 +28,19 @@ class Search(BaseHandler):
 
 	def execute(self):
 		q = self.get_param('q')
-		query = model.Item.all().filter('draft =', False).filter('deletion_date', None).search(q)
-		self.values['items'] = self.paging(query, 10)
+		item_type = self.get_param('item_type')
+
+		if item_type == 'articulos':
+			query = model.Item.all().filter('draft =', False).filter('deletion_date', None).search(q)
+			self.values['items'] = self.paging (query, 10);
+		elif item_type == 'usuarios':
+			query = model.UserData.all().search(q)
+			self.values['users'] = self.paging (query, 10);
+		elif item_type == 'grupos':
+			query = model.Group.all ().search(q)
+			self.values['groups'] = self.paging (query, 10);
+
 		self.values['taglist'] = self.tag_list(model.Tag.all())
 		self.values['q'] = q
+		self.values['item_type'] = item_type
 		self.render('templates/search.html')

@@ -3,6 +3,7 @@
 
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+# (C) Copyright 2008 Néstor Salceda <nestor.salceda at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -24,7 +25,7 @@ from google.appengine.ext import db
 from google.appengine.api import users
 from google.appengine.ext import search
 
-class UserData(db.Model):
+class UserData(search.SearchableModel):
 	nickname = db.StringProperty(required=True)
 	personal_message = db.StringProperty()
 	email = db.StringProperty(required=True)

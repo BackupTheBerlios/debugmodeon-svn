@@ -1,5 +1,6 @@
 {% comment %}
 (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+(C) Copyright 2008 Néstor Salceda <nestor.salceda at gmail dot com>
 
 This file is part of "debug_mode_on".
 
@@ -52,6 +53,11 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<form action="/search" method="get" accept-charset="utf-8" id="search">
 				<div>
 					<input type="text" name="q" value="{{ q }}" class="search" size="29" />
+					<select name="item_type">
+						<option value="articulos">Articulos</option>
+						<option value="usuarios">Usuarios</option>
+						<option value="grupos">Grupos</option>
+					</select>
 					<input type="submit" value="Buscar" />
 				</div>
 			</form>
