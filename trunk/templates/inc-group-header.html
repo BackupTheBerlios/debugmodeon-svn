@@ -9,11 +9,18 @@
 			<a href="/group.forum.list/{{ group.url_path }}"><img src="/static/images/comments.png" alt="" class="icon" /> {{ group.threads }} temas en el foro</a>
 			| <a href="/group.item.list/{{ group.url_path }}"><img src="/static/images/page_white_edit.png" alt="" class="icon" /> {{ group.items }} artículos</a>
 			| <a href="/group.user.list/{{ group.url_path }}"><img src="/static/images/group.png" alt="" class="icon" /> {{ group.members }} usuarios</a>
-			{% if user %}
-			{% ifequal user.nickname group.owner.nickname %}
-			| <strong><a href="/group.edit?key={{ group.key }}">Editar grupo</a></strong> (nombre, descripción, imagen)
-			{% endifequal %}
-			{% endif %}
+{% if user %}
+	{% ifequal joined 'True' %}
+			{% ifnotequal user.nickname group.owner.nickname %}
+				| <a href="/group.user.unjoin?group={{ group.key }}&amp;redirect={{ redirect }}"><img src="/static/images/delete.png" class="icon" alt="" /> Eliminarte del grupo</a>
+			{% endifnotequal %}
+	{% else %}{% ifequal joined 'False' %}
+			| <a href="/group.user.join?group={{ group.key }}&amp;redirect={{ redirect }}"><img src="/static/images/add.png" class="icon" alt="" /> Únete a este grupo</a>
+	{% endifequal %}{% endifequal %}
+	{% ifequal user.nickname group.owner.nickname %}
+			| <strong><a href="/group.edit?key={{ group.key }}">Editar grupo</a></strong>
+	{% endifequal %}
+{% endif %}
 		</p>
 	</div>
 

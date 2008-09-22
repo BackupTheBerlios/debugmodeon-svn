@@ -32,7 +32,7 @@ class GroupUserUnjoin(AuthenticatedHandler):
 			return
 		redirect = self.get_param('redirect')
 
-		gu = self.joined(group)
+		gu = model.GroupUser.gql('WHERE group=:1 and user=:2', group, user).get()
 		if gu and user != group.owner:
 			self.create_group_subscribers(group)
 			gu.delete()

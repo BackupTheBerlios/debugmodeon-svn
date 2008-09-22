@@ -219,8 +219,13 @@ class BaseHandler(webapp.RequestHandler):
 		taglist.sort()
 		return taglist
 	
+	# I use strings in order to distinguish three values into the templates
+	# 'True', 'False', and None
 	def joined(self, group):
-		return model.GroupUser.gql('WHERE group=:1 and user=:2', group, self.values['user']).get()
+		gu = model.GroupUser.gql('WHERE group=:1 and user=:2', group, self.values['user']).get()
+		if gu is not None:
+			return 'True'
+		return 'False'
 	
 	def parse_tags(self, tag_string):
 		tags = [self.to_url_path(t) for t in tag_string.split(',')]

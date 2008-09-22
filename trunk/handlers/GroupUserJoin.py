@@ -33,7 +33,7 @@ class GroupUserJoin(AuthenticatedHandler):
 		redirect = self.get_param('redirect')
 		
 		gu = self.joined(group)
-		if not gu:
+		if gu == 'False':
 			self.create_group_subscribers(group)
 			
 			gu = model.GroupUser(user=user, group=group)
