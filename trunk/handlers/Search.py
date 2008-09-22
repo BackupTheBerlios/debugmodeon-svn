@@ -32,14 +32,14 @@ class Search(BaseHandler):
 
 		if item_type == 'items':
 			query = model.Item.all().filter('draft =', False).filter('deletion_date', None).search(q)
-			self.values['items'] = self.paging(query, 1)
+			self.values['items'] = self.paging(query, 10)
 		# elif item_type == 'users':
 		#	query = model.UserData.all().search(q)
 		#	self.values['users'] = self.paging(query, 10)
 		# elif item_type == 'groups':
 		else:
 			query = model.Group.all().search(q)
-			self.values['groups'] = self.paging(query, 1)
+			self.values['groups'] = self.paging(query, 10)
 
 		self.values['taglist'] = self.tag_list(model.Tag.all())
 		self.values['q'] = q
