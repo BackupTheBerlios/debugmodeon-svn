@@ -50,13 +50,15 @@ class BaseHandler(webapp.RequestHandler):
 	def render(self, file):
 		self.response.headers['Content-Type'] = 'text/html;charset=UTF-8'
 		self.response.headers['Pragma'] = 'no-cache'
-		self.response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate'
+		self.response.headers['Cache-Control'] = 'no-cache'
+		self.response.headers['Expires'] = 'Wed, 27 Aug 2008 18:00:00 GMT'
 		self.response.out.write(template.render(file, self.values))
 	
 	def render_json(self, data):
 		self.response.headers['Content-Type'] = 'application/json;charset=UTF-8'
 		self.response.headers['Pragma'] = 'no-cache'
-		self.response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate'
+		self.response.headers['Cache-Control'] = 'no-cache'
+		self.response.headers['Expires'] = 'Wed, 27 Aug 2008 18:00:00 GMT'
 		self.response.out.write(simplejson.dumps(data))
 	
 	def pre_execute(self):
