@@ -144,7 +144,7 @@ class GroupItem(db.Model):
 	group = db.ReferenceProperty(Group,required=True)
 	creation_date = db.DateTimeProperty(auto_now_add=True)
 
-class Thread(db.Model):
+class Thread(search.SearchableModel):
 	group = db.ReferenceProperty(Group,required=True)
 	author = db.ReferenceProperty(UserData,required=True)
 	title = db.StringProperty(required=True)

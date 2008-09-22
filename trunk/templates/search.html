@@ -22,7 +22,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% block title %} 
 {% ifequal item_type 'articulos' %}Artículos {% endifequal %}
 {% ifequal item_type 'usuarios' %}Usuarios {% endifequal %}
-{% ifequal item_type 'grupos' %}Grupos {% endifequal %}
+{% ifequal item_type 'grupos' %}Foros {% endifequal %}
 etiquetados con "{{ tag }}" {% endblock %}
 {% block sidebar %}
 	<div class="box">
@@ -47,9 +47,9 @@ etiquetados con "{{ tag }}" {% endblock %}
 {% include 'inc-user-list.html' %}
 {% endifequal %}
 
-{% ifequal item_type 'grupos' %}
-	<h1>Grupos que contengan "<em>{{ q|escape }}</em>"</h1>
-{% include 'inc-group-list.html' %}
+{% ifequal item_type 'foros' %}
+	<h1>Hilos que contengan "<em>{{ q|escape }}</em>"</h1>
+{% include 'inc-forum-list.html' %}
 {% endifequal %}
 
 <div class="clear">&nbsp;</div>

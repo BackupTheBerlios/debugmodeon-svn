@@ -1,0 +1,41 @@
+{% comment %}
+(C) Copyright 2008 Néstor Salceda <nestor.salceda at gmail dot com>
+
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+{% endcomment %}
+
+<table class="forum">
+	<thead>
+		<th style="text-align:center">Grupo</th>
+		<th class="subject">Tema</th>
+		<th>Autor</th>
+		<th>Respuestas</th>
+		<th>Actualizado</th>
+	</thead>
+	<tbody>
+	{% for thread in threads %}
+		<tr {% if forloop.counter|divisibleby:2 %}class="even"{% endif %}>
+			<td style="text-align:center"><a href="/group/{{ thread.group.url_path}}"><img src="/images/group/thumbnail/{{ thread.group.key.id }}" alt="{{ thread.group.title|escape }}" title="{{ thread.group.title|escape }}" /></a></td>
+			<td class="subject"><strong><a href="/group.forum/{{ thread.url_path }}">{{ thread.title|escape }}</a></strong></td>
+			<td><a href="/user/{{ thread.author.nickname }}">{{ thread.author.nickname }}</a></td>
+			<td>{{ thread.responses }}</td>
+			<td>hace {{ thread.last_update|relativize }}</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+
+{% include 'inc-pagination.html' %}
