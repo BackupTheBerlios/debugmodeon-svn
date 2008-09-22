@@ -20,6 +20,7 @@
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
 
+from django import template
 from google.appengine.ext import webapp
 
 register = webapp.template.create_template_register()
@@ -85,9 +86,67 @@ def smiley(value):
 	value = value.replace(' 8-)', ' <img src="/static/images/smileys/cool.png" class="icon" alt="8-)" />')
 	
 	# value = value.replace(' :'(', ' <img src="/static/images/smileys/cry.png" class="icon" alt=":'(" />')
-	value = value.replace(' :_(', ' <img src="/static/images/smileys/cool.png" class="icon" alt=":_(" />')
+	value = value.replace(' :_(', ' <img src="/static/images/smileys/cry.png" class="icon" alt=":_(" />')
 	
 	value = value.replace(' :-X', ' <img src="/static/images/smileys/crossedlips.png" class="icon" alt=":-X" />')
 	
 	return value
 register.filter(smiley)
+
+class Pagination(template.Node):
+
+	def render(self,context):
+		prev = self.get('prev', context)
+		next = self.get('next', context)
+		params = []
+		p = self.get('p', context)
+		q = self.get('q', context)
+		a = self.get('a', context)
+		t = self.get('item_type', context)
+
+		if a:
+			a = '#%s' % str(a)
+		else:
+			a = ''
+
+		if t:
+			t = '&amp;item_type=%s' % str(t)
+		else:
+			t = ''
+		
+		s = ''
+		if prev or next:
+			s = '<p class="pagination">'
+			if prev:
+				if prev == 1:
+					if q:
+						qp = 'q=%s' % str(q)
+					else:
+						qp = ''
+					s = '%s<a href="?%s%s%s">« anterior</a> |' % (s, qp, t, a)
+				else:
+					if q:
+						qp = '&amp;q=%s' % str(q)
+					else:
+						qp = ''
+					s = '%s<a href="?p=%d%s%s%s">« anterior</a> |' % (s, prev, qp, t, a)
+			s = '%s Página %d ' % (s, p)
+			if next:
+				if q:
+					q = '&amp;q=%s' % str(q)
+				else:
+					q = ''
+				s = '%s| <a href="?p=%d%s%s%s">siguiente »</a>' % (s, next, q, t, a)
+			s = '%s</p>' % s
+		return s
+	
+	def get(self, key, context):
+		try:
+			return template.resolve_variable(key, context)
+		except template.VariableDoesNotExist:
+			return None
+
+
+@register.tag
+def pagination(parser, token):
+	return Pagination()

@@ -44,14 +44,4 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	</p>
 {% endfor %}
 
-{% if prev or next %}
-	<p class="pagination">
-		{% if prev %}
-		<a href="?p={{ prev }}">« anterior</a> |
-		{% endif %}
-		Página {{ p }}
-		{% if next %}
-		| <a href="?p={{ next }}">siguiente »</a></p>
-		{% endif %}
-	</p>
-{% endif %}
+{% pagination %}

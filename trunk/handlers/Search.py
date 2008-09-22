@@ -30,16 +30,16 @@ class Search(BaseHandler):
 		q = self.get_param('q')
 		item_type = self.get_param('item_type')
 
-		if item_type == 'articulos':
+		if item_type == 'items':
 			query = model.Item.all().filter('draft =', False).filter('deletion_date', None).search(q)
-			self.values['items'] = self.paging (query, 10);
-		elif item_type == 'usuarios':
-			query = model.UserData.all().search(q)
-			self.values['users'] = self.paging (query, 10);
-		elif item_type == 'foros':
-			#TODO: Solo buscando en Thread y no en responses
-			query = model.Thread.all ().search(q)
-			self.values['threads'] = self.paging (query, 10);
+			self.values['items'] = self.paging(query, 1)
+		# elif item_type == 'users':
+		#	query = model.UserData.all().search(q)
+		#	self.values['users'] = self.paging(query, 10)
+		# elif item_type == 'groups':
+		else:
+			query = model.Group.all().search(q)
+			self.values['groups'] = self.paging(query, 1)
 
 		self.values['taglist'] = self.tag_list(model.Tag.all())
 		self.values['q'] = q

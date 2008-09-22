@@ -20,9 +20,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 {% extends "base.html" %}
 {% block title %} 
-{% ifequal item_type 'articulos' %}Artículos {% endifequal %}
-{% ifequal item_type 'usuarios' %}Usuarios {% endifequal %}
-{% ifequal item_type 'grupos' %}Foros {% endifequal %}
+{% ifequal item_type 'items' %}Artículos {% endifequal %}
+{% ifequal item_type 'groups' %}Grupos {% endifequal %}
 etiquetados con "{{ tag }}" {% endblock %}
 {% block sidebar %}
 	<div class="box">
@@ -37,7 +36,7 @@ etiquetados con "{{ tag }}" {% endblock %}
 
 {% block content %}
 
-{% ifequal item_type 'articulos' %}
+{% ifequal item_type 'items' %}
 	<h1>Artículos que contengan "<em>{{ q|escape }}</em>"</h1>
 {% include 'inc-item-list.html' %}
 {% endifequal %}
@@ -47,9 +46,10 @@ etiquetados con "{{ tag }}" {% endblock %}
 {% include 'inc-user-list.html' %}
 {% endifequal %}
 
-{% ifequal item_type 'foros' %}
-	<h1>Hilos que contengan "<em>{{ q|escape }}</em>"</h1>
-{% include 'inc-forum-list.html' %}
+{% ifequal item_type 'groups' %}
+	<h1>Grupos que contengan "<em>{{ q|escape }}</em>"</h1>
+{% include 'inc-group-list.html' %}
+{% pagination %}
 {% endifequal %}
 
 <div class="clear">&nbsp;</div>

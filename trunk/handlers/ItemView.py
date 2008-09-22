@@ -73,7 +73,8 @@ class ItemView(BaseHandler):
 		
 		self.values['item'] = item
 		query = model.Comment.all().filter('item =', item).order('creation_date')
-		self.values['comments'] = self.paging(query, 10)
+		self.values['comments'] = self.paging(query, 1)
+		self.values['a'] = 'comments'
 		self.values['keywords'] = ', '.join(item.tags)
 		
 		groups = [g.group for g in model.GroupItem.all().filter('item =', item)]

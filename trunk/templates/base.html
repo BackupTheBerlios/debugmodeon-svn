@@ -52,11 +52,10 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<div class="grid_12" id="nav">
 			<form action="/search" method="get" accept-charset="utf-8" id="search">
 				<div>
-					<input type="text" name="q" value="{{ q }}" class="search" size="29" />
+					<input type="text" name="q" value="{{ q|escape }}" class="search" size="29" />
 					<select name="item_type">
-						<option value="articulos">Articulos</option>
-						<option value="usuarios">Usuarios</option>
-						<option value="foros">Foros</option>
+						<option value="items" {% ifequal item_type 'items' %}selected="selected"{% endifequal %}>Artículos</option>
+						<option value="groups" {% ifequal item_type 'groups' %}selected="selected"{% endifequal %}>Grupos</option>
 					</select>
 					<input type="submit" value="Buscar" />
 				</div>
