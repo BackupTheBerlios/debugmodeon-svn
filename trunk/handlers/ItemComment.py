@@ -47,7 +47,9 @@ class ItemComment(AuthenticatedHandler):
 		
 		user.comments += 1
 		user.put()
-		
+	
+
+		 
 		subject = u"[debug_mode=ON] Nuevo comentario: '%s'" % self.clean_ascii(item.title)
 
 		body = u"""
@@ -64,7 +66,8 @@ http://debugmodeon.com/item/%s#comments
 			subject=subject,
 			body=body)
 			
-		if not user.email in item.subscribers:
+		subscribe=self.get_param('subscribe')
+		if not user.email in item.subscribers and subscribe:
 			item.subscribers.append(user.email)
 		item.responses = item.responses + 1
 		item.put()

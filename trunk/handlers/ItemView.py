@@ -63,7 +63,13 @@ class ItemView(BaseHandler):
 			added = model.Favourite.gql('WHERE user=:1 AND item=:2',user,item).get()
 			if not added:
 				self.values['canadd'] = True
-		
+		if user:
+                        if user.email in item.subscribers:
+                                self.values['cansubscribe']=False
+                        else:
+                                self.values['cansubscribe']=True
+	
+				
 		
 		self.values['item'] = item
 		query = model.Comment.all().filter('item =', item).order('creation_date')
@@ -96,6 +102,7 @@ class ItemView(BaseHandler):
 				break
 		if len(related) > 10:
 			related = related[:-1]
-		
+	
+
 		self.values['related'] = related
 		self.render('templates/item-view.html')

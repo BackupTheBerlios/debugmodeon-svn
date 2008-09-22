@@ -40,6 +40,7 @@ def main():
 									   ('/item.favourite',	ItemFavourite),
 									   ('/item.vote',		ItemVote),
 									   ('/item/.*',			ItemView),
+									   ('/item.comment.subscribe',	ItemCommentSubscribe),
 									   ('/item.comment',	ItemComment),
 									   ('/item.delete',		ItemDelete),
 									   # users

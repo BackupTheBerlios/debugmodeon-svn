@@ -28,7 +28,7 @@ from handlers.ItemVote import *
 from handlers.ItemDelete import *
 from handlers.ItemComment import *
 from handlers.ItemFavourite import *
-
+from handlers.ItemCommentSubscribe import *
 # users
 from handlers.UserList import *
 from handlers.UserView import *
