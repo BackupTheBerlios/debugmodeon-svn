@@ -31,6 +31,7 @@ import struct
 from utilities import session
 from google.appengine.ext import db
 from google.appengine.api import users
+from google.appengine.api import memcache
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.api import images
@@ -168,24 +169,6 @@ class BaseHandler(webapp.RequestHandler):
 			break
 		return url_path
 	
-	def paging(self, query, max):
-		try:
-			p = int(self.get_param('p'))
-		except ValueError:
-			p = 1
-		self.values['p'] = p
-		if p > 1:
-			self.values['prev'] = p-1
-		offset = (p-1)*max
-		a = [o for o in query.fetch(max+1, offset)]
-		l = len(a)
-		if l > max:
-			self.values['len'] = max
-			self.values['next'] = p+1
-			return a[:max]
-		self.values['len'] = l
-		return a
-	
 	def delete_tags(self, tags):
 		tags=set(tags)
 		for tag in tags:
@@ -263,3 +246,44 @@ class BaseHandler(webapp.RequestHandler):
 		if not group.subscribers:
 			com = [g.user.email for g in model.GroupUser.all().filter('group', group).fetch(1000) ]
 			group.subscribers = list(set(com))
+
+	def cache(self, key, function, timeout=0):
+		data = memcache.get(key)
+		if data is not None:
+			return data
+		else:
+			data = function.__call__()
+			memcache.add(key, data, timeout)
+			return data
+	
+	def cache_this(self, function, timeout=600):
+		key = '%s?%s' % (self.request.path, self.request.query)
+		return self.cache(key, function, timeout)
+	
+	def pre_pag(self, query, max):
+		try:
+			p = int(self.get_param('p'))
+		except ValueError:
+			p = 1
+		offset = (p-1)*max
+		return [o for o in query.fetch(max+1, offset)]
+		
+	def post_pag(self, a, max):
+		try:
+			p = int(self.get_param('p'))
+		except ValueError:
+			p = 1
+		self.values['p'] = p
+		if p > 1:
+			self.values['prev'] = p-1
+		l = len(a)
+		if l > max:
+			self.values['len'] = max
+			self.values['next'] = p+1
+			return a[:max]
+		self.values['len'] = l
+		return a
+	
+	def paging(self, query, max):
+		a = self.pre_pag(query, max)
+		return self.post_pag(a, max)

@@ -21,7 +21,6 @@
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-from google.appengine.api import memcache
 from handlers.BaseHandler import *
 
 class MainPage(BaseHandler):
@@ -46,12 +45,3 @@ class MainPage(BaseHandler):
 
 	def get_threads(self):
 		return model.Thread.all().order('-last_update').fetch(10)
-		
-	def cache(self, key, function, timeout=0):
-		data = memcache.get(key)
-		if data is not None:
-			return data
-		else:
-			data = function.__call__()
-			memcache.add(key, data, timeout)
-			return data
