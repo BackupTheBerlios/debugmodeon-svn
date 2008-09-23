@@ -148,9 +148,12 @@ class Thread(search.SearchableModel):
 	group = db.ReferenceProperty(Group,required=True)
 	author = db.ReferenceProperty(UserData,required=True)
 	title = db.StringProperty(required=True)
-	url_path = db.StringProperty(required=True)
+	url_path = db.StringProperty()
 	content = db.TextProperty(required=True)
 	subscribers = db.StringListProperty()
+	
+	# responses
+	parent_thread = db.SelfReferenceProperty()
 	
 	responses = db.IntegerProperty(required=True)
 	latest_response = db.DateTimeProperty()

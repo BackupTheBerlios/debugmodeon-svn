@@ -36,5 +36,9 @@ class GroupForumList(BaseHandler):
 		self.values['group'] = group
 		self.values['joined'] = self.joined(group)
 		query = model.Thread.all().filter('group =', group).order('-last_update')
-		self.values['threads'] = self.paging(query, 10)
+		threads = []
+		for t in query:
+			if t.url_path is not None:
+				threads.append(t)
+		self.values['threads'] = threads # self.paging(query, 10)
 		self.render('templates/group-forum-list.html')

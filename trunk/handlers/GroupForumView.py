@@ -32,14 +32,37 @@ class GroupForumView(BaseHandler):
 		url_path = self.request.path.split('/', 2)[2]
 		thread = model.Thread.gql('WHERE url_path=:1', url_path).get()
 		if not thread:
+			# TODO: try with the id in the url_path and redirect
 			self.not_found()
 			return
+		
+		if len(thread.url_path.split('/')) == 2:
+			responses = model.ThreadResponse.all().filter('thread', thread).order('creation_date')
+			for r in responses:
+				resp = model.Thread(group=thread.group,
+					author=r.author,
+					title=thread.title,
+					url_path=None,
+					content=r.content,
+					parent_thread=thread,
+					responses=0,
+					last_update=r.last_update,
+					creation_date=r.creation_date,
+					deletion_date=r.deletion_date)
+				resp.put()
+				r.delete()
+			thread.url_path = '%d/%s' % (thread.key().id(), thread.url_path)
+			thread.parent_thread = None
+			thread.put()
+			self.redirect('/group.forum/%s' % thread.url_path)
+			return
+				
 		group = thread.group
 
 		self.values['group'] = group
 		self.values['joined'] = self.joined(group)
 		self.values['thread'] = thread
-		query = model.ThreadResponse.all().filter('thread =', thread).order('creation_date')
+		query = model.Thread.all().filter('parent_thread', thread).order('creation_date')
 		self.values['responses'] = self.paging(query, 10)
 		
 		if user:

@@ -36,12 +36,15 @@ class GroupForumReply(AuthenticatedHandler):
 			self.not_found()
 			return
 		group = thread.group
-
-		response = model.ThreadResponse(thread=thread,
-			author=user,
-			content=self.get_param('content'))
-		response.put()
 		
+		response = model.Thread(group=thread.group,
+			author=user,
+			title=thread.author,
+			url_path=None,
+			content=self.get_param('content'),
+			parent_thread=thread,
+			responses=0)
+		response.put()
 		
 		subscribe=self.get_param('subscribe')
 		if not user.email in thread.subscribers and subscribe:
