@@ -48,14 +48,14 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 70 times in query history.
+# Used 74 times in query history.
 - kind: GroupItem
   properties:
   - name: group
   - name: creation_date
     direction: desc
 
-# Used 54 times in query history.
+# Used 58 times in query history.
 - kind: GroupUser
   properties:
   - name: group
@@ -189,14 +189,14 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 94 times in query history.
+# Used 96 times in query history.
 - kind: Thread
   properties:
   - name: group
   - name: last_update
     direction: desc
 
-# Used 2 times in query history.
+# Used 12 times in query history.
 - kind: Thread
   properties:
   - name: group
@@ -204,17 +204,24 @@ indexes:
   - name: last_update
     direction: desc
 
-# Used 68 times in query history.
+# Used 69 times in query history.
 - kind: Thread
   properties:
   - name: last_update
     direction: desc
 
-# Used 10 times in query history.
+# Used 21 times in query history.
 - kind: Thread
   properties:
   - name: parent_thread
   - name: creation_date
+
+# Used 22 times in query history.
+- kind: Thread
+  properties:
+  - name: parent_thread
+  - name: last_update
+    direction: desc
 
 # Used 37 times in query history.
 - kind: ThreadResponse

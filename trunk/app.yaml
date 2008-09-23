@@ -16,7 +16,7 @@ handlers:
   static_dir: static
 
 - url: /.*
-#  static_files: static/sorry.html
-#  upload: static/sorry.html
-#  expiration: '1s'
-  script: controller.py
+  static_files: static/sorry.html
+  upload: static/sorry.html
+  expiration: '1s'
+#  script: controller.py

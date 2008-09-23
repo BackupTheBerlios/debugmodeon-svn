@@ -66,7 +66,7 @@ class UserRegister(BaseHandler):
 				return
 
 			if not password or len(password) < 4 or len(password) > 30:
-				self.show_error(nickname, email, 'La contraseña debe ser de entre cuatro y doce caracteres')
+				self.show_error(nickname, email, 'La contraseña debe ser de entre cuatro y treinta caracteres')
 				return
 
 			u = model.UserData.all().filter('nickname =', nickname).get()

@@ -26,7 +26,7 @@ class ForumList(BaseHandler):
 
 	def execute(self):
 		self.values['tab'] = '/forum.list'
-		query = model.Thread.all().order('-last_update')
+		query = model.Thread.all().filter('parent_thread', None).order('-last_update')
 
 		self.values['threads'] = self.paging(query, 20)
 		self.render('templates/forum-list.html')

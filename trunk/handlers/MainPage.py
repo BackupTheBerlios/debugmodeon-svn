@@ -44,4 +44,4 @@ class MainPage(BaseHandler):
 		return model.Group.all().order('-creation_date').fetch(10)
 
 	def get_threads(self):
-		return model.Thread.all().order('-last_update').fetch(10)
+		return model.Thread.all().filter('parent_thread', None).order('-last_update').fetch(10)
