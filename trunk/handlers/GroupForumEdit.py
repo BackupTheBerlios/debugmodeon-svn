@@ -36,16 +36,14 @@ class GroupForumEdit(AuthenticatedHandler):
 			return
 		
 		title = self.get_param('title')
-		url_path = ('%s/%s') % (group.url_path, self.to_url_path(title))
-		url_path = self.unique_url_path(model.Thread, url_path)
+		url_path = ''
 
 		thread = model.Thread(group=group,
 			author=user,
 			title=title,
 			url_path=url_path,
 			content=self.get_param('content'),
-			responses=0,
-			)
+			responses=0)
 		
 		user.threads += 1
 		user.put()
@@ -56,6 +54,9 @@ class GroupForumEdit(AuthenticatedHandler):
 			thread.subscribers.append(user.email)
 
 		thread.put()
+		thread.url_path = ('%d/%s/%s') % (thread.key().id(), group.url_path, self.to_url_path(title))
+		thread.put()
+		
 		group.threads += 1
 		group.put()
 		
