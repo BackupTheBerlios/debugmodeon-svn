@@ -48,11 +48,10 @@ class ItemComment(AuthenticatedHandler):
 		user.comments += 1
 		user.put()
 	
+		if item.subscribers:
+			subject = u"[debug_mode=ON] Nuevo comentario: '%s'" % self.clean_ascii(item.title)
 
-		 
-		subject = u"[debug_mode=ON] Nuevo comentario: '%s'" % self.clean_ascii(item.title)
-
-		body = u"""
+			body = u"""
 Nuevo comentario en el articulo %s:
 
 Lee los comentarios en:
@@ -60,11 +59,11 @@ http://debugmodeon.com/item/%s#comments
 
 """ % (self.clean_ascii(item.title), item.url_path)
 		
-		mail.send_mail(sender='contacto@debugmodeon.com',
-			to='contacto@debugmodeon.com',
-			bcc=item.subscribers,
-			subject=subject,
-			body=body)
+			mail.send_mail(sender='contacto@debugmodeon.com',
+				to='contacto@debugmodeon.com',
+				bcc=item.subscribers,
+				subject=subject,
+				body=body)
 			
 		subscribe=self.get_param('subscribe')
 		if not user.email in item.subscribers and subscribe:
