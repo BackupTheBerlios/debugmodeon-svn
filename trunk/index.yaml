@@ -210,7 +210,7 @@ indexes:
   - name: last_update
     direction: desc
 
-# Used 6 times in query history.
+# Used 8 times in query history.
 - kind: Thread
   properties:
   - name: parent_thread
