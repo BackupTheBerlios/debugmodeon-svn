@@ -1,4 +1,4 @@
-﻿{% comment %}
+﻿{#
 (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
 (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 (C) Copyright 2008 Néstor Salceda <nestor.salceda at gmail dot com>
@@ -17,7 +17,7 @@ GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
 along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
-{% endcomment %}
+#}
 
 {% extends "base.html" %}
 {% block title %} Preferencias {% endblock %}
@@ -60,17 +60,17 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
    
 				<p>
 					<label for="blog">Blog personal</label>
-					<input type="text" name="blog" size="40" value="{% for link in links %}{% ifequal link.0 'blog' %}{{ link.1 }}{% endifequal %}{% endfor %}" />
+					<input type="text" name="blog" size="40" value="{% for link in links %}{% if link.0 == 'blog' %}{{ link.1 }}{% endif %}{% endfor %}" />
 				</p>
    
 				<p>
 					<label for="linkedin">Perfil de LinkedIn</label>
-					<input type="text" name="linkedin" size="40" value="{% for link in links %}{% ifequal link.0 'linkedin' %}{{ link.1 }}{% endifequal %}{% endfor %}" />
+					<input type="text" name="linkedin" size="40" value="{% for link in links %}{% if link.0 == 'linkedin' %}{{ link.1 }}{% endif %}{% endfor %}" />
 				</p>
    
 				<p>
 					<label for="ohloh">Perfil de Ohloh</label>
-					<input type="text" name="ohloh" size="40" value="{% for link in links %}{% ifequal link.0 'ohloh' %}{{ link.1 }}{% endifequal %}{% endfor %}"/>
+					<input type="text" name="ohloh" size="40" value="{% for link in links %}{% if link.0 == 'ohloh' %}{{ link.1 }}{% endif %}{% endfor %}"/>
 				</p>
    
 				<p>

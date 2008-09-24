@@ -1,4 +1,4 @@
-{% comment %}
+{#
 (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
 (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 (C) Copyright 2008 Juan Luis Belmonte  <jlbelmonte at gmail dot com>
@@ -17,7 +17,7 @@ GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
 along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
-{% endcomment %}
+#}
 
 {% extends "base.html" %}
 {% block title %} {{ group.title|escape }} | Foro de discusión{% endblock %}
@@ -28,7 +28,6 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endblock %}
 
 {% block sidebar %}
-{% include 'inc-group-member.html' %}
 	<div class="box">
 		<p class="title">Sindicación RSS</p>
 		<p class="options"><a href="/feed/group/{{ group.url_path }}"><img src="/static/images/feed.png" alt="feed" class="icon" /> Artículos del grupo {{ group.title|escape }}</a></p>
@@ -51,7 +50,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		</thead>
 		<tbody>
 		{% for thread in threads %}
-			<tr {% if forloop.counter|divisibleby:2 %}class="even"{% endif %}>
+			<tr {% if forloop.counter % 2 == 0 %}class="even"{% endif %}>
 				<td class="subject"><strong><a href="/group.forum/{{ thread.url_path }}">{{ thread.title|escape }}</a></strong></td>
 				<td><a href="/user/{{ thread.author.nickname }}">{{ thread.author.nickname }}</a></td>
 				<td>{{ thread.responses }}</td>
@@ -67,7 +66,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<h3>Inicia un tema</h3>
 	
 	<form action="/group.forum.edit" method="post" accept-charset="utf-8">
-		<input type="hidden" name="key" value="{{ group.key }}" />
+		<input type="hidden" name="key" value="{{ group.key() }}" />
 		
 		<div class="form">
 		
