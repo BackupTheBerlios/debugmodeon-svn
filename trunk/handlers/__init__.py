@@ -29,6 +29,7 @@ from handlers.ItemDelete import *
 from handlers.ItemComment import *
 from handlers.ItemFavourite import *
 from handlers.ItemCommentSubscribe import *
+from handlers.ItemDeleteComment import *
 # users
 from handlers.UserList import *
 from handlers.UserView import *
@@ -48,6 +49,7 @@ from handlers.UserContacts import *
 
 # forums
 from handlers.ForumList import *
+from handlers.ForumDelete import *
 
 # groups
 from handlers.GroupList import *

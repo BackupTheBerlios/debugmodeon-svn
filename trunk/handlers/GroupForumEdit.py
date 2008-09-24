@@ -35,6 +35,9 @@ class GroupForumEdit(AuthenticatedHandler):
 			self.not_found()
 			return
 		
+		if group.all_users is not None and not self.can_write(group):
+			self.forbidden()
+			return
 		title = self.get_param('title')
 		url_path = ''
 

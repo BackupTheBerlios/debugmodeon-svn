@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+# (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -19,26 +19,37 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
-from google.appengine.ext import db
-from handlers.BaseHandler import *
 
-class GroupForumList(BaseHandler):
+import datetime
+
+from google.appengine.ext import db
+from handlers.AuthenticatedHandler import *
+
+class ForumDelete(AuthenticatedHandler):
 
 	def execute(self):
-		self.values['tab'] = '/group.list'
-		url_path = self.request.path.split('/', 2)[2]
-		group = model.Group.gql('WHERE url_path=:1', url_path).get()
-		if not group:
+		user = self.values['user']
+		if user.rol != 'admin':
+			self.forbidden()
+			return
+		thread = model.Thread.get(self.get_param('key'))
+		url = ''
+		if not thread:
 			self.not_found()
 			return
-
-		self.values['group'] = group
-		self.values['joined'] = self.joined(group)
-		query = model.Thread.all().filter('group =', group).order('-last_update')
-		if group.all_users is None or group.all_users:
-			self.values['can_write'] = True
+		if thread.parent_thread is not None:
+			url = '/group.forum/' + thread.parent_thread.url_path
+			#decrement number of childs in the parent thread
+			thread.parent_thread.responses -= 1
+			thread.parent_thread.put()
+			#Delete child thread
+			thread.delete()
 		else:
-			self.values['can_write'] = self.can_write(group)
-		query = model.Thread.all().filter('group', group).filter('parent_thread', None).order('-last_update')
-		self.values['threads'] = self.paging(query, 10)
-		self.render('templates/group-forum-list.html')
+			#delete patent thread
+			url = '/group.forum.list/' + thread.group.url_path
+			#decrement threads in the group
+			thread.group.threads -=1
+			thread.group.put()
+			thread.delete()
+			
+		self.redirect(url)

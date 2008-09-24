@@ -241,6 +241,16 @@ class BaseHandler(webapp.RequestHandler):
 		if model.Contact.all().filter('user_from', user).filter('user_to', this_user).get():
 			return True
 		return False
+		
+	def can_write(self, group):
+		if group.all_users is None or group.all_users:
+			return True
+		user = self.values['user']
+		if not user:
+			return False
+		if model.GroupUser.all().filter('group', group).filter('user', user).get():
+			return True
+		return False
 
 	def create_group_subscribers(self, group):	
 		if not group.subscribers:

@@ -3,6 +3,7 @@
 
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+# (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 # (C) Copyright 2008 Néstor Salceda <nestor.salceda at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
@@ -133,6 +134,8 @@ class Group(search.SearchableModel):
 	
 	avatar = db.BlobProperty()
 	thumbnail = db.BlobProperty()
+	
+	all_users = db.BooleanProperty()
 
 class GroupUser(db.Model):
 	user = db.ReferenceProperty(UserData,required=True)

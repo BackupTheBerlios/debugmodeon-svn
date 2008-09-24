@@ -45,7 +45,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<div class="grid_9 alpha omega">
 		<div class="info">
 			<h2>{{ thread.title|escape }}</h2>
-			<p class="options">Iniciado por <a href="/user/{{ thread.author.nickname|escape }}">{{ thread.author.nickname|escape }}</a> hace <strong>{{ thread.creation_date|relativize }}</strong> </p>
+			<p class="options">Iniciado por <a href="/user/{{ thread.author.nickname|escape }}">{{ thread.author.nickname|escape }}</a> hace <strong>{{ thread.creation_date|relativize }}</strong></p>
 		</div>
 	</div>
 	
@@ -56,17 +56,18 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		</p>
 	</div>
 	<div class="grid_7 omega">
-		{{ thread.content|markdown|smiley }}
-		
-		{% if user %}
+		{{ thread.content|markdown|smiley }} {% ifequal user.rol 'admin' %}<a href="/forum.delete?key={{ thread.key }}"><p class="options"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar hilo</p></a>{% endifequal %}
+		{% ifnotequal user.nickname thread.author.nickname %}
+			{% if user %}
 			<p class="options">
-			{% if cansubscribe %}
-				<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key }}" title="suscripción por mail"><img src="/static/images/add.png" class="icon" /> Suscribirme por email a las respuestas de este hilo</a>
-			{% else %}
-				<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key }}" title="anular suscripción"><img src="/static/images/delete.png" class="icon" /> Anular mi suscripción a este hilo</a>
-			{% endif %}
+				{% if cansubscribe %}
+					<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key }}" title="suscripción por mail"><img src="/static/images/add.png" class="icon" /> Suscribirme por email a las respuestas de este hilo</a>
+				{% else %}
+					<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key }}" title="anular suscripción"><img src="/static/images/delete.png" class="icon" /> Anular mi suscripción a este hilo</a>
+				{% endif %}
 			</p>
-		{% endif %}
+			{% endif %}
+		{% endifnotequal %}
 	</div>
 	<div class="clear">&nbsp;</div>
 
@@ -85,7 +86,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	</div>
 	<div class="grid_7 omega">
 		<div class="comment">
-			{{ comment.content|markdown|smiley }}
+			{{ comment.content|markdown|smiley }} {% ifequal user.rol 'admin' %}<a href="/forum.delete?key={{ comment.key }}"><p class="options"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar comentario</p></a>{% endifequal %}
 		</div>
 	</div>
 	<div class="clear">&nbsp;</div>
@@ -112,7 +113,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endif %}
 
 
-{% if user %}
+{% if user and can_write %}
 	<div class="grid_9 alpha omega">
 		<h3>Deja tu respuesta</h3>
 	</div>
@@ -144,11 +145,15 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	</form>
 	</div>
 	<div class="clear">&nbsp;</div>
+{% else %}
+	{% if user and not can_write %}
+		<p>Este grupo requiere que te unas a él para poder escribir. <a href="/group.user.join?group={{ group.key|escape }}&amp;redirect={{ redirect }}"> Únete a este grupo</a></p>
+	{% endif %}
 {% endif %}
 {% endblock %}
 {% block javascript %}
 <script type="text/javascript" src="/static/js/prototype.js"></script>
-{% if user %}
+{% if user and can_write %}
 <script type="text/javascript" src="/static/js/livepipe.js"></script>
 <script type="text/javascript" src="/static/js/textarea.js"></script>
 <script type="text/javascript" src="/static/js/showdown.js"></script>

@@ -43,6 +43,7 @@ def main():
 									   ('/item.comment.subscribe',	ItemCommentSubscribe),
 									   ('/item.comment',	ItemComment),
 									   ('/item.delete',		ItemDelete),
+									   ('/item.deletecomment',		ItemDeleteComment),
 									   # users
 									   ('/user.list',			UserList),
 									   ('/user/.*',				UserView),
@@ -61,6 +62,7 @@ def main():
 									   ('/user.contact',		UserContact),
 									   # forums,
 									   ('/forum.list',			ForumList),
+									   ('/forum.delete',		ForumDelete),
 									   # groups
 									   ('/group.list',	GroupList),
 									   ('/group.edit',	GroupEdit),

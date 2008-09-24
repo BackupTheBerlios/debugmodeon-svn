@@ -36,6 +36,9 @@ class GroupForumReply(AuthenticatedHandler):
 			self.not_found()
 			return
 		group = thread.group
+		if group.all_users is not None and not self.can_write(group):
+			self.forbidden()
+			return
 		
 		response = model.Thread(group=thread.group,
 			author=user,

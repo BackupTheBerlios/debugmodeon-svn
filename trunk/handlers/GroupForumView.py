@@ -4,6 +4,7 @@
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
 # (C) Copyright 2008 Juan Luis Belmonte <jlbelmonte at gmail dot com>
+# (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -64,7 +65,10 @@ class GroupForumView(BaseHandler):
 		self.values['thread'] = thread
 		query = model.Thread.all().filter('parent_thread', thread).order('creation_date')
 		self.values['responses'] = self.paging(query, 10)
-		
+		if group.all_users:
+			self.values['can_write'] = True
+		else:
+			self.values['can_write'] = self.can_write(group)
 		if user:
 			if user.email in thread.subscribers:
 				self.values['cansubscribe']=False

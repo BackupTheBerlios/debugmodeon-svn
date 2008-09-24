@@ -43,10 +43,15 @@ class GroupEdit(AuthenticatedHandler):
 
 				self.values['title'] = group.title
 				self.values['description'] = group.description
+				if group.all_users is not None:
+					self.values['all_users'] = group.all_users
+				else:
+					self.values['all_users'] = True
 				self.render('templates/group-edit.html')
 			else:
 				# show an empty form
 				self.values['title'] = 'Grupo...'
+				self.values['all_users'] = True
 				self.render('templates/group-edit.html')
 		else:
 			if key:
@@ -62,6 +67,10 @@ class GroupEdit(AuthenticatedHandler):
 					image = images.im_feeling_lucky(image, images.JPEG)
 					group.avatar = img.resize(image, 128, 128)
 					group.thumbnail = img.resize(image, 48, 48)
+				if self.get_param('all_users'):
+					group.all_users = True
+				else:
+					group.all_users = False
 				group.put()
 				memcache.delete('/images/group/avatar/%s' % group.key().id())
 				memcache.delete('/images/group/thumbnail/%s' % group.key().id())
@@ -72,12 +81,15 @@ class GroupEdit(AuthenticatedHandler):
 				title = self.get_param('title')
 				url_path = self.to_url_path(title)
 				url_path = self.unique_url_path(model.Group, url_path)
-
+				all_users = False
+				if self.get_param('all_users'):
+					all_users = True
 				group = model.Group(owner=user,
 					title=title,
 					description=self.get_param('description'),
 					url_path=url_path,
 					members=1,
+					all_users = all_users,
 					items=0,
 					threads=0,
 					responses=0,
@@ -87,6 +99,7 @@ class GroupEdit(AuthenticatedHandler):
 					image = images.im_feeling_lucky(image, images.JPEG)
 					group.avatar = img.resize(image, 128, 128)
 					group.thumbnail = img.resize(image, 48, 48)
+				
 				group.put()
 				
 				user.groups += 1

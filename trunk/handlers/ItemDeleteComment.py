@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+# (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -19,26 +19,34 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
-from google.appengine.ext import db
-from handlers.BaseHandler import *
 
-class GroupForumList(BaseHandler):
+import datetime
+
+from google.appengine.ext import db
+from handlers.AuthenticatedHandler import *
+
+class ItemDeleteComment(AuthenticatedHandler):
 
 	def execute(self):
-		self.values['tab'] = '/group.list'
-		url_path = self.request.path.split('/', 2)[2]
-		group = model.Group.gql('WHERE url_path=:1', url_path).get()
-		if not group:
+		user = self.values['user']
+		if user.rol != 'admin':
+			self.forbidden()
+			return
+		
+		comment = model.Comment.get(self.get_param('key'))
+		url = comment.item.url_path
+		if not comment:
 			self.not_found()
 			return
+		
 
-		self.values['group'] = group
-		self.values['joined'] = self.joined(group)
-		query = model.Thread.all().filter('group =', group).order('-last_update')
-		if group.all_users is None or group.all_users:
-			self.values['can_write'] = True
-		else:
-			self.values['can_write'] = self.can_write(group)
-		query = model.Thread.all().filter('group', group).filter('parent_thread', None).order('-last_update')
-		self.values['threads'] = self.paging(query, 10)
-		self.render('templates/group-forum-list.html')
+		#decrement number of comments in the Item
+		comment.item.responses -= 1
+		comment.item.put()
+		#decrement nomber of comments in the User
+		comment.author.comments -= 1
+		comment.author.put()
+			
+		#delete comment
+		comment.delete()
+		self.redirect('/item/%s' % url)
