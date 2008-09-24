@@ -83,3 +83,13 @@ http://debugmodeon.com/group.forum/%s
 		memcache.delete('index_threads')
 
 		self.redirect('/group.forum/%s' % thread.url_path)
+
+	def can_write(self, group):
+		if group.all_users is None or group.all_users:
+			return True
+		user = self.values['user']
+		if not user:
+			return False
+		if model.GroupUser.all().filter('group', group).filter('user', user).get():
+			return True
+		return False

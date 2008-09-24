@@ -1,4 +1,4 @@
-{% comment %}
+{#
 (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
 (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 (C) Copyright 2008 Juan Luis Belmonte <jlbelmonte at gmail dot com>
@@ -17,7 +17,7 @@ GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
 along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
-{% endcomment %}
+#}
 
 {% extends "base.html" %}
 
@@ -30,7 +30,6 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endblock %}
 
 {% block sidebar %}
-{% include 'inc-group-member.html' %}
 	<div class="box">
 		<p class="title">Sindicación RSS</p>
 		<p class="options"><a href="/feed/group/{{ group.url_path }}"><img src="/static/images/feed.png" alt="feed" class="icon" /> Artículos del grupo {{ group.title|escape }}</a></p>
@@ -56,8 +55,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		</p>
 	</div>
 	<div class="grid_7 omega">
-		{{ thread.content|markdown|smiley }} {% ifequal user.rol 'admin' %}<a href="/forum.delete?key={{ thread.key }}"><p class="options"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar hilo</p></a>{% endifequal %}
-		{% ifnotequal user.nickname thread.author.nickname %}
+		{{ thread.content|markdown|smiley }} {% if user.rol == 'admin' %}<a href="/forum.delete?key={{ thread.key }}"><p class="options"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar hilo</p></a>{% endif %}
+		{% if user.nickname != thread.author.nickname %}
 			{% if user %}
 			<p class="options">
 				{% if cansubscribe %}
@@ -67,11 +66,11 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				{% endif %}
 			</p>
 			{% endif %}
-		{% endifnotequal %}
+		{% endif %}
 	</div>
 	<div class="clear">&nbsp;</div>
 
-{% ifnotequal len 0 %}
+{% if len != 0 %}
 	<div class="grid_9 alpha omega">
 		<h3><a name="comments">Respuestas</a></h3>
 	</div>
@@ -86,12 +85,12 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	</div>
 	<div class="grid_7 omega">
 		<div class="comment">
-			{{ comment.content|markdown|smiley }} {% ifequal user.rol 'admin' %}<a href="/forum.delete?key={{ comment.key }}"><p class="options"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar comentario</p></a>{% endifequal %}
+			{{ comment.content|markdown|smiley }} {% if user.rol == 'admin' %}<a href="/forum.delete?key={{ comment.key }}"><p class="options"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar comentario</p></a>{% endif %}
 		</div>
 	</div>
 	<div class="clear">&nbsp;</div>
 {% endfor %}
-{% endifnotequal %}
+{% endif %}
 
 
 {% if prev or next %}

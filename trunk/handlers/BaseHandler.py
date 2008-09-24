@@ -55,6 +55,8 @@ class BaseHandler(webapp.RequestHandler):
 
 		env = Environment(loader=FileSystemLoader(os.path.join(os.path.dirname(__file__), '..', 'templates' )))
 		env.filters['relativize'] = self.relativize
+		env.filters['markdown'] = self.markdown
+		env.filters['smiley'] = self.smiley
 		p = f.split('/')
 		if p[0] == 'templates':
 			f = '/'.join(p[1:])
@@ -84,6 +86,47 @@ class BaseHandler(webapp.RequestHandler):
 			return "%d minutos" % (seconds / 60, )
    
 		return "%d segundos" % (seconds, )
+		
+	def smiley(self, value):
+		value = value.replace(' :)', ' <img src="/static/images/smileys/smile.png" class="icon" alt=":)" />')
+		value = value.replace(' :-)', ' <img src="/static/images/smileys/smile.png" class="icon" alt=":-)" />')
+   
+		value = value.replace(' :D', ' <img src="/static/images/smileys/jokingly.png" class="icon" alt=":D" />')
+		value = value.replace(' :-D', ' <img src="/static/images/smileys/jokingly.png" class="icon" alt=":-D" />')
+   
+		value = value.replace(' :(', ' <img src="/static/images/smileys/sad.png" class="icon" alt=":(" />')
+		value = value.replace(' :-(', ' <img src="/static/images/smileys/sad.png" class="icon" alt=":-(" />')
+   
+		value = value.replace(' :|', ' <img src="/static/images/smileys/indifference.png" class="icon" alt=":|" />')
+		value = value.replace(' :-|', ' <img src="/static/images/smileys/indifference.png" class="icon" alt=":-|" />')
+   
+		value = value.replace(' :O', ' <img src="/static/images/smileys/surprised.png" class="icon" alt=":O" />')
+		value = value.replace(' :/', ' <img src="/static/images/smileys/think.png" class="icon" alt=":/" />')
+		value = value.replace(' :P', ' <img src="/static/images/smileys/tongue.png" class="icon" alt=":P" />')
+		value = value.replace(' :-P', ' <img src="/static/images/smileys/tongue.png" class="icon" alt=":-P" />')
+   
+		value = value.replace(' ;)', ' <img src="/static/images/smileys/wink.png" class="icon" alt=";)" />')
+		value = value.replace(' ;-)', ' <img src="/static/images/smileys/wink.png" class="icon" alt=";-)" />')
+   
+		value = value.replace(' :*)', ' <img src="/static/images/smileys/embarrassed.png" class="icon" alt=":*)" />')
+		value = value.replace(' 8-)', ' <img src="/static/images/smileys/cool.png" class="icon" alt="8-)" />')
+   
+		# value = value.replace(' :'(', ' <img src="/static/images/smileys/cry.png" class="icon" alt=":'(" />')
+		value = value.replace(' :_(', ' <img src="/static/images/smileys/cry.png" class="icon" alt=":_(" />')
+   
+		value = value.replace(' :-X', ' <img src="/static/images/smileys/crossedlips.png" class="icon" alt=":-X" />')
+   
+		return value
+
+
+	def markdown(self, value, arg=''):
+		try:
+			import markdown
+		except ImportError:
+			return "error"
+		else:
+			extensions=arg.split(",")
+			return markdown.markdown(value, extensions, safe_mode=True)
 	
 	def render_json(self, data):
 		self.response.headers['Content-Type'] = 'application/json;charset=UTF-8'
