@@ -48,12 +48,21 @@ class BaseHandler(webapp.RequestHandler):
 			return value
 		return value
 
-	def render(self, file):
+	def render(self, f):
+		import os
+		from jinja2 import Template, Environment, FileSystemLoader
+
+		env = Environment(loader=FileSystemLoader(os.path.join(os.path.dirname(__file__), '..', 'templates' )))
+		p = f.split('/')
+		if p[0] == 'templates':
+			f = '/'.join(p[1:])
+		t = env.get_template(f)
+		
 		self.response.headers['Content-Type'] = 'text/html;charset=UTF-8'
 		self.response.headers['Pragma'] = 'no-cache'
 		self.response.headers['Cache-Control'] = 'no-cache'
 		self.response.headers['Expires'] = 'Wed, 27 Aug 2008 18:00:00 GMT'
-		self.response.out.write(template.render(file, self.values))
+		self.response.out.write(t.render(self.values))
 	
 	def render_json(self, data):
 		self.response.headers['Content-Type'] = 'application/json;charset=UTF-8'

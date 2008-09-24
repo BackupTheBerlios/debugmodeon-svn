@@ -1,4 +1,4 @@
-{% comment %}
+{#
 (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
 (C) Copyright 2008 Néstor Salceda <nestor.salceda at gmail dot com>
 
@@ -16,8 +16,7 @@ GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
 along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
-{% endcomment %}
-
+#}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
@@ -54,18 +53,18 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<div>
 					<input type="text" name="q" value="{{ q|escape }}" class="search" size="29" />
 					<select name="item_type">
-						<option value="items" {% ifequal item_type 'items' %}selected="selected"{% endifequal %}>Artículos</option>
-						<option value="groups" {% ifequal item_type 'groups' %}selected="selected"{% endifequal %}>Grupos</option>
+						<option value="items" {% if item_type == 'items' %}selected="selected"{% endif %}>Artículos</option>
+						<option value="groups" {% if item_type == 'groups' %}selected="selected"{% endif %}>Grupos</option>
 					</select>
 					<input type="submit" value="Buscar" />
 				</div>
 			</form>
 			<ul>
-				<li><a href="/"{%ifequal tab '/' %} class="selected"{% endifequal %}>Inicio</a></li>
-				<li><a href="/item.list"{%ifequal tab '/item.list' %} class="selected"{% endifequal %}>Artículos</a></li>
-				<li><a href="/group.list"{%ifequal tab '/group.list' %} class="selected"{% endifequal %}>Grupos</a></li>
-				<li><a href="/forum.list"{%ifequal tab '/forum.list' %} class="selected"{% endifequal %}>Foros</a></li>
-				<li><a href="/user.list"{%ifequal tab '/user.list' %} class="selected"{% endifequal %}>Usuarios</a></li>
+				<li><a href="/"{% if tab == '/' %} class="selected"{% endif %}>Inicio</a></li>
+				<li><a href="/item.list"{% if tab == '/item.list' %} class="selected"{% endif %}>Artículos</a></li>
+				<li><a href="/group.list"{% if tab == '/group.list' %} class="selected"{% endif %}>Grupos</a></li>
+				<li><a href="/forum.list"{% if tab == '/forum.list' %} class="selected"{% endif %}>Foros</a></li>
+				<li><a href="/user.list"{% if tab == '/user.list' %} class="selected"{% endif %}>Usuarios</a></li>
 			</ul>
 		</div>
 		<div class="clear">&nbsp;</div>
