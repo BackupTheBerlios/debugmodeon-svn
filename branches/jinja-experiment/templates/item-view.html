@@ -1,0 +1,356 @@
+﻿{% comment %}
+(C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+(C) Copyright 2008 Juan Luis Belmonte  <jlbelmonte at gmail dot com>
+
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+{% endcomment %}
+
+{% extends "base.html" %}
+{% block title %} {{ item.title|escape }} {% endblock %}
+{% block head %}
+	<link rel="alternate" type="application/rss+xml" title="Artículos de {{ item.author.nickname }}" href="/feed/user/{{ item.author.nickname }}" />
+	<meta name="description" content="{{ item.description|escape }}" />
+	<meta name="keywords" content="{{ keywords }}" />
+	<link href="/static/css/prettify.css" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block sidebar %}
+
+{% if not item.draft %}
+{% if groups or all_groups %}
+<div class="box">
+
+	<p class="title">Grupos</p>
+{% if groups %}
+	<p>Este artículo está en</p>
+	<ul>
+{% for group in groups %}
+		<li style="clear:both">
+			<div class="avatar" style="float:left; padding-right: 3px"><a href="/group/{{ group.url_path }}"><img src="/images/group/thumbnail/{{ group.key.id }}" alt="{{ group.title|escape }}" /></a></div>
+			<strong><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></strong>
+			{% ifequal user.nickname item.author.nickname %} <br/>[<a href="/group.item.remove?item={{ item.key }}&amp;group={{ group.key }}"><img src="/static/images/delete.png" class="icon" alt="" /> eliminar</a>] {% endifequal %}
+		</li>
+{% endfor %}
+	</ul>
+	<p style="clear:both;height:0">&nbsp;</p>
+{% endif %}
+
+
+{% if all_groups %}
+<form action="/group.item.add" method="post" accept-charset="utf-8">
+	<input type="hidden" name="item" value="{{ item.key }}" />
+	<p><select name="group">
+{% for group in all_groups %}
+	<option value="{{ group.key }}">{{ group.title|escape }}</option>
+{% endfor %}
+	</select>
+	</p>
+
+	<p><input type="submit" value="Añadir al grupo" /></p>
+</form>
+{% endif %}
+<p class="end-box">&nbsp;</p>
+</div>
+{% endif %}
+{% endif %}
+	<div class="box">
+		<p class="title">Sindicación RSS</p>
+		<p style="text-align:center" class="options"><a href="/feed/user/{{ item.author.nickname }}"><img src="/static/images/feed.png" alt="feed" class="icon" /> Últimos artículos de {{ item.author.nickname}}</a></p>
+		<p class="end-box">&nbsp;</p>
+	</div>
+
+{% if related %}
+<div class="box">
+	<p class="title">Otros artículos de {{ item.author.nickname }}</p>
+	<ul>
+	{% for item in related %}
+		<li>
+			<strong><a href="/item/{{ item.url_path }}">{{ item.title|escape }}</a></strong> <br/>
+			<p class="rating star{{ item.rating_average }}">&nbsp;</p>
+		</li>
+	{% endfor %}
+	</ul>
+	<p style="text-align:right"><strong><a href="/user/{{ item.author.nickname }}">Ver todos »</a></strong></p>
+	<p class="end-box">&nbsp;</p>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block content %}
+	<div class="grid_9 alpha omega">
+		<div class="info">
+			<h1>{% if item.deletion_date %}Eliminado: {% else %}{% if item.draft %}Borrador: {% endif %}{% endif %}{{ item.title|escape }}</h1>
+			<p class="options">
+				Escrito por <strong><a href="/user/{{ item.author.nickname|escape}}">{{ item.author.nickname|escape }}</a></strong> hace <strong>{{ item.creation_date|relativize }}</strong>
+				{% ifequal user.rol 'admin' %}
+					| <a href="/item.delete?key={{ item.key }}">eliminar</a>
+				{% else %}
+					{% ifequal user.nickname item.author.nickname %}
+						| <a href="/item.delete?key={{ item.key }}">eliminar</a>
+					{% endifequal %}
+				{% endifequal %}
+				 <br/>
+			</p>
+		</div>
+		
+		{% if item.deletion_date %}
+		<div class="error">
+			<a href="/user/{{ item.deletion_user.nickname }}"><strong>{{ item.deletion_user.nickname }}</strong></a> borró este artículo con el mensaje: <em>{{ item.deletion_message|escape }}</em>.
+			Hace {{ item.deletion_date|relativize }}. <br/>
+			Sólo el autor o un administrador de la página pueden verlo.
+		</div>
+		{% else %}
+		
+{% if item.author.google_adsense %}
+<script type="text/javascript"><!--
+google_ad_client = "{{ item.author.google_adsense|escape }}";
+google_ad_width = 468;
+google_ad_height = 60;
+google_ad_format = "468x60_as";
+google_ad_type = "text_image";
+{% comment %}
+if (!empty($globals['user_adchannel'])) 
+	google_ad_channel ="'.$globals['user_adchannel'].'";
+{% endcomment %}
+google_color_border = "336699";
+google_color_bg = "FFFFFF";
+google_color_link = "0000FF";
+google_color_url = "008000";
+google_color_text = "000000";
+//--></script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+{% comment %}
+<script type="text/javascript"><!--
+google_ad_client = "{{ item.author.google_adsense|escape }}";
+/* 468x60, creado 10/09/08 */
+google_ad_slot = "4401900756";
+google_ad_width = 468;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+{% endcomment %}
+{% endif %}
+
+		{% endif %}
+   
+		<div id="item">
+		{{ item.content|markdown|smiley }}
+		</div>
+   
+		<div style="float:right">
+		{% if canvote %}
+			<ul class="rating star{{item.rating_average}}" id="star-rating">
+				<li class="one"><a title="Muy malo" href="/item.vote?key={{ item.key }}&amp;rating=1">1</a></li>
+				<li class="two"><a title="Malo" href="/item.vote?key={{ item.key }}&amp;rating=2">2</a></li>
+				<li class="three"><a title="Regular" href="/item.vote?key={{ item.key }}&amp;rating=3">3</a></li>
+				<li class="four"><a title="Bueno" href="/item.vote?key={{ item.key }}&amp;rating=4">4</a></li>
+				<li class="five"><a title="Muy bueno" href="/item.vote?key={{ item.key }}&amp;rating=5">5</a></li>
+			</ul>
+		{% else %}
+			<p class="rating star{{ item.rating_average }}"></p>
+		{% endif %}
+		</div>
+
+		
+		<p class="info options">
+			Etiquetas:
+			{% for tag in item.tags %}
+				<a href="/tag/{{ tag|escape}}">{{ tag|escape}}</a>,
+			{% endfor %}
+			| <a href="#comments"><img src="/static/images/comments.png" class="icon" alt="" /> {{ item.responses }} comentarios</a>
+			| {{ item.views }} visitas
+			| {{item.rating_count}} votos
+			{% ifequal user.nickname item.author.nickname %}
+			| <a href="/item.edit?key={{ item.key }}">editar</a>
+			{% endifequal %}
+			<br/>
+			{% ifequal item.lic 'copyright' %}
+			&copy; Todos los derechos reservados
+			{% else %}
+				{% ifequal item.lic 'pd' %}
+				Esta obra está en <a href="http://creativecommons.org/licenses/publicdomain/">Dominio Público</a>
+				{% else %}
+				
+				Esta obra est&#225; bajo una <a rel="license" href="http://creativecommons.org/licenses/{{ item.lic }}/3.0/">licencia de Creative Commons</a>
+				<a rel="license" href="http://creativecommons.org/licenses/{{ item.lic }}/3.0/">
+					<img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/{{ item.lic }}/3.0/80x15.png" class="icon" />
+				</a>
+				{% endifequal %}
+			{% endifequal %}
+			{% if canadd %}
+				<br/> <span><a id="item.favourite" href="/item.favourite?key={{ item.key }}" title="añadir a favoritos"><img src="/static/images/add.png" class="icon" /> Añadir a favoritos</a></span>
+			{% else %}
+				{% if user %}
+					<br/> <span><a id="item.favourite" href="/item.favourite?key={{ item.key }}" title="eliminar favorito"><img src="/static/images/delete.png" class="icon" /> Eliminar favorito</a></span>
+				{% endif %}
+			{% endif %}
+			&nbsp;<script type="text/javascript" src="http://w.sharethis.com/widget/?tabs=web%2Cemail&amp;charset=utf-8&amp;services=reddit%2Cdigg%2Cfacebook%2Cdelicious%2Cstumbleupon%2Ctechnorati%2Cgoogle_bmarks%2Cyahoo_bmarks%2Cyahoo_myweb%2Cwindows_live%2Cpropeller%2Cfriendfeed%2Cnewsvine%2Cxanga%2Cmixx%2Cblinklist%2Cfurl%2Cmagnolia%2Cmister_wong%2Cmeneame&amp;style=default&amp;publisher=de0ce7ee-6562-4732-8f55-b98b0509d9ec"></script>
+		</p>
+		<p>
+		{% ifnotequal user.nickname item.author.nickname%}
+			{% if cansubscribe %}
+                                <a id="item.comment.subscribe" href="/item.comment.subscribe?key={{ item.key }}" title="suscripción por mail"><img src="/static/images/add.png" class="icon" /> Suscribirme por email a los comentarios de este artículo</a>
+                        {% else %}
+                                <a id="item.comment.subscribe" href="/item.comment.subscribe?key={{ item.key }}" title="anular suscripción"><img src="/static/images/delete.png" class="icon" /> Anular mi suscripción Por email a las respuestas.</a>
+                        {% endif %}
+		{% endifnotequal %}
+		</p>
+	</div>
+	<div class="clear">&nbsp;</div>
+		
+	<div class="grid_2 alpha">
+		<a href="/user/{{ item.author.nickname }}"><img src="/images/user/avatar/{{ item.author.nickname }}" alt="{{ item.author.nickname }}" /></a>
+	</div>
+	<div class="grid_7 omega">
+		<strong>Sobre <a href="/user/{{ item.author.nickname }}">{{ item.author.nickname }}</a>:</strong><br/>
+		{% if item.author.about_user %}
+			{{ item.author.about_user|escape|linebreaks }}
+		{% else %}
+			No ha escrito su descripción en el perfil. {% ifequal user.nickname item.author.nickname %} <a href="/user.edit">Edita tu perfil.</a>{% endifequal%}
+		{% endif %} 
+	</div>
+	<div class="clear">&nbsp;</div>
+{% if not item.draft %}
+{% ifnotequal len 0 %}
+	<div class="grid_9 alpha omega">
+		<h3><a name="comments">Comentarios</a></h3>
+	</div>
+	<div class="clear">&nbsp;</div>
+{% for comment in comments %}
+	<div class="grid_2 alpha">
+		<p class="info comment-info">
+			<img src="/images/user/thumbnail/{{ comment.author.nickname }}" alt"{{ comment.author.nickname }}" /> <br/>
+			<a href="/user/{{ comment.author.nickname|escape }}">{{ comment.author.nickname|escape }}</a> escribió <br/> hace <strong>{{ comment.creation_date|relativize }}</strong>
+		</p>
+	</div>
+	<div class="grid_7 omega">
+		<div class="comment">
+			{{ comment.content|markdown|smiley }} {% ifequal user.rol 'admin' %}<br/><a href="/item.deletecomment?key={{ comment.key }}"><p class="options"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar comentario</p></a>{% endifequal %}
+		</div>
+	</div>
+	<div class="clear">&nbsp;</div>
+{% endfor %}
+{% endifnotequal %}
+{% endif %}
+{% if prev or next %}
+	<div class="grid_2 alpha">
+		<p>&nbsp;</p>
+	</div>
+	<div class="grid_7 omega">
+		{% pagination %}
+	</div>
+	<div class="clear">&nbsp;</div>
+{% endif %}
+
+{% if user and not item.draft %}
+	<div class="grid_9 alpha omega">
+		<h3>Deja tu comentario</h3>
+	</div>
+	<div class="clear">&nbsp;</div>
+	<div class="grid_2 alpha">
+		<p>&nbsp;</p>
+	</div>
+	<div class="grid_7 omega">
+		<form action="/item.comment" method="post" accept-charset="utf-8">
+			<input type="hidden" name="key" value="{{ item.key }}" />
+			
+			<textarea name="content" rows="8" cols="54" id="markdown_example"></textarea>
+			<p><input type="checkbox" name="subscribe" value="True" id="subscribe" />Suscribirme por email a los comentarios de este artículo</p>
+						                
+			<p><input type="submit" value="Publicar comentario" /></p>
+		</form>
+		
+		<p>
+			<label for="preview">Vista previa</label>
+			<div class="comment"><div id="markdown_formatted"></div></div>
+		</p>
+	</div>
+	<div class="clear">&nbsp;</div>
+{% endif %}
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript" src="/static/js/prototype.js"></script>
+{% if user and not item.draft%}
+<script type="text/javascript" src="/static/js/livepipe.js"></script>
+<script type="text/javascript" src="/static/js/textarea.js"></script>
+<script type="text/javascript" src="/static/js/showdown.js"></script>
+<script type="text/javascript" src="/static/js/showtextarea.js"></script>
+{% endif %}
+<script type="text/javascript" src="/static/js/prettify.js"></script>
+<script type="text/javascript" charset="utf-8">
+	var d = $$('#item pre');
+	d.each(function(node) {
+		node.addClassName('prettyprint');
+	});
+	
+	prettyPrint();
+	
+	function ajaxFav() {
+		var fav = $('item.favourite');
+		if(fav == null) return;
+		var parent = $(fav.parentNode);
+		Element.observe(fav, 'click', function(e) {
+			href = fav.href + '&x=1';
+			parent.innerHTML = '<img class="icon" src="/static/images/spinner.gif" />';
+			new Ajax.Request(href, {
+				method: 'get',
+				onSuccess: function(transport, json) {
+					var action = transport.responseText.evalJSON().action;
+					if(action == 'deleted') {
+						parent.innerHTML = '<a id="item.favourite" href="/item.favourite?key={{ item.key }}" title="añadir a favoritos"><img src="/static/images/add.png" class="icon" /> Añadir a favoritos</a>';
+					} else {
+						parent.innerHTML = '<a id="item.favourite" href="/item.favourite?key={{ item.key }}" title="eliminar favorito"><img src="/static/images/delete.png" class="icon" /> Eliminar favorito</a>';
+					}
+					ajaxFav();
+				},
+				onFailure: function() {
+					parent.innerHTML = 'Ocurrió un error :(';
+				}
+			});
+			Event.stop(e);
+		});
+	}
+	
+	ajaxFav();
+	
+	{% if canvote %}
+		var sr = $('star-rating');
+		var parent = $(sr.parentNode);
+		$$('#star-rating a').each(function(node) {
+			Element.observe(node, 'click', function(e) {
+				href = node.href + '&x=1';
+				parent.innerHTML = '<img class="icon" src="/static/images/spinner.gif" />';
+				new Ajax.Request(href, {
+					method: 'get',
+					onSuccess: function(transport, json) {
+						var avg = transport.responseText.evalJSON().average;
+						parent.innerHTML = '<p class="rating star'+avg+'"></p>';
+					},
+					onFailure: function() {
+						parent.innerHTML = 'Ocurrió un error :(';
+					}
+				});
+				Event.stop(e);
+			});
+		});
+	{% endif %}
+</script>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% comment %}
+(C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+{% endcomment %}
+
+{% extends "base.html" %}
+{% block title %}
+	{% if key %}
+		Editando: {{ title|escape }}
+	{% else %}
+		Nuevo grupo
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+{% if key %}
+	<h1>Editar grupo</h1>
+{% else %}
+	<h1>Nuevo grupo</h1>
+{% endif %}
+
+<form action="/group.edit" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+	{% if key %}
+		<input type="hidden" name="key" value="{{ key|escape }}" />
+	{% endif %}
+
+	<div class="form">
+		<p>
+			<label for="title">Título</label>
+			<input id="title" type="text" name="title" value="{{ title|escape }}" style="font-size:200%" size="40" />
+		</p>
+
+		<p>
+			<label for="description">Descripción</label>
+			<textarea id="description" name="description" rows="4" cols="50">{{ description|escape }}</textarea>
+		</p>
+		<p>
+			<label for"user_image">Imagen</label>
+			<input type="file" name="img" />&nbsp;Cuadrada queda más cool :)
+		</p>
+		<p>
+			<input type="checkbox" name="all_users" value="true" id="all_users" {% if all_users %}checked="checked"{% endif %} /> Permitir a todos los usuarios participar en el foro. También usuarios que no estén en el grupo.
+		</p>
+	{% if key %}
+		<p><input type="submit" value="Guardar cambios" /></p>
+	{% else %}
+		<p><input type="submit" value="Crear grupo" /></p>
+	{% endif %}
+	</div>
+</form>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="/static/js/prototype.js"></script>
+<script type="text/javascript" src="/static/js/validation.js"></script>
+<script type="text/javascript" charset="utf-8">
+	var title = new LiveValidation('title', { validMessage: "", wait: 500 });
+	title.add(Validate.Presence, { failureMessage: "Campo obligatorio" });
+	
+	var description = new LiveValidation('description', { validMessage: "", wait: 500 });
+	description.add(Validate.Presence, { failureMessage: "Campo obligatorio" });
+</script>
+{% endblock %}

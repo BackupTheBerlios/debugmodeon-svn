@@ -1,0 +1,112 @@
+{% comment %}
+(C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+(C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
+(C) Copyright 2008 Juan Luis Belmonte  <jlbelmonte at gmail dot com>
+
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+{% endcomment %}
+
+{% extends "base.html" %}
+{% block title %} {{ group.title|escape }} | Foro de discusión{% endblock %}
+{% block head %}
+	<link rel="alternate" type="application/rss+xml" title="Artículos del grupo {{ group.title|escape }}" href="/feed/group/{{ group.url_path }}" />
+	<link rel="alternate" type="application/rss+xml" title="Foro del grupo {{ group.title|escape }}" href="/feed/group.forum/{{ group.url_path }}" />
+	<meta name="description" content="{{ group.description|escape }}" />
+{% endblock %}
+
+{% block sidebar %}
+{% include 'inc-group-member.html' %}
+	<div class="box">
+		<p class="title">Sindicación RSS</p>
+		<p class="options"><a href="/feed/group/{{ group.url_path }}"><img src="/static/images/feed.png" alt="feed" class="icon" /> Artículos del grupo {{ group.title|escape }}</a></p>
+		<p class="options"><a href="/feed/group.forum/{{ group.url_path }}"><img src="/static/images/feed.png" alt="feed" class="icon" /> Temas del foro {{ group.title|escape }}</a></p>
+		<p class="end-box">&nbsp;</p>
+	</div>
+{% endblock %}
+
+{% block content %}
+	{% include 'inc-group-header.html' %}
+
+	<div class="grid_9 alpha omega">
+
+	<table class="forum">
+		<thead>
+		    <th class="subject">Tema</th>
+			<th>Autor</th>
+			<th>Respuestas</th>
+			<th>Última actualización</th>
+		</thead>
+		<tbody>
+		{% for thread in threads %}
+			<tr {% if forloop.counter|divisibleby:2 %}class="even"{% endif %}>
+				<td class="subject"><strong><a href="/group.forum/{{ thread.url_path }}">{{ thread.title|escape }}</a></strong></td>
+				<td><a href="/user/{{ thread.author.nickname }}">{{ thread.author.nickname }}</a></td>
+				<td>{{ thread.responses }}</td>
+				<td>hace {{ thread.last_update|relativize }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+
+	{% include 'inc-pagination.html' %}
+
+{% if user and can_write %}
+	<h3>Inicia un tema</h3>
+	
+	<form action="/group.forum.edit" method="post" accept-charset="utf-8">
+		<input type="hidden" name="key" value="{{ group.key }}" />
+		
+		<div class="form">
+		
+		<p>
+		<label for="title">Título</label>
+		<input type="text" name="title" style="font-size: 200%" size="45" value="Asunto..." />
+		</p>
+		
+		<p>
+		<label for="content">Contenido</label>
+		<textarea name="content" rows="8" cols="70" id="markdown_example"></textarea>
+		</p>
+		<p>
+			<input type="checkbox" name="subscribe" value="True" id="subscribe" />Suscribirme por email
+		</p>
+
+		<p><input type="submit" value="Iniciar tema" /></p>
+
+		<p>
+			<label for="preview">Vista previa</label>
+			<div class="comment"><div id="markdown_formatted"></div></div>
+		</p>
+		
+		</div>
+	</form>
+{% else%}
+	{% if user and not can_write %}
+		<p class="options" style="text-align:center">Este grupo requiere que te unas a él para poder escribir. <a href="/group.user.join?group={{ group.key|escape }}&amp;redirect={{ redirect }}"> <img src="/static/images/add.png" /> Únete a este grupo</a></p>
+	{% endif %}
+{% endif %}
+	</div>
+	<div class="clear">&nbsp;</div>
+{% endblock %}
+{% block javascript %}
+{% if user and can_write%}
+<script type="text/javascript" src="/static/js/prototype.js"></script>
+<script type="text/javascript" src="/static/js/livepipe.js"></script>
+<script type="text/javascript" src="/static/js/textarea.js"></script>
+<script type="text/javascript" src="/static/js/showdown.js"></script>
+<script type="text/javascript" src="/static/js/showtextarea.js"></script>
+{% endif %}
+{% endblock %}

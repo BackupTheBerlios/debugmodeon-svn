@@ -1,0 +1,154 @@
+﻿{% comment %}
+(C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+(C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+{% endcomment %}
+
+{% extends "base.html" %}
+{% block title %}
+	{% if key %}
+		Editando: {{ title|escape }}
+	{% else %}
+		Nuevo artículo
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+	{% if key %}
+		<h1>Editar artículo</h1>
+	{% else %}
+		<h1>Nuevo artículo</h1>
+	{% endif %}
+
+<form id="form" action="/item.edit" method="post" accept-charset="utf-8">
+	{% if key %}
+		<input id="key" type="hidden" name="key" value="{{ key|escape }}" />
+	{% else %}
+		<input id="key" type="hidden" name="key" value="" />
+	{% endif %}
+
+	<div class="form">
+		<p>
+			<label for="title">Título</label>
+			<input id="title" type="text" name="title" value="{{ title|escape }}" style="font-size:200%" size="40" />
+		</p>
+
+		<p>
+			<label for="lic">Licencia</label>
+			<select id="lic" name="lic">
+			{% for l in licenses %}
+				<option value="{{ l.id }}"{% ifequal l.id lic %} selected="selected"{% endifequal %}>{{ l.lic }}</option>
+			{% endfor %}
+			</select>
+		</p>
+
+		<p>
+			<label for="tags">Etiquetas separadas por comas</label>
+			<input id="tags" type="text" name="tags" value="{{ tags|escape }}" size="50" /> (ej: .net, mono, gtk, gnome)
+		</p>
+
+		<p>
+			<label for="description">Resumen</label>
+			<textarea id="description" name="description" rows="4" cols="50">{{ description|escape }}</textarea>
+		</p>
+		<p>
+			<label for="content">Contenido</label>
+			<textarea name="content" rows="30" cols="50" id="markdown_example">{{ content|escape }}</textarea>
+		</p>
+   
+	{% if key and not draft%}
+		<p><input type="submit" value="Guardar cambios" /></p>
+	{% else %}
+		<p><input type="submit" value="Publicar artículo" />&nbsp;<input id="save_draft" type="submit" name="save_draft" value="Guardar Borrador" />&nbsp;<label id="auto_saved"></label></p>
+	{% endif %}
+		
+		<p>
+		    <label for="preview">Vista previa</label>
+			<div class="comment"><div id="markdown_formatted"></div></div>
+		</p>
+	</div>
+</form>
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript" src="/static/js/prototype.js"></script>
+<script type="text/javascript" src="/static/js/livepipe.js"></script>
+<script type="text/javascript" src="/static/js/textarea.js"></script>
+<script type="text/javascript" src="/static/js/showdown.js"></script>
+<script type="text/javascript" src="/static/js/showtextarea.js"></script>
+<script type="text/javascript" src="/static/js/validation.js"></script>
+{% if draft or not key %}
+<script type="text/javascript" charset="utf-8">
+	
+	$('title').setAttribute('onkeydown', 'fieldChanged()');
+	$('lic').setAttribute('onclick', 'fieldChanged()');
+	$('tags').setAttribute('onkeydown', 'fieldChanged()');
+	$('description').setAttribute('onkeydown', 'fieldChanged()');
+	$('markdown_example').setAttribute('onkeydown', 'fieldChanged()');
+	
+	setTimeout("saveChanges()", 30000);
+	var modified = true;
+	
+	function saveChanges() {
+		var form = $('form');
+		var href = form.action + "?x=1&save_draft=1";
+		var pars = Form.serialize('form');
+		if (modified) {
+			new Ajax.Request(href, {
+		    	method: 'post',
+				parameters: pars,
+				onSuccess: function(transport, json) {
+					modified = false;
+					var saved = transport.responseText.evalJSON().saved;
+					if (saved) {
+						var updated = transport.responseText.evalJSON().updated;
+						if (!updated) {
+							var key = transport.responseText.evalJSON().key;
+							$('key').value = key;
+							var draft_items = transport.responseText.evalJSON().draft_items;
+							$('drafts').innerHTML = "<img src='/static/images/page_white_text.png' alt='' class='icon' /> Borradores (" + draft_items + ")";
+						}	
+						var date = new Date();
+						$('auto_saved').innerHTML = "Guardado automáticamente a las " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+						
+					}
+					setTimeout("saveChanges()", 30000);
+				},
+				onFailure: function() {
+					parent.innerHTML = 'Ocurrió un error :(';
+				}
+			});
+		} else {
+			setTimeout("saveChanges()", 30000);
+		}
+	}
+	
+	function fieldChanged() {
+		modified = true;
+	}
+</script>
+<script type="text/javascript" charset="utf-8">
+	function validate_presence(id) {
+		var field = new LiveValidation(id, { validMessage: "", wait: 500 });
+		field.add(Validate.Presence, { failureMessage: "Campo obligatorio" });
+	}
+
+	validate_presence('title');
+	validate_presence('description');
+	validate_presence('tags');
+	validate_presence('markdown_example');
+</script>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,169 @@
+{% comment %}
+(C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+(C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
+(C) Copyright 2008 Néstor Salceda <nestor.salceda at gmail dot com>
+
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+{% endcomment %}
+
+{% extends "base.html" %}
+{% block head %}
+	<link rel="alternate" type="application/rss+xml" title="Artículos de {{ this_user.nickname }}" href="/feed/user/{{ this_user.nickname }}" />
+{% endblock %}
+
+{% block title %} Usuario {{ this_user.nickname }} {% endblock %}
+
+{% block sidebar %}
+	<div class="box">
+		<p class="title">Sindicación RSS</p>
+		<p style="text-align:center" class="options"><a href="/feed/user/{{ this_user.nickname }}"><img src="/static/images/feed.png" alt="feed" class="icon" /> Últimos artículos de {{ this_user.nickname}}</a></p>
+		<p class="end-box">&nbsp;</p>
+	</div>
+{% endblock %}
+
+{% block content %}
+	<div class="grid_9 alpha omega">
+		<div class="info">
+			<h1>Usuario {{ this_user.nickname }}</h1>
+			<p class="options">
+				{% if canadd %}
+					{% if is_contact %}
+						<span><a id="contact" href="/user.contact?user_to={{ this_user.nickname }}"><img src="/static/images/delete.png" alt="" class="icon" /> Eliminar de contactos</a></span>
+					{% else %}
+						<span><a id="contact" href="/user.contact?user_to={{ this_user.nickname }}"><img src="/static/images/add.png" alt="" class="icon" /> Añadir a contactos</a></span>
+					{% endif %}
+				{% endif %}
+			</p>
+		</div>
+	
+	</div>
+	<div class="clear">&nbsp;</div>
+
+	<div class="grid_3 alpha">
+		<p style="text-align:center;margin-top:10px"><img src="/images/user/avatar/{{ this_user.nickname }}" alt"{{ this_user.nickname }}" /></p>
+		<ul>
+			{% if this_user.real_name %}<li>Nombre completo: <br/><strong>{{ this_user.real_name|escape }}</strong></li> {% endif %}
+			{% if this_user.personal_message %}<li>Mensaje personal: <br/><strong>{{ this_user.personal_message|escape }}</strong></li>{% endif %}
+			{% if this_user.country %}<li>País: <br/><strong>{{ this_user.country|escape }}</strong></li> {% endif %}
+			{% if this_user.city %}<li>Ciudad: <br/><strong>{{ this_user.city|escape }}</strong></li> {% endif %}
+			{% for link in links %}
+				<li>{{ link.0 }}: <br/> 
+					{% ifequal link.0 'blog' %}
+						<a href="{{ link.1 }}" target="_blank"><img src="http://api.thumbalizr.com/?url={{ link.1 }}&amp;width=128" alt=""></a>
+					{% else %}
+						{% ifequal link.0 'linkedin' %}
+							<a href="{{ link.1 }}" target="_blank"><img src="http://www.linkedin.com/img/webpromo/btn_myprofile_160x33.gif" alt="Mi perfil en LinkedIn"></a>
+						{% endifequal %}
+						{% ifequal link.0 'ohloh' %}
+							  <a href="{{link.1}}"><img src="{{link.1}}/widgets/account_detailed.gif" width="191" height="35" alt="Mi perfil en Ohloh"></a>
+						{% endifequal %}
+					{% endifequal %}
+					</li>
+			{% endfor %}
+			<li>Registrado hace {{ this_user.creation_date|relativize }}</li>
+			{% if this_user.about_user %}<li>Sobre este usuario:<br/>{{ this_user.about_user|escape }}</li>{% endif %}
+		</ul>
+	</div>
+	<div class="grid_3">
+		<div class="box">
+			<p class="title">Últimos artículos</p>
+			{% if not items %}
+				<p style="text-align:center">No ha escrito ningún artículo</p>
+			{% else %}
+				<ul>
+				{% for item in items %}
+					<li>
+						<strong><a href="/item/{{ item.url_path }}">{{ item.title|escape }}</a></strong>
+						<br/><span style="color: #777">por <a href="/user/{{ item.author.nickname|escape}}">{{ item.author.nickname|escape }}</a></span>
+					</li>
+				{% endfor %}
+				</ul>
+				<p style="text-align:right"><strong><a href="/user.items/{{ this_user.nickname }}">Ver todos »</a></strong></p>
+			{% endif %}
+			<p class="end-box">&nbsp;</p>
+		</div>
+	</div>
+	<div class="grid_3 omega">
+		<div class="box">
+			<p class="title">Grupos</p>
+			{% if not groups %}
+				<p style="text-align:center">No pertenece a ningún grupo</p>
+			{% else %}
+				<ul>
+				{% for group in groups %}
+				<li style="clear:both">
+					<img src="/images/group/thumbnail/{{ group.key.id }}" alt="{{ group.title|escape }}" style="float:left" />
+					<strong><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></strong>
+					<br/><span style="color: #777">por <a href="/user/{{ group.owner.nickname|escape}}">{{ group.owner.nickname|escape }}</a></span>
+				</li>
+				{% endfor %}
+				</ul>
+				<p style="text-align:right"><strong><a href="/user.groups/{{ this_user.nickname }}">Ver todos »</a></strong></p>
+			{% endif %}
+			<p class="end-box">&nbsp;</p>
+		</div>
+		<div class="box">
+			<p class="title">Contactos</p>
+			{% if not contacts %}
+				<p style="text-align:center">No tiene contactos</p>
+			{% else %}
+				<ul>
+				{% for contact in contacts %}
+					<li>
+						<strong><a href="/user/{{ contact.nickname }}"><img src="/images/user/thumbnail/{{ contact.nickname }}" alt="{{ contact.nickname }}" /> {{ contact.nickname }}</a></strong>
+					</li>
+				{% endfor %}
+				</ul>
+				<p style="text-align:right"><strong><a href="/user.contacts/{{ this_user.nickname }}">Ver todos »</a></strong></p>
+			{% endif %}
+			<p class="end-box">&nbsp;</p>
+		</div>
+	</div>
+	<div class="clear">&nbsp;</div> 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="/static/js/prototype.js"></script>
+<script type="text/javascript" charset="utf-8">
+	{% if canadd %}
+	function add_contact() {
+		var contact = $('contact');
+		var parent = $(contact.parentNode);
+		Element.observe(contact, 'click', function(e) {
+			href = contact.href + '&x=1';
+			parent.innerHTML = '<img class="icon" src="/static/images/spinner.gif" />';
+			new Ajax.Request(href, {
+				method: 'get',
+				onSuccess: function(transport, json) {
+					var action = transport.responseText.evalJSON().action;
+					if(action == 'deleted') {
+						parent.innerHTML = '<a id="contact" href="/user.contact?user_to={{ this_user.nickname }}"><img src="/static/images/add.png" alt="" class="icon" /> Añadir a contactos</a>';
+					} else {
+						parent.innerHTML = '<a id="contact" href="/user.contact?user_to={{ this_user.nickname }}"><img src="/static/images/delete.png" alt="" class="icon" /> Eliminar de contactos</a>';
+					}
+					add_contact();
+				},
+				onFailure: function() {
+					parent.innerHTML = 'Ocurrió un error :(';
+				}
+			});
+			Event.stop(e);
+		});
+	}
+	add_contact();
+	{% endif %}
+</script>
+{% endblock %}

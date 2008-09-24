@@ -1,0 +1,100 @@
+﻿{% comment %}
+(C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+(C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
+(C) Copyright 2008 Néstor Salceda <nestor.salceda at gmail dot com>
+
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+{% endcomment %}
+
+{% extends "base.html" %}
+{% block title %} Preferencias {% endblock %}
+{% block content %}
+	<h1>Preferencias</h1>
+	
+	<form action="/user.edit" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+		
+		<div class="grid_4 alpha">
+			<div class="form">
+				<p>
+					<label for="real_name">Nombre real</label>
+					<input type="text" name="real_name" value="{{ real_name }}" id="real_name" size="30" maxlength="30" />
+				</p>
+   
+				<p>
+					<label for="country">País</label>
+					<input type="text" name="country" value="{{ country }}" size="30" maxlength="30" />
+				</p>
+   
+				<p>
+					<label for="city">Ciudad</label>
+					<input type="text" name="city" value="{{ city }}" size="30" maxlength="30" />
+				</p>
+   
+				<p>
+					<label for"user_image">Imagen</label>
+					<input type="file" name="img" />&nbsp;Cuadrada queda más cool :)
+				</p>
+				
+				<p>
+					<label for="google_adsense">Identificador de Google Adsense</label>
+					<input type="text" name="google_adsense" value="{{ google_adsense }}" /> <br/> Formato pub-xxxxxxxxxxxxxxxx
+				</p>
+			</div>
+		</div>
+		
+		<div class="grid_5 omega">
+			<div class="form">
+   
+				<p>
+					<label for="blog">Blog personal</label>
+					<input type="text" name="blog" size="40" value="{% for link in links %}{% ifequal link.0 'blog' %}{{ link.1 }}{% endifequal %}{% endfor %}" />
+				</p>
+   
+				<p>
+					<label for="linkedin">Perfil de LinkedIn</label>
+					<input type="text" name="linkedin" size="40" value="{% for link in links %}{% ifequal link.0 'linkedin' %}{{ link.1 }}{% endifequal %}{% endfor %}" />
+				</p>
+   
+				<p>
+					<label for="ohloh">Perfil de Ohloh</label>
+					<input type="text" name="ohloh" size="40" value="{% for link in links %}{% ifequal link.0 'ohloh' %}{{ link.1 }}{% endifequal %}{% endfor %}"/>
+				</p>
+   
+				<p>
+					<label for="personal_message">Mensaje personal</label>
+					<input type="text" name="personal_message" value="{{ personal_message }}" id="personal_message" size="40" maxlength="40" />
+				</p>
+   
+				<p>
+					<label for="linkedin">Sobre ti (Sólo texto plano)</label>
+					<textarea type="text" name="about_user" rows="10" cols="32">{{ about }}</textarea>
+				</p>
+			</div>
+		</div>
+
+		<p><input type="submit" value="Guardar cambios"/></p>
+	</form>
+	
+	<div class="clear">&nbsp;</div>
+	
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="/static/js/prototype.js"></script>
+<script type="text/javascript" charset="utf-8">
+	$('real_name').focus();
+</script>
+{% endblock %}

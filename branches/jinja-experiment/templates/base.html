@@ -1,0 +1,138 @@
+{% comment %}
+(C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+(C) Copyright 2008 Néstor Salceda <nestor.salceda at gmail dot com>
+
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+{% endcomment %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
+<head>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<meta http-equiv="pragma" content="no-cache" />
+	<meta http-equiv="cache-control" content="no-cache" />
+	<link rel="stylesheet" href="/static/css/960.css" type="text/css" media="screen" charset="utf-8" />
+	<link rel="stylesheet" href="/static/css/reset.css" type="text/css" media="screen" charset="utf-8" />
+	<link rel="stylesheet" href="/static/css/text.css" type="text/css" media="screen" charset="utf-8" />
+	<link rel="stylesheet" href="/static/css/style.css" type="text/css" />
+	<link rel="icon" href="/favicon.ico" type="image/x-icon" />
+	<title>{% block title %}{% endblock %}</title>
+	{% block head %}{% endblock %}
+</head>
+<body>
+	<div class="container_12">
+		<div class="grid_8">
+			<p id="heading"><a href="/">debug_mode=ON</a></p>
+		</div>
+		<div class="grid_4">
+			<p class="options" style="text-align: right">
+			{% if sess.user %}
+				Hola <a href="/user/{{ sess.user_nickname }}"><strong>{{ sess.user_nickname }}</strong></a> | <a href="/user.edit">preferencias</a> | <a href="/user.logout">desconectar</a>
+			{% else %}
+				<strong><a href="/user.login?redirect_to={{ redirect }}">Login</a></strong> o <a href="/user.register?redirect_to={{ redirect }}">regístrate</a>.
+				¿<a href="/user.forgotpassword?redirect_to={{ redirect }}">Olvidaste la contraseña</a>?
+			{% endif %}
+			</p>
+		</div>
+		<div class="clear">&nbsp;</div>
+		<div class="grid_12" id="nav">
+			<form action="/search" method="get" accept-charset="utf-8" id="search">
+				<div>
+					<input type="text" name="q" value="{{ q|escape }}" class="search" size="29" />
+					<select name="item_type">
+						<option value="items" {% ifequal item_type 'items' %}selected="selected"{% endifequal %}>Artículos</option>
+						<option value="groups" {% ifequal item_type 'groups' %}selected="selected"{% endifequal %}>Grupos</option>
+					</select>
+					<input type="submit" value="Buscar" />
+				</div>
+			</form>
+			<ul>
+				<li><a href="/"{%ifequal tab '/' %} class="selected"{% endifequal %}>Inicio</a></li>
+				<li><a href="/item.list"{%ifequal tab '/item.list' %} class="selected"{% endifequal %}>Artículos</a></li>
+				<li><a href="/group.list"{%ifequal tab '/group.list' %} class="selected"{% endifequal %}>Grupos</a></li>
+				<li><a href="/forum.list"{%ifequal tab '/forum.list' %} class="selected"{% endifequal %}>Foros</a></li>
+				<li><a href="/user.list"{%ifequal tab '/user.list' %} class="selected"{% endifequal %}>Usuarios</a></li>
+			</ul>
+		</div>
+		<div class="clear">&nbsp;</div>
+		<div class="grid_3">
+			{% include 'inc-quick-links.html' %}
+{% block sidebar %}{% endblock %}
+		</div>
+		<div class="grid_9">
+{% block content %}{% endblock %}
+		</div>
+		<div class="clear">&nbsp;</div>
+		<div class="grid_12" id="footer">
+			<!-- <div class="grid_4 alpha">
+				<div>
+					<p>Artículos más populares</p>
+					<ul>
+						<li><a href="#">Crear un directorio estático en App Engine</a></li>
+						<li><a href="#">Obtener la ruta del ejecutable en Java</a></li>
+						<li><a href="#">Gestión de errores en páginas JSP</a></li>
+						<li><a href="#">Expresiones regulares en Perl</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="grid_4">
+				<div>
+					<p>Grupos más populares</p>
+					<ul>
+						<li><a href="#">Java Swing. Componentes y frameworks</a></li>
+						<li><a href="#">Spring MVC. Buenas prácticas</a></li>
+						<li><a href="#">Google App Engine</a></li>
+						<li><a href="#">Visual Basic .Net</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="grid_4 omega">
+				<div>
+					<p>Blogs más populares</p>
+					<ul>
+						<li><a href="http://plunchete.wordpress.com/">Thirsty of code</a></li>
+						<li><a href="http://gnucrash.wordpress.com/">Inf-o-matic</a></li>
+						<li><a href="http://nestor.babuine.net/">Midnight illusions</a></li>
+						<li><a href="http://gimenete.net/">Fascinación por la vida</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="clear">&nbsp;</div> -->
+			<div class="grid_12 alpha omega">
+				<div style="text-align: right">
+					<p>
+						&copy; Copyright 2008 debug_mode=ON <br/>
+						<a href="/html/aviso-legal.html">Aviso legal</a> |
+						<a href="mailto:contacto _arroba_ debugmodeon.com">contacto@debugmodeon.com</a> <br/>
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="clear">&nbsp;</div>
+	</div>
+
+{% block javascript %}{% endblock %}
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-5469597-1");
+pageTracker._trackPageview();
+</script>
+</body>
+</html>

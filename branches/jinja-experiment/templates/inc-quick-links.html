@@ -1,0 +1,51 @@
+{% comment %}
+(C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+(C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
+
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+{% endcomment %}
+
+<div class="box" id="quick-links">
+	<p class="title">Quick links</p>
+{% if user %}
+	<p><strong>Acciones</strong></p>
+	<ul>
+		<li><strong><a href="/item.edit"><img src="/static/images/page_white_edit.png" alt="" class="icon" /> Nuevo artículo</a></strong></li>
+		<li><a id="drafts" href="/user.drafts"><img src="/static/images/page_white_text.png" alt="" class="icon" /> Borradores ({{ user.draft_items }})</a></li>
+		<li><a href="/group.edit"><img src="/static/images/group.png" alt="" class="icon" /> Nuevo grupo</a></li>
+		<li><a href="/user.changepassword?redirect_to={{ redirect }}"><img src="/static/images/key.png" alt="" class="icon" /> Cambiar contraseña</a></li>
+		<li><a href="/user.edit"><img src="/static/images/cog.png" alt="" class="icon" /> Preferencias</a></li>
+	</ul>
+	<p><strong>Tus cosas</strong></p>
+	<ul>
+		<li><a href="/user/{{ user.nickname }}"><img src="/static/images/user.png" alt="" class="icon" /> Tu perfil público</a></li>
+		<li><a href="/user.items/{{ user.nickname }}"><img src="/static/images/page_white_text.png" alt="" class="icon" /> Tus artículos</a></li>
+		<li><a href="/user.favourites/{{ user.nickname }}"><img src="/static/images/star.png" alt="" class="icon" /> Tus favoritos</a></li>
+		<li><a href="/user.groups/{{ user.nickname }}"><img src="/static/images/group.png" alt="" class="icon" /> Tus grupos</a></li>
+		<li><a href="/user.contacts/{{ user.nickname }}"><img src="/static/images/user.png" alt="" class="icon" /> Tus contactos</a></li>
+	</ul>
+{% else %}
+	<p style="text-align: center">
+	{% if sess.user %}
+		Hola {{ sess.user_nickname }} | <a href="/user.logout">desconectar</a>
+	{% else %}
+		<strong><a href="/user.login?redirect_to={{ redirect }}">Login</a></strong> o <a href="/user.register?redirect_to={{ redirect }}">regístrate</a> <br/>
+		¿<a href="/user.forgotpassword?redirect_to={{ redirect }}">Olvidaste la contraseña</a>?
+	{% endif %}
+	</p>
+{% endif %}
+	<p class="end-box">&nbsp;</p>
+</div>

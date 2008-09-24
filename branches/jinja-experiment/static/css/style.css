@@ -1,0 +1,495 @@
+/*
+(C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+html { overflow-y: scroll; overflow-x: auto; }
+
+#heading, #heading a {
+	font-size:25px;
+	text-decoration: none;
+	font-weight: bold;
+	color: #607890;
+	font-family: 'Consolas', monospace;
+	margin:0;
+}
+
+h2 {
+	background-color: #4e5d6d;
+	padding-left: 10px;
+	-moz-border-radius: 3px;
+	background-image: url(/static/images/bg2.png);
+	background-repeat: repeat-x;
+	background-position: top;
+	color: white;
+}
+
+h2 a {
+	text-decoration: none;
+	color: white;
+}
+
+h1, h1 a {
+	color: #7890a8;
+	margin-top: 10px;
+}
+
+div.info h1, div.info h2 {
+	margin-bottom:0;
+}
+
+div.info p, p.info {
+	color: #888;
+}
+
+h2 a, h3 a {
+	text-decoration: none;
+}
+
+h3 {
+	padding-left: 10px;
+	margin:0;
+	margin-top: 10px;
+	background-color: #4e5d6d;
+	-moz-border-radius: 3px;
+	margin-bottom: 5px;
+	background-image: url(/static/images/bg2.png);
+	background-repeat: repeat-x;
+	background-position: top;
+	color: white;
+}
+
+h3, h3 a {
+	color: white;
+}
+
+/* menú de navegación */
+
+#nav {
+	background-color: #18485f;
+	-moz-border-radius: 3px;
+	background-image: url(/static/images/bg1.png);
+	background-repeat: repeat-x;
+	background-position: top;
+}
+
+#nav ul {
+	margin: 0;
+	padding: 5px;
+	list-style-type: none;
+}
+
+#nav li {
+	display: inline;
+}
+
+#nav a {
+	text-decoration: none;
+	color: white
+}
+
+#nav a:hover, #nav a.selected {
+	border-bottom: 2px solid white;
+}
+
+#footer {
+	background-color: #2b7ea8;
+	color: #f0f0f0;
+	-moz-border-radius: 5px;
+	background-image: url(/static/images/bg1.png);
+	background-repeat: repeat-x;
+	background-position: bottom;
+}
+
+#footer div div {
+	padding: 10px;
+}
+
+#footer a {
+	color: white;
+}
+
+#quick-links a {
+	text-decoration: none;
+}
+
+p.options a {
+	text-decoration: none;
+}
+
+p.options a:hover{
+	background-color:#e8eef7;
+}
+
+.more {
+	font-weight: bold;
+}
+
+img.icon {
+	vertical-align: middle;
+}
+
+div.box {
+	margin-bottom: 10px;
+	margin-top: 10px;
+	-moz-border-radius: 3px;
+	background-color: #fafafa;
+	background-image: url(/static/images/bg4.png);
+	background-repeat: repeat-y;
+	background-position: left;
+}
+
+div.box p {
+	padding-left: 7px;
+	padding-right: 7px;
+	margin: 5px;
+}
+
+div.box p.title {
+	/*
+	font-size: 120%;
+	font-weight: bold;
+	*/
+	font-weight: bold;
+	text-align: center;
+	padding: 0;
+	padding-top: 2px;
+	margin: 0;
+	margin-bottom: 5px;
+	
+	/*
+	color: #007;
+	background-color: #fff;
+	background-image: url(/static/images/bg6.png);
+	background-repeat: repeat-y;
+	background-position: top;
+	border-bottom: 1px dotted #007;
+	*/
+
+	color: white;
+	background-color: #4e5d6d;
+	background-image: url(/static/images/bg9.png);
+	background-repeat: repeat-y;
+	background-position: top;
+}
+
+div.box ul {
+	margin-right: 20px;
+}
+
+div.box ul li {
+	border-bottom: 1px dotted #7890a8;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+div.box strong a {
+	color: blue;
+}
+
+.box ul a {
+	color: #333;
+	text-decoration: none;
+}
+
+.box ul li img {
+	vertical-align: middle;
+}
+
+div.box a:hover {
+	text-decoration: underline;
+}
+
+div.box p.end-box {
+	background-image: url(/static/images/bg5.png);
+	background-repeat: no-repeat;
+	background-position: left bottom;
+	margin:0;
+	padding:0;
+	height: 3px;
+}
+
+div.box p.start-box {
+	background-image: url(/static/images/bg8.png);
+	background-repeat: no-repeat;
+	background-position: left top;
+	margin:0;
+	padding:0;
+	height: 3px;
+}
+
+.avatar {
+	text-align: center;
+	width: 48px;
+	height: 48px;
+}
+
+ul {
+	list-style-image: url(/static/images/bullet.gif);
+}
+
+#search div {
+	padding: 3px;
+	float: right
+}
+
+input.search {
+	background-image: url(/static/images/magnifier.png);
+	background-repeat: no-repeat;
+	background-position: center right;
+	padding: 2px 25px 2px 2px;
+	border: 1px solid rgb(127, 157, 185);
+}
+
+div.form p {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	color: #777;
+}
+
+div.form label {
+	display: block
+}
+
+div.comment {
+	background-color: #eaefef;
+	padding: 10px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	-moz-border-radius: 5px;
+	background-image: url(/static/images/bg3.png);
+	background-repeat: repeat-x;
+	background-position: bottom;
+}
+
+p.comment-info {
+	text-align: right;
+	padding: 5px;
+	margin-top: 1px;
+}
+
+p.pagination {
+	text-align: center;
+}
+
+pre {
+	background-color: #ffa;
+	overflow: auto;
+}
+
+table.forum {
+	width: 100%;
+	text-align: right;
+}
+
+table.forum .subject {
+	text-align: left;
+}
+
+table.forum th {
+	background-color: #4e5d6d;
+	color: white;
+	background-image: url(/static/images/bg2.png);
+	background-repeat: repeat-x;
+	background-position: top;
+}
+
+table.forum th, table.forum td {
+	padding: 3px;
+}
+
+table.forum td {
+	vertical-align: middle;
+}
+
+.even {
+	background-color:#eee;
+}
+
+div.error {
+	border: 1px solid red;
+	text-align: center;
+	background-color: #ffa;
+	padding: 10px;
+	margin: 10px;
+}
+
+/* display the individual items next to each other, not one-per-line */
+.tag-cloud { margin:0; padding:10px; }
+.tag-cloud li { display: inline; margin:0; padding:0; }
+/* hide the extra context from CSS-enabled browsers, but not screenreaders */
+.tag-cloud span { position: absolute; left: -999px; width: 990px; }
+/* size is purely presentational, based upon the class */
+.tag-cloud .size1 { font-size: 1em; }
+.tag-cloud .size2 { font-size: 1.3em; }
+.tag-cloud .size3 { font-size: 1.6em; }
+.tag-cloud .size4 { font-size: 1.9em; }
+.tag-cloud .size5 { font-size: 2.2em; }
+.tag-cloud .size6 { font-size: 2.5em; }
+
+span.highlight {
+	background-color: #ffa;
+	color: black;
+	position: static; /* to avoid tags in tag cloud to be hidden*/
+}
+
+#markdown_example {
+	width:100%;
+	height:400px;
+}
+
+#markdown_toolbar {
+	position:relative;
+	list-style:none;
+	border:1px solid #d7d7d7;
+	background-color:#F6F6F6;
+	margin:0;
+	padding:0;
+	height:18px;
+	margin-bottom:2px;
+}
+
+#markdown_toolbar li {
+	list-style:none;
+	margin:0;
+	padding:0;
+	float:left;
+}
+
+#markdown_toolbar li a {
+	width:24px;
+	height:16px;
+	float:left;
+	display:block;
+	background-image:url("/static/images/markdown_icons.gif");
+	border:1px solid #fff;
+	border-right-color:#d7d7d7;
+}
+
+#markdown_toolbar li a:hover {
+	border-color:#900;
+}
+
+#markdown_toolbar li span {
+	display:none;
+}
+
+#markdown_toolbar li a#markdown_help_button {
+	position:absolute;
+	top:0;
+	right:0;
+	border-left-color:#d7d7d7;
+	border-right-color:#fff;
+}
+
+#markdown_toolbar li a#markdown_help_button:hover {
+	border-left-color:#900;
+	border-right-color:#900;
+}
+
+#markdown_italics_button { background-position: 0 -119px; }
+#markdown_bold_button { background-position: 0 -102px; }
+#markdown_link_button { background-position: 0 0; }
+#markdown_image_button { background-position: 0 -170px; }
+#markdown_unordered_list_button { background-position: 0 -34px; }
+#markdown_ordered_list_button { background-position: 0 -51px; }
+#markdown_quote_button { background-position: 0 -68px; }
+#markdown_code_button { background-position: 0 -136px; }
+#markdown_help_button { background-position: 0 -153px; }
+#markdown_heading_button { background-position: 0 -85px; }
+
+
+
+
+.rating {
+width:80px;
+height:16px;
+margin:0 0 20px 0;
+padding:0;
+list-style:none;
+clear:both;
+position:relative;
+background:url(/static/images/star-matrix.gif) no-repeat scroll 0 0;
+}
+.star0 {background-position:0 0;}
+.star1 {background-position:0 -16px;}
+.star2 {background-position:0 -32px;}
+.star3 {background-position:0 -48px;}
+.star4 {background-position:0 -64px;}
+.star5 {background-position:0 -80px;}
+ul.rating li {
+cursor:pointer;
+float:left;
+text-indent:-999em;
+}
+ul.rating li a {
+height:16px;
+left:0;
+position:absolute;
+text-decoration:none;
+top:0;
+width:16px;
+z-index:200;
+}
+ul.rating li.one a {left:0;}
+ul.rating li.two a {left:16px;}
+ul.rating li.three a {left:32px;}
+ul.rating li.four a {left:48px;}
+ul.rating li.five a {left:64px;}
+ul.rating li a:hover {
+background:url(/static/images/star-matrix.gif) no-repeat scroll 0 0;
+height:16px;
+left:0;
+overflow:hidden;
+width:80px;
+z-index:2;
+}
+ul.rating li.one a:hover {background-position:0 -96px;}
+ul.rating li.two a:hover {background-position:0 -112px;}
+ul.rating li.three a:hover {background-position:0 -128px;}
+ul.rating li.four a:hover {background-position:0 -144px;}
+ul.rating li.five a:hover {background-position:0 -160px;}
+
+.LV_validation_message{
+	font-weight:bold;
+	margin:0 0 0 5px;
+}
+
+.LV_valid {
+	color:#00CC00;
+	display: none;
+}
+
+.LV_invalid {
+	color:#CC0000;
+}
+
+.LV_valid_field,
+input.LV_valid_field:hover, 
+input.LV_valid_field:active,
+textarea.LV_valid_field:hover, 
+textarea.LV_valid_field:active {
+	/* border: 1px solid #00CC00; */
+}
+
+.LV_invalid_field, 
+input.LV_invalid_field:hover, 
+input.LV_invalid_field:active,
+textarea.LV_invalid_field:hover, 
+textarea.LV_invalid_field:active {
+	border: 1px solid #CC0000;
+}

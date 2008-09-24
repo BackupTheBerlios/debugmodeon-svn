@@ -1,0 +1,97 @@
+{% comment %}
+(C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+{% endcomment %}
+
+{% extends "base.html" %}
+
+{% block title %} {{ group.title|escape }} {% endblock %}
+{% block head %}
+	<link rel="alternate" type="application/rss+xml" title="Artículos del grupo {{ group.title|escape }}" href="/feed/group/{{ group.url_path }}" />
+	<link rel="alternate" type="application/rss+xml" title="Foro del grupo {{ group.title|escape }}" href="/feed/group.forum/{{ group.url_path }}" />
+	<meta name="description" content="{{ group.description|escape }}" />
+{% endblock %}
+
+{% block sidebar %}
+{% include 'inc-group-member.html' %}
+
+	<div class="box">
+		<p class="title">Sindicación RSS</p>
+		<p class="options"><a href="/feed/group/{{ group.url_path }}"><img src="/static/images/feed.png" alt="feed" class="icon" /> Artículos del grupo {{ group.title|escape }}</a></p>
+		<p class="options"><a href="/feed/group.forum/{{ group.url_path }}"><img src="/static/images/feed.png" alt="feed" class="icon" /> Foro del grupo {{ group.title|escape }}</a></p>
+		<p class="end-box">&nbsp;</p>
+	</div>
+{% endblock %}
+
+{% block content %}
+	{% include 'inc-group-header.html' %}
+	
+	<div class="grid_3 alpha">
+		<div class="box">
+			<p class="title">Últimos artículos</p>
+			{% if not items %}
+				<p style="text-align:center">No hay artículos</p>
+			{% else %}
+				<ul>
+				{% for item in items %}
+					<li>
+						<strong><a href="/item/{{ item.url_path }}">{{ item.title|escape }}</a></strong>
+						<br/><span style="color: #777">por <a href="/user/{{ item.author.nickname|escape}}">{{ item.author.nickname|escape }}</a></span>
+					</li>
+				{% endfor %}
+				</ul>
+				<p style="text-align:right"><strong><a href="/group.item.list/{{ group.url_path }}">Ver todos »</a></strong></p>
+			{% endif %}
+			<p class="end-box">&nbsp;</p>
+		</div>
+	</div>
+	<div class="grid_3">
+		<div class="box">
+			<p class="title">Foro</p>
+			{% if not threads %}
+				<p style="text-align:center">No hay mensajes</p>
+				<p style="text-align:right"><strong><a href="/group.forum.list/{{ group.url_path }}">Nuevo tema »</a></strong></p>
+			{% else %}
+				<ul>
+				{% for thread in threads %}
+					<li>
+						<strong><a href="/group.forum/{{ thread.url_path }}">{{ thread.title|escape }}</a></strong>
+						<br/><span style="color: #777">actualizado hace {{ thread.last_update|relativize }}</span>
+					</li>
+				{% endfor %}
+				</ul>
+				<p style="text-align:right"><strong><a href="/group.forum.list/{{ group.url_path }}">Ver todos »</a></strong></p>
+			{% endif %}
+			<p class="end-box">&nbsp;</p>
+		</div>
+	</div>
+	<div class="grid_3 omega">
+		<div class="box">
+			<p class="title">Miembros</p>
+			<ul>
+			{% for u in users %}
+				<li>
+					<strong><a href="/user/{{ u.nickname }}"><img src="/images/user/thumbnail/{{ u.nickname }}" alt="{{ u.nickname }}" /> {{ u.nickname }}</a></strong>
+				</li>
+			{% endfor %}
+			</ul>
+			<p style="text-align:right"><strong><a href="/group.user.list/{{ group.url_path }}">Ver todos »</a></strong></p>
+			<p class="end-box">&nbsp;</p>
+		</div>
+	</div>
+	<div class="clear">&nbsp;</div> 
+{% endblock %}

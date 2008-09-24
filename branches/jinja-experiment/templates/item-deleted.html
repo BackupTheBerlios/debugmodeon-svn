@@ -1,0 +1,17 @@
+{% extends "blank.html" %}
+{% block title %}
+	Artículo borrado
+{% endblock %}
+
+{% block content %}
+	<p class="title">Artículo borrado</p>
+
+	<p style="text-align:center">
+		El artículo titulado <br/>
+		<strong>{{ item.title|escape }}</strong> <br/>
+		fue borrado
+		"{{ item.deletion_message|escape }}" <br/> hace
+		{{ item.deletion_date|relativize }}
+	</p>
+
+{% endblock %}

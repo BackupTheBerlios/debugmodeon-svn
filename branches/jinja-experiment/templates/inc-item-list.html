@@ -1,0 +1,47 @@
+{% comment %}
+(C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+{% endcomment %}
+
+{% ifequal len 0 %}
+	<p>No hay artículos</p>
+{% endifequal %}
+{% for item in items %}
+	<div class="info">
+		<h2>{% if item.draft %}Borrador: {% endif %}{% if item.deletion_date %}Eliminado: {% endif %} <a href="/item/{{ item.url_path }}">{{ item.title|escape }}</a></h2>
+		<p class="options">
+			Escrito por <strong><a href="/user/{{ item.author.nickname|escape}}">{{ item.author.nickname|escape }}</a></strong> hace <strong>{{ item.creation_date|relativize }}</strong> <!-- date:"d/m/Y" -->
+		</p>
+	</div>
+
+	<p>{{ item.description|escape }}</p>
+ 	<p class="rating star{{item.rating_average}}" style="float:right">&nbsp;</p>
+	<p class="info options">
+		Etiquetas:
+		{% for tag in item.tags %}
+			<a href="/tag/{{ tag|escape}}">{{ tag|escape}}</a>,
+		{% endfor %}
+		| <a href="/item/{{ item.url_path }}#comments"><img src="/static/images/comments.png" class="icon" alt="" /> {{ item.responses }} comentarios</a>
+		| {{ item.views }} visitas
+		| {{item.rating_count}} votos
+		{% ifequal user.nickname item.author.nickname %}
+		| <a href="/item.edit?key={{ item.key }}">editar</a>
+		{% endifequal %}
+	</p>
+{% endfor %}
+
+{% pagination %}
