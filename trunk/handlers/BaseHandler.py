@@ -24,6 +24,7 @@ import re
 import sha
 import model
 import simplejson
+import datetime
 import img
 
 import struct
@@ -53,6 +54,7 @@ class BaseHandler(webapp.RequestHandler):
 		from jinja2 import Template, Environment, FileSystemLoader
 
 		env = Environment(loader=FileSystemLoader(os.path.join(os.path.dirname(__file__), '..', 'templates' )))
+		env.filters['relativize'] = self.relativize
 		p = f.split('/')
 		if p[0] == 'templates':
 			f = '/'.join(p[1:])
@@ -63,6 +65,25 @@ class BaseHandler(webapp.RequestHandler):
 		self.response.headers['Cache-Control'] = 'no-cache'
 		self.response.headers['Expires'] = 'Wed, 27 Aug 2008 18:00:00 GMT'
 		self.response.out.write(t.render(self.values))
+
+	def relativize(value):
+		now = datetime.datetime.now()
+		diff = now - value
+		days = diff.days
+		seconds = diff.seconds
+		if days > 365:
+			return "%d años" % (days / 365, )
+		if days > 30:
+			return "%d meses" % (days / 30, )
+		if days > 0:
+			return "%d días" % (days, )
+   
+		if seconds > 3600:
+			return "%d horas" % (seconds / 3600, )
+		if seconds > 60:
+			return "%d minutos" % (seconds / 60, )
+   
+		return "%d segundos" % (seconds, )
 	
 	def render_json(self, data):
 		self.response.headers['Content-Type'] = 'application/json;charset=UTF-8'
@@ -248,16 +269,6 @@ class BaseHandler(webapp.RequestHandler):
 		if not user:
 			return False
 		if model.Contact.all().filter('user_from', user).filter('user_to', this_user).get():
-			return True
-		return False
-		
-	def can_write(self, group):
-		if group.all_users is None or group.all_users:
-			return True
-		user = self.values['user']
-		if not user:
-			return False
-		if model.GroupUser.all().filter('group', group).filter('user', user).get():
 			return True
 		return False
 
