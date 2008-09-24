@@ -1,4 +1,4 @@
-application: populoom
+application: dmo
 version: 1
 runtime: python
 api_version: 1
