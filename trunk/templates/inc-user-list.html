@@ -1,4 +1,4 @@
-{% comment %}
+{#
 (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
 (C) Copyright 2008 Néstor Salceda <nestor.salceda at gmail dot com>
 
@@ -16,7 +16,7 @@ GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
 along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
-{% endcomment %}
+#}
 
 <table class="forum">
 	<thead>
@@ -35,7 +35,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<td>{% if user.country %}{{ user.country|escape }}{% endif %}</td>
 			<td>{% if user.city %}{{ user.city|escape }}{% endif %}</td>
 			<td>{{ user.creation_date|relativize }}</td>
-			<td>{% ifnotequal user.items 0 %}<p class="rating star{{ user.rating_average }}" style="float:right">&nbsp;</p>{{ user.items }}&nbsp;&nbsp;&nbsp;{% endifnotequal %}</td>
+			<td>{% if user.items != 0 %}<p class="rating star{{ user.rating_average }}" style="float:right">&nbsp;</p>{{ user.items }}&nbsp;&nbsp;&nbsp;{% endif %}</td>
 		</tr>
 {% endfor %}
 	</tbody>

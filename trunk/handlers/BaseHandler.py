@@ -1,4 +1,4 @@
-﻿#!/usr/bin/python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #
@@ -66,7 +66,7 @@ class BaseHandler(webapp.RequestHandler):
 		self.response.headers['Expires'] = 'Wed, 27 Aug 2008 18:00:00 GMT'
 		self.response.out.write(t.render(self.values))
 
-	def relativize(value):
+	def relativize(self, value):
 		now = datetime.datetime.now()
 		diff = now - value
 		days = diff.days
