@@ -39,7 +39,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<tbody>
 		{% for thread in threads %}
 			<tr {% if loop.index % 2 == 0 %}class="even"{% endif %}>
-				<td style="text-align:center"><a href="/group/{{ thread.group.url_path}}"><img src="/images/group/thumbnail/{{ thread.group.key.id }}" alt="{{ thread.group.title|escape }}" title="{{ thread.group.title|escape }}" /></a></td>
+				<td style="text-align:center"><a href="/group/{{ thread.group.url_path}}"><img src="/images/group/thumbnail/{{ thread.group.key().id() }}" alt="{{ thread.group.title|escape }}" title="{{ thread.group.title|escape }}" /></a></td>
 				<td class="subject"><strong><a href="/group.forum/{{ thread.url_path }}">{{ thread.title|escape }}</a></strong></td>
 				<td><a href="/user/{{ thread.author.nickname }}">{{ thread.author.nickname }}</a></td>
 				<td>{{ thread.responses }}</td>

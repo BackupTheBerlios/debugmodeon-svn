@@ -40,7 +40,7 @@ class ItemEdit(AuthenticatedHandler):
 			draft = True
 		
 		licenses = [ { 'id': 'copyright', 'lic': '&copy; Todos los derechos reservados' },
-			{ 'id': 'pd', 'lic': 'Dominio público' },
+			{ 'id': 'pd', 'lic': u'Dominio público' },
 			{ 'id': 'by', 'lic': 'Creative Commons: Reconocimiento' },
 			{ 'id': 'by-nc', 'lic': 'Creative Commons: Reconocimiento-No comercial' },
 			{ 'id': 'by-nc-nd', 'lic': 'Creative Commons: Reconocimiento-No comercial-Sin obras derivadas' },
@@ -71,7 +71,7 @@ class ItemEdit(AuthenticatedHandler):
 				self.render('templates/item-edit.html')
 			else:
 				# show an empty form
-				self.values['title'] = 'Título...'
+				self.values['title'] = u'Título...'
 				self.values['lic'] = 'copyright'
 				self.render('templates/item-edit.html')
 		else:
