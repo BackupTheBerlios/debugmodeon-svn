@@ -356,7 +356,17 @@ class BaseHandler(webapp.RequestHandler):
 			return a[:max]
 		self.values['len'] = l
 		return a
-	
+		
+	def can_write(self, group):
+		if group.all_users is None or group.all_users:
+			return True
+		user = self.values['user']
+		if not user:
+			return False
+		if model.GroupUser.all().filter('group', group).filter('user', user).get():
+			return True
+		return False
+			
 	def paging(self, query, max):
 		a = self.pre_pag(query, max)
 		return self.post_pag(a, max)
