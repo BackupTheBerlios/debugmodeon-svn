@@ -59,12 +59,19 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		{% if user.nickname != thread.author.nickname %}
 			{% if user %}
 			<p class="options">
+<<<<<<< .mine
+			{% if cansubscribe %}
+				</br><span><a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key }}" title="suscripción por mail"><img src="/static/images/add.png" class="icon" /> Suscribirme por email a las respuestas de este hilo</a></span>
+			{% else %}
+				</br><span><a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key }}" title="anular suscripción"><img src="/static/images/delete.png" class="icon" /> Anular mi suscripción a este hilo</a></span>
+=======
 				{% if cansubscribe %}
 					<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key() }}" title="suscripción por mail"><img src="/static/images/email_add.png" class="icon" /> Suscribirme por email a las respuestas de este hilo</a>
 				{% else %}
 					<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key() }}" title="anular suscripción"><img src="/static/images/email_delete.png" class="icon" /> Anular mi suscripción a este hilo</a>
 				{% endif %}
 			</p>
+>>>>>>> .r142
 			{% endif %}
 		{% endif %}
 	</div>
@@ -166,5 +173,34 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	});
 
 	prettyPrint();
+        function ajaxSubs() {
+                var subs = $('group.forum.subscribe');
+                if(subs == null) return;
+                var parent = $(subs.parentNode);
+                Element.observe(subs, 'click', function(e) {
+                        href = subs.href + '&x=1';
+                        parent.innerHTML = '<img class="icon" src="/static/images/spinner.gif" />';
+                        new Ajax.Request(href, {
+                                method: 'get',
+                                onSuccess: function(transport, json) {
+                                        var action = transport.responseText.evalJSON().action;
+                                        if(action == 'unsubscribed') {
+                                                parent.innerHTML = '<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key }}" title="suscripción por mail"><img src="/static/images/add.png" class="icon" /> Suscribirme por email a las respuestas de este hilo</a>';
+                                        } else {
+                                                parent.innerHTML = '<a d="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key }}" title="anular suscripción"><img src="/static/images/delete.png" class="icon" /> Anular mi suscripción a este hilo</a>';
+                                        }
+                                        ajaxSubs();
+                                },
+                                onFailure: function() {
+                                        parent.innerHTML = 'Ocurrió un error :(';
+                                }
+                        });
+                        Event.stop(e);
+                });
+        }
+        
+        ajaxSubs();
+
+
 </script>
 {% endblock %}

@@ -33,8 +33,16 @@ class GroupForumSubscribe( AuthenticatedHandler ):
 
 		if not mail in thread.subscribers:
 			thread.subscribers.append(user.email)
+			thread.put()
+			if self.get_param('x'):
+				self.render_json({ 'action': 'subscribed' })
+			else:	
+				self.redirect('/group.forum/%s' % thread.url_path)
 		else:
 			thread.subscribers.remove(user.email)
-		thread.put()
-		self.redirect('/group.forum/%s' % thread.url_path)
+			thread.put()
+			if self.get_param('x'):
+				self.render_json({ 'action': 'unsubscribed' })
+			else:	
+				self.redirect('/group.forum/%s' % thread.url_path)
 

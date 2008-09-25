@@ -97,7 +97,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			{% for item in items %}
 				<li>
 					<strong><a href="/item/{{ item.url_path }}">{{ item.title|escape }}</a></strong> <br/>
-					<span style="color: #777">por <a href="/user/{{ item.author.nickname|escape}}">{{ item.author.nickname|escape }}</a></span>
+					<span style="color: #777">hace {{ item.creation_date|relativize }}</span>
 				</li>
 			{% endfor %}
 			</ul>
@@ -113,7 +113,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<li style="clear:both">
 					<div class="avatar" style="float:left; padding-right: 3px"><a href="/group/{{ group.url_path }}"><img src="/images/group/thumbnail/{{ group.key().id() }}" alt="{{ group.title|escape }}" title="{{ group.title|escape }}" /></a></div>
 					<strong><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></strong>
-					<br/><span style="color: #777">por <a href="/user/{{ group.owner.nickname|escape}}">{{ group.owner.nickname|escape }}</a></span>
+					<br/><span style="color: #777">hace {{ group.creation_date|relativize }}</span>
 				</li>
 			{% endfor %}
 			</ul>
@@ -128,7 +128,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			{% for thread in threads %}
 				<li>
 					<strong><a href="/group.forum/{{ thread.url_path }}">{{ thread.title|escape }}</a></strong>
-					<br/><span style="color: #777">en <a href="/group/{{ thread.group.url_path }}">{{ thread.group.title|escape }}</a></span>
+					<br/><span style="color: #777">hace {{ thread.creation_date|relativize }}</span>
 				</li>
 			{% endfor %}
 			</ul>

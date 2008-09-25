@@ -33,8 +33,16 @@ class ItemCommentSubscribe( AuthenticatedHandler ):
 
 		if not mail in item.subscribers:
 			item.subscribers.append(mail)
+			item.put()
+			if self.get_param('x'):
+				self.render_json({ 'action': 'subscribed' })
+			else:
+				self.redirect('/item/%s' % (item.url_path, ))
 		else:
 			item.subscribers.remove(mail)
-		item.put()
-		self.redirect('/item/%s' % (item.url_path, ))
+			item.put()
+			if self.get_param('x'):
+                                self.render_json({ 'action': 'unsubscribed' })
+                        else:
+                                self.redirect('/item/%s' % (item.url_path, ))
 
