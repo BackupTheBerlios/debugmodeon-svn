@@ -1,4 +1,4 @@
- {% comment %}
+{#
 (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 
 This file is part of "debug_mode_on".
@@ -15,12 +15,12 @@ GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
 along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
-{% endcomment %}
+#}
 
 {% extends "base.html" %}
-{% block title %} {{ this_user.nickname }}: borradores {% endblock %}
+{% block title %} {{ user.nickname }}: borradores {% endblock %}
 {% block content %}
-	<h1><img src="/images/user/thumbnail/{{ this_user.nickname }}" alt="{{ this_user.nickname}}" style="vertical-align: middle" /> <a href="/user/{{ this_user.nickname }}">{{ this_user.nickname }}</a>: borradores</h1>
+	<h1><img src="/images/user/thumbnail/{{ user.nickname }}" alt="{{ user.nickname}}" style="vertical-align: middle" /> <a href="/user/{{ user.nickname }}">{{ user.nickname }}</a>: borradores</h1>
 	{% include 'inc-item-list.html' %}
 
 {% endblock %}

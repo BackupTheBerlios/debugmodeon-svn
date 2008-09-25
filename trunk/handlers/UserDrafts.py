@@ -27,8 +27,6 @@ class UserDrafts(BaseHandler):
 
 	def execute(self):
 		user = self.get_current_user()
-		# TODO: not show if the user is not the owner!!
-		name = "test1"
 		query = model.Item.all().filter('author =', user).filter('draft =', True).order('-last_update')
 		self.values['items'] = self.paging(query, 10)
 		self.render('templates/user-drafts.html')
