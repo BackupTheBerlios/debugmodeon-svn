@@ -1,4 +1,4 @@
-﻿{% comment %}
+﻿{#
 (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
 (C) Copyright 2008 Juan Luis Belmonte  <jlbelmonte at gmail dot com>
 
@@ -16,7 +16,7 @@ GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
 along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
-{% endcomment %}
+#}
 
 {% extends "base.html" %}
 {% block title %} {{ item.title|escape }} {% endblock %}
@@ -39,9 +39,9 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<ul>
 {% for group in groups %}
 		<li style="clear:both">
-			<div class="avatar" style="float:left; padding-right: 3px"><a href="/group/{{ group.url_path }}"><img src="/images/group/thumbnail/{{ group.key.id }}" alt="{{ group.title|escape }}" /></a></div>
+			<div class="avatar" style="float:left; padding-right: 3px"><a href="/group/{{ group.url_path }}"><img src="/images/group/thumbnail/{{ group.key().id() }}" alt="{{ group.title()|escape }}" /></a></div>
 			<strong><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></strong>
-			{% ifequal user.nickname item.author.nickname %} <br/>[<a href="/group.item.remove?item={{ item.key }}&amp;group={{ group.key }}"><img src="/static/images/delete.png" class="icon" alt="" /> eliminar</a>] {% endifequal %}
+			{% if user.nickname == item.author.nickname %} <br/>[<a href="/group.item.remove?item={{ item.key() }}&amp;group={{ group.key() }}"><img src="/static/images/delete.png" class="icon" alt="" /> eliminar</a>] {% endif %}
 		</li>
 {% endfor %}
 	</ul>
@@ -51,10 +51,10 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 {% if all_groups %}
 <form action="/group.item.add" method="post" accept-charset="utf-8">
-	<input type="hidden" name="item" value="{{ item.key }}" />
+	<input type="hidden" name="item" value="{{ item.key() }}" />
 	<p><select name="group">
 {% for group in all_groups %}
-	<option value="{{ group.key }}">{{ group.title|escape }}</option>
+	<option value="{{ group.key() }}">{{ group.title|escape }}</option>
 {% endfor %}
 	</select>
 	</p>
@@ -96,13 +96,13 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<h1>{% if item.deletion_date %}Eliminado: {% else %}{% if item.draft %}Borrador: {% endif %}{% endif %}{{ item.title|escape }}</h1>
 			<p class="options">
 				Escrito por <strong><a href="/user/{{ item.author.nickname|escape}}">{{ item.author.nickname|escape }}</a></strong> hace <strong>{{ item.creation_date|relativize }}</strong>
-				{% ifequal user.rol 'admin' %}
-					| <a href="/item.delete?key={{ item.key }}">eliminar</a>
+				{% if user.rol == 'admin' %}
+					| <a href="/item.delete?key={{ item.key() }}">eliminar</a>
 				{% else %}
-					{% ifequal user.nickname item.author.nickname %}
-						| <a href="/item.delete?key={{ item.key }}">eliminar</a>
-					{% endifequal %}
-				{% endifequal %}
+					{% if user.nickname == item.author.nickname %}
+						| <a href="/item.delete?key={{ item.key() }}">eliminar</a>
+					{% endif %}
+				{% endif %}
 				 <br/>
 			</p>
 		</div>
@@ -122,10 +122,10 @@ google_ad_width = 468;
 google_ad_height = 60;
 google_ad_format = "468x60_as";
 google_ad_type = "text_image";
-{% comment %}
+{#
 if (!empty($globals['user_adchannel'])) 
 	google_ad_channel ="'.$globals['user_adchannel'].'";
-{% endcomment %}
+#}
 google_color_border = "336699";
 google_color_bg = "FFFFFF";
 google_color_link = "0000FF";
@@ -134,7 +134,7 @@ google_color_text = "000000";
 //--></script>
 <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </script>
-{% comment %}
+{#
 <script type="text/javascript"><!--
 google_ad_client = "{{ item.author.google_adsense|escape }}";
 /* 468x60, creado 10/09/08 */
@@ -146,7 +146,7 @@ google_ad_height = 60;
 <script type="text/javascript"
 src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </script>
-{% endcomment %}
+#}
 {% endif %}
 
 		{% endif %}
@@ -158,11 +158,11 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 		<div style="float:right">
 		{% if canvote %}
 			<ul class="rating star{{item.rating_average}}" id="star-rating">
-				<li class="one"><a title="Muy malo" href="/item.vote?key={{ item.key }}&amp;rating=1">1</a></li>
-				<li class="two"><a title="Malo" href="/item.vote?key={{ item.key }}&amp;rating=2">2</a></li>
-				<li class="three"><a title="Regular" href="/item.vote?key={{ item.key }}&amp;rating=3">3</a></li>
-				<li class="four"><a title="Bueno" href="/item.vote?key={{ item.key }}&amp;rating=4">4</a></li>
-				<li class="five"><a title="Muy bueno" href="/item.vote?key={{ item.key }}&amp;rating=5">5</a></li>
+				<li class="one"><a title="Muy malo" href="/item.vote?key={{ item.key() }}&amp;rating=1">1</a></li>
+				<li class="two"><a title="Malo" href="/item.vote?key={{ item.key() }}&amp;rating=2">2</a></li>
+				<li class="three"><a title="Regular" href="/item.vote?key={{ item.key() }}&amp;rating=3">3</a></li>
+				<li class="four"><a title="Bueno" href="/item.vote?key={{ item.key() }}&amp;rating=4">4</a></li>
+				<li class="five"><a title="Muy bueno" href="/item.vote?key={{ item.key() }}&amp;rating=5">5</a></li>
 			</ul>
 		{% else %}
 			<p class="rating star{{ item.rating_average }}"></p>
@@ -178,14 +178,14 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 			| <a href="#comments"><img src="/static/images/comments.png" class="icon" alt="" /> {{ item.responses }} comentarios</a>
 			| {{ item.views }} visitas
 			| {{item.rating_count}} votos
-			{% ifequal user.nickname item.author.nickname %}
-			| <a href="/item.edit?key={{ item.key }}">editar</a>
-			{% endifequal %}
+			{% if user.nickname == item.author.nickname %}
+			| <a href="/item.edit?key={{ item.key() }}">editar</a>
+			{% endif %}
 			<br/>
-			{% ifequal item.lic 'copyright' %}
+			{% if item.lic == 'copyright' %}
 			&copy; Todos los derechos reservados
 			{% else %}
-				{% ifequal item.lic 'pd' %}
+				{% if item.lic == 'pd' %}
 				Esta obra está en <a href="http://creativecommons.org/licenses/publicdomain/">Dominio Público</a>
 				{% else %}
 				
@@ -193,25 +193,25 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 				<a rel="license" href="http://creativecommons.org/licenses/{{ item.lic }}/3.0/">
 					<img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/{{ item.lic }}/3.0/80x15.png" class="icon" />
 				</a>
-				{% endifequal %}
-			{% endifequal %}
+				{% endif %}
+			{% endif %}
 			{% if canadd %}
-				<br/> <span><a id="item.favourite" href="/item.favourite?key={{ item.key }}" title="añadir a favoritos"><img src="/static/images/add.png" class="icon" /> Añadir a favoritos</a></span>
+				<br/> <span><a id="item.favourite" href="/item.favourite?key={{ item.key() }}" title="añadir a favoritos"><img src="/static/images/add.png" class="icon" /> Añadir a favoritos</a></span>
 			{% else %}
 				{% if user %}
-					<br/> <span><a id="item.favourite" href="/item.favourite?key={{ item.key }}" title="eliminar favorito"><img src="/static/images/delete.png" class="icon" /> Eliminar favorito</a></span>
+					<br/> <span><a id="item.favourite" href="/item.favourite?key={{ item.key() }}" title="eliminar favorito"><img src="/static/images/delete.png" class="icon" /> Eliminar favorito</a></span>
 				{% endif %}
 			{% endif %}
 			&nbsp;<script type="text/javascript" src="http://w.sharethis.com/widget/?tabs=web%2Cemail&amp;charset=utf-8&amp;services=reddit%2Cdigg%2Cfacebook%2Cdelicious%2Cstumbleupon%2Ctechnorati%2Cgoogle_bmarks%2Cyahoo_bmarks%2Cyahoo_myweb%2Cwindows_live%2Cpropeller%2Cfriendfeed%2Cnewsvine%2Cxanga%2Cmixx%2Cblinklist%2Cfurl%2Cmagnolia%2Cmister_wong%2Cmeneame&amp;style=default&amp;publisher=de0ce7ee-6562-4732-8f55-b98b0509d9ec"></script>
 		</p>
 		<p>
-		{% ifnotequal user.nickname item.author.nickname%}
+		{% if user.nickname != item.author.nickname%}
 			{% if cansubscribe %}
-                                <a id="item.comment.subscribe" href="/item.comment.subscribe?key={{ item.key }}" title="suscripción por mail"><img src="/static/images/add.png" class="icon" /> Suscribirme por email a los comentarios de este artículo</a>
+                                <a id="item.comment.subscribe" href="/item.comment.subscribe?key={{ item.key() }}" title="suscripción por mail"><img src="/static/images/add.png" class="icon" /> Suscribirme por email a los comentarios de este artículo</a>
                         {% else %}
-                                <a id="item.comment.subscribe" href="/item.comment.subscribe?key={{ item.key }}" title="anular suscripción"><img src="/static/images/delete.png" class="icon" /> Anular mi suscripción Por email a las respuestas.</a>
+                                <a id="item.comment.subscribe" href="/item.comment.subscribe?key={{ item.key() }}" title="anular suscripción"><img src="/static/images/delete.png" class="icon" /> Anular mi suscripción Por email a las respuestas.</a>
                         {% endif %}
-		{% endifnotequal %}
+		{% endif %}
 		</p>
 	</div>
 	<div class="clear">&nbsp;</div>
@@ -222,14 +222,14 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 	<div class="grid_7 omega">
 		<strong>Sobre <a href="/user/{{ item.author.nickname }}">{{ item.author.nickname }}</a>:</strong><br/>
 		{% if item.author.about_user %}
-			{{ item.author.about_user|escape|linebreaks }}
+			{{ item.author.about_user|escape }}
 		{% else %}
-			No ha escrito su descripción en el perfil. {% ifequal user.nickname item.author.nickname %} <a href="/user.edit">Edita tu perfil.</a>{% endifequal%}
+			No ha escrito su descripción en el perfil. {% if user.nickname == item.author.nickname %} <a href="/user.edit">Edita tu perfil.</a>{% endif%}
 		{% endif %} 
 	</div>
 	<div class="clear">&nbsp;</div>
 {% if not item.draft %}
-{% ifnotequal len 0 %}
+{% if len != 0 %}
 	<div class="grid_9 alpha omega">
 		<h3><a name="comments">Comentarios</a></h3>
 	</div>
@@ -243,19 +243,19 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 	</div>
 	<div class="grid_7 omega">
 		<div class="comment">
-			{{ comment.content|markdown|smiley }} {% ifequal user.rol 'admin' %}<br/><a href="/item.deletecomment?key={{ comment.key }}"><p class="options"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar comentario</p></a>{% endifequal %}
+			{{ comment.content|markdown|smiley }} {% if user.rol == 'admin' %}<br/><a href="/item.deletecomment?key={{ comment.key() }}"><p class="options"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar comentario</p></a>{% endif %}
 		</div>
 	</div>
 	<div class="clear">&nbsp;</div>
 {% endfor %}
-{% endifnotequal %}
+{% endif %}
 {% endif %}
 {% if prev or next %}
 	<div class="grid_2 alpha">
 		<p>&nbsp;</p>
 	</div>
 	<div class="grid_7 omega">
-		{% pagination %}
+		{% include 'inc-pagination.html' %}
 	</div>
 	<div class="clear">&nbsp;</div>
 {% endif %}
@@ -270,7 +270,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 	</div>
 	<div class="grid_7 omega">
 		<form action="/item.comment" method="post" accept-charset="utf-8">
-			<input type="hidden" name="key" value="{{ item.key }}" />
+			<input type="hidden" name="key" value="{{ item.key() }}" />
 			
 			<textarea name="content" rows="8" cols="54" id="markdown_example"></textarea>
 			<p><input type="checkbox" name="subscribe" value="True" id="subscribe" />Suscribirme por email a los comentarios de este artículo</p>
@@ -315,9 +315,9 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 				onSuccess: function(transport, json) {
 					var action = transport.responseText.evalJSON().action;
 					if(action == 'deleted') {
-						parent.innerHTML = '<a id="item.favourite" href="/item.favourite?key={{ item.key }}" title="añadir a favoritos"><img src="/static/images/add.png" class="icon" /> Añadir a favoritos</a>';
+						parent.innerHTML = '<a id="item.favourite" href="/item.favourite?key={{ item.key() }}" title="añadir a favoritos"><img src="/static/images/add.png" class="icon" /> Añadir a favoritos</a>';
 					} else {
-						parent.innerHTML = '<a id="item.favourite" href="/item.favourite?key={{ item.key }}" title="eliminar favorito"><img src="/static/images/delete.png" class="icon" /> Eliminar favorito</a>';
+						parent.innerHTML = '<a id="item.favourite" href="/item.favourite?key={{ item.key() }}" title="eliminar favorito"><img src="/static/images/delete.png" class="icon" /> Eliminar favorito</a>';
 					}
 					ajaxFav();
 				},
