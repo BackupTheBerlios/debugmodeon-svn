@@ -87,9 +87,11 @@ class UserRegister(BaseHandler):
 				self.show_error(nickname, email, 'La contraseña y la contraseña repetida no son iguales')
 				return
 			
+			times = 5
+			
 			user = model.UserData(nickname=nickname,
 				email=email,
-				password=self.hash(nickname, password),
+				password=self.hash_password(nickname, password),
 				items=0,
 				draft_items=0,
 				messages=0,

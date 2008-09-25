@@ -68,7 +68,7 @@ class UserResetPassword(BaseHandler):
 				return
 			
 			u.token = None
-			u.password = self.hash(nickname, password)
+			u.password = self.hash_password(nickname, password)
 			u.put()
 			self.render('templates/user-resetpassword-login.html')
 

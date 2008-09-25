@@ -43,7 +43,8 @@ class UserLogin(BaseHandler):
 
 			user = model.UserData.gql('WHERE nickname=:1', nickname).get()
 			if user:
-				if self.hash(nickname, password) == user.password:
+				
+				if self.check_password(user, password):
 					values['user'] = user
 					user.last_login = datetime.datetime.now()
 					user.put()

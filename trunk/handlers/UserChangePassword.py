@@ -53,8 +53,8 @@ class UserChangePassword(AuthenticatedHandler):
 			
 			user = self.values['user']
 			
-			if self.hash(user.nickname, old_password) == user.password:
-				user.password = self.hash(user.nickname, password)
+			if self.check_password(user, old_password):
+				user.password = self.hash_password(user.nickname, password)
 				user.put()
 				rt = self.request.get('redirect_to')
 				if not rt:

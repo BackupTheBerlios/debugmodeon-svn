@@ -288,9 +288,9 @@ class BaseHandler(webapp.RequestHandler):
 		tags = [self.to_url_path(t) for t in tag_string.split(',')]
 		return list(set(tags))
 
-	def hash(self, login, p):
+	def hash(self, login, p, times=100):
 		p = '%s:%s' % (login, p)
-		for i in range(0, 100):
+		for i in range(0, times):
 			p = sha.new(p).hexdigest()
 		return p
 	
@@ -371,3 +371,17 @@ class BaseHandler(webapp.RequestHandler):
 	def paging(self, query, max):
 		a = self.pre_pag(query, max)
 		return self.post_pag(a, max)
+	
+	def check_password(self, user, password):
+		times = 100
+		user_password = user.password
+		s = user.password.split(':')
+		if len(s) > 1:
+			times = int(s[0])
+			user_password = s[1]
+
+		return self.hash(user.nickname, password, times) == user_password
+	
+	def hash_password(self, nickname, password):
+		times = 5
+		return '%d:%s' % (times, self.hash(nickname, password, times))
