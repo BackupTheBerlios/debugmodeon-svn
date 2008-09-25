@@ -59,19 +59,10 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		{% if user.nickname != thread.author.nickname %}
 			{% if user %}
 			<p class="options">
-<<<<<<< .mine
 			{% if cansubscribe %}
-				</br><span><a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key }}" title="suscripción por mail"><img src="/static/images/add.png" class="icon" /> Suscribirme por email a las respuestas de este hilo</a></span>
+				</br><span><a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key() }}" title="suscripción por mail"><img src="/static/images/add.png" class="icon" /> Suscribirme por email a las respuestas de este hilo</a></span>
 			{% else %}
-				</br><span><a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key }}" title="anular suscripción"><img src="/static/images/delete.png" class="icon" /> Anular mi suscripción a este hilo</a></span>
-=======
-				{% if cansubscribe %}
-					<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key() }}" title="suscripción por mail"><img src="/static/images/email_add.png" class="icon" /> Suscribirme por email a las respuestas de este hilo</a>
-				{% else %}
-					<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key() }}" title="anular suscripción"><img src="/static/images/email_delete.png" class="icon" /> Anular mi suscripción a este hilo</a>
-				{% endif %}
-			</p>
->>>>>>> .r142
+				</br><span><a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key() }}" title="anular suscripción"><img src="/static/images/delete.png" class="icon" /> Anular mi suscripción a este hilo</a></span>
 			{% endif %}
 		{% endif %}
 	</div>
