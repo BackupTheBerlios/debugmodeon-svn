@@ -7,7 +7,7 @@
 	<p class="title">Borrar artículo</p>
 
 	<form action="/item.delete" method="post" accept-charset="utf-8" enctype="multipart/form-data">
-		<input type="hidden" name="key" value="{{ item.key }}" />
+		<input type="hidden" name="key" value="{{ item.key() }}" />
 		
 		<p style="text-align: center">Introduce un mensaje explicando por qué deseas eliminar el artículo titulado <br/> <strong>{{ item.title|escape }}</strong></p>
 
