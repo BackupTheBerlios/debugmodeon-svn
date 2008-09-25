@@ -30,13 +30,13 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% if user %}
 	{% if joined == 'True' %}
 			{% if user.nickname != group.owner.nickname %}
-				| <a href="/group.user.unjoin?group={{ group.key }}&amp;redirect={{ redirect }}"><img src="/static/images/delete.png" class="icon" alt="" /> Eliminarte del grupo</a>
+				| <a href="/group.user.unjoin?group={{ group.key() }}&amp;redirect={{ redirect }}"><img src="/static/images/delete.png" class="icon" alt="" /> Eliminarte del grupo</a>
 			{% endif %}
 	{% elif joined == 'False' %}
-			| <a href="/group.user.join?group={{ group.key }}&amp;redirect={{ redirect }}"><img src="/static/images/add.png" class="icon" alt="" /> Únete a este grupo</a>
+			| <a href="/group.user.join?group={{ group.key() }}&amp;redirect={{ redirect }}"><img src="/static/images/add.png" class="icon" alt="" /> Únete a este grupo</a>
 	{% endif %}
 	{% if user.nickname == group.owner.nickname %}
-			| <strong><a href="/group.edit?key={{ group.key }}">Editar grupo</a></strong>
+			| <strong><a href="/group.edit?key={{ group.key() }}">Editar grupo</a></strong>
 	{% endif %}
 {% endif %}
 		</p>

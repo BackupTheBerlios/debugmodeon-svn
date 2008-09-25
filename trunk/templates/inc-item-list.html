@@ -39,7 +39,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		| {{ item.views }} visitas
 		| {{item.rating_count}} votos
 		{% if user.nickname == item.author.nickname %}
-		| <a href="/item.edit?key={{ item.key }}">editar</a>
+		| <a href="/item.edit?key={{ item.key() }}">editar</a>
 		{% endif %}
 	</p>
 {% endfor %}
