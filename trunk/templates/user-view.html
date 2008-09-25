@@ -105,7 +105,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<ul>
 				{% for group in groups %}
 				<li style="clear:both">
-					<img src="/images/group/thumbnail/{{ group.key.id }}" alt="{{ group.title|escape }}" style="float:left" />
+					<img src="/images/group/thumbnail/{{ group.key().id() }}" alt="{{ group.title|escape }}" style="float:left" />
 					<strong><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></strong>
 					<br/><span style="color: #777">por <a href="/user/{{ group.owner.nickname|escape}}">{{ group.owner.nickname|escape }}</a></span>
 				</li>
