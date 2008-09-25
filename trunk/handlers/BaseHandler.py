@@ -74,18 +74,18 @@ class BaseHandler(webapp.RequestHandler):
 		days = diff.days
 		seconds = diff.seconds
 		if days > 365:
-			return "%d años" % (days / 365, )
+			return u"%d años" % (days / 365, )
 		if days > 30:
-			return "%d meses" % (days / 30, )
+			return u"%d meses" % (days / 30, )
 		if days > 0:
-			return "%d días" % (days, )
+			return u"%d días" % (days, )
    
 		if seconds > 3600:
-			return "%d horas" % (seconds / 3600, )
+			return u"%d horas" % (seconds / 3600, )
 		if seconds > 60:
-			return "%d minutos" % (seconds / 60, )
+			return u"%d minutos" % (seconds / 60, )
    
-		return "%d segundos" % (seconds, )
+		return u"%d segundos" % (seconds, )
 		
 	def smiley(self, value):
 		value = value.replace(' :)', ' <img src="/static/images/smileys/smile.png" class="icon" alt=":)" />')
@@ -357,16 +357,6 @@ class BaseHandler(webapp.RequestHandler):
 		self.values['len'] = l
 		return a
 	
-	def can_write(self, group):
-		if group.all_users is None or group.all_users:
-			return True
-		user = self.values['user']
-		if not user:
-			return False
-		if model.GroupUser.all().filter('group', group).filter('user', user).get():
-			return True
-		return False
-		
 	def paging(self, query, max):
 		a = self.pre_pag(query, max)
 		return self.post_pag(a, max)
