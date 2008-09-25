@@ -42,6 +42,7 @@ class GroupForumReply(AuthenticatedHandler):
 		
 		response = model.Thread(group=thread.group,
 			author=user,
+			author_nickname=user.nickname,
 			title=thread.title,
 			url_path=None,
 			content=self.get_param('content'),

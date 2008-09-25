@@ -27,10 +27,15 @@ class ItemList(BaseHandler):
 
 	def execute(self):
 		self.values['tab'] = '/item.list'
-		self.values['items'] = self.post_pag(self.cache_this(self.get_items), 10)
+		self.values['items'] = self.post_pag(self.get_items(), 10) #self.post_pag(self.cache_this(self.get_items), 10)
 		self.values['taglist'] = [] # self.tag_list(model.Tag.all())
 		self.render('templates/item-list.html')
 	
 	def get_items(self):
 		query = model.Item.all().filter('draft =', False).filter('deletion_date', None).order('-creation_date')
-		return self.pre_pag(query, 10)
+		items = self.pre_pag(query, 10)
+		for i in items:
+			if not i.author_nickname:
+				i.author_nickname = i.author.nickname
+				i.put()
+		return items

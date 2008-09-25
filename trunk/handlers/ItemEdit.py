@@ -109,6 +109,9 @@ class ItemEdit(AuthenticatedHandler):
 					user.put()
 					item.creation_date = datetime.datetime.now()
 				
+				if not item.author_nickname:
+					item.author_nickname = user.nickname
+				
 				item.url_path = '%d/%s' % (item.key().id(), self.to_url_path(item.title))
 				item.put()
 				
@@ -133,6 +136,7 @@ class ItemEdit(AuthenticatedHandler):
 					lic = 'copyright'
 				
 				item = model.Item(author=user,
+					author_nickname=user.nickname,
 					title=title,
 					description=' '.join(self.get_param('description').splitlines()),
 					content=self.get_param('content'),

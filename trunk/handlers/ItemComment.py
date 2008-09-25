@@ -42,7 +42,10 @@ class ItemComment(AuthenticatedHandler):
 			com.append(item.author.email)
 			item.subscribers = list(set(com))
 
-		comment = model.Comment(item=item, author=user, content=self.get_param('content'))
+		comment = model.Comment(item=item,
+			author=user,
+			author_nickname=user.nickname,
+			content=self.get_param('content'))
 		comment.put()
 		
 		user.comments += 1

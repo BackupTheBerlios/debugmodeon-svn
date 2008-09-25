@@ -54,6 +54,10 @@ class ItemView(BaseHandler):
 		if not user or item.author.nickname != user.nickname:
 			item.views = item.views + 1
 			item.put()
+		
+		if not item.author_nickname:
+			item.author_nickname = item.author.nickname
+			item.put()
 
 		if user and user.nickname != item.author.nickname:
 			vote = model.Vote.gql('WHERE user=:1 AND item=:2', user, item).get()
@@ -64,16 +68,20 @@ class ItemView(BaseHandler):
 			if not added:
 				self.values['canadd'] = True
 		if user:
-                        if user.email in item.subscribers:
-                                self.values['cansubscribe']=False
-                        else:
-                                self.values['cansubscribe']=True
-	
-				
+			if user.email in item.subscribers:
+				self.values['cansubscribe'] = False
+			else:
+				self.values['cansubscribe'] = True
+
 		
 		self.values['item'] = item
 		query = model.Comment.all().filter('item =', item).order('creation_date')
-		self.values['comments'] = self.paging(query, 10)
+		comments = self.paging(query, 10)
+		for c in comments:
+			if not c.author_nickname:
+				c.author_nickname = c.author.nickname
+				c.put()
+		self.values['comments'] = comments
 		self.values['a'] = 'comments'
 		self.values['keywords'] = ', '.join(item.tags)
 		

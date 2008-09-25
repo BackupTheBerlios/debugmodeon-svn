@@ -43,6 +43,7 @@ class GroupForumEdit(AuthenticatedHandler):
 
 		thread = model.Thread(group=group,
 			author=user,
+			author_nickname=user.nickname,
 			title=title,
 			url_path=url_path,
 			content=self.get_param('content'),

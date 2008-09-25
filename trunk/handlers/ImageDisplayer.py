@@ -42,7 +42,7 @@ class ImageDisplayer(webapp.RequestHandler):
 		if params[2] == 'user':
 			user = model.UserData.gql('WHERE nickname=:1', params[4]).get()
 			if not user:
-				self.not_found()
+				self.error(404)
 				return
 
 			if params[3] == 'avatar':
@@ -52,14 +52,14 @@ class ImageDisplayer(webapp.RequestHandler):
 		elif params[2] == 'group':
 			group = model.Group.get_by_id(int(params[4]))
 			if not group:
-				self.not_found()
+				self.error(404)
 				return
 			if params[3] == 'avatar':
 				self.showImage(group.avatar, 'glider128.png')
 			elif params[3] == 'thumbnail':
 				self.showImage(group.thumbnail, 'glider48.png')
 		else:
-			self.not_found()
+			self.error(404)
 			return
 
 	def showImage(self, image, default):

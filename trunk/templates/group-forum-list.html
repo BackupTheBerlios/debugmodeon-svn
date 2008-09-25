@@ -52,7 +52,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		{% for thread in threads %}
 			<tr {% if loop.index % 2 == 0 %}class="even"{% endif %}>
 				<td class="subject"><strong><a href="/group.forum/{{ thread.url_path }}">{{ thread.title|escape }}</a></strong></td>
-				<td><a href="/user/{{ thread.author.nickname }}">{{ thread.author.nickname }}</a></td>
+				<td><a href="/user/{{ thread.author_nickname }}">{{ thread.author_nickname }}</a></td>
 				<td>{{ thread.responses }}</td>
 				<td>hace {{ thread.last_update|relativize }}</td>
 			</tr>

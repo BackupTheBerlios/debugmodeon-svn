@@ -64,7 +64,16 @@ class GroupForumView(BaseHandler):
 		self.values['joined'] = self.joined(group)
 		self.values['thread'] = thread
 		query = model.Thread.all().filter('parent_thread', thread).order('creation_date')
-		self.values['responses'] = self.paging(query, 10)
+		responses = self.paging(query, 10)
+		if not thread.author_nickname:
+			thread.author_nickname = thread.author.nickname
+			thread.put()
+		for t in responses:
+			if not t.author_nickname:
+				t.author_nickname = t.author.nickname
+				t.put()
+		self.values['responses'] = responses
+		
 		if group.all_users:
 			self.values['can_write'] = True
 		else:

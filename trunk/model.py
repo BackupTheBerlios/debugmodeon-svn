@@ -75,6 +75,7 @@ class UserData(search.SearchableModel):
 
 class Item(search.SearchableModel):
 	author = db.ReferenceProperty(UserData,required=True)
+	author_nickname = db.StringProperty()
 	title = db.StringProperty(required=True)
 	description = db.StringProperty(required=True)
 	content = db.TextProperty(required=True)
@@ -102,6 +103,7 @@ class Comment(db.Model):
 	content = db.TextProperty(required=True)
 	item = db.ReferenceProperty(Item,required=True)
 	author = db.ReferenceProperty(UserData,required=True)
+	author_nickname = db.StringProperty()
 	
 	last_update = db.DateTimeProperty(auto_now=True)
 	creation_date = db.DateTimeProperty(auto_now_add=True)
@@ -150,6 +152,7 @@ class GroupItem(db.Model):
 class Thread(search.SearchableModel):
 	group = db.ReferenceProperty(Group,required=True)
 	author = db.ReferenceProperty(UserData,required=True)
+	author_nickname = db.StringProperty()
 	title = db.StringProperty(required=True)
 	url_path = db.StringProperty()
 	content = db.TextProperty(required=True)
