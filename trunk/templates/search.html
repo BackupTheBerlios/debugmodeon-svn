@@ -1,4 +1,4 @@
-{% comment %}
+{#
 (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
 (C) Copyright 2008 Néstor Salceda <nestor.salceda at gmail dot com>
 
@@ -16,12 +16,12 @@ GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
 along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
-{% endcomment %}
+#}
 
 {% extends "base.html" %}
 {% block title %} 
-{% ifequal item_type 'items' %}Artículos {% endifequal %}
-{% ifequal item_type 'groups' %}Grupos {% endifequal %}
+{% if item_type == 'items' %}Artículos {% endif %}
+{% if item_type == 'groups' %}Grupos {% endif %}
 etiquetados con "{{ tag }}" {% endblock %}
 {% block sidebar %}
 	<div class="box">
@@ -36,21 +36,21 @@ etiquetados con "{{ tag }}" {% endblock %}
 
 {% block content %}
 
-{% ifequal item_type 'items' %}
+{% if item_type == 'items' %}
 	<h1>Artículos que contengan "<em>{{ q|escape }}</em>"</h1>
 {% include 'inc-item-list.html' %}
-{% endifequal %}
+{% endif %}
 
-{% ifequal item_type 'usuarios' %}
+{% if item_type == 'usuarios' %}
 	<h1>Usuarios que contengan "<em>{{ q|escape }}</em>"</h1>
 {% include 'inc-user-list.html' %}
-{% endifequal %}
+{% endif %}
 
-{% ifequal item_type 'groups' %}
+{% if item_type == 'groups' %}
 	<h1>Grupos que contengan "<em>{{ q|escape }}</em>"</h1>
 {% include 'inc-group-list.html' %}
-{% pagination %}
-{% endifequal %}
+{% include 'inc-pagination.html' %}
+{% endif %}
 
 <div class="clear">&nbsp;</div>
 {% endblock %}
