@@ -88,6 +88,7 @@ class BaseHandler(webapp.RequestHandler):
 		return u"%d segundos" % (seconds, )
 		
 	def smiley(self, value):
+		"""
 		value = value.replace(' :)', ' <img src="/static/images/smileys/smile.png" class="icon" alt=":)" />')
 		value = value.replace(' :-)', ' <img src="/static/images/smileys/smile.png" class="icon" alt=":-)" />')
    
@@ -115,7 +116,7 @@ class BaseHandler(webapp.RequestHandler):
 		value = value.replace(' :_(', ' <img src="/static/images/smileys/cry.png" class="icon" alt=":_(" />')
    
 		value = value.replace(' :-X', ' <img src="/static/images/smileys/crossedlips.png" class="icon" alt=":-X" />')
-   
+		"""
 		return value
 
 

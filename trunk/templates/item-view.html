@@ -202,16 +202,15 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 					<br/> <span><a id="item.favourite" href="/item.favourite?key={{ item.key() }}" title="eliminar favorito"><img src="/static/images/delete.png" class="icon" /> Eliminar favorito</a></span>
 				{% endif %}
 			{% endif %}
-			&nbsp;<script type="text/javascript" src="http://w.sharethis.com/widget/?tabs=web%2Cemail&amp;charset=utf-8&amp;services=reddit%2Cdigg%2Cfacebook%2Cdelicious%2Cstumbleupon%2Ctechnorati%2Cgoogle_bmarks%2Cyahoo_bmarks%2Cyahoo_myweb%2Cwindows_live%2Cpropeller%2Cfriendfeed%2Cnewsvine%2Cxanga%2Cmixx%2Cblinklist%2Cfurl%2Cmagnolia%2Cmister_wong%2Cmeneame&amp;style=default&amp;publisher=de0ce7ee-6562-4732-8f55-b98b0509d9ec"></script>
-		</p>
-		<p>
-		{% if user.nickname != item.author.nickname%}
+			
+		{% if user.nickname != item.author.nickname %}
 			{% if cansubscribe %}
-                                <a id="item.comment.subscribe" href="/item.comment.subscribe?key={{ item.key() }}" title="suscripción por mail"><img src="/static/images/add.png" class="icon" /> Suscribirme por email a los comentarios de este artículo</a>
-                        {% else %}
-                                <a id="item.comment.subscribe" href="/item.comment.subscribe?key={{ item.key() }}" title="anular suscripción"><img src="/static/images/delete.png" class="icon" /> Anular mi suscripción Por email a las respuestas.</a>
-                        {% endif %}
+				| <a id="item.comment.subscribe" href="/item.comment.subscribe?key={{ item.key() }}" title="suscripción por mail"><img src="/static/images/add.png" class="icon" /> Suscribirme por email a los comentarios de este artículo</a>
+			{% else %}
+				| <a id="item.comment.subscribe" href="/item.comment.subscribe?key={{ item.key() }}" title="anular suscripción"><img src="/static/images/delete.png" class="icon" /> Anular mi suscripción por email a las respuestas</a>
+			{% endif %}
 		{% endif %}
+			&nbsp;<script type="text/javascript" src="http://w.sharethis.com/widget/?tabs=web%2Cemail&amp;charset=utf-8&amp;services=reddit%2Cdigg%2Cfacebook%2Cdelicious%2Cstumbleupon%2Ctechnorati%2Cgoogle_bmarks%2Cyahoo_bmarks%2Cyahoo_myweb%2Cwindows_live%2Cpropeller%2Cfriendfeed%2Cnewsvine%2Cxanga%2Cmixx%2Cblinklist%2Cfurl%2Cmagnolia%2Cmister_wong%2Cmeneame&amp;style=default&amp;publisher=de0ce7ee-6562-4732-8f55-b98b0509d9ec"></script>
 		</p>
 	</div>
 	<div class="clear">&nbsp;</div>
