@@ -55,14 +55,14 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		</p>
 	</div>
 	<div class="grid_7 omega">
-		{{ thread.content|markdown|smiley }} {% if user.rol == 'admin' %}<a href="/forum.delete?key={{ thread.key }}"><p class="options"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar hilo</p></a>{% endif %}
+		{{ thread.content|markdown|smiley }} {% if user.rol == 'admin' %}<a href="/forum.delete?key={{ thread.key() }}"><p class="options"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar hilo</p></a>{% endif %}
 		{% if user.nickname != thread.author.nickname %}
 			{% if user %}
 			<p class="options">
 				{% if cansubscribe %}
-					<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key }}" title="suscripción por mail"><img src="/static/images/add.png" class="icon" /> Suscribirme por email a las respuestas de este hilo</a>
+					<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key() }}" title="suscripción por mail"><img src="/static/images/add.png" class="icon" /> Suscribirme por email a las respuestas de este hilo</a>
 				{% else %}
-					<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key }}" title="anular suscripción"><img src="/static/images/delete.png" class="icon" /> Anular mi suscripción a este hilo</a>
+					<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key() }}" title="anular suscripción"><img src="/static/images/delete.png" class="icon" /> Anular mi suscripción a este hilo</a>
 				{% endif %}
 			</p>
 			{% endif %}
@@ -85,7 +85,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	</div>
 	<div class="grid_7 omega">
 		<div class="comment">
-			{{ comment.content|markdown|smiley }} {% if user.rol == 'admin' %}<a href="/forum.delete?key={{ comment.key }}"><p class="options"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar comentario</p></a>{% endif %}
+			{{ comment.content|markdown|smiley }} {% if user.rol == 'admin' %}<a href="/forum.delete?key={{ comment.key() }}"><p class="options"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar comentario</p></a>{% endif %}
 		</div>
 	</div>
 	<div class="clear">&nbsp;</div>
@@ -123,7 +123,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<div class="grid_7 omega">
 
 	<form action="/group.forum.reply" method="post" accept-charset="utf-8">
-		<input type="hidden" name="key" value="{{ thread.key }}" />
+		<input type="hidden" name="key" value="{{ thread.key() }}" />
 
 		<div class="form">
 
@@ -146,7 +146,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<div class="clear">&nbsp;</div>
 {% else %}
 	{% if user and not can_write %}
-		<p class="options" style="text-align:center">Este grupo requiere que te unas a él para poder escribir. <a href="/group.user.join?group={{ group.key|escape }}&amp;redirect={{ redirect }}"> <img src="/static/images/add.png" /> Únete a este grupo</a></p>
+		<p class="options" style="text-align:center">Este grupo requiere que te unas a él para poder escribir. <a href="/group.user.join?group={{ group.key()|escape }}&amp;redirect={{ redirect }}"> <img src="/static/images/add.png" /> Únete a este grupo</a></p>
 	{% endif %}
 {% endif %}
 {% endblock %}
