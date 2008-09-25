@@ -52,6 +52,11 @@ etiquetados con "{{ tag }}" {% endblock %}
 {% include 'inc-pagination.html' %}
 {% endif %}
 
+{% if item_type == 'forums' %}
+	<h1>Foros que contengan "<em>{{ q|escape }}</em>"</h1>
+{% include 'inc-forum-list.html' %}
+{% endif %} 
+
 <div class="clear">&nbsp;</div>
 {% endblock %}
 

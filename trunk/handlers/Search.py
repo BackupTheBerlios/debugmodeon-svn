@@ -26,6 +26,12 @@ from handlers.BaseHandler import *
 
 class Search(BaseHandler):
 
+	def is_added (self, thread, threads):
+		for current in threads:
+			if thread.key() == current.key():
+				return True
+		return False
+
 	def execute(self):
 		q = self.get_param('q')
 		item_type = self.get_param('item_type')
@@ -37,6 +43,27 @@ class Search(BaseHandler):
 		#	query = model.UserData.all().search(q)
 		#	self.values['users'] = self.paging(query, 10)
 		# elif item_type == 'groups':
+		elif item_type == 'forums':
+			query = model.Thread.all ().search(q)
+			values = []
+			#Pre pagination
+			try:
+				counter = int (self.get_param ("p")) * 10
+			except ValueError:
+				counter = 0
+			current = query.fetch (1, counter)
+			#We do the post paging here
+			while len (values) != 10 and len(current) == 1 :
+				counter = counter + 1
+				#Use only the top level threads for showing
+				while current[0].parent_thread is not None:
+					current[0] = current[0].parent_thread
+				#Avoid repeating results
+				if not self.is_added (current[0], values):
+					values.append (current[0])
+
+				current = query.fetch (1, counter)
+			self.values['threads'] = values 
 		else:
 			query = model.Group.all().search(q)
 			self.values['groups'] = self.paging(query, 10)

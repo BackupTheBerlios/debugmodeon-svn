@@ -1,4 +1,4 @@
-{% comment %}
+{#
 (C) Copyright 2008 Néstor Salceda <nestor.salceda at gmail dot com>
 
 This file is part of "debug_mode_on".
@@ -15,7 +15,7 @@ GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
 along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
-{% endcomment %}
+#}
 
 <table class="forum">
 	<thead>
@@ -27,8 +27,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	</thead>
 	<tbody>
 	{% for thread in threads %}
-		<tr {% if forloop.counter|divisibleby:2 %}class="even"{% endif %}>
-			<td style="text-align:center"><a href="/group/{{ thread.group.url_path}}"><img src="/images/group/thumbnail/{{ thread.group.key.id }}" alt="{{ thread.group.title|escape }}" title="{{ thread.group.title|escape }}" /></a></td>
+		<tr {% if loop.index % 2 == 0 %}class="even"{% endif %}>
+			<td style="text-align:center"><a href="/group/{{ thread.group.url_path}}"><img src="/images/group/thumbnail/{{ thread.group.key().id() }}" alt="{{ thread.group.title|escape }}" title="{{ thread.group.title|escape }}" /></a></td>
 			<td class="subject"><strong><a href="/group.forum/{{ thread.url_path }}">{{ thread.title|escape }}</a></strong></td>
 			<td><a href="/user/{{ thread.author.nickname }}">{{ thread.author.nickname }}</a></td>
 			<td>{{ thread.responses }}</td>
