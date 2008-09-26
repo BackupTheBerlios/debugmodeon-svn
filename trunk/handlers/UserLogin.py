@@ -59,9 +59,9 @@ class UserLogin(BaseHandler):
 					else:
 						self.redirect('/')
 				else:
-					self.show_error(nickname, 'Usuario o contraseña incorrectos')
+					self.show_error(nickname, u'Usuario o contraseña incorrectos')
 			else:
-				self.show_error(nickname, 'Usuario o contraseña incorrectos')
+				self.show_error(nickname, u'Usuario o contraseña incorrectos')
 	
 	def show_error(self, nickname, error):
 		self.values['nickname'] = nickname
