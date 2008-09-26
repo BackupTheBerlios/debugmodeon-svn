@@ -30,93 +30,113 @@ from google.appengine.ext import db
 from handlers.BaseHandler import *
 from google.appengine.ext.webapp import template
 
+from os import environ
+from recaptcha import captcha
+
 class UserRegister(BaseHandler):
 
 	def execute(self):
 		method = self.request.method
-
 		if method == 'GET':
-			self.values['redirect_to'] = self.request.get('redirect_to')
-			self.render('templates/user-register.html')
+			self.send_form(None)
 		else:
-			nickname = self.request.get('nickname')
-			email = self.request.get('email')
-			password = self.request.get('password')
-			re_email = self.request.get('re_email')
-			re_password = self.request.get('re_password')
+			if self.get_param('x'):
+				#check if nickname is available
+				nickname = self.request.get('nickname')
+				email = self.request.get('email')
+				message = self.validate_nickname(nickname)
+				if message:
+					self.render_json({'valid': False, 'message': message})
+				else :
+					self.render_json({'valid': True })
+				return
+			else:
+				#Validate captcha
+				challenge = self.request.get('recaptcha_challenge_field')
+				response  = self.request.get('recaptcha_response_field')
+				remoteip  = environ['REMOTE_ADDR']
 
-			if not self.get_param('terms-and-conditions'):
-				self.show_error(nickname, email, u'Debes aceptar los términos y condiciones del servicio')
-				return
-			
-			if not re.match('^[\w\.-]{3,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}$', email):
-				self.show_error(nickname, email, 'Introduce una dirección de email válida')
-				return
+				cResponse = captcha.submit(
+					challenge,
+					response,
+					"6LcfQgMAAAAAAKfqtkQnXyGw-9wVhMeeYExv-pbQ",
+					remoteip)
 
-			if not re.match('^[\w\.-]+$', nickname):
-				self.show_error(nickname, email, 'El nombre de usuario sólo puede contener letras, números, puntos, guiones y guiones bajos')
-				return
-
-			if len(nickname) < 4:
-				self.show_error(nickname, email, 'El nombre de usuario debe ser de al menos cuatro caracteres')
-				return
-
-			if len(nickname) > 20:
-				self.show_error(nickname, email, 'El nombre de usuario no debe ser mayor de 20 caracteres')
-				return
-
-			if not password or len(password) < 4 or len(password) > 30:
-				self.show_error(nickname, email, 'La contraseña debe ser de entre cuatro y treinta caracteres')
-				return
-
-			u = model.UserData.all().filter('nickname =', nickname).get()
-			if u:
-				self.show_error(nickname, email, 'El nombre de usuario ya existe')
-				return
-			
-			u = model.UserData.all().filter('email =', email).get()
-			if u:
-				self.show_error(nickname, email, 'Ya existe una cuenta con esa dirección de correo electrónico')
-				return
+				if not cResponse.is_valid:
+					#If the reCAPTCHA server can not be reached, 
+					#the error code recaptcha-not-reachable will be returned.
+					self.send_form(cResponse.error_code)
+					return
 				
-			if email != re_email:
-				self.show_error(nickname, email, 'El e-mail y el e-mail repetido no son iguales')
-				return
-				
-			if password != re_password:
-				self.show_error(nickname, email, 'La contraseña y la contraseña repetida no son iguales')
-				return
-			
-			times = 5
-			
-			user = model.UserData(nickname=nickname,
-				email=email,
-				password=self.hash_password(nickname, password),
-				items=0,
-				draft_items=0,
-				messages=0,
-				draft_messages=0,
-				comments=0,
-				rating_count=0,
-				rating_total=0,
-				rating_average=0,
-				threads=0,
-				responses=0,
-				groups=0,
-				favourites=0,
-				public=False,
-				contacts=0)
-			user.put()
+				nickname = self.request.get('nickname')
+				email = self.request.get('email')
+				password = self.request.get('password')
+				re_email = self.request.get('re_email')
+				re_password = self.request.get('re_password')
 
-			self.sess = session.Session()
-			self.sess['user_nickname'] = user.nickname
-			self.sess['user_email'] = user.email
-			self.sess['user_key'] = user.key()
-			self.sess['user'] = user
-			rt = self.request.get('redirect_to')
-			if not rt:
-				rt = '/'
-			self.redirect(rt)
+				if not self.get_param('terms-and-conditions'):
+					self.show_error(nickname, email, u'Debes aceptar los términos y condiciones del servicio')
+					return
+			
+				if not re.match('^[\w\.-]{3,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}$', email):
+					self.show_error(nickname, email, 'Introduce una dirección de email válida')
+					return
+
+				if not re.match('^[\w\.-]+$', nickname):
+					self.show_error(nickname, email, 'El nombre de usuario sólo puede contener letras, números, puntos, guiones y guiones bajos')
+					return
+
+				if not password or len(password) < 4 or len(password) > 30:
+					self.show_error(nickname, email, 'La contraseña debe ser de entre cuatro y treinta caracteres')
+					return
+				message = self.validate_nickname(nickname)
+				if message:
+					self.show_error(nickname, email, message)
+					return
+			
+				u = model.UserData.all().filter('email =', email).get()
+				if u:
+					self.show_error(nickname, email, 'Ya existe una cuenta con esa dirección de correo electrónico')
+					return
+				
+				if email != re_email:
+					self.show_error(nickname, email, 'El e-mail y el e-mail repetido no son iguales')
+					return
+				
+				if password != re_password:
+					self.show_error(nickname, email, 'La contraseña y la contraseña repetida no son iguales')
+					return
+			
+					times = 5
+			
+				user = model.UserData(nickname=nickname,
+					email=email,
+					password=self.hash_password(nickname, password),
+					items=0,
+					draft_items=0,
+					messages=0,
+					draft_messages=0,
+					comments=0,
+					rating_count=0,
+					rating_total=0,
+					rating_average=0,
+					threads=0,
+					responses=0,
+					groups=0,
+					favourites=0,
+					public=False,
+					contacts=0)
+				user.put()
+
+				self.sess = session.Session()
+				self.sess['user_nickname'] = user.nickname
+				self.sess['user_email'] = user.email
+				self.sess['user_key'] = user.key()
+				self.sess['user'] = user
+				rt = self.request.get('redirect_to')
+				if not rt:
+					rt = '/'
+				self.redirect(rt)
 
 	def show_error(self, nickname, email, error):
 		self.values['nickname'] = nickname
@@ -129,3 +149,25 @@ class UserRegister(BaseHandler):
 		if not m or not m.string[m.start():m.end()] == value:
 			return None
 		return value
+		
+	def send_form(self, error):
+		chtml = captcha.displayhtml(
+			public_key = "6LcfQgMAAAAAACOkuGX93ZZR6mj92LjD4wKlIafr",
+			use_ssl = False,
+			error = error)
+		self.values['captchahtml'] = chtml
+		self.values['redirect_to'] = self.request.get('redirect_to')
+		self.render('templates/user-register.html')
+
+	def validate_nickname(self, nickname):
+		if len(nickname) < 4:
+			return 'El nombre de usuario debe ser de al menos cuatro caracteres'
+
+		if len(nickname) > 20:
+			return 'El nombre de usuario no debe ser mayor de 20 caracteres'
+
+		u = model.UserData.all().filter('nickname =', nickname).get()
+		if u:
+			return 'El nombre de usuario ya existe'
+			
+		return ''
