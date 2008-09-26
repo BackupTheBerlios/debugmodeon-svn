@@ -83,11 +83,11 @@ class UserRegister(BaseHandler):
 					return
 
 				if not re.match('^[\w\.-]+$', nickname):
-					self.show_error(nickname, email, 'El nombre de usuario sólo puede contener letras, números, puntos, guiones y guiones bajos')
+					self.show_error(nickname, email, u'El nombre de usuario sólo puede contener letras, números, puntos, guiones y guiones bajos')
 					return
 
 				if not password or len(password) < 4 or len(password) > 30:
-					self.show_error(nickname, email, 'La contraseña debe ser de entre cuatro y treinta caracteres')
+					self.show_error(nickname, email, u'La contraseña debe ser de entre cuatro y treinta caracteres')
 					return
 				message = self.validate_nickname(nickname)
 				if message:
@@ -96,7 +96,7 @@ class UserRegister(BaseHandler):
 			
 				u = model.UserData.all().filter('email =', email).get()
 				if u:
-					self.show_error(nickname, email, 'Ya existe una cuenta con esa dirección de correo electrónico')
+					self.show_error(nickname, email, u'Ya existe una cuenta con esa dirección de correo electrónico')
 					return
 				
 				if email != re_email:
@@ -104,7 +104,7 @@ class UserRegister(BaseHandler):
 					return
 				
 				if password != re_password:
-					self.show_error(nickname, email, 'La contraseña y la contraseña repetida no son iguales')
+					self.show_error(nickname, email, u'La contraseña y la contraseña repetida no son iguales')
 					return
 			
 					times = 5
