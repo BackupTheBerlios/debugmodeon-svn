@@ -116,7 +116,7 @@ class ItemEdit(AuthenticatedHandler):
 				item.put()
 				
 				memcache.delete('index_items')
-				memcache.delete('taglist')
+				memcache.delete('tag_cloud')
 				
 				if not draft:
 					self.update_tags(item.tags)
@@ -156,7 +156,7 @@ class ItemEdit(AuthenticatedHandler):
 				item.put()
 				
 				memcache.delete('index_items')
-				memcache.delete('taglist')
+				memcache.delete('tag_cloud')
 				
 				if not draft:
 					user.items += 1

@@ -34,11 +34,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	
 	<div class="box">
 		<p class="title">Nube de tags</p>
-		<ol class='tag-cloud'>
-		{% for tag in taglist %}
-			<li class="size{{tag.1}}"><span>{{tag.2}} items etiquetados con </span><a href='/tag/{{tag.0}}' class='tag'>{{tag.0}}</a></li>
-		{% endfor %}
-		</ol>
+		{% include 'inc-tag-cloud.html' %}
 		<p class="end-box">&nbsp;</p>
 	</div>
 {% endblock %}

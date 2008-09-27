@@ -28,5 +28,9 @@ class GroupList(BaseHandler):
 		self.values['tab'] = '/group.list'
 		query = model.Group.all().order('-creation_date')
 		groups = self.paging(query, 10)
+		for g in groups:
+			if not g.owner_nickname:
+				g.owner_nickname = g.owner.nickname
+				g.put()
 		self.values['groups'] = groups
 		self.render('templates/group-list.html')

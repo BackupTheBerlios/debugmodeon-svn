@@ -35,7 +35,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<p>
 				<label for="nickname">Nombre de usuario</label>
 				<input id="nickname" type="text" name="nickname" value="{{ nickname }}" style="width:200px" maxlength="20" />
-				<input type="button" id="check_mail" value="Comprobar"><span id="result_check_nick"></span>
+				<!-- <input type="button" id="check_mail" value="Comprobar"><span id="result_check_nick"></span> -->
 			</p>
 			<p>
 				<label for="email">e-mail</label>
@@ -120,7 +120,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	validate_mail('re_mail');
 	validate_length('password', 4, 30);
 	validate_length('re_password', 4, 30);
-	$('check_mail').setAttribute('onclick', 'checkMail()')
+	// $('check_mail').setAttribute('onclick', 'checkMail()')
 	
 	var terms = new LiveValidation('terms-and-conditions', { validMessage: "", wait: 500 });
 	terms.add(Validate.Acceptance, { failureMessage: "Debes aceptar los términos y condiciones del servicio." });

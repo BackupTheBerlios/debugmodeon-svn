@@ -85,6 +85,7 @@ class GroupEdit(AuthenticatedHandler):
 				if self.get_param('all_users'):
 					all_users = True
 				group = model.Group(owner=user,
+					owner_nickname=user.nickname,
 					title=title,
 					description=self.get_param('description'),
 					url_path=url_path,

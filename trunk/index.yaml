@@ -10,7 +10,7 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
-# Used 15 times in query history.
+# Used 22 times in query history.
 - kind: Comment
   properties:
   - name: item
@@ -42,20 +42,20 @@ indexes:
   - name: database
   - name: creation_date
 
-# Used 23 times in query history.
+# Used 28 times in query history.
 - kind: Group
   properties:
   - name: creation_date
     direction: desc
 
-# Used 6 times in query history.
+# Used 7 times in query history.
 - kind: GroupItem
   properties:
   - name: group
   - name: creation_date
     direction: desc
 
-# Used 6 times in query history.
+# Used 7 times in query history.
 - kind: GroupUser
   properties:
   - name: group
@@ -85,7 +85,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 15 times in query history.
+# Used 22 times in query history.
 - kind: Item
   properties:
   - name: author
@@ -131,7 +131,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 10 times in query history.
+# Used 11 times in query history.
 - kind: Item
   properties:
   - name: deletion_date
@@ -176,6 +176,12 @@ indexes:
   - name: form
   - name: creation_date
 
+# Used once in query history.
+- kind: Tag
+  properties:
+  - name: count
+    direction: desc
+
 # Unused in query history -- copied from input.
 - kind: Thread
   properties:
@@ -193,30 +199,30 @@ indexes:
 - kind: Thread
   properties:
   - name: group
+  - name: last_update
+    direction: desc
+
+# Used 17 times in query history.
+- kind: Thread
+  properties:
+  - name: group
+  - name: parent_thread
+  - name: last_update
+    direction: desc
+
+# Unused in query history -- copied from input.
+- kind: Thread
+  properties:
   - name: last_update
     direction: desc
 
 # Used 16 times in query history.
 - kind: Thread
   properties:
-  - name: group
-  - name: parent_thread
-  - name: last_update
-    direction: desc
-
-# Unused in query history -- copied from input.
-- kind: Thread
-  properties:
-  - name: last_update
-    direction: desc
-
-# Used 11 times in query history.
-- kind: Thread
-  properties:
   - name: parent_thread
   - name: creation_date
 
-# Used 13 times in query history.
+# Used 14 times in query history.
 - kind: Thread
   properties:
   - name: parent_thread

@@ -1,0 +1,5 @@
+<ol class='tag-cloud'>
+{% for tag in tag_cloud %}
+	<li class="size{{tag.1}}"><span>{{tag.2}} artículos etiquetados con </span><a href='/tag/{{tag.0}}' class='tag' title="{{tag.2}} artículos">{{tag.0}}</a></li>
+{% endfor %}
+</ol>

@@ -275,6 +275,12 @@ class BaseHandler(webapp.RequestHandler):
 		taglist = [(tag, 6*tagdict[tag]/maxcount, tagdict[tag]) for tag in tagdict.keys()]
 		taglist.sort()
 		return taglist
+
+	def add_tag_cloud(self):
+		self.values['tag_cloud'] = self.cache('tag_cloud', self.get_tag_cloud)
+
+	def get_tag_cloud(self):
+		return self.tag_list(model.Tag.all())
 	
 	# I use strings in order to distinguish three values into the templates
 	# 'True', 'False', and None

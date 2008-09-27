@@ -42,20 +42,25 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	{% include 'inc-group-header.html' %}
 	
 	<div class="grid_9 alpha omega">
-		<div class="info">
-			<h2>{{ thread.title|escape }}</h2>
-			<p class="options">Iniciado por <a href="/user/{{ thread.author_nickname|escape }}">{{ thread.author_nickname|escape }}</a> hace <strong>{{ thread.creation_date|relativize }}</strong></p>
-		</div>
+		<h2>{{ thread.title|escape }}</h2>
 	</div>
 	
 	<div class="grid_2 alpha">
 		<p class="info comment-info">
-			<img src="/images/user/thumbnail/{{ thread.author_nickname|escape }}" alt="{{ thread.author_nickname|escape }}" /> <br/>
-			<a href="/user/{{ thread.author_nickname|escape }}">{{ thread.author_nickname|escape }}</a></strong>
+			<a href="/user/{{ thread.author_nickname|escape }}"><img src="/images/user/thumbnail/{{ thread.author_nickname|escape }}" alt="{{ thread.author_nickname|escape }}" /></a> <br/>
+			<strong><a href="/user/{{ thread.author_nickname|escape }}">{{ thread.author_nickname|escape }}</a></strong>
+			escribió <br/> hace <strong>{{ thread.creation_date|relativize }}</strong>
 		</p>
 	</div>
 	<div class="grid_7 omega">
-		{{ thread.content|markdown|smiley }} {% if user.rol == 'admin' %}<a href="/forum.delete?key={{ thread.key() }}"><p class="options"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar hilo</p></a>{% endif %}
+		<div class="comment">
+			{{ thread.content|markdown|smiley }}
+		</div>
+		
+		{% if user.rol == 'admin' %}
+			<p class="options"><a href="/forum.delete?key={{ thread.key() }}"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar hilo</a></p>
+		{% endif %}
+		
 		{% if user.nickname != thread.author_nickname %}
 			{% if user %}
 			<p class="options">
@@ -79,13 +84,14 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% for comment in responses %}
 	<div class="grid_2 alpha">
 		<p class="info comment-info">
-			<img src="/images/user/thumbnail/{{ comment.author_nickname|escape }}" alt="{{ comment.author_nickname|escape }}" /> <br/>
-			<a href="/user/{{ comment.author_nickname|escape }}">{{ comment.author_nickname|escape }}</a> escribió <br/> hace <strong>{{ comment.creation_date|relativize }}</strong>
+			<a href="/user/{{ comment.author_nickname|escape }}"><img src="/images/user/thumbnail/{{ comment.author_nickname|escape }}" alt="{{ comment.author_nickname|escape }}" /></a> <br/>
+			<strong><a href="/user/{{ comment.author_nickname|escape }}">{{ comment.author_nickname|escape }}</a></strong>
+			escribió <br/> hace <strong>{{ comment.creation_date|relativize }}</strong>
 		</p>
 	</div>
 	<div class="grid_7 omega">
 		<div class="comment">
-			{{ comment.content|markdown|smiley }} {% if user.rol == 'admin' %}<a href="/forum.delete?key={{ comment.key() }}"><p class="options"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar comentario</p></a>{% endif %}
+			{{ comment.content|markdown|smiley }} {% if user.rol == 'admin' %}<p class="options"><a href="/forum.delete?key={{ comment.key() }}"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar comentario</a></p>{% endif %}
 		</div>
 	</div>
 	<div class="clear">&nbsp;</div>
@@ -118,7 +124,10 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	</div>
 	<div class="clear">&nbsp;</div>
 	<div class="grid_2 alpha">
-		<p>&nbsp;</p>
+		<p class="info comment-info">
+			<img src="/images/user/thumbnail/{{ user.nickname|escape }}" alt="{{ user.nickname|escape }}" /> <br/>
+			<strong><a href="/user/{{ user.nickname|escape }}">{{ user.nickname|escape }}</a></strong>
+		</p>
 	</div>
 	<div class="grid_7 omega">
 
@@ -160,7 +169,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endif %}
 <script type="text/javascript" src="/static/js/prettify.js"></script>
 <script type="text/javascript" charset="utf-8">
-	var d = $$('#thread pre');
+	var d = $$('.comment pre');
 	d.each(function(node) {
 		node.addClassName('prettyprint');
 	});
