@@ -28,27 +28,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 	<div class="grid_9 alpha omega">
 
-	<table class="forum">
-		<thead>
-			<th style="text-align:center">Grupo</th>
-			<th class="subject">Tema</th>
-			<th>Autor</th>
-			<th>Respuestas</th>
-			<th>Actualizado</th>
-		</thead>
-		<tbody>
-		{% for thread in threads %}
-			<tr {% if loop.index % 2 == 0 %}class="even"{% endif %}>
-				<td style="text-align:center"><a href="/group/{{ thread.group.url_path}}"><img src="/images/group/thumbnail/{{ thread.group.key().id() }}" alt="{{ thread.group.title|escape }}" title="{{ thread.group.title|escape }}" /></a></td>
-				<td class="subject"><strong><a href="/group.forum/{{ thread.url_path }}">{{ thread.title|escape }}</a></strong></td>
-				<td style="text-align:center"><a href="/user/{{ thread.author_nickname }}" title="{{ thread.author_nickname }}"><img src="/images/user/thumbnail/{{ thread.author_nickname }}" alt="{{ thread.author_nickname }}" /></a></td>
-				<td>{{ thread.responses }}</td>
-				<td>hace {{ thread.last_update|relativize }}</td>
-			</tr>
-		{% endfor %}
-		</tbody>
-	</table>
-
+	{% include 'inc-forum-list.html' %}
 	{% include 'inc-pagination.html' %}
 	</div>
 	<div class="clear">&nbsp;</div>

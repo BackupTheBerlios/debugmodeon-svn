@@ -57,6 +57,7 @@ class BaseHandler(webapp.RequestHandler):
 		env.filters['relativize'] = self.relativize
 		env.filters['markdown'] = self.markdown
 		env.filters['smiley'] = self.smiley
+		env.filters['pagination'] = self.pagination
 		p = f.split('/')
 		if p[0] == 'templates':
 			f = '/'.join(p[1:])
@@ -391,3 +392,65 @@ class BaseHandler(webapp.RequestHandler):
 	def hash_password(self, nickname, password):
 		times = 5
 		return '%d:%s' % (times, self.hash(nickname, password, times))
+	
+	def get_application(self):
+		return self.cache('app', self.fetch_application)
+	
+	def fetch_application(self):
+		return model.Application.all().get()
+
+	def not_none(self, value):
+		if not value:
+			return ''
+		return value
+
+	def pagination(self, value):
+		prev = self.value('prev')
+		next = self.value('next')
+		params = []
+		p = self.value('p')
+		q = self.value('q')
+		a = self.value('a')
+		t = self.value('t')
+
+		if a:
+			a = '#%s' % str(a)
+		else:
+			a = ''
+
+		if t:
+			t = '&amp;t=%s' % str(t)
+		else:
+			t = ''
+
+		s = ''
+		if prev or next:
+			s = '<p class="pagination">'
+			if prev:
+				if prev == 1:
+					if q:
+						qp = 'q=%s' % str(q)
+					else:
+						qp = ''
+					s = u'%s<a href="?%s%s%s">« anterior</a> |' % (s, qp, t, a)
+				else:
+					if q:
+						qp = '&amp;q=%s' % str(q)
+					else:
+						qp = ''
+					s = u'%s<a href="?p=%d%s%s%s">« anterior</a> |' % (s, prev, qp, t, a)
+			s = u'%s Página %d ' % (s, p)
+			if next:
+				if q:
+					q = '&amp;q=%s' % str(q)
+				else:
+					q = ''
+				s = u'%s| <a href="?p=%d%s%s%s">siguiente »</a>' % (s, next, q, t, a)
+			s = '%s</p>' % s
+		return s
+
+	def value(self, key):
+		try:
+			return self.values[key]
+		except KeyError:
+			return None

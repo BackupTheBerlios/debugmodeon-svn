@@ -51,6 +51,8 @@ class UserLogin(BaseHandler):
 					self.sess = session.Session()
 					self.sess['user_nickname'] = user.nickname
 					self.sess['user_email'] = user.email
+					if user.rol:
+						self.sess['user_rol'] = user.rol
 					self.sess['user_key'] = user.key()
 					self.sess['user'] = user
 					rt = self.request.get('redirect_to')

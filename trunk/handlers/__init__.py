@@ -30,6 +30,7 @@ from handlers.ItemComment import *
 from handlers.ItemFavourite import *
 from handlers.ItemCommentSubscribe import *
 from handlers.ItemDeleteComment import *
+
 # users
 from handlers.UserList import *
 from handlers.UserView import *
@@ -78,8 +79,11 @@ from handlers.Feed import *
 from handlers.Tag import *
 from handlers.Search import *
 
-# Image
+# images
 from handlers.ImageDisplayer import *
+
+# admin
+from handlers.AdminApplication import *
 
 from handlers.Apocalipto import *
 from handlers.NotFound import *

@@ -1,0 +1,80 @@
+{#
+(C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+#}
+
+{% extends "base.html" %}
+
+{% block title %} Administración {% endblock %}
+
+{% block content %}
+	<div class="info">
+		<h1>Administración</h1>
+		<p class="options">Usarios: {{ app.users }}. Artículos: {{ app.items }}. Grupos: {{ app.groups }}</p>
+	</div>
+	
+	{% if m %}
+		<p class="message">{{ m|escape }}</p>
+	{% endif %}
+
+	<form action="/admin.application" method="post" accept-charset="utf-8">
+		<div class="form">
+			<p>
+				<label for="url">Url</label>
+				<input id="url" type="text" name="url" value="{{ url|escape }}" style="width: 250px" /> Ej: http://example.com
+			</p>
+			
+			<p>
+				<label for="mail_subject_prefix">Mail subject prefix</label>
+				<input id="mail_subject_prefix" type="text" name="mail_subject_prefix" value="{{ mail_subject_prefix|escape }}" style="width: 250px" /> Ej. [example.com]
+			</p>
+
+			<p>
+				<label for="mail_sender">Mail sender address</label>
+				<input id="mail_sender" type="text" name="mail_sender" value="{{ mail_sender|escape }}" style="width: 250px" /> Ej: [contact@example.com]
+			</p>
+
+			<p>
+				<label for="mail_footer">Mail footer</label>
+				<input id="mail_footer" type="text" name="mail_footer" value="{{ mail_footer|escape }}" style="width: 250px" />
+			</p>
+			
+			<p>
+				<label for="recaptcha_public_key">Recaptcha public key</label>
+				<input id="recaptcha_public_key" type="text" name="recaptcha_public_key" value="{{ recaptcha_public_key|escape }}" style="width: 250px" />
+			</p>
+			
+			<p>
+				<label for="recaptcha_private_key">Recaptcha private key</label>
+				<input id="recaptcha_private_key" type="text" name="recaptcha_private_key" value="{{ recaptcha_private_key|escape }}" style="width: 250px" />
+			</p>
+			
+			<p>
+				<label for="google_adsense">Google Adsense</label>
+				<input id="google_adsense" type="text" name="google_adsense" value="{{ google_adsense|escape }}" style="width: 250px" />
+			</p>
+			
+			<p>
+				<label for="google_adsense_channel">Google Adsense Channel</label>
+				<input id="google_adsense_channel" type="text" name="google_adsense_channel" value="{{ google_adsense_channel|escape }}" style="width: 250px" />
+			</p>
+		</div>
+	
+		<p><input type="submit" value="Guardar cambios" /></p>
+	</form>
+
+{% endblock %}

@@ -72,11 +72,6 @@ class UserEdit(AuthenticatedHandler):
 			user.about_user = self.get_param('about_user')
 			user.put()
 			self.redirect('/user/%s' % user.nickname)
-	
-	def not_none(self, value):
-		if not value:
-			return ''
-		return value
 		
 		
 		

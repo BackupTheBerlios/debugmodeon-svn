@@ -187,3 +187,20 @@ class Contact(db.Model):
 	user_from = db.ReferenceProperty(UserData,required=True,collection_name='cf')
 	user_to = db.ReferenceProperty(UserData,required=True,collection_name='ct')
 	creation_date = db.DateTimeProperty(auto_now_add=True)
+
+class Application(db.Model):
+	users = db.IntegerProperty()
+	groups = db.IntegerProperty()
+	items = db.IntegerProperty()
+	
+	url = db.StringProperty()
+	
+	mail_subject_prefix = db.StringProperty()
+	mail_sender = db.StringProperty()
+	mail_footer = db.StringProperty()
+	
+	recaptcha_public_key = db.StringProperty()
+	recaptcha_private_key = db.StringProperty()
+	
+	google_adsense = db.StringProperty()
+	google_adsense_channel = db.StringProperty()

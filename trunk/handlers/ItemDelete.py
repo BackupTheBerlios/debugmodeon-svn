@@ -86,5 +86,10 @@ class ItemDelete(AuthenticatedHandler):
 			
 			# comments?
 			
+			app = self.get_application()
+			if app:
+				app.items -= 1
+				app.put()
+			
 			self.redirect('/item/%s' % item.url_path)
 			

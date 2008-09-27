@@ -90,6 +90,8 @@ def main():
 									   
 									   # images
 									   ('/images/.*', ImageDisplayer),
+									   # admin
+									   ('/admin.application', AdminApplication),
 									   
 									   ('/apocalipto', 	Apocalipto),
 									   ('/html/.*', 	Static),

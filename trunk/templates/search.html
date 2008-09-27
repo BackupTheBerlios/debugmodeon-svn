@@ -20,44 +20,40 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 {% extends "base.html" %}
 {% block title %} 
-{% if item_type == 'items' %}Artículos {% endif %}
-{% if item_type == 'groups' %}Grupos {% endif %}
-etiquetados con "{{ tag }}" {% endblock %}
+	{% if t == 'items' %}
+		Artículos
+	{% elif t == 'groups' %}
+		Grupos
+	{% elif t == 'forums' %}
+		Foros
+	{% endif %}
+	etiquetados con "{{ tag }}"
+{% endblock %}
+
 {% block sidebar %}
+	{% if tag_cloud %}
 	<div class="box">
 		<p class="title">Nube de tags</p>
-		<ol class='tag-cloud'>
-		{% for tag in taglist %}
-			<li class="size{{tag.1}}"><span>{{tag.2}} items etiquetados con </span><a href='/tag/{{tag.0}}' class='tag'>{{tag.0}}</a></li>
-		{% endfor %}
-		</ol>
+		{% include 'inc-tag-cloud.html' %}
+		<p class="end-box">&nbsp;</p>
 	</div>
+	{% endif %}
 {% endblock %}
 
 {% block content %}
 
-{% if item_type == 'items' %}
+{% if t == 'items' %}
 	<h1>Artículos que contengan "<em>{{ q|escape }}</em>"</h1>
-{% include 'inc-item-list.html' %}
-{% endif %}
-
-{% if item_type == 'usuarios' %}
-	<h1>Usuarios que contengan "<em>{{ q|escape }}</em>"</h1>
-{% include 'inc-user-list.html' %}
-{% endif %}
-
-{% if item_type == 'groups' %}
+	{% include 'inc-item-list.html' %}
+{% elif t == 'groups' %}
 	<h1>Grupos que contengan "<em>{{ q|escape }}</em>"</h1>
-{% include 'inc-group-list.html' %}
-{% include 'inc-pagination.html' %}
-{% endif %}
-
-{% if item_type == 'forums' %}
+	{% include 'inc-group-list.html' %}
+	{% include 'inc-pagination.html' %}
+{% elif t == 'forums' %}
 	<h1>Foros que contengan "<em>{{ q|escape }}</em>"</h1>
-{% include 'inc-forum-list.html' %}
+	{% include 'inc-forum-list.html' %}
 {% endif %} 
 
-<div class="clear">&nbsp;</div>
 {% endblock %}
 
 {% block javascript %}

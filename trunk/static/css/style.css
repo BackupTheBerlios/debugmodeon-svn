@@ -328,6 +328,13 @@ div.error {
 	margin: 10px;
 }
 
+.message {
+	text-align: center;
+	background-color: #ffa;
+	padding: 10px;
+	margin: 10px;
+}
+
 /* display the individual items next to each other, not one-per-line */
 .tag-cloud { margin:0; padding:10px; }
 .tag-cloud li { display: inline; margin:0; padding:0; }

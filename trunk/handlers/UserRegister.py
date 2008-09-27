@@ -41,7 +41,7 @@ class UserRegister(BaseHandler):
 			self.send_form(None)
 		else:
 			if self.get_param('x'):
-				#check if nickname is available
+				# check if nickname is available
 				nickname = self.request.get('nickname')
 				email = self.request.get('email')
 				message = self.validate_nickname(nickname)
@@ -51,7 +51,7 @@ class UserRegister(BaseHandler):
 					self.render_json({'valid': True })
 				return
 			else:
-				#Validate captcha
+				# Validate captcha
 				challenge = self.request.get('recaptcha_challenge_field')
 				response  = self.request.get('recaptcha_response_field')
 				remoteip  = environ['REMOTE_ADDR']
@@ -63,8 +63,8 @@ class UserRegister(BaseHandler):
 					remoteip)
 
 				if not cResponse.is_valid:
-					#If the reCAPTCHA server can not be reached, 
-					#the error code recaptcha-not-reachable will be returned.
+					# If the reCAPTCHA server can not be reached, 
+					# the error code recaptcha-not-reachable will be returned.
 					self.send_form(cResponse.error_code)
 					return
 				
@@ -127,6 +127,11 @@ class UserRegister(BaseHandler):
 					public=False,
 					contacts=0)
 				user.put()
+				
+				app = self.get_application()
+				if app:
+					app.users += 1
+					app.put()
 
 				self.sess = session.Session()
 				self.sess['user_nickname'] = user.nickname

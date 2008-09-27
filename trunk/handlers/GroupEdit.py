@@ -105,6 +105,11 @@ class GroupEdit(AuthenticatedHandler):
 				
 				user.groups += 1
 				user.put()
+
+				app = self.get_application()
+				if app:
+					app.groups += 1
+					app.put()
 				
 				group_user = model.GroupUser(user=user, group=group)
 				group_user.put()

@@ -154,6 +154,11 @@ class ItemEdit(AuthenticatedHandler):
 				
 				item.url_path = '%d/%s' % (item.key().id(), self.to_url_path(item.title))
 				item.put()
+
+				app = self.get_application()
+				if app:
+					app.items += 1
+					app.put()
 				
 				memcache.delete('index_items')
 				memcache.delete('tag_cloud')
