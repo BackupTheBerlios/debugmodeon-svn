@@ -3,6 +3,7 @@
 
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+# (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -59,7 +60,7 @@ class UserRegister(BaseHandler):
 				cResponse = captcha.submit(
 					challenge,
 					response,
-					"6LcfQgMAAAAAAKfqtkQnXyGw-9wVhMeeYExv-pbQ",
+					self.get_application().recaptcha_private_key,
 					remoteip)
 
 				if not cResponse.is_valid:
@@ -157,7 +158,7 @@ class UserRegister(BaseHandler):
 		
 	def send_form(self, error):
 		chtml = captcha.displayhtml(
-			public_key = "6LcfQgMAAAAAACOkuGX93ZZR6mj92LjD4wKlIafr",
+			public_key = self.get_application().recaptcha_public_key,
 			use_ssl = False,
 			error = error)
 		self.values['captchahtml'] = chtml
