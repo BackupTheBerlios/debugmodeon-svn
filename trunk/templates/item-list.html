@@ -40,7 +40,10 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endblock %}
 
 {% block content %}
-	<h1>Artículos</h1>
+	<div class="info">
+		<h1>Artículos</h1>
+		<p class="options">Ordenar por: <a href="?o=-creation_date"><img src="/static/images/date.png" alt="" class="icon" /> Fecha publicación</a> | <a href="?o=-rating_average"><img src="/static/images/tick.png" alt="" class="icon" /> Valoración</a> | <a href="?o=-responses"><img src="/static/images/comments.png" alt="" class="icon" /> Número de comentarios</a></p>
+	</div>
 {% include 'inc-item-list.html' %}
 <div class="clear">&nbsp;</div>
 {% endblock %}

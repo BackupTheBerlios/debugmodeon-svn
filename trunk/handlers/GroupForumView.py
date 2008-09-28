@@ -64,7 +64,7 @@ class GroupForumView(BaseHandler):
 		self.values['joined'] = self.joined(group)
 		self.values['thread'] = thread
 		query = model.Thread.all().filter('parent_thread', thread).order('creation_date')
-		responses = self.paging(query, 10)
+		responses = self.paging(query, 100)
 		if not thread.author_nickname:
 			thread.author_nickname = thread.author.nickname
 			thread.put()

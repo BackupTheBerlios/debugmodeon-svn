@@ -131,12 +131,48 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 24 times in query history.
+# Used 84 times in query history.
 - kind: Item
   properties:
   - name: deletion_date
   - name: draft
   - name: creation_date
+    direction: desc
+
+# Unused in query history -- copied from input.
+- kind: Item
+  properties:
+  - name: deletion_date
+  - name: draft
+  - name: creation_date
+    direction: desc
+  - name: author_nickname
+    direction: desc
+
+# Unused in query history -- copied from input.
+- kind: Item
+  properties:
+  - name: deletion_date
+  - name: draft
+  - name: creation_date
+    direction: desc
+  - name: responses
+    direction: desc
+
+# Used 9 times in query history.
+- kind: Item
+  properties:
+  - name: deletion_date
+  - name: draft
+  - name: rating_average
+    direction: desc
+
+# Unused in query history -- copied from input.
+- kind: Item
+  properties:
+  - name: deletion_date
+  - name: draft
+  - name: responses
     direction: desc
 
 # Unused in query history -- copied from input.

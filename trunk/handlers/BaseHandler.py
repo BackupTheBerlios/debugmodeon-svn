@@ -341,13 +341,19 @@ class BaseHandler(webapp.RequestHandler):
 		key = '%s?%s' % (self.request.path, self.request.query)
 		return self.cache(key, function, timeout)
 	
-	def pre_pag(self, query, max):
+	def pre_pag(self, query, max, default_order=None):
 		try:
 			p = int(self.get_param('p'))
 		except ValueError:
 			p = 1
 		offset = (p-1)*max
-		return [o for o in query.fetch(max+1, offset)]
+		o = self.get_param('o')
+		if o:
+			query = query.order(o)
+			self.values['o'] = o
+		elif default_order:
+			query = query.order(default_order)
+		return [obj for obj in query.fetch(max+1, offset)]
 		
 	def post_pag(self, a, max):
 		try:
@@ -355,6 +361,38 @@ class BaseHandler(webapp.RequestHandler):
 		except ValueError:
 			p = 1
 		self.values['p'] = p
+		if p > 1:
+			self.values['prev'] = p-1
+		l = len(a)
+		if l > max:
+			self.values['len'] = max
+			self.values['next'] = p+1
+			return a[:max]
+		self.values['len'] = l
+		o = self.get_param('o')
+		if o:
+			self.values['o'] = o
+		return a
+
+	def paging(self, query, max, default_order=None, total=-1):
+		if total > 0:
+			pages = total / max
+			if total % max > 0:
+				pages += 1
+			self.values['pages'] = pages
+		try:
+			p = int(self.get_param('p'))
+		except ValueError:
+			p = 1
+		self.values['p'] = p
+		offset = (p-1)*max
+		o = self.get_param('o')
+		if o:
+			query = query.order(o)
+			self.values['o'] = o
+		elif default_order:
+			query = query.order(default_order)
+		a = [obj for obj in query.fetch(max+1, offset)]
 		if p > 1:
 			self.values['prev'] = p-1
 		l = len(a)
@@ -374,10 +412,6 @@ class BaseHandler(webapp.RequestHandler):
 		if model.GroupUser.all().filter('group', group).filter('user', user).get():
 			return True
 		return False
-			
-	def paging(self, query, max):
-		a = self.pre_pag(query, max)
-		return self.post_pag(a, max)
 	
 	def check_password(self, user, password):
 		times = 100
@@ -407,46 +441,60 @@ class BaseHandler(webapp.RequestHandler):
 	def pagination(self, value):
 		prev = self.value('prev')
 		next = self.value('next')
-		params = []
-		p = self.value('p')
-		q = self.value('q')
-		a = self.value('a')
-		t = self.value('t')
-
-		if a:
-			a = '#%s' % str(a)
-		else:
-			a = ''
-
-		if t:
-			t = '&amp;t=%s' % str(t)
-		else:
-			t = ''
 
 		s = ''
 		if prev or next:
-			s = '<p class="pagination">'
+			params = []
+			p = self.value('p')
+			q = self.value('q')
+			a = self.value('a')
+			t = self.value('t')
+			o = self.value('o')
+			pages = self.value('pages')
+   
+			# query string
+			if q:
+				params.append('q=%s' % q)
+   
+			# type
+			if t:
+				params.append('t=%s' % t)
+   
+			# order
+			if o:
+				params.append('o=%s' % o)
+   
+			# anchor
+			if a:
+				a = '#%s' % str(a)
+			else:
+				a = ''
+
+			common = '%s%s' % ('&amp;'.join(params), a)
+			s = '<ul class="pagination">'
 			if prev:
 				if prev == 1:
-					if q:
-						qp = 'q=%s' % str(q)
-					else:
-						qp = ''
-					s = u'%s<a href="?%s%s%s">« anterior</a> |' % (s, qp, t, a)
+					s = u'%s <li class="previous"><a href="?%s">« Anterior</a></li>' % (s, common)
 				else:
-					if q:
-						qp = '&amp;q=%s' % str(q)
+					s = u'%s <li class="previous"><a href="?p=%d&amp;%s">« Anterior</a></li>' % (s, prev, common)
+			else:
+				s = u'%s <li class="previous-off">« Anterior</li>' % s
+			
+			if pages:
+				i = 1
+				while i <= pages:
+					if i == p:
+						s = u'%s <li class="active">%d</li>' % (s, i)
 					else:
-						qp = ''
-					s = u'%s<a href="?p=%d%s%s%s">« anterior</a> |' % (s, prev, qp, t, a)
-			s = u'%s Página %d ' % (s, p)
+						s = u'%s <li><a href="?p=%d&amp;%s">%d</a></li>' % (s, i, common, i)
+					i += 1
+			else:
+				s = u'%s Página %d ' % (s, p)
 			if next:
-				if q:
-					q = '&amp;q=%s' % str(q)
-				else:
-					q = ''
-				s = u'%s| <a href="?p=%d%s%s%s">siguiente »</a>' % (s, next, q, t, a)
-			s = '%s</p>' % s
+				if not pages:
+					s = '%s |' % s
+				s = u'%s <li class="next"><a href="?p=%d&amp;%s">Siguiente »</a></li>' % (s, next, common)
+			s = '%s</ul><br/><br/>' % s
 		return s
 
 	def value(self, key):

@@ -282,8 +282,58 @@ p.comment-info {
 	margin-top: 1px;
 }
 
-p.pagination {
-	text-align: center;
+.pagination {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.pagination li {
+	border:0; margin:0; padding:0;
+	list-style:none;
+	margin-right:2px;
+}
+
+.pagination a {
+	border:solid 1px #9aafe5;
+	margin-right:2px;
+}
+
+.pagination .previous-off,
+.pagination .next-off {
+	border:solid 1px #DEDEDE
+	color:#888888
+	display:block;
+	float:left;
+	font-weight:bold;
+	margin-right:2px;
+	padding:3px 4px;
+}
+
+.pagination .next a,
+.pagination .previous a {
+	font-weight:bold;
+} 
+
+.pagination .active{
+	background:#2e6ab1;
+	color:#FFFFFF;
+	font-weight:bold;
+	display:block;
+	float:left;
+	padding:4px 6px;
+}
+
+.pagination a:link,
+.pagination a:visited {
+	color:#0e509e
+	display:block;
+	float:left;
+	padding:3px 6px;
+	text-decoration:none;
+}
+
+.pagination a:hover{
+	border:solid 1px #0e509e
 }
 
 pre {
