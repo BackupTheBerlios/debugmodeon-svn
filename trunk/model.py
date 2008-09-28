@@ -104,6 +104,7 @@ class Comment(db.Model):
 	item = db.ReferenceProperty(Item,required=True)
 	author = db.ReferenceProperty(UserData,required=True)
 	author_nickname = db.StringProperty()
+	response_number = db.IntegerProperty()
 	
 	last_update = db.DateTimeProperty(auto_now=True)
 	creation_date = db.DateTimeProperty(auto_now_add=True)
@@ -159,6 +160,9 @@ class Thread(search.SearchableModel):
 	content = db.TextProperty(required=True)
 	subscribers = db.StringListProperty()
 	
+	last_response_date = db.DateTimeProperty()
+	response_number = db.IntegerProperty()
+	
 	# responses
 	parent_thread = db.SelfReferenceProperty()
 	
@@ -192,6 +196,7 @@ class Application(db.Model):
 	users = db.IntegerProperty()
 	groups = db.IntegerProperty()
 	items = db.IntegerProperty()
+	threads = db.IntegerProperty()
 	
 	url = db.StringProperty()
 	

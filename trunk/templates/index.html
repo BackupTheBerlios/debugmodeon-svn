@@ -93,7 +93,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			{% for item in items %}
 				<li>
 					<strong><a href="/item/{{ item.url_path }}">{{ item.title|escape }}</a></strong> <br/>
-					<span style="color: #777">hace {{ item.creation_date|relativize }}</span>
+					<span style="color: #777">por <a href="/user/{{ item.author_nickname }}">{{ item.author_nickname }}</a></span>
 				</li>
 			{% endfor %}
 			</ul>
@@ -103,13 +103,13 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	</div>
 	<div class="grid_3">
 		<div class="box">
-			<p class="title">Últimos grupos</p>
+			<p class="title">Grupos numerosos</p>
 			<ul>
 			{% for group in groups %}
 				<li style="clear:both">
 					<div class="avatar" style="float:left; padding-right: 3px"><a href="/group/{{ group.url_path }}"><img src="/images/group/thumbnail/{{ group.key().id() }}" alt="{{ group.title|escape }}" title="{{ group.title|escape }}" /></a></div>
 					<strong><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></strong>
-					<br/><span style="color: #777">hace {{ group.creation_date|relativize }}</span>
+					<br/><span style="color: #777">{{ group.members }} miembros</span>
 				</li>
 			{% endfor %}
 			</ul>

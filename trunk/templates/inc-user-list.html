@@ -30,7 +30,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<tbody>
 {% for user in users %}
 		<tr>
-			<td><div class="avatar"><img src="/images/user/thumbnail/{{ user.nickname }}" alt"{{ user.nickname }}" /></div></td>
+			<td><div class="avatar"><a href="/user/{{ user.nickname|escape }}"><img src="/images/user/thumbnail/{{ user.nickname }}" alt"{{ user.nickname }}" /></a></div></td>
 			<td class="subject"><strong><a href="/user/{{ user.nickname|escape }}">{{ user.nickname|escape }}</a></strong></td>
 			<td>{% if user.country %}{{ user.country|escape }}{% endif %}</td>
 			<td>{% if user.city %}{{ user.city|escape }}{% endif %}</td>

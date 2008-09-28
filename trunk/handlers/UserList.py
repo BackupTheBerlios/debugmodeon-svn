@@ -29,7 +29,7 @@ class UserList(BaseHandler):
 
 	def execute(self):
 		self.values['tab'] = '/user.list'
-		# .filter('public =', True)
-		query = model.UserData.all().order('-creation_date')
-		self.values['users'] = self.paging(query, 10)
+		app = self.get_application()
+		query = model.UserData.all()
+		self.values['users'] = self.paging(query, 10, '-items', app.users, ['-creation_date', '-items'])
 		self.render('templates/user-list.html')

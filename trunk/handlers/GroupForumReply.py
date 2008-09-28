@@ -21,6 +21,8 @@
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
 
+import datetime
+
 from google.appengine.ext import db
 from google.appengine.api import mail
 from google.appengine.api import memcache
@@ -44,9 +46,10 @@ class GroupForumReply(AuthenticatedHandler):
 			author=user,
 			author_nickname=user.nickname,
 			title=thread.title,
-			url_path=None,
+			url_path=thread.url_path,
 			content=self.get_param('content'),
 			parent_thread=thread,
+			response_number=thread.responses+1,
 			responses=0)
 		response.put()
 		
@@ -54,6 +57,7 @@ class GroupForumReply(AuthenticatedHandler):
 		if not user.email in thread.subscribers and subscribe:
 			thread.subscribers.append(user.email)
 		thread.responses = thread.responses + 1
+		thread.last_response_date = datetime.datetime.now()
 		thread.put()
 		
 		self.create_group_subscribers(group)

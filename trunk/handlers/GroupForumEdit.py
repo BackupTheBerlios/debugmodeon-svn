@@ -21,6 +21,7 @@
 # 
 
 import logging
+import datetime
 
 from google.appengine.runtime import apiproxy_errors
 from google.appengine.ext import db
@@ -50,6 +51,7 @@ class GroupForumEdit(AuthenticatedHandler):
 			title=title,
 			url_path=url_path,
 			content=self.get_param('content'),
+			last_response_date = datetime.datetime.now(),
 			responses=0)
 		
 		user.threads += 1
@@ -63,6 +65,13 @@ class GroupForumEdit(AuthenticatedHandler):
 		thread.put()
 		thread.url_path = ('%d/%s/%s') % (thread.key().id(), group.url_path, self.to_url_path(title))
 		thread.put()
+		
+		app = self.get_application()
+		if app:
+			if not app.threads:
+				app.threads = 0
+			app.threads += 1
+			app.put()
 		
 		group.threads += 1
 		group.put()

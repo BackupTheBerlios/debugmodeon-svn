@@ -63,15 +63,21 @@ class GroupForumView(BaseHandler):
 		self.values['group'] = group
 		self.values['joined'] = self.joined(group)
 		self.values['thread'] = thread
-		query = model.Thread.all().filter('parent_thread', thread).order('creation_date')
-		responses = self.paging(query, 100)
+		query = model.Thread.all().filter('parent_thread', thread)
+		responses = self.paging(query, 100, 'creation_date', thread.responses, ['creation_date'])
+		
+		# migration
 		if not thread.author_nickname:
 			thread.author_nickname = thread.author.nickname
 			thread.put()
+		i = 1
 		for t in responses:
-			if not t.author_nickname:
-				t.author_nickname = t.author.nickname
+			if not t.response_number:
+				t.response_number = i
 				t.put()
+			i += 1
+		# end migration
+		
 		self.values['responses'] = responses
 		
 		if group.all_users:
@@ -84,4 +90,5 @@ class GroupForumView(BaseHandler):
 			else:
 				self.values['cansubscribe']=True
 
+		self.values['a'] = 'comments'
 		self.render('templates/group-forum-view.html')

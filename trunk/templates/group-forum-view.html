@@ -86,7 +86,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<p class="info comment-info">
 			<a href="/user/{{ comment.author_nickname|escape }}"><img src="/images/user/thumbnail/{{ comment.author_nickname|escape }}" alt="{{ comment.author_nickname|escape }}" /></a> <br/>
 			<strong><a href="/user/{{ comment.author_nickname|escape }}">{{ comment.author_nickname|escape }}</a></strong>
-			escribió <br/> hace <strong>{{ comment.creation_date|relativize }}</strong>
+			escribió <br/> hace <strong>{{ comment.creation_date|relativize }}</strong> <br/>
+			#{{ comment.response_number }}
 		</p>
 	</div>
 	<div class="grid_7 omega">
@@ -97,26 +98,13 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<div class="clear">&nbsp;</div>
 {% endfor %}
 {% endif %}
-
-
-{% if prev or next %}
 	<div class="grid_2 alpha">
-		<p>&nbsp;</p>
+		&nbsp;
 	</div>
 	<div class="grid_7 omega">
-		<p class="pagination">
-			{% if prev %}
-			<a href="?p={{ prev }}#comments">« anterior</a> |
-			{% endif %}
-			Página {{ p }}
-			{% if next %}
-			| <a href="?p={{ next }}#comments">siguiente »</a></p>
-			{% endif %}
-		</p>
+		{% include 'inc-pagination.html' %}
 	</div>
 	<div class="clear">&nbsp;</div>
-{% endif %}
-
 
 {% if user and can_write %}
 	<div class="grid_9 alpha omega">

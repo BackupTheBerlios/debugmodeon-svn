@@ -23,7 +23,13 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 {% endblock %}
 {% block content %}
-	<h1>Usuarios</h1>
+	<div class="info">
+		<h1>Usuarios</h1>
+		<p class="options">Ordenar por:
+			<a href="?o=-creation_date"><img src="/static/images/date.png" alt="" class="icon" /> Fecha registro</a>
+			| <a href="?o=-items"><img src="/static/images/page_white_edit.png" alt="" class="icon" /> Número de artículos</a>
+		</p>
+	</div>
 	
 {% include 'inc-user-list.html' %}
 

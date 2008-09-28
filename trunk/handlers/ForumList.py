@@ -26,11 +26,16 @@ class ForumList(BaseHandler):
 
 	def execute(self):
 		self.values['tab'] = '/forum.list'
-		query = model.Thread.all().filter('parent_thread', None).order('-last_update')
-		threads = self.paging(query, 20)
+		query = model.Thread.all().filter('parent_thread', None)
+		app = self.get_application()
+		threads = self.paging(query, 20, '-last_response_date', app.threads, ['-last_response_date'])
 		for t in threads:
-			if not t.author_nickname:
-				t.author_nickname = t.author.nickname
+			if not t.last_response_date:
+				last_response = model.Thread.all().filter('parent_thread', t).order('-creation_date').get()
+				if last_response:
+					t.last_response_date = last_response.creation_date
+				else:
+					t.last_response_date = t.creation_date
 				t.put()
 		self.values['threads'] = threads
 		self.render('templates/forum-list.html')

@@ -55,6 +55,7 @@ class AdminApplication(AuthenticatedHandler):
 				app.users	= model.UserData.all().count()
 				app.groups	= model.Group.all().count()
 				app.items	= model.Item.all().count()
+			app.threads = model.Thread.all().filter('parent_thread', None).count()
 			app.url						= self.get_param('url')
 			app.mail_subject_prefix		= self.get_param('mail_subject_prefix')
 			app.mail_sender				= self.get_param('mail_sender')

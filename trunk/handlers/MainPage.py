@@ -38,7 +38,7 @@ class MainPage(BaseHandler):
 		return model.Item.all().filter('draft', False).filter('deletion_date', None).order('-creation_date').fetch(10)
 
 	def get_groups(self):
-		return model.Group.all().order('-creation_date').fetch(10)
+		return model.Group.all().order('-members').fetch(10)
 
 	def get_threads(self):
-		return model.Thread.all().filter('parent_thread', None).order('-last_update').fetch(10)
+		return model.Thread.all().filter('parent_thread', None).order('-last_response_date').fetch(10)

@@ -42,20 +42,32 @@ indexes:
   - name: database
   - name: creation_date
 
-# Used 28 times in query history.
+# Used 30 times in query history.
 - kind: Group
   properties:
   - name: creation_date
     direction: desc
 
-# Used 7 times in query history.
+# Used 6 times in query history.
+- kind: Group
+  properties:
+  - name: items
+    direction: desc
+
+# Used 18 times in query history.
+- kind: Group
+  properties:
+  - name: members
+    direction: desc
+
+# Used 8 times in query history.
 - kind: GroupItem
   properties:
   - name: group
   - name: creation_date
     direction: desc
 
-# Used 7 times in query history.
+# Used 8 times in query history.
 - kind: GroupUser
   properties:
   - name: group
@@ -131,7 +143,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 84 times in query history.
+# Used 89 times in query history.
 - kind: Item
   properties:
   - name: deletion_date
@@ -159,7 +171,7 @@ indexes:
   - name: responses
     direction: desc
 
-# Used 9 times in query history.
+# Used 10 times in query history.
 - kind: Item
   properties:
   - name: deletion_date
@@ -167,7 +179,7 @@ indexes:
   - name: rating_average
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used once in query history.
 - kind: Item
   properties:
   - name: deletion_date
@@ -238,7 +250,7 @@ indexes:
   - name: last_update
     direction: desc
 
-# Used 18 times in query history.
+# Used 21 times in query history.
 - kind: Thread
   properties:
   - name: group
@@ -252,13 +264,27 @@ indexes:
   - name: last_update
     direction: desc
 
-# Used 20 times in query history.
+# Used 27 times in query history.
 - kind: Thread
   properties:
   - name: parent_thread
   - name: creation_date
 
-# Used 16 times in query history.
+# Used once in query history.
+- kind: Thread
+  properties:
+  - name: parent_thread
+  - name: creation_date
+    direction: desc
+
+# Used once in query history.
+- kind: Thread
+  properties:
+  - name: parent_thread
+  - name: last_response_date
+    direction: desc
+
+# Used 23 times in query history.
 - kind: Thread
   properties:
   - name: parent_thread

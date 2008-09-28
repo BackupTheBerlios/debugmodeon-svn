@@ -45,11 +45,15 @@ class ItemComment(AuthenticatedHandler):
 		comment = model.Comment(item=item,
 			author=user,
 			author_nickname=user.nickname,
-			content=self.get_param('content'))
+			content=self.get_param('content'),
+			response_number=item.responses+1)
 		comment.put()
 		
 		user.comments += 1
 		user.put()
+		
+		item.responses += 1
+		item.put()
 	
 		if item.subscribers:
 			subject = u"[debug_mode=ON] Nuevo comentario: '%s'" % self.clean_ascii(item.title)
@@ -71,7 +75,5 @@ http://debugmodeon.com/item/%s#comments
 		subscribe=self.get_param('subscribe')
 		if not user.email in item.subscribers and subscribe:
 			item.subscribers.append(user.email)
-		item.responses = item.responses + 1
-		item.put()
 		
 		self.redirect('/item/%s#comments' % (item.url_path, ))

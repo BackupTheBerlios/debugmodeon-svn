@@ -216,12 +216,18 @@ google_color_text = "000000";
 	<div class="grid_2 alpha">
 		<p class="info comment-info">
 			<img src="/images/user/thumbnail/{{ comment.author_nickname }}" alt"{{ comment.author_nickname }}" /> <br/>
-			<a href="/user/{{ comment.author_nickname|escape }}">{{ comment.author_nickname|escape }}</a> escribió <br/> hace <strong>{{ comment.creation_date|relativize }}</strong>
+			<a href="/user/{{ comment.author_nickname|escape }}">{{ comment.author_nickname|escape }}</a> escribió <br/> hace <strong>{{ comment.creation_date|relativize }}</strong> <br/>
+			#{{ comment.response_number }}
 		</p>
 	</div>
 	<div class="grid_7 omega">
 		<div class="comment">
-			{{ comment.content|markdown|smiley }} {% if user.rol == 'admin' %}<br/><a href="/item.deletecomment?key={{ comment.key() }}"><p class="options"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar comentario</p></a>{% endif %}
+			{{ comment.content|markdown|smiley }}
+			{% if user.rol == 'admin' %}
+				<p class="options">
+					<a href="/item.deletecomment?key={{ comment.key() }}"><img src="/static/images/cross.png" class="icon" alt="" /> eliminar comentario</a>
+				</p>
+			{% endif %}
 		</div>
 	</div>
 	<div class="clear">&nbsp;</div>
@@ -244,7 +250,10 @@ google_color_text = "000000";
 	</div>
 	<div class="clear">&nbsp;</div>
 	<div class="grid_2 alpha">
-		<p>&nbsp;</p>
+		<p class="info comment-info">
+			<img src="/images/user/thumbnail/{{ user.nickname|escape }}" alt="{{ user.nickname|escape }}" /> <br/>
+			<strong><a href="/user/{{ user.nickname|escape }}">{{ user.nickname|escape }}</a></strong>
+		</p>
 	</div>
 	<div class="grid_7 omega">
 		<form action="/item.comment" method="post" accept-charset="utf-8">

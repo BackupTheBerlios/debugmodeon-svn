@@ -75,12 +75,17 @@ class ItemView(BaseHandler):
 
 		
 		self.values['item'] = item
-		query = model.Comment.all().filter('item =', item).order('creation_date')
-		comments = self.paging(query, 10)
+		query = model.Comment.all().filter('item =', item)
+		comments = self.paging(query, 100, 'creation_date', item.responses, 'creation_date')
+		i = 1
 		for c in comments:
 			if not c.author_nickname:
 				c.author_nickname = c.author.nickname
 				c.put()
+			if not c.response_number:
+				c.response_number = i
+				c.put()
+			i += 1
 		self.values['comments'] = comments
 		self.values['a'] = 'comments'
 		self.values['keywords'] = ', '.join(item.tags)

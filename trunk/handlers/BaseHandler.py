@@ -281,7 +281,7 @@ class BaseHandler(webapp.RequestHandler):
 		self.values['tag_cloud'] = self.cache('tag_cloud', self.get_tag_cloud)
 
 	def get_tag_cloud(self):
-		return self.tag_list(model.Tag.all())
+		return self.tag_list(model.Tag.all().order('-count').fetch(30))
 	
 	# I use strings in order to distinguish three values into the templates
 	# 'True', 'False', and None
@@ -374,7 +374,7 @@ class BaseHandler(webapp.RequestHandler):
 			self.values['o'] = o
 		return a
 
-	def paging(self, query, max, default_order=None, total=-1):
+	def paging(self, query, max, default_order=None, total=-1, accepted_orderings=[]):
 		if total > 0:
 			pages = total / max
 			if total % max > 0:
@@ -387,7 +387,7 @@ class BaseHandler(webapp.RequestHandler):
 		self.values['p'] = p
 		offset = (p-1)*max
 		o = self.get_param('o')
-		if o:
+		if o and o in accepted_orderings:
 			query = query.order(o)
 			self.values['o'] = o
 		elif default_order:
@@ -489,11 +489,11 @@ class BaseHandler(webapp.RequestHandler):
 						s = u'%s <li><a href="?p=%d&amp;%s">%d</a></li>' % (s, i, common, i)
 					i += 1
 			else:
-				s = u'%s Página %d ' % (s, p)
+				s = u'%s <li class="active">Página %d </li>' % (s, p)
 			if next:
-				if not pages:
-					s = '%s |' % s
 				s = u'%s <li class="next"><a href="?p=%d&amp;%s">Siguiente »</a></li>' % (s, next, common)
+			else:
+				s = u'%s <li class="next-off">Siguiente »</li>' % s
 			s = '%s</ul><br/><br/>' % s
 		return s
 
