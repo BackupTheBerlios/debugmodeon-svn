@@ -37,10 +37,12 @@ class Search(BaseHandler):
 		elif typ == 'forums':
 			query = model.Thread.all().search(q)
 			threads = self.paging(query, 10)
+			# migration
 			for t in threads:
 				if not t.url_path:
 					t.url_path = t.parent_thread.url_path
 					t.put()
+			# end migration
 			self.values['threads'] = threads
 		else:
 			query = model.Group.all().search(q)

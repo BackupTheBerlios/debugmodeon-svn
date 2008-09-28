@@ -29,6 +29,7 @@ class ForumList(BaseHandler):
 		query = model.Thread.all().filter('parent_thread', None)
 		app = self.get_application()
 		threads = self.paging(query, 20, '-last_response_date', app.threads, ['-last_response_date'])
+		# migration
 		for t in threads:
 			if not t.last_response_date:
 				last_response = model.Thread.all().filter('parent_thread', t).order('-creation_date').get()
@@ -37,5 +38,6 @@ class ForumList(BaseHandler):
 				else:
 					t.last_response_date = t.creation_date
 				t.put()
+		# end migration
 		self.values['threads'] = threads
 		self.render('templates/forum-list.html')

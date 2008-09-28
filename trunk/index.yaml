@@ -315,3 +315,10 @@ indexes:
   - name: public
   - name: creation_date
     direction: desc
+
+- kind: Thread
+  properties:
+  - name: group
+  - name: parent_thread
+  - name: last_response_date
+    direction: desc

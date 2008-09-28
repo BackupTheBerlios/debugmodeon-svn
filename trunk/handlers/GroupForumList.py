@@ -39,7 +39,7 @@ class GroupForumList(BaseHandler):
 			self.values['can_write'] = True
 		else:
 			self.values['can_write'] = self.can_write(group)
-		query = model.Thread.all().filter('group', group).filter('parent_thread', None).order('-last_update')
+		query = model.Thread.all().filter('group', group).filter('parent_thread', None).order('-last_response_date')
 		threads = self.paging(query, 10)
 		self.values['threads'] = threads
 		self.render('templates/group-forum-list.html')

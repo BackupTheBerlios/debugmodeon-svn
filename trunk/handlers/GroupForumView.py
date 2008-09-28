@@ -37,6 +37,7 @@ class GroupForumView(BaseHandler):
 			self.not_found()
 			return
 		
+		# migration
 		if len(thread.url_path.split('/')) == 2:
 			responses = model.ThreadResponse.all().filter('thread', thread).order('creation_date')
 			for r in responses:
@@ -57,6 +58,7 @@ class GroupForumView(BaseHandler):
 			thread.put()
 			self.redirect('/group.forum/%s' % thread.url_path)
 			return
+		# end migration
 				
 		group = thread.group
 

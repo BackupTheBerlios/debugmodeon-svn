@@ -77,6 +77,7 @@ class ItemView(BaseHandler):
 		self.values['item'] = item
 		query = model.Comment.all().filter('item =', item)
 		comments = self.paging(query, 100, 'creation_date', item.responses, 'creation_date')
+		# migration
 		i = 1
 		for c in comments:
 			if not c.author_nickname:
@@ -86,6 +87,7 @@ class ItemView(BaseHandler):
 				c.response_number = i
 				c.put()
 			i += 1
+		# end migration
 		self.values['comments'] = comments
 		self.values['a'] = 'comments'
 		self.values['keywords'] = ', '.join(item.tags)

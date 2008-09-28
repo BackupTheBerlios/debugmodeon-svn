@@ -20,8 +20,10 @@
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
 
+import logging
 from google.appengine.api import mail
 from handlers.AuthenticatedHandler import *
+from google.appengine.runtime import apiproxy_errors
 
 class GroupItemAdd(AuthenticatedHandler):
 
@@ -53,10 +55,14 @@ http://debugmodeon.com/item/%s
 
 """ % (self.clean_ascii(group.title), self.clean_ascii(item.title), item.url_path)
    
-				mail.send_mail(sender='contacto@debugmodeon.com',
-					to='contacto@debugmodeon.com',
-					bcc=group.subscribers,
-					subject=subject,
-					body=body)
+				try:
+					mail.send_mail(sender='contacto@debugmodeon.com',
+						to='contacto@debugmodeon.com',
+						bcc=group.subscribers,
+						subject=subject,
+						body=body)
+				except apiproxy_errors.OverQuotaError, message:
+					# Record the error in your logs
+					logging.error(message)
 				
 		self.redirect('/item/%s' % item.url_path)

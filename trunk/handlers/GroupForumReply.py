@@ -23,6 +23,7 @@
 
 import datetime
 
+from google.appengine.runtime import apiproxy_errors
 from google.appengine.ext import db
 from google.appengine.api import mail
 from google.appengine.api import memcache
@@ -73,12 +74,15 @@ Entra en el debate:
 http://debugmodeon.com/group.forum/%s
 
 """ % (self.clean_ascii(thread.title), thread.url_path)
-
-			mail.send_mail(sender='contacto@debugmodeon.com',
-				to='contacto@debugmodeon.com',
-				bcc=thread.subscribers,
-				subject=subject,
-				body=body)
+			try:
+				mail.send_mail(sender='contacto@debugmodeon.com',
+					to='contacto@debugmodeon.com',
+					bcc=thread.subscribers,
+					subject=subject,
+					body=body)
+			except apiproxy_errors.OverQuotaError, message:
+				# Record the error in your logs
+				logging.error(message)
 			
 		memcache.delete('index_threads')
 
