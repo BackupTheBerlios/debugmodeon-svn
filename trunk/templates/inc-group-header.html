@@ -1,5 +1,6 @@
 {#
 (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+(C) Copyright 2008 Juan Luis Belmonte <jlbelmonte at gmail dot com>
 
 This file is part of "debug_mode_on".
 
@@ -38,10 +39,16 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	{% if user.nickname == group.owner_nickname %}
 			| <strong><a href="/group.edit?key={{ group.key() }}">Editar grupo</a></strong>
 	{% endif %}
+	{% if user.rol == 'admin' %}
+		| <a href="/group.delete?key={{ group.key() }}">Eliminar grupo<img src="/static/images/delete.png"/></a>
+	{% endif %}
 {% endif %}
+
+
 		</p>
 	</div>
 
 	<p>{{ group.description|escape }}</p>
 </div>
 <div class="clear">&nbsp;</div>
+

@@ -56,7 +56,7 @@ from handlers.ForumDelete import *
 from handlers.GroupList import *
 from handlers.GroupEdit import *
 from handlers.GroupView import *
-
+from handlers.GroupDelete import *
 # group forums
 from handlers.GroupForumList import *
 from handlers.GroupForumEdit import *

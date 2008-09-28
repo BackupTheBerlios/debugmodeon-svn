@@ -66,6 +66,7 @@ def main():
 									   # groups
 									   ('/group.list',	GroupList),
 									   ('/group.edit',	GroupEdit),
+									   ('/group.delete',	GroupDelete),
 									   ('/group/.*',	GroupView),
 									   # group forums
 									   ('/group.forum.list/.*',	GroupForumList),
