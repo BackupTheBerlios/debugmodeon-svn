@@ -118,7 +118,12 @@ class ItemView(BaseHandler):
 				break
 		if len(related) > 10:
 			related = related[:-1]
-	
+		
+		self.values['content_html'] = self.cache(str(item.key().id()), self.to_html)
 
 		self.values['related'] = related
 		self.render('templates/item-view.html')
+	
+	def to_html(self):
+		item = self.values['item']
+		return self.markdown(item.content)

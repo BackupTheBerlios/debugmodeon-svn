@@ -39,7 +39,7 @@ class Feed(webapp.RequestHandler):
    
 			if params[2] == 'tag':
 				query = model.Item.all().filter('deletion_date', None).filter('tags =', params[3]).order('-creation_date')
-				latest = self.paging(query,20)
+				latest = [o for o in query.fetch(10)]
 				data = self.to_rss(u'Artículos etiquetados con %s' % params[3], latest)
    
 			elif params[2] == 'group.forum':

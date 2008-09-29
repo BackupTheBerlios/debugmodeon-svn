@@ -121,14 +121,13 @@ class BaseHandler(webapp.RequestHandler):
 		return value
 
 
-	def markdown(self, value, arg=''):
+	def markdown(self, value):
 		try:
 			import markdown
 		except ImportError:
 			return "error"
 		else:
-			extensions=arg.split(",")
-			return markdown.markdown(value, extensions, safe_mode=True)
+			return markdown.markdown(value, [], safe_mode=True)
 	
 	def render_json(self, data):
 		self.response.headers['Content-Type'] = 'application/json;charset=UTF-8'
