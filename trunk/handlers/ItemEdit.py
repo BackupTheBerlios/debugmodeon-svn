@@ -108,6 +108,11 @@ class ItemEdit(AuthenticatedHandler):
 					user.draft_items -=1
 					user.put()
 					item.creation_date = datetime.datetime.now()
+					
+					app = self.get_application()
+					if app:
+						app.items += 1
+						app.put()
 				
 				if not item.author_nickname:
 					item.author_nickname = user.nickname
@@ -166,11 +171,6 @@ class ItemEdit(AuthenticatedHandler):
 				
 				item.url_path = '%d/%s' % (item.key().id(), self.to_url_path(item.title))
 				item.put()
-
-				app = self.get_application()
-				if app:
-					app.items += 1
-					app.put()
 				
 				memcache.delete('index_items')
 				memcache.delete('tag_cloud')
@@ -180,6 +180,10 @@ class ItemEdit(AuthenticatedHandler):
 					user.items += 1
 					user.put()
 					self.update_tags(tags)
+					app = self.get_application()
+					if app:
+						app.items += 1
+						app.put()
 				else:
 					user.draft_items += 1
 					user.put()
