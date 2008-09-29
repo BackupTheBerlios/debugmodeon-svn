@@ -29,7 +29,8 @@ class ItemList(BaseHandler):
 		self.values['tab'] = '/item.list'
 		query = model.Item.all().filter('draft =', False).filter('deletion_date', None)
 		app = self.get_application()
-		self.values['items'] = self.paging(query, 10, '-creation_date', app.items, ['-creation_date', '-rating_average', '-responses'])
+		key = '%s?%s' % (self.request.path, self.request.query)
+		self.values['items'] = self.paging(query, 10, '-creation_date', app.items, ['-creation_date', '-rating_average', '-responses'], key)
 		# self.post_pag(self.cache_this(self.get_items), 10)
 		self.add_tag_cloud()
 		self.render('templates/item-list.html')

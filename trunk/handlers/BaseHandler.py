@@ -376,7 +376,7 @@ class BaseHandler(webapp.RequestHandler):
 			self.values['o'] = o
 		return a
 
-	def paging(self, query, max, default_order=None, total=-1, accepted_orderings=[]):
+	def paging(self, query, max, default_order=None, total=-1, accepted_orderings=[], key=None, timeout=300):
 		if total > 0:
 			pages = total / max
 			if total % max > 0:
@@ -394,7 +394,15 @@ class BaseHandler(webapp.RequestHandler):
 			self.values['o'] = o
 		elif default_order:
 			query = query.order(default_order)
-		a = [obj for obj in query.fetch(max+1, offset)]
+		# not tested
+		if not key is None:
+			a = memcache.get(key)
+			if a is None:
+				a = [obj for obj in query.fetch(max+1, offset)]
+				memcache.add(key, a, timeout)
+		else:
+			a = [obj for obj in query.fetch(max+1, offset)]
+		#
 		if p > 1:
 			self.values['prev'] = p-1
 		l = len(a)

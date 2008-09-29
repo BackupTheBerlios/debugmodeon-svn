@@ -31,5 +31,6 @@ class UserList(BaseHandler):
 		self.values['tab'] = '/user.list'
 		app = self.get_application()
 		query = model.UserData.all()
-		self.values['users'] = self.paging(query, 5, '-items', app.users, ['-creation_date', '-items'])
+		key = '%s?%s' % (self.request.path, self.request.query)
+		self.values['users'] = self.paging(query, 5, '-items', app.users, ['-creation_date', '-items'], key)
 		self.render('templates/user-list.html')

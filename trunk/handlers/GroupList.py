@@ -28,7 +28,8 @@ class GroupList(BaseHandler):
 		self.values['tab'] = '/group.list'
 		query = model.Group.all()
 		app = self.get_application()
-		groups = self.paging(query, 10, '-members', app.groups, ['-creation_date', '-members', '-items'])
+		key = '%s?%s' % (self.request.path, self.request.query)
+		groups = self.paging(query, 10, '-members', app.groups, ['-creation_date', '-members', '-items'], key)
 		self.values['groups'] = groups
 		for g in groups:
 			if not g.owner_nickname:

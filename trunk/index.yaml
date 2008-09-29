@@ -305,13 +305,13 @@ indexes:
   - name: thread
   - name: creation_date
 
-# Used 6 times in query history.
+# Used 7 times in query history.
 - kind: UserData
   properties:
   - name: creation_date
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used 3 times in query history.
 - kind: UserData
   properties:
   - name: items
