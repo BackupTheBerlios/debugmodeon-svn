@@ -126,4 +126,9 @@ class ItemView(BaseHandler):
 	
 	def to_html(self):
 		item = self.values['item']
-		return self.markdown(item.content)
+		if not item.content_html:
+			html = model.ItemHtml(content=self.markdown(item.content))
+			html.put()
+			item.content_html = html
+			item.put()
+		return item.content_html.content

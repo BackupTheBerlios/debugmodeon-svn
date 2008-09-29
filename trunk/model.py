@@ -25,7 +25,7 @@
 from google.appengine.ext import db
 from google.appengine.api import users
 from google.appengine.ext import search
-
+	
 class UserData(search.SearchableModel):
 	nickname = db.StringProperty(required=True)
 	personal_message = db.StringProperty()
@@ -74,12 +74,16 @@ class UserData(search.SearchableModel):
 	deletion_date = db.DateTimeProperty()
 	last_login = db.DateTimeProperty()
 
+class ItemHtml(db.Model):
+	content = db.TextProperty(required=True)
+
 class Item(search.SearchableModel):
 	author = db.ReferenceProperty(UserData,required=True)
 	author_nickname = db.StringProperty()
 	title = db.StringProperty(required=True)
 	description = db.StringProperty(required=True)
 	content = db.TextProperty(required=True)
+	content_html = db.ReferenceProperty(ItemHtml)
 	lic = db.StringProperty(required=True)
 	views = db.IntegerProperty(required=True)
 	rating_count = db.IntegerProperty(required=True)

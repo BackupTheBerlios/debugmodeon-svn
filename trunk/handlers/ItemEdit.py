@@ -112,6 +112,14 @@ class ItemEdit(AuthenticatedHandler):
 				if not item.author_nickname:
 					item.author_nickname = user.nickname
 				
+				if not item.content_html:	
+					html = model.ItemHtml(content=self.markdown(item.content))
+					html.put()
+					item.content_html = html
+				else:
+					item.content_html.content = self.markdown(item.content)
+					item.content_html.put()
+				
 				item.url_path = '%d/%s' % (item.key().id(), self.to_url_path(item.title))
 				item.put()
 				
@@ -151,6 +159,9 @@ class ItemEdit(AuthenticatedHandler):
 					rating_count=0,
 					rating_total=0,
 					favourites=0)
+				html = model.ItemHtml(content=self.markdown(item.content))
+				html.put()
+				item.content_html = html
 				item.put()
 				
 				item.url_path = '%d/%s' % (item.key().id(), self.to_url_path(item.title))
