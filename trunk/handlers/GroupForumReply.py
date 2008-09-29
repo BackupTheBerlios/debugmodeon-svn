@@ -86,4 +86,8 @@ http://debugmodeon.com/group.forum/%s
 			
 		memcache.delete('index_threads')
 
-		self.redirect('/group.forum/%s#comments' % thread.url_path)
+		page = response.response_number / 20
+		if (response.response_number % 20) > 0:
+			page += 1
+
+		self.redirect('/group.forum/%s?p=%d#comment-%d' % (thread.url_path, page, response.response_number))

@@ -66,7 +66,7 @@ class GroupForumView(BaseHandler):
 		self.values['joined'] = self.joined(group)
 		self.values['thread'] = thread
 		query = model.Thread.all().filter('parent_thread', thread)
-		responses = self.paging(query, 100, 'creation_date', thread.responses, ['creation_date'])
+		responses = self.paging(query, 20, 'creation_date', thread.responses, ['creation_date'])
 		
 		# migration
 		if not thread.author_nickname:

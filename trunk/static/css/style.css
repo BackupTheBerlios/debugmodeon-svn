@@ -385,6 +385,14 @@ div.error {
 	margin: 10px;
 }
 
+.comment-anchor {
+	float: left;
+}
+
+.comment-anchor a {
+	font-weight: bold;
+}
+
 /* display the individual items next to each other, not one-per-line */
 .tag-cloud { margin:0; padding:10px; }
 .tag-cloud li { display: inline; margin:0; padding:0; }

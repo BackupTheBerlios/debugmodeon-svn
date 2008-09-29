@@ -76,4 +76,8 @@ http://debugmodeon.com/item/%s#comments
 		if not user.email in item.subscribers and subscribe:
 			item.subscribers.append(user.email)
 		
-		self.redirect('/item/%s#comments' % (item.url_path, ))
+		page = comment.response_number / 10
+		if (comment.response_number % 10) > 0:
+			page += 1
+		
+		self.redirect('/item/%s?p=%d#comment-%d' % (item.url_path, page, comment.response_number))

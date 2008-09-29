@@ -87,11 +87,14 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<a href="/user/{{ comment.author_nickname|escape }}"><img src="/images/user/thumbnail/{{ comment.author_nickname|escape }}" alt="{{ comment.author_nickname|escape }}" /></a> <br/>
 			<strong><a href="/user/{{ comment.author_nickname|escape }}">{{ comment.author_nickname|escape }}</a></strong>
 			escribió <br/> hace <strong>{{ comment.creation_date|relativize }}</strong> <br/>
-			#{{ comment.response_number }}
 		</p>
 	</div>
 	<div class="grid_7 omega">
 		<div class="comment">
+			<p class="comment-anchor">
+				<a href="#comment-{{ comment.response_number }}" name="comment-{{ comment.response_number }}">#{{ comment.response_number }}</a>&nbsp;&nbsp;&nbsp;
+			</p>
+			
 			{{ comment.content|markdown|smiley }} {% if user.rol == 'admin' %}<p class="options"><a href="/forum.delete?key={{ comment.key() }}"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar comentario</a></p>{% endif %}
 		</div>
 	</div>

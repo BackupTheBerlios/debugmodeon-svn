@@ -217,11 +217,14 @@ google_color_text = "000000";
 		<p class="info comment-info">
 			<img src="/images/user/thumbnail/{{ comment.author_nickname }}" alt"{{ comment.author_nickname }}" /> <br/>
 			<a href="/user/{{ comment.author_nickname|escape }}">{{ comment.author_nickname|escape }}</a> escribió <br/> hace <strong>{{ comment.creation_date|relativize }}</strong> <br/>
-			#{{ comment.response_number }}
 		</p>
 	</div>
 	<div class="grid_7 omega">
 		<div class="comment">
+			<p class="comment-anchor">
+				<a href="#comment-{{ comment.response_number }}" name="comment-{{ comment.response_number }}">#{{ comment.response_number }}</a>&nbsp;&nbsp;&nbsp;
+			</p>
+			
 			{{ comment.content|markdown|smiley }}
 			{% if user.rol == 'admin' %}
 				<p class="options">
