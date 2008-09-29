@@ -145,6 +145,8 @@ class UserRegister(BaseHandler):
 				self.redirect(rt)
 
 	def show_error(self, nickname, email, error):
+		chtml = self.get_captcha(None)
+		self.values['captchahtml'] = chtml
 		self.values['nickname'] = nickname
 		self.values['email'] = email
 		self.values['error'] = error
@@ -157,13 +159,17 @@ class UserRegister(BaseHandler):
 		return value
 		
 	def send_form(self, error):
+		chtml = self.get_captcha(error)
+		self.values['captchahtml'] = chtml
+		self.values['redirect_to'] = self.request.get('redirect_to')
+		self.render('templates/user-register.html')
+		
+	def get_captcha(self, error):
 		chtml = captcha.displayhtml(
 			public_key = self.get_application().recaptcha_public_key,
 			use_ssl = False,
 			error = error)
-		self.values['captchahtml'] = chtml
-		self.values['redirect_to'] = self.request.get('redirect_to')
-		self.render('templates/user-register.html')
+		return chtml
 
 	def validate_nickname(self, nickname):
 		if len(nickname) < 4:
