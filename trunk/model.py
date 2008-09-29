@@ -33,6 +33,7 @@ class UserData(search.SearchableModel):
 	avatar = db.BlobProperty()
 	thumbnail = db.BlobProperty()
 	list_urls = db.StringListProperty()
+	im_addresses = db.StringListProperty()
 	about_user = db.TextProperty()
 	
 	password = db.StringProperty(required=True)

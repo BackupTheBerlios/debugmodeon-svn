@@ -37,6 +37,7 @@ class UserEdit(AuthenticatedHandler):
 			self.values['google_adsense_channel'] = self.not_none(user.google_adsense_channel)
 			self.values['real_name'] = self.not_none(user.real_name)
 			self.values['links'] = [(link.split('##', 2)[1], link.split('##', 2)[0]) for link in user.list_urls]
+			self.values['im_addresses'] =  [(link.split('##', 2)[1], link.split('##', 2)[0]) for link in user.im_addresses]
 			self.values['country'] = self.not_none(user.country)
 			self.values['city'] = self.not_none(user.city)
 			self.values['about'] = self.not_none(user.about_user)
@@ -68,6 +69,15 @@ class UserEdit(AuthenticatedHandler):
 			ohloh = self.get_param('ohloh')
 			if ohloh:
 				user.list_urls.append(ohloh + '##ohloh')
+
+			user.im_addresses = []
+			msn = self.get_param('msn')
+			if msn:
+				user.im_addresses.append(msn + '##msn')
+
+			jabber = self.get_param('jabber')
+			if jabber:
+				user.im_addresses.append(jabber + '##jabber')
 
 			user.about_user = self.get_param('about_user')
 			user.put()

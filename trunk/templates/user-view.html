@@ -73,6 +73,12 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 					{% endif %}
 					</li>
 			{% endfor %}
+
+			{% for im_address in im_addresses %}
+				<li>{{ im_address.0}}:<br/>
+					<strong>{{im_address.1}}</strong>
+				</li>
+			{% endfor %}
 			<li>Registrado hace {{ this_user.creation_date|relativize }}</li>
 			{% if this_user.about_user %}<li>Sobre este usuario:<br/>{{ this_user.about_user|escape }}</li>{% endif %}
 		</ul>

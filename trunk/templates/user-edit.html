@@ -72,7 +72,17 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 					<label for="ohloh">Perfil de Ohloh</label>
 					<input type="text" name="ohloh" size="40" value="{% for link in links %}{% if link.0 == 'ohloh' %}{{ link.1 }}{% endif %}{% endfor %}"/>
 				</p>
-   
+
+				<p>
+					<label for="msn">Dirección de MSN Messenger</label>
+					<input type="text" name="msn" size="40" value="{% for im_address in im_addresses %}{% if im_address.0 == 'msn' %}{{ im_address.1 }}{% endif %}{% endfor %}"/>
+				</p>
+
+				<p>
+					<label for="jabber">Dirección de Jabber</label>
+					<input type="text" name="jabber" size="40" value="{% for im_address in im_addresses %}{% if im_address.0 == 'jabber' %}{{ im_address.1 }}{% endif %}{% endfor %}"/>
+				</p>
+
 				<p>
 					<label for="personal_message">Mensaje personal</label>
 					<input type="text" name="personal_message" value="{{ personal_message }}" id="personal_message" size="40" maxlength="40" />

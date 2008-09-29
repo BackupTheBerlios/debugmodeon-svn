@@ -41,6 +41,10 @@ class UserView(BaseHandler):
 		self.values['this_user'] = this_user
 		links = [(link.split('##', 2)[1], link.split('##', 2)[0]) for link in this_user.list_urls]
 		self.values['links'] = links
+		if (user is not None and this_user.nickname == user.nickname) or model.Contact.all().filter('user_from', this_user).filter('user_to', user).count () == 1:
+			self.values['im_addresses'] = [(link.split('##', 2)[1], link.split('##', 2)[0]) for link in this_user.im_addresses]
+		else:
+			self.values['im_addresses'] = []
 		self.values['personal_message'] = this_user.personal_message
 		self.values['items'] = model.Item.all().filter('author =', this_user).filter('draft =', False).filter('deletion_date', None).order('-creation_date').fetch(5)
 		self.values['groups'] = [gi.group for gi in model.GroupUser.all().filter('user =', this_user).order('-creation_date').fetch(5)]
