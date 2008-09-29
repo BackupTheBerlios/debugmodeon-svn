@@ -71,7 +71,10 @@ class BaseHandler(webapp.RequestHandler):
 
 	def relativize(self, value):
 		now = datetime.datetime.now()
-		diff = now - value
+		try:
+			diff = now - value
+		except TypeError:
+			return ''
 		days = diff.days
 		seconds = diff.seconds
 		if days > 365:

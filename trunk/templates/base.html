@@ -49,6 +49,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		</div>
 		<div class="clear">&nbsp;</div>
 		<div class="grid_12" id="nav">
+			{#
 			<form action="/search" method="get" accept-charset="utf-8" id="search">
 				<div>
 					<input type="text" name="q" value="{{ q|escape }}" class="search" size="29" />
@@ -60,6 +61,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 					<input type="submit" value="Buscar" />
 				</div>
 			</form>
+			#}
 			<ul>
 				<li><a href="/"{% if tab == '/' %} class="selected"{% endif %}>Inicio</a></li>
 				<li><a href="/item.list"{% if tab == '/item.list' %} class="selected"{% endif %}>Artículos</a></li>

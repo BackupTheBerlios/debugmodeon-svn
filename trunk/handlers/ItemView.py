@@ -37,9 +37,13 @@ class ItemView(BaseHandler):
 		if item.url_path != url_path:
 			self.redirect('/item/%s' % item.url_path, permanent=True)
 			return
+
+		if not item.author_nickname:
+			item.author_nickname = item.author.nickname
+			item.put()
 		
 		user = self.values['user']
-		if item.deletion_date and (not user or (user.rol != 'admin' and item.author.nickname != user.nickname)):
+		if item.deletion_date and (not user or (user.rol != 'admin' and item.author_nickname != user.nickname)):
 			self.values['item'] = item
 			self.error(404)
 			self.render('templates/item-deleted.html')
@@ -47,19 +51,15 @@ class ItemView(BaseHandler):
 		
 		self.values['tab'] = '/item.list'
 		user = self.values['user']
-		if item.draft and (not user or not user.nickname == item.author.nickname):
-			self.forbidden()
+		if item.draft and (not user or not user.nickname == item.author_nickname):
+			self.not_found()
 			return
 		
-		if not user or item.author.nickname != user.nickname:
+		if not user or item.author_nickname != user.nickname:
 			item.views = item.views + 1
 			item.put()
-		
-		if not item.author_nickname:
-			item.author_nickname = item.author.nickname
-			item.put()
 
-		if user and user.nickname != item.author.nickname:
+		if user and user.nickname != item.author_nickname:
 			vote = model.Vote.gql('WHERE user=:1 AND item=:2', user, item).get()
 			if not vote:
 				self.values['canvote'] = True
@@ -95,7 +95,7 @@ class ItemView(BaseHandler):
 		groups = [g.group for g in model.GroupItem.all().filter('item =', item)]
 		self.values['groups'] = groups
 		
-		if user and item.author.nickname == user.nickname:
+		if user and item.author_nickname == user.nickname:
 			all_groups = [g.group for g in model.GroupUser.all().filter('user =', user)]
 			
 			# TODO: this could be improved
