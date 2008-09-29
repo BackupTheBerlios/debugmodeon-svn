@@ -28,7 +28,7 @@ class ForumList(BaseHandler):
 		self.values['tab'] = '/forum.list'
 		query = model.Thread.all().filter('parent_thread', None)
 		app = self.get_application()
-		threads = self.paging(query, 20, '-last_response_date', app.threads, ['-last_response_date'])
+		threads = self.paging(query, 10, '-last_response_date', app.threads, ['-last_response_date'])
 		# migration
 		for t in threads:
 			if not t.last_response_date:
