@@ -10,20 +10,20 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
-# Used 22 times in query history.
+# Unused in query history -- copied from input.
 - kind: Comment
   properties:
   - name: item
   - name: creation_date
 
-# Used 5 times in query history.
+# Unused in query history -- copied from input.
 - kind: Contact
   properties:
   - name: user_from
   - name: creation_date
     direction: desc
 
-# Used 3 times in query history.
+# Unused in query history -- copied from input.
 - kind: Favourite
   properties:
   - name: user
@@ -42,39 +42,39 @@ indexes:
   - name: database
   - name: creation_date
 
-# Used 30 times in query history.
+# Used 6 times in query history.
 - kind: Group
   properties:
   - name: creation_date
     direction: desc
 
-# Used 6 times in query history.
+# Unused in query history -- copied from input.
 - kind: Group
   properties:
   - name: items
     direction: desc
 
-# Used 18 times in query history.
+# Used once in query history.
 - kind: Group
   properties:
   - name: members
     direction: desc
 
-# Used 8 times in query history.
+# Used once in query history.
 - kind: GroupItem
   properties:
   - name: group
   - name: creation_date
     direction: desc
 
-# Used 8 times in query history.
+# Used once in query history.
 - kind: GroupUser
   properties:
   - name: group
   - name: creation_date
     direction: desc
 
-# Used 6 times in query history.
+# Unused in query history -- copied from input.
 - kind: GroupUser
   properties:
   - name: user
@@ -88,7 +88,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 5 times in query history.
+# Unused in query history -- copied from input.
 - kind: Item
   properties:
   - name: author
@@ -97,7 +97,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 22 times in query history.
+# Unused in query history -- copied from input.
 - kind: Item
   properties:
   - name: author
@@ -114,7 +114,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used once in query history.
+# Unused in query history -- copied from input.
 - kind: Item
   properties:
   - name: author
@@ -143,7 +143,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 89 times in query history.
+# Used 4 times in query history.
 - kind: Item
   properties:
   - name: deletion_date
@@ -171,7 +171,7 @@ indexes:
   - name: responses
     direction: desc
 
-# Used 10 times in query history.
+# Unused in query history -- copied from input.
 - kind: Item
   properties:
   - name: deletion_date
@@ -179,7 +179,7 @@ indexes:
   - name: rating_average
     direction: desc
 
-# Used once in query history.
+# Unused in query history -- copied from input.
 - kind: Item
   properties:
   - name: deletion_date
@@ -250,7 +250,15 @@ indexes:
   - name: last_update
     direction: desc
 
-# Used 21 times in query history.
+# Unused in query history -- copied from input.
+- kind: Thread
+  properties:
+  - name: group
+  - name: parent_thread
+  - name: last_response_date
+    direction: desc
+
+# Used 5 times in query history.
 - kind: Thread
   properties:
   - name: group
@@ -264,13 +272,13 @@ indexes:
   - name: last_update
     direction: desc
 
-# Used 27 times in query history.
+# Used 2 times in query history.
 - kind: Thread
   properties:
   - name: parent_thread
   - name: creation_date
 
-# Used once in query history.
+# Unused in query history -- copied from input.
 - kind: Thread
   properties:
   - name: parent_thread
@@ -284,7 +292,7 @@ indexes:
   - name: last_response_date
     direction: desc
 
-# Used 23 times in query history.
+# Used 4 times in query history.
 - kind: Thread
   properties:
   - name: parent_thread
@@ -297,13 +305,13 @@ indexes:
   - name: thread
   - name: creation_date
 
-# Used 6 times in query history.
+# Used once in query history.
 - kind: UserData
   properties:
   - name: creation_date
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used 4 times in query history.
 - kind: UserData
   properties:
   - name: items
@@ -314,11 +322,4 @@ indexes:
   properties:
   - name: public
   - name: creation_date
-    direction: desc
-
-- kind: Thread
-  properties:
-  - name: group
-  - name: parent_thread
-  - name: last_response_date
     direction: desc
