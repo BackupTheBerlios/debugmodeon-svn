@@ -84,6 +84,11 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				</p>
 
 				<p>
+					<label for="gtalk">Dirección de GTalk</label>
+					<input type="text" name="gtalk" size="40" value="{% for im_address in im_addresses %}{% if im_address.0 == 'gtalk' %}{{ im_address.1 }}{% endif %}{% endfor %}"/>
+				</p>
+
+				<p>
 					<label for="personal_message">Mensaje personal</label>
 					<input type="text" name="personal_message" value="{{ personal_message }}" id="personal_message" size="40" maxlength="40" />
 				</p>

@@ -79,6 +79,10 @@ class UserEdit(AuthenticatedHandler):
 			if jabber:
 				user.im_addresses.append(jabber + '##jabber')
 
+			gtalk = self.get_param('gtalk')
+			if gtalk:
+				user.im_addresses.append(gtalk + '##gtalk')
+
 			user.about_user = self.get_param('about_user')
 			user.put()
 			self.redirect('/user/%s' % user.nickname)
