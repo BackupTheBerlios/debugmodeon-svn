@@ -43,7 +43,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			| <a href="/group.user.join?group={{ group.key() }}&amp;redirect={{ redirect }}"><img src="/static/images/add.png" class="icon" alt="" /> Únete a este grupo</a>
 	{% endif %}
 	{% if user.nickname == group.owner_nickname %}
-			| <strong><a href="/group.edit?key={{ group.key() }}">Editar grupo</a></strong>
+			| <strong><a href="/group.edit?key={{ group.key() }}"><img src="/static/images/page_white_edit.png" alt="" class="icon" /> Editar grupo</a></strong>
 	{% endif %}
 	{% if user.rol == 'admin' %}
 		| <a href="/group.delete?key={{ group.key() }}"><img src="/static/images/cross.png" class="icon" alt="" /> Eliminar grupo</a>

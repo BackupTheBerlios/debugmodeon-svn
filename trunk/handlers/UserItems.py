@@ -35,6 +35,6 @@ class UserItems(BaseHandler):
 			return
 		# TODO: not show if the user profile is not public
 		self.values['this_user'] = this_user
-		query = model.Item.all().filter('author =', this_user).filter('draft =', False).filter('deletion_date', None).order('-creation_date')
-		self.values['items'] = self.paging(query, 10)
+		query = model.Item.all().filter('author =', this_user).filter('draft =', False).filter('deletion_date', None)
+		self.values['items'] = self.paging(query, 10, '-creation_date', this_user.items, ['-creation_date'])
 		self.render('templates/user-items.html')

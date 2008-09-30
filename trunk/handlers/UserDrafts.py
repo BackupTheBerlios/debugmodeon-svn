@@ -20,13 +20,13 @@
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-from handlers.BaseHandler import *
+from handlers.AuthenticatedHandler import *
 from google.appengine.api import users
 
-class UserDrafts(BaseHandler):
+class UserDrafts(AuthenticatedHandler):
 
 	def execute(self):
 		user = self.get_current_user()
-		query = model.Item.all().filter('author =', user).filter('draft =', True).order('-last_update')
-		self.values['items'] = self.paging(query, 10)
+		query = model.Item.all().filter('author =', user).filter('draft =', True)
+		self.values['items'] = self.paging(query, 10, '-last_update', user.draft_items, ['-last_update'])
 		self.render('templates/user-drafts.html')

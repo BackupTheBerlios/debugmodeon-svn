@@ -34,8 +34,8 @@ class UserFavourites(BaseHandler):
 			return
 		# TODO: not show if the user profile is not public
 		self.values['this_user'] = this_user
-		query = model.Favourite.all().filter('user', this_user).order('-creation_date')
-		favs = self.paging(query, 10)
+		query = model.Favourite.all().filter('user', this_user)
+		favs = self.paging(query, 10, '-creation_date', this_user.favourites, ['-creation_date'])
 		favs = [f.item for f in favs]
 		self.values['items'] = favs
 		self.render('templates/user-favourites.html')

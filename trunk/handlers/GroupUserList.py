@@ -36,6 +36,6 @@ class GroupUserList(BaseHandler):
 		self.values['group'] = group
 		self.values['joined'] = self.joined(group)
 		query = model.GroupUser.all().filter('group =', group)
-		users = self.paging(query, 10)
+		users = self.paging(query, 10, '-creation_date', group.members, ['-creation_date'])
 		self.values['users'] = [u.user for u in users]
 		self.render('templates/group-user-list.html')

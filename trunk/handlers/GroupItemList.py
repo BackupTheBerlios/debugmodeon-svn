@@ -36,6 +36,6 @@ class GroupItemList(BaseHandler):
 		self.values['group'] = group
 		self.values['joined'] = self.joined(group)
 		query = model.GroupItem.all().filter('group =', group)
-		items = self.paging(query, 10)
+		items = self.paging(query, 10, '-creation_date', group.items, ['-creation_date'])
 		self.values['items'] = [i.item for i in items]
 		self.render('templates/group-item-list.html')

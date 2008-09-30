@@ -34,8 +34,8 @@ class UserContacts(BaseHandler):
 			return
 		# TODO: not show if the user profile is not public
 		self.values['this_user'] = this_user
-		query = model.Contact.all().filter('user_from', this_user).order('-creation_date')
-		contacts = self.paging(query, 10)
+		query = model.Contact.all().filter('user_from', this_user)
+		contacts = self.paging(query, 10, '-creation_date', this_user.contacts, ['-creation_date'])
 		contacts = [c.user_to for c in contacts]
 		self.values['users'] = contacts
 		self.render('templates/user-contacts.html')
