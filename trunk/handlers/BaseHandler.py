@@ -164,6 +164,7 @@ class BaseHandler(webapp.RequestHandler):
 		self.values['sess'] = self.sess
 		redirect = '%s?%s' % (self.request.path, self.request.query)
 		self.values['redirect'] = redirect
+		self.values['app'] = self.get_application()
 		
 		user = self.get_current_user()
 		# user = users.get_current_user()

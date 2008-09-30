@@ -73,6 +73,9 @@ from handlers.GroupUserList import *
 from handlers.GroupUserUnjoin import *
 from handlers.GroupUserJoin import *
 
+#search
+from handlers.SearchResult import *
+
 # feed RSS
 from handlers.Feed import *
 

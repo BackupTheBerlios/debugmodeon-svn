@@ -179,6 +179,8 @@ class Thread(search.SearchableModel):
 	last_update = db.DateTimeProperty(auto_now=True)
 	creation_date = db.DateTimeProperty(auto_now_add=True)
 	deletion_date = db.DateTimeProperty()
+	
+	deletion_message = db.StringProperty()
 
 class ThreadResponse(db.Model):
 	thread = db.ReferenceProperty(Thread,required=True)

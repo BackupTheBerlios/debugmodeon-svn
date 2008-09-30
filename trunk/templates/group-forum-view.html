@@ -82,6 +82,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<div class="clear">&nbsp;</div>
 	
 {% for comment in responses %}
+	{% if not comment.deletion_date %}
 	<div class="grid_2 alpha">
 		<p class="info comment-info">
 			<a href="/user/{{ comment.author_nickname|escape }}"><img src="/images/user/thumbnail/{{ comment.author_nickname|escape }}" alt="{{ comment.author_nickname|escape }}" /></a> <br/>
@@ -95,10 +96,22 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<a href="#comment-{{ comment.response_number }}" name="comment-{{ comment.response_number }}">#{{ comment.response_number }}</a>&nbsp;&nbsp;&nbsp;
 			</p>
 			
-			{{ comment.content|markdown|smiley }} {% if user.rol == 'admin' %}<p class="options"><a href="/forum.delete?key={{ comment.key() }}"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar comentario</a></p>{% endif %}
+			{{ comment.content|markdown|smiley }} {% if user.rol == 'admin' %}<p class="options"><a href="javascript:setComment('/forum.delete?key={{ comment.key() }}')"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar comentario</a></p>{% endif %}
 		</div>
 	</div>
 	<div class="clear">&nbsp;</div>
+	{% else %}
+	<div class="grid_2 alpha">&nbsp;</div>
+	<div class="grid_7 omega">
+		<div class="comment">
+			<p class="comment-anchor">
+				<a href="#comment-{{ comment.response_number }}" name="comment-{{ comment.response_number }}">#{{ comment.response_number }}</a>&nbsp;&nbsp;&nbsp;
+			</p>
+			Borrado. Razón: {{ comment.deletion_message }}
+		</div>
+	</div>
+	<div class="clear">&nbsp;</div>
+	{% endif %}
 {% endfor %}
 {% endif %}
 	<div class="grid_2 alpha">
@@ -151,6 +164,15 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endif %}
 {% endblock %}
 {% block javascript %}
+{% if user.rol == 'admin' %}
+	<script type="text/javascript" charset="utf-8">
+		function setComment(href){
+			var message = prompt('Introduce el motivo', '');
+			if (message != null)
+				document.location = href + "&message=" + message;
+		}
+	</script>
+{% endif %}
 <script type="text/javascript" src="/static/js/prototype.js"></script>
 {% if user and can_write %}
 <script type="text/javascript" src="/static/js/livepipe.js"></script>

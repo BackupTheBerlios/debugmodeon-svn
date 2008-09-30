@@ -36,7 +36,9 @@ class GroupForumView(BaseHandler):
 			# TODO: try with the id in the url_path and redirect
 			self.not_found()
 			return
-		
+		if thread.deletion_date:
+			self.not_found()
+			return
 		# migration
 		if len(thread.url_path.split('/')) == 2:
 			responses = model.ThreadResponse.all().filter('thread', thread).order('creation_date')
@@ -94,3 +96,4 @@ class GroupForumView(BaseHandler):
 
 		self.values['a'] = 'comments'
 		self.render('templates/group-forum-view.html')
+		

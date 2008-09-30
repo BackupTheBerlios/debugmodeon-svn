@@ -34,7 +34,6 @@ class GroupForumList(BaseHandler):
 
 		self.values['group'] = group
 		self.values['joined'] = self.joined(group)
-		query = model.Thread.all().filter('group =', group).order('-last_update')
 		if group.all_users is None or group.all_users:
 			self.values['can_write'] = True
 		else:

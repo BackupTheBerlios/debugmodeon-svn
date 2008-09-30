@@ -33,23 +33,28 @@ class ForumDelete(AuthenticatedHandler):
 			self.forbidden()
 			return
 		thread = model.Thread.get(self.get_param('key'))
-		url = ''
+		url = '/group.forum.list/' + thread.group.url_path
 		if not thread:
 			self.not_found()
 			return
 		if thread.parent_thread is not None:
-			url = '/group.forum/' + thread.parent_thread.url_path
+			message = self.get_param('message')
 			#decrement number of childs in the parent thread
-			thread.parent_thread.responses -= 1
 			thread.parent_thread.put()
 			#Delete child thread
-			thread.delete()
+			thread.deletion_date = datetime.datetime.now()
+			thread.deletion_message = message
+			thread.put()
 		else:
-			#delete patent thread
-			url = '/group.forum.list/' + thread.group.url_path
 			#decrement threads in the group
-			thread.group.threads -=1
-			thread.group.put()
+			group = thread.group
+			group.threads -=1
+			group.put()
+			#delete comments in this thread
+			childs = model.Thread.all().filter('parent_thread', thread)
+			db.delete(childs)
+			memcache.delete('threads')
+			memcache.delete('groups')
 			thread.delete()
-			
+
 		self.redirect(url)
