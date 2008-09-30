@@ -54,7 +54,7 @@ indexes:
   - name: items
     direction: desc
 
-# Used 2 times in query history.
+# Used 5 times in query history.
 - kind: Group
   properties:
   - name: members
@@ -311,7 +311,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 210 times in query history.
+# Used 212 times in query history.
 - kind: UserData
   properties:
   - name: items

@@ -67,13 +67,19 @@ class GroupEdit(AuthenticatedHandler):
 					image = images.im_feeling_lucky(image, images.JPEG)
 					group.avatar = img.resize(image, 128, 128)
 					group.thumbnail = img.resize(image, 48, 48)
+					if not group.image_version:
+						group.image_version = 1
+					else:
+						memcache.delete('/images/group/avatar/%s/%d' % (group.key().id(), group.image_version))
+						memcache.delete('/images/group/thumbnail/%s/%d' % (group.key().id(), group.image_version))
+						group.image_version += 1
+					memcache.delete('/images/group/avatar/%s' % group.key().id())
+					memcache.delete('/images/group/thumbnail/%s' % group.key().id())
 				if self.get_param('all_users'):
 					group.all_users = True
 				else:
 					group.all_users = False
 				group.put()
-				memcache.delete('/images/group/avatar/%s' % group.key().id())
-				memcache.delete('/images/group/thumbnail/%s' % group.key().id())
 				memcache.delete('index_groups')
 				self.redirect('/group/%s' % (group.url_path, ))
 			else:
@@ -100,6 +106,7 @@ class GroupEdit(AuthenticatedHandler):
 					image = images.im_feeling_lucky(image, images.JPEG)
 					group.avatar = img.resize(image, 128, 128)
 					group.thumbnail = img.resize(image, 48, 48)
+					group.image_version = 1
 				
 				group.put()
 				

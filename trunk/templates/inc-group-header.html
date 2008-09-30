@@ -19,7 +19,13 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 #}
 <div class="grid_2 alpha">
 	<br/>
-	<p style="text-align:center"><a href="/group/{{ group.url_path}}"><img src="/images/group/avatar/{{ group.key().id() }}" alt="{{ group.title|escape }}" /></a></p>
+	<p style="text-align:center"><a href="/group/{{ group.url_path}}">
+	{% if group.image_version %}
+		<img src="/images/group/avatar/{{ group.key().id() }}/{{ group.image_version }}" alt="{{ group.title|escape }}" />
+	{% else %}
+		<img src="/images/group/avatar/{{ group.key().id() }}" alt="{{ group.title|escape }}" />
+	{% endif %}
+	</a></p>
 </div>
 <div class="grid_7 omega">
 	<div class="info">

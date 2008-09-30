@@ -32,6 +32,7 @@ class UserData(search.SearchableModel):
 	email = db.StringProperty(required=True)
 	avatar = db.BlobProperty()
 	thumbnail = db.BlobProperty()
+	image_version = db.IntegerProperty()
 	list_urls = db.StringListProperty()
 	im_addresses = db.StringListProperty()
 	about_user = db.TextProperty()
@@ -143,6 +144,7 @@ class Group(search.SearchableModel):
 	
 	avatar = db.BlobProperty()
 	thumbnail = db.BlobProperty()
+	image_version = db.IntegerProperty()
 	
 	all_users = db.BooleanProperty()
 

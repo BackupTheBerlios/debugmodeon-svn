@@ -47,6 +47,7 @@ class UserLogin(BaseHandler):
 				if self.check_password(user, password):
 					values['user'] = user
 					user.last_login = datetime.datetime.now()
+					user.password = self.hash_password(user.nickname, password) # if you want to change the way the password is hashed
 					user.put()
 					self.sess = session.Session()
 					self.sess['user_nickname'] = user.nickname

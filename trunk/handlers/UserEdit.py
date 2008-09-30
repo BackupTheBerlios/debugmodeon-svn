@@ -54,6 +54,12 @@ class UserEdit(AuthenticatedHandler):
 				image = images.im_feeling_lucky(image, images.JPEG)
 				user.avatar = img.resize(image, 128, 128)
 				user.thumbnail = img.resize(image, 48, 48)
+				if not user.image_version:
+					user.image_version = 1
+				else:
+					memcache.delete('/images/group/avatar/%s/%d' % (user.nickname, user.image_version))
+					memcache.delete('/images/group/thumbnail/%s/%d' % (user.nickname, user.image_version))
+					user.image_version += 1
 				memcache.delete('/images/user/avatar/%s' % (user.nickname))
 				memcache.delete('/images/user/thumbnail/%s' % (user.nickname))
 			user.city = self.get_param('city')

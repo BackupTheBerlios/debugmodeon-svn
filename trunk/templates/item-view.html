@@ -195,7 +195,12 @@ google_color_text = "000000";
 	<div class="clear">&nbsp;</div>
 		
 	<div class="grid_2 alpha">
-		<a href="/user/{{ item.author_nickname }}"><img src="/images/user/avatar/{{ item.author_nickname }}" alt="{{ item.author_nickname }}" /></a>
+		<a href="/user/{{ item.author_nickname }}">
+		{% if item.author.image_version %}
+			<img src="/images/user/avatar/{{ item.author_nickname }}/{{ item.author.image_version }}" alt="{{ item.author_nickname }}" /></a>
+		{% else %}
+			<img src="/images/user/avatar/{{ item.author_nickname }}" alt="{{ item.author_nickname }}" /></a>
+		{% endif %}
 	</div>
 	<div class="grid_7 omega">
 		<strong>Sobre <a href="/user/{{ item.author_nickname }}">{{ item.author_nickname }}</a>:</strong><br/>

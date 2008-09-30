@@ -56,7 +56,13 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<div class="clear">&nbsp;</div>
 
 	<div class="grid_3 alpha">
-		<p style="text-align:center;margin-top:10px"><img src="/images/user/avatar/{{ this_user.nickname }}" alt"{{ this_user.nickname }}" /></p>
+		<p style="text-align:center;margin-top:10px">
+			{% if this_user.image_version %}
+				<img src="/images/user/avatar/{{ this_user.nickname }}/{{ this_user.image_version }}" alt"{{ this_user.nickname }}" />
+			{% else %}
+				<img src="/images/user/avatar/{{ this_user.nickname }}" alt"{{ this_user.nickname }}" />
+			{% endif %}
+		</p>
 		<ul>
 			{% if this_user.real_name %}<li>Nombre completo: <br/><strong>{{ this_user.real_name|escape }}</strong></li> {% endif %}
 			{% if this_user.personal_message %}<li>Mensaje personal: <br/><strong>{{ this_user.personal_message|escape }}</strong></li>{% endif %}
@@ -114,7 +120,11 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<ul>
 				{% for group in groups %}
 				<li style="clear:both">
-					<img src="/images/group/thumbnail/{{ group.key().id() }}" alt="{{ group.title|escape }}" style="float:left" />
+					{% if group.image_version %}
+						<img src="/images/group/thumbnail/{{ group.key().id() }}/{{ group.image_version }}" alt="{{ group.title|escape }}" style="float:left" />
+					{% else %}
+						<img src="/images/group/thumbnail/{{ group.key().id() }}" alt="{{ group.title|escape }}" style="float:left" />
+					{% endif %}
 					<strong><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></strong>
 					<br/><span style="color: #777">por <a href="/user/{{ group.owner_nickname|escape }}">{{ group.owner_nickname|escape }}</a></span>
 				</li>
@@ -132,7 +142,13 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<ul>
 				{% for contact in contacts %}
 					<li>
-						<strong><a href="/user/{{ contact.nickname }}"><img src="/images/user/thumbnail/{{ contact.nickname }}" alt="{{ contact.nickname }}" /> {{ contact.nickname }}</a></strong>
+						<strong><a href="/user/{{ contact.nickname }}">
+						{% if contact.image_version %}
+							<img src="/images/user/thumbnail/{{ contact.nickname }}/{{ contact.image_version }}" alt="{{ contact.nickname }}" />
+						{% else %}
+							<img src="/images/user/thumbnail/{{ contact.nickname }}" alt="{{ contact.nickname }}" />
+						{% endif %}
+						{{ contact.nickname }}</a></strong>
 					</li>
 				{% endfor %}
 				</ul>

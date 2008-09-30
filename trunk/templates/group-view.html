@@ -84,7 +84,13 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<ul>
 			{% for u in users %}
 				<li>
-					<strong><a href="/user/{{ u.nickname }}"><img src="/images/user/thumbnail/{{ u.nickname }}" alt="{{ u.nickname }}" /> {{ u.nickname }}</a></strong>
+					<strong><a href="/user/{{ u.nickname }}">
+					{% if u.image_version %}
+						<img src="/images/user/thumbnail/{{ u.nickname }}/{{ u.image_version }}" alt="{{ u.nickname }}" />
+					{% else %}
+						<img src="/images/user/thumbnail/{{ u.nickname }}" alt="{{ u.nickname }}" />
+					{% endif %}
+					{{ u.nickname }}</a></strong>
 				</li>
 			{% endfor %}
 			</ul>
