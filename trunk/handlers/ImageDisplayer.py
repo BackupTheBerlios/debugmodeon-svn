@@ -78,7 +78,7 @@ class ImageDisplayer(webapp.RequestHandler):
 	
 	def write_image(self, image):
 		self.response.headers['Content-Type'] = 'image/jpg'
-		self.response.headers['Cache-Control'] = 'public'
+		self.response.headers['Cache-Control'] = 'public, max-age=31536000'
 		self.response.out.write(image)
 
 	def showImage(self, image, default):
