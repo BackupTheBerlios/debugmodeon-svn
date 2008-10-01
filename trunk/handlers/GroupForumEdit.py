@@ -66,12 +66,13 @@ class GroupForumEdit(AuthenticatedHandler):
 		thread.url_path = ('%d/%s/%s') % (thread.key().id(), group.url_path, self.to_url_path(title))
 		thread.put()
 		
-		app = self.get_application()
+		app = model.Application.all().get()
 		if app:
 			if not app.threads:
 				app.threads = 0
 			app.threads += 1
 			app.put()
+		memcache.delete('app')
 		
 		group.threads += 1
 		group.put()

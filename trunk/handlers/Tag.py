@@ -28,6 +28,6 @@ class Tag(BaseHandler):
 		tag = self.request.path.split('/', 2)[2]
 		query = model.Item.all().filter('tags =', tag).filter('draft', False).filter('deletion_date', None).order('-creation_date')
 		self.values['items'] = self.paging(query, 10)
-		self.values['taglist'] = self.tag_list(model.Tag.all())
+		self.add_tag_cloud()
 		self.values['tag'] = tag
 		self.render('templates/tag.html')

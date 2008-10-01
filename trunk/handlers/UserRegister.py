@@ -129,10 +129,11 @@ class UserRegister(BaseHandler):
 					contacts=0)
 				user.put()
 				
-				app = self.get_application()
+				app = model.Application.all().get()
 				if app:
 					app.users += 1
 					app.put()
+				memcache.delete('app')
 
 				self.sess = session.Session()
 				self.sess['user_nickname'] = user.nickname

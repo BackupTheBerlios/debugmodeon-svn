@@ -42,8 +42,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			{% if sess.user %}
 				Hola <a href="/user/{{ sess.user_nickname }}"><strong>{{ sess.user_nickname }}</strong></a> | <a href="/user.edit">preferencias</a> | <a href="/user.logout">desconectar</a>
 			{% else %}
-				<strong><a href="/user.login?redirect_to={{ redirect }}">Login</a></strong> o <a href="/user.register?redirect_to={{ redirect }}">regístrate</a>.
-				¿<a href="/user.forgotpassword?redirect_to={{ redirect }}">Olvidaste la contraseña</a>?
+				<strong><a href="http://www.debugmodeon.com/user.login?redirect_to={{ redirect }}">Login</a></strong> o <a href="http://www.debugmodeon.com/user.register?redirect_to={{ redirect }}">regístrate</a>.
+				¿<a href="http://www.debugmodeon.com/user.forgotpassword?redirect_to={{ redirect }}">Olvidaste la contraseña</a>?
 			{% endif %}
 			</p>
 		</div>
@@ -67,7 +67,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			    <input type="hidden" name="cx" value="007982268110512831605:w2rogzztfio" />
 			    <input type="hidden" name="cof" value="FORID:9" />
 			    <input type="hidden" name="ie" value="UTF-8" />
-			    <input type="text" name="q" size="31" />
+			    <input type="text" name="q" size="31" class="search" />
 			    <input type="submit" name="sa" value="Buscar" />
 			  </div>
 			</form>

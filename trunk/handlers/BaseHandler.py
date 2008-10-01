@@ -164,12 +164,11 @@ class BaseHandler(webapp.RequestHandler):
 		self.values['sess'] = self.sess
 		redirect = '%s?%s' % (self.request.path, self.request.query)
 		self.values['redirect'] = redirect
-		self.values['app'] = self.get_application()
 		
 		user = self.get_current_user()
 		# user = users.get_current_user()
 		if user:
-			self.values['logout'] = '/user.logout?redirect_to=%s' % redirect  # users.create_logout_url(self.values['redirect'])
+			self.values['logout'] = 'http://www.debugmodeon.com/user.logout?redirect_to=%s' % redirect  # users.create_logout_url(self.values['redirect'])
 			"""
 			user_data = model.UserData.gql('WHERE email=:1', user.email()).get()
 			if not user_data:
@@ -194,7 +193,7 @@ class BaseHandler(webapp.RequestHandler):
 			self.values['user'] = user
 		else:
 			self.values['user'] = None
-			self.values['login'] = '/user.login?redirect_to=%s' % redirect # users.create_login_url(self.values['redirect'])
+			self.values['login'] = 'http://www.debugmodeon.com/user.login?redirect_to=%s' % redirect # users.create_login_url(self.values['redirect'])
 
 	def to_url_path(self, value):
 		value = value.lower()
@@ -340,6 +339,7 @@ class BaseHandler(webapp.RequestHandler):
 			memcache.add(key, data, timeout)
 			return data
 	
+	"""
 	def cache_this(self, function, timeout=600):
 		key = '%s?%s' % (self.request.path, self.request.query)
 		return self.cache(key, function, timeout)
@@ -376,6 +376,7 @@ class BaseHandler(webapp.RequestHandler):
 		if o:
 			self.values['o'] = o
 		return a
+	"""
 
 	def paging(self, query, max, default_order=None, total=-1, accepted_orderings=[], key=None, timeout=300):
 		if total > 0:
@@ -395,7 +396,7 @@ class BaseHandler(webapp.RequestHandler):
 			self.values['o'] = o
 		elif default_order:
 			query = query.order(default_order)
-		# not tested
+		# caching
 		if not key is None:
 			a = memcache.get(key)
 			if a is None:

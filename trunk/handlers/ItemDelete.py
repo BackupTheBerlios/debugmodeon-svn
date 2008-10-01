@@ -86,10 +86,11 @@ class ItemDelete(AuthenticatedHandler):
 			
 			# comments?
 			
-			app = self.get_application()
+			app = model.Application.all().get()
 			if app:
 				app.items -= 1
 				app.put()
+			memcache.delete('app')
 			
 			self.redirect('/item/%s' % item.url_path)
 			

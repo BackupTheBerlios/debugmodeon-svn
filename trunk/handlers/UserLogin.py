@@ -29,7 +29,6 @@ from handlers.BaseHandler import *
 class UserLogin(BaseHandler):
 
 	def execute(self):
-		values = self.values
 		session.Session().delete()
 
 		method = self.request.method
@@ -45,7 +44,6 @@ class UserLogin(BaseHandler):
 			if user:
 				
 				if self.check_password(user, password):
-					values['user'] = user
 					user.last_login = datetime.datetime.now()
 					user.password = self.hash_password(user.nickname, password) # if you want to change the way the password is hashed
 					user.put()

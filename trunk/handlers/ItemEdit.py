@@ -109,10 +109,11 @@ class ItemEdit(AuthenticatedHandler):
 					user.put()
 					item.creation_date = datetime.datetime.now()
 					
-					app = self.get_application()
+					app = model.Application.all().get()
 					if app:
 						app.items += 1
 						app.put()
+					memcache.delete('app')
 				
 				if not item.author_nickname:
 					item.author_nickname = user.nickname

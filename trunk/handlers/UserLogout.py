@@ -27,4 +27,7 @@ class UserLogout(BaseHandler):
 
 	def execute(self):
 		self.sess.delete()
-		self.redirect(self.request.referrer)
+		if self.request.referrer:
+			self.redirect(self.request.referrer)
+		else:
+			self.redirect('/')
