@@ -19,8 +19,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
-from handlers.AuthenticatedHandler import *
+from handlers.BaseHandler import *
 
-class SearchResult(AuthenticatedHandler):
+class SearchResult(BaseHandler):
 	def execute(self):
 		self.render('templates/search-result.html')
