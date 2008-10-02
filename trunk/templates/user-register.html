@@ -34,31 +34,33 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<div class="form">
 			<p>
 				<label for="nickname">Nombre de usuario</label>
-				<input id="nickname" type="text" name="nickname" value="{{ nickname }}" style="width:200px" maxlength="20" />
+				<input id="nickname" type="text" name="nickname" value="{{ nickname }}" style="width:270px" maxlength="20" />
 				<!-- <input type="button" id="check_mail" value="Comprobar"><span id="result_check_nick"></span> -->
 			</p>
 			<p>
 				<label for="email">e-mail</label>
-				<input id="email" type="text" name="email" value="{{ email }}" style="width:200px" />
+				<input id="email" type="text" name="email" value="{{ email }}" style="width:270px" />
 			</p>
 			<p>
 				<label for="re_email">Repite el e-mail</label>
-				<input id="re_mail" type="text" name="re_email" value="" style="width:200px" />
+				<input id="re_mail" type="text" name="re_email" value="" style="width:270px" />
 			</p>
 			<p>
 				<label for="password">Contraseña</label>
-				<input id="password" type="password" name="password" value="" style="width:200px" maxlength="30" />
+				<input id="password" type="password" name="password" value="" style="width:270px" maxlength="30" />
 			</p>
 			<p>
 				<label for="re_password">Repite la contraseña</label>
-				<input id="re_password" type="password" name="re_password" value="" style="width:200px" maxlength="30" />
+				<input id="re_password" type="password" name="re_password" value="" style="width:270px" maxlength="30" />
 			</p>
 			<p>
-				<input type="checkbox" name="terms-and-conditions" value="true" id="terms-and-conditions" /> He leído y acepto los <br/> <strong><a href="/html/aviso-legal.html" target="_blank">términos y condiciones</a></strong>
+				<input type="checkbox" name="terms-and-conditions" value="true" id="terms-and-conditions" /> He leído y acepto los <br/><strong><a href="/html/aviso-legal.html" target="_blank">términos y condiciones</a></strong>
 			</p>
-			<p>
+		</div>
+			<div style="margin-left:15px;">
 				{{ captchahtml }}
-			</p>
+			</div>
+		<div class="form">
 			<p><input type="submit" value="Registrarse" /></p>
 		</div>
 
