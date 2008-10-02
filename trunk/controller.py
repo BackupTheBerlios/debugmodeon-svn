@@ -43,7 +43,7 @@ def main():
 									   ('/item.comment.subscribe',	ItemCommentSubscribe),
 									   ('/item.comment',	ItemComment),
 									   ('/item.delete',		ItemDelete),
-									   ('/item.deletecomment',		ItemDeleteComment),
+									   ('/item.comment.delete',		ItemCommentDelete),
 									   # users
 									   ('/user.list',			UserList),
 									   ('/user/.*',				UserView),
@@ -62,7 +62,6 @@ def main():
 									   ('/user.contact',		UserContact),
 									   # forums,
 									   ('/forum.list',			ForumList),
-									   ('/forum.delete',		ForumDelete),
 									   # groups
 									   ('/group.list',	GroupList),
 									   ('/group.edit',	GroupEdit),
@@ -74,6 +73,7 @@ def main():
 									   ('/group.forum/.*',		GroupForumView),
 									   ('/group.forum.reply',	GroupForumReply),
 									   ('/group.forum.subscribe',	GroupForumSubscribe),
+									   ('/group.forum.delete',	GroupForumDelete),
 									   # group items
 									   ('/group.item.list/.*',	GroupItemList),
 									   ('/group.item.add',		GroupItemAdd),

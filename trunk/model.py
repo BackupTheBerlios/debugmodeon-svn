@@ -115,6 +115,7 @@ class Comment(db.Model):
 	last_update = db.DateTimeProperty(auto_now=True)
 	creation_date = db.DateTimeProperty(auto_now_add=True)
 	deletion_date = db.DateTimeProperty()
+	deletion_message = db.StringProperty()
 
 class Vote(db.Model):
 	user = db.ReferenceProperty(UserData,required=True)

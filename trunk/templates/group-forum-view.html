@@ -58,7 +58,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		</div>
 		
 		{% if user.rol == 'admin' %}
-			<p class="options"><a href="/forum.delete?key={{ thread.key() }}"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar hilo</a></p>
+			<p class="options"><a href="/group.forum.delete?key={{ thread.key() }}"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar hilo</a></p>
 		{% endif %}
 		
 		{% if user.nickname != thread.author_nickname %}
@@ -96,7 +96,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<a href="#comment-{{ comment.response_number }}" name="comment-{{ comment.response_number }}">#{{ comment.response_number }}</a>&nbsp;&nbsp;&nbsp;
 			</p>
 			
-			{{ comment.content|markdown|smiley }} {% if user.rol == 'admin' %}<p class="options"><a href="javascript:setComment('/forum.delete?key={{ comment.key() }}')"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar comentario</a></p>{% endif %}
+			{{ comment.content|markdown|smiley }} {% if user.rol == 'admin' %}<p class="options"><a href="javascript:setComment('/group.forum.delete?key={{ comment.key() }}')"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar comentario</a></p>{% endif %}
 		</div>
 	</div>
 	<div class="clear">&nbsp;</div>

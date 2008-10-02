@@ -25,28 +25,35 @@ import datetime
 from google.appengine.ext import db
 from handlers.AuthenticatedHandler import *
 
-class ItemDeleteComment(AuthenticatedHandler):
+class GroupForumDelete(AuthenticatedHandler):
 
 	def execute(self):
 		user = self.values['user']
 		if user.rol != 'admin':
 			self.forbidden()
 			return
-		
-		comment = model.Comment.get(self.get_param('key'))
-		url = comment.item.url_path
-		if not comment:
+		thread = model.Thread.get(self.get_param('key'))
+		url = '/group.forum.list/' + thread.group.url_path
+		if not thread:
 			self.not_found()
 			return
-		
+		if thread.parent_thread is not None:
+			message = self.get_param('message')
+			#decrement number of childs in the parent thread
+			thread.parent_thread.put()
+			#Delete child thread
+			thread.deletion_date = datetime.datetime.now()
+			thread.deletion_message = message
+			thread.put()
+		else:
+			#decrement threads in the group
+			group = thread.group
+			group.threads -=1
+			group.put()
+			#delete comments in this thread
+			childs = model.Thread.all().filter('parent_thread', thread)
+			db.delete(childs)
+			memcache.delete('index_threads')
+			thread.delete()
 
-		#decrement number of comments in the Item
-		comment.item.responses -= 1
-		comment.item.put()
-		#decrement nomber of comments in the User
-		comment.author.comments -= 1
-		comment.author.put()
-			
-		#delete comment
-		comment.delete()
-		self.redirect('/item/%s' % url)
+		self.redirect(url)
