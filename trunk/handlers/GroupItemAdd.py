@@ -45,24 +45,21 @@ class GroupItemAdd(AuthenticatedHandler):
 				group.items += 1
 				group.put()
 				
-				subject = u"[debug_mode=ON] Nuevo articulo: '%s'" % self.clean_ascii(item.title)
+				subscribers = group.subscribers
+				if subscribers and user.email in subscribers:
+					subscribers.remove(user.email)
+					
+				if subscribers:
+					app = self.get_application()
+					subject = u"Nuevo articulo: '%s'" % self.clean_ascii(item.title)
    
-				body = u"""
+					body = u"""
 Nuevo articulo en el grupo %s.
 Titulo del articulo: %s
 Leelo en esta direccion:
-http://debugmodeon.com/item/%s
+%s/item/%s
 
-""" % (self.clean_ascii(group.title), self.clean_ascii(item.title), item.url_path)
-   
-				try:
-					mail.send_mail(sender='contacto@debugmodeon.com',
-						to='contacto@debugmodeon.com',
-						bcc=group.subscribers,
-						subject=subject,
-						body=body)
-				except apiproxy_errors.OverQuotaError, message:
-					# Record the error in your logs
-					logging.error(message)
+""" % (self.clean_ascii(group.title), self.clean_ascii(item.title), app.url, item.url_path)
+					self.mail(subject=subject, body=body, bcc=group.subscribers)
 				
 		self.redirect('/item/%s' % item.url_path)

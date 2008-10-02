@@ -54,36 +54,35 @@ class GroupForumReply(AuthenticatedHandler):
 			responses=0)
 		response.put()
 		
-		subscribe=self.get_param('subscribe')
-		if not user.email in thread.subscribers and subscribe:
-			thread.subscribers.append(user.email)
-		thread.responses = thread.responses + 1
-		thread.last_response_date = datetime.datetime.now()
-		thread.put()
-		
 		self.create_group_subscribers(group)
 		group.responses = group.responses + 1
 		group.put()
 		
-		if thread.subscribers:
-			subject = u"[debug_mode=ON] Nueva respuesta en: '%s'" % self.clean_ascii(thread.title)
+		subscribers = thread.subscribers
+		"""
+		if subscribers and user.email in subscribers:
+			subscribers.remove(user.email)
+		"""
+
+		if subscribers:
+			app = self.get_application()
+			subject = "Nueva respuesta en: '%s'" % self.clean_ascii(thread.title)
 
 			body = u"""
 Nueva respuesta en %s.
 Entra en el debate:
-http://debugmodeon.com/group.forum/%s
+%s/group.forum/%s
 
-""" % (self.clean_ascii(thread.title), thread.url_path)
-			try:
-				mail.send_mail(sender='contacto@debugmodeon.com',
-					to='contacto@debugmodeon.com',
-					bcc=thread.subscribers,
-					subject=subject,
-					body=body)
-			except apiproxy_errors.OverQuotaError, message:
-				# Record the error in your logs
-				logging.error(message)
-			
+""" % (self.clean_ascii(thread.title), app.url, thread.url_path)
+			self.mail(subject=subject, body=body, bcc=thread.subscribers)
+		
+		subscribe = self.get_param('subscribe')
+		if subscribe and not user.email in thread.subscribers:
+			thread.subscribers.append(user.email)
+		thread.responses += 1
+		thread.last_response_date = datetime.datetime.now()
+		thread.put()
+		
 		memcache.delete('index_threads')
 
 		page = response.response_number / 20

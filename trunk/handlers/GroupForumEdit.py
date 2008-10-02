@@ -58,13 +58,6 @@ class GroupForumEdit(AuthenticatedHandler):
 		user.put()
 		
 		self.create_group_subscribers(group)
-		subscribe=self.get_param('subscribe')
-		if not user.email in thread.subscribers and subscribe:
-			thread.subscribers.append(user.email)
-
-		thread.put()
-		thread.url_path = ('%d/%s/%s') % (thread.key().id(), group.url_path, self.to_url_path(title))
-		thread.put()
 		
 		app = model.Application.all().get()
 		if app:
@@ -77,25 +70,30 @@ class GroupForumEdit(AuthenticatedHandler):
 		group.threads += 1
 		group.put()
 		
-		if group.subscribers:
-			subject = u"[debug_mode=ON] Nuevo tema: '%s'" % self.clean_ascii(thread.title)
+		subscribers = group.subscribers
+		if subscribers and user.email in subscribers:
+			subscribers.remove(user.email)
+
+		if subscribers:
+			app = self.get_application()
+			subject = "Nueva tema: '%s'" % self.clean_ascii(thread.title)
 
 			body = u"""
 Nuevo tema en el grupo %s.
 Titulo del tema: %s
 Entra en el debate:
-http://debugmodeon.com/group.forum/%s
+%s/group.forum/%s
 
-""" % (self.clean_ascii(group.title), self.clean_ascii(thread.title), thread.url_path)
-			try:
-				mail.send_mail(sender='contacto@debugmodeon.com',
-					to='contacto@debugmodeon.com',
-					bcc=group.subscribers,
-					subject=subject,
-					body=body)
-			except apiproxy_errors.OverQuotaError, message:
-  				# Record the error in your logs
-  				logging.error(message)
+""" % (self.clean_ascii(group.title), self.clean_ascii(thread.title), app.url, thread.url_path)
+			self.mail(subject=subject, body=body, bcc=group.subscribers)
+		
+		subscribe = self.get_param('subscribe')
+		if subscribe and not user.email in thread.subscribers:
+			thread.subscribers.append(user.email)
+
+		thread.put()
+		thread.url_path = ('%d/%s/%s') % (thread.key().id(), group.url_path, self.to_url_path(title))
+		thread.put()
 		
 		memcache.delete('index_threads')
 

@@ -36,11 +36,13 @@ class ItemComment(AuthenticatedHandler):
 		if not item or item.draft or item.deletion_date:
 			self.not_found()
 			return
-			
+		
+		# migration
 		if not item.subscribers:
 			com = [c.author.email for c in model.Comment.all().filter('item', item).fetch(1000) ]
 			com.append(item.author.email)
 			item.subscribers = list(set(com))
+		# end migration
 
 		comment = model.Comment(item=item,
 			author=user,
@@ -51,30 +53,30 @@ class ItemComment(AuthenticatedHandler):
 		
 		user.comments += 1
 		user.put()
-		
-		item.responses += 1
-		item.put()
-	
-		if item.subscribers:
-			subject = u"[debug_mode=ON] Nuevo comentario: '%s'" % self.clean_ascii(item.title)
+
+		subscribers = item.subscribers
+		if subscribers and user.email in subscribers:
+			subscribers.remove(user.email)
+
+		if subscribers:
+			app = self.get_application()
+			subject = u"Nuevo comentario en: '%s'" % self.clean_ascii(item.title)
 
 			body = u"""
-Nuevo comentario en el articulo %s:
+Nuevo comentario en el articulo: '%s':
 
 Lee los comentarios en:
-http://debugmodeon.com/item/%s#comments
+%s/item/%s#comments
 
-""" % (self.clean_ascii(item.title), item.url_path)
-		
-			mail.send_mail(sender='contacto@debugmodeon.com',
-				to='contacto@debugmodeon.com',
-				bcc=item.subscribers,
-				subject=subject,
-				body=body)
+""" % (self.clean_ascii(item.title), app.url, item.url_path)
+			self.mail(subject=subject, body=body, bcc=item.subscribers)
 			
-		subscribe=self.get_param('subscribe')
-		if not user.email in item.subscribers and subscribe:
+		subscribe = self.get_param('subscribe')
+		if subscribe and not user.email in item.subscribers:
 			item.subscribers.append(user.email)
+
+		item.responses += 1
+		item.put()
 		
 		page = comment.response_number / 10
 		if (comment.response_number % 10) > 0:

@@ -142,9 +142,11 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 		<textarea name="content" rows="8" cols="54" id="markdown_example"></textarea>
 
+		{% if cansubscribe %}
 		<p>
 			<input type="checkbox" name="subscribe" value="True" id="subscribe" />Suscribirme por email
 		</p>
+		{% endif %}
 
 		<p><input type="submit" value="Publicar respuesta" /></p>
 
@@ -159,7 +161,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<div class="clear">&nbsp;</div>
 {% else %}
 	{% if user and not can_write %}
-		<p class="options" style="text-align:center">Este grupo requiere que te unas a él para poder escribir. <a href="/group.user.join?group={{ group.key()|escape }}&amp;redirect={{ redirect }}"> <img src="/static/images/add.png" /> Únete a este grupo</a></p>
+		<p class="options" style="text-align:center">Este grupo requiere que te unas a él para poder escribir. <a href="/group.user.join?group={{ group.key()|escape }}&amp;redirect={{ redirect }}"><img src="/static/images/add.png" alt="" class="icon" /> Únete a este grupo</a></p>
 	{% endif %}
 {% endif %}
 {% endblock %}

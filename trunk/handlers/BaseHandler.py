@@ -22,20 +22,25 @@
 
 import re
 import sha
-import model
-import simplejson
-import datetime
 import img
-
+import model
 import struct
+import logging
+import datetime
+import simplejson
 
 from utilities import session
-from google.appengine.ext import db
+
+from google.appengine.api import mail
 from google.appengine.api import users
+from google.appengine.api import images
 from google.appengine.api import memcache
+
+from google.appengine.ext import db
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
-from google.appengine.api import images
+
+from google.appengine.runtime import apiproxy_errors
 
 class BaseHandler(webapp.RequestHandler):
 
@@ -164,6 +169,7 @@ class BaseHandler(webapp.RequestHandler):
 		self.values['sess'] = self.sess
 		redirect = '%s?%s' % (self.request.path, self.request.query)
 		self.values['redirect'] = redirect
+		self.values['app'] = self.get_application()
 		
 		user = self.get_current_user()
 		# user = users.get_current_user()
@@ -514,3 +520,28 @@ class BaseHandler(webapp.RequestHandler):
 			return self.values[key]
 		except KeyError:
 			return None
+	
+	def mail(self, subject, body, to=[], bcc=[]):
+		app = self.get_application()
+		subject = "%s %s" % (app.mail_subject_prefix, subject)
+
+		body = """
+%s
+
+%s
+""" % (body, app.mail_footer)
+
+		message = mail.EmailMessage(sender=app.mail_sender,
+							subject=subject, body=body)
+		if not to:
+			message.to = app.mail_sender
+		else:
+			message.to = to
+		
+		if bcc:
+			message.bcc = bcc
+		try:
+			message.send()
+		except apiproxy_errors.OverQuotaError, message:
+			# Record the error in your logs
+			logging.error(message)

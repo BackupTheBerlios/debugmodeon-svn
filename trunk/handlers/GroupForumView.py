@@ -90,9 +90,9 @@ class GroupForumView(BaseHandler):
 			self.values['can_write'] = self.can_write(group)
 		if user:
 			if user.email in thread.subscribers:
-				self.values['cansubscribe']=False
+				self.values['cansubscribe'] = False
 			else:
-				self.values['cansubscribe']=True
+				self.values['cansubscribe'] = True
 
 		self.values['a'] = 'comments'
 		self.render('templates/group-forum-view.html')

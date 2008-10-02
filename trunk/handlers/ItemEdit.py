@@ -168,6 +168,7 @@ class ItemEdit(AuthenticatedHandler):
 				html = model.ItemHtml(content=self.markdown(item.content))
 				html.put()
 				item.content_html = html
+				item.subscribers = [user.email]
 				item.put()
 				
 				item.url_path = '%d/%s' % (item.key().id(), self.to_url_path(item.title))

@@ -42,8 +42,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			{% if sess.user %}
 				Hola <a href="/user/{{ sess.user_nickname }}"><strong>{{ sess.user_nickname }}</strong></a> | <a href="/user.edit">preferencias</a> | <a href="/user.logout">desconectar</a>
 			{% else %}
-				<strong><a href="http://www.debugmodeon.com/user.login?redirect_to={{ redirect }}">Login</a></strong> o <a href="http://www.debugmodeon.com/user.register?redirect_to={{ redirect }}">regístrate</a>.
-				¿<a href="http://www.debugmodeon.com/user.forgotpassword?redirect_to={{ redirect }}">Olvidaste la contraseña</a>?
+				<strong><a href="{{ app.url }}/user.login?redirect_to={{ redirect }}">Login</a></strong> o <a href="{{ app.url }}/user.register?redirect_to={{ redirect }}">regístrate</a>.
+				¿<a href="{{ app.url }}/user.forgotpassword?redirect_to={{ redirect }}">Olvidaste la contraseña</a>?
 			{% endif %}
 			</p>
 		</div>
@@ -71,7 +71,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			    <input type="submit" name="sa" value="Buscar" />
 			  </div>
 			</form>
-			<script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&lang=es"></script>
+			<script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=es"></script>
 			<ul>
 				<li><a href="/"{% if tab == '/' %} class="selected"{% endif %}>Inicio</a></li>
 				<li><a href="/item.list"{% if tab == '/item.list' %} class="selected"{% endif %}>Artículos</a></li>
@@ -86,6 +86,16 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<div class="clear">&nbsp;</div>
 		<div class="grid_3">
 			{% include 'inc-quick-links.html' %}
+			<div class="box">
+				<p class="title">Estadísticas de la web</p>
+				<ul>
+					<li>{{ app.users }} usuarios</li>
+					<li>{{ app.items }} artículos</li>
+					<li>{{ app.groups }} grupos</li>
+					<li>{{ app.threads }} temas en foros</li>
+				</ul>
+				<p class="end-box">&nbsp;</p>
+			</div>
 {% block sidebar %}{% endblock %}
 		</div>
 		<div class="grid_9">
@@ -93,40 +103,6 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		</div>
 		<div class="clear">&nbsp;</div>
 		<div class="grid_12" id="footer">
-			<!-- <div class="grid_4 alpha">
-				<div>
-					<p>Artículos más populares</p>
-					<ul>
-						<li><a href="#">Crear un directorio estático en App Engine</a></li>
-						<li><a href="#">Obtener la ruta del ejecutable en Java</a></li>
-						<li><a href="#">Gestión de errores en páginas JSP</a></li>
-						<li><a href="#">Expresiones regulares en Perl</a></li>
-					</ul>
-				</div>
-			</div>
-			<div class="grid_4">
-				<div>
-					<p>Grupos más populares</p>
-					<ul>
-						<li><a href="#">Java Swing. Componentes y frameworks</a></li>
-						<li><a href="#">Spring MVC. Buenas prácticas</a></li>
-						<li><a href="#">Google App Engine</a></li>
-						<li><a href="#">Visual Basic .Net</a></li>
-					</ul>
-				</div>
-			</div>
-			<div class="grid_4 omega">
-				<div>
-					<p>Blogs más populares</p>
-					<ul>
-						<li><a href="http://plunchete.wordpress.com/">Thirsty of code</a></li>
-						<li><a href="http://gnucrash.wordpress.com/">Inf-o-matic</a></li>
-						<li><a href="http://nestor.babuine.net/">Midnight illusions</a></li>
-						<li><a href="http://gimenete.net/">Fascinación por la vida</a></li>
-					</ul>
-				</div>
-			</div>
-			<div class="clear">&nbsp;</div> -->
 			<div class="grid_12 alpha omega">
 				<div style="text-align: right">
 					<p>

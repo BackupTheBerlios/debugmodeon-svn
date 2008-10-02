@@ -268,7 +268,9 @@ google_color_text = "000000";
 			<input type="hidden" name="key" value="{{ item.key() }}" />
 			
 			<textarea name="content" rows="8" cols="54" id="markdown_example"></textarea>
+			{% if cansubscribe %}
 			<p><input type="checkbox" name="subscribe" value="True" id="subscribe" />Suscribirme por email a los comentarios de este artículo</p>
+			{% endif %}
 						                
 			<p><input type="submit" value="Publicar comentario" /></p>
 		</form>

@@ -40,15 +40,14 @@ class UserContact(AuthenticatedHandler):
 			user.contacts += 1
 			user.put()
 			
-			subject = "[debug_mode=ON] %s te ha agregado como contacto" % user.nickname
-
+			app = self.get_application()
+			subject = "%s te ha agregado como contacto" % user.nickname
 			body = """
-%s te ha agregado como contacto en http://debugmodeon.com
-Puedes visitar su perfil en: http://debugmodeon.com/user/%s
+%s te ha agregado como contacto en %s
+Puedes visitar su perfil en: %s/user/%s
 
-""" % (user.nickname, user.nickname)
-
-			mail.send_mail('contacto@debugmodeon.com', user_to.email, subject, body)
+""" % (user.nickname, app.url, app.url, user.nickname)
+			self.mail(subject=subject, body=body, to=user_to.email)
 			
 			if self.get_param('x'):
 				self.render_json({ 'action': 'added' })
