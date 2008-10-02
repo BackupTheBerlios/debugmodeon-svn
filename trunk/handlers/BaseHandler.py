@@ -174,7 +174,7 @@ class BaseHandler(webapp.RequestHandler):
 		user = self.get_current_user()
 		# user = users.get_current_user()
 		if user:
-			self.values['logout'] = 'http://www.debugmodeon.com/user.logout?redirect_to=%s' % redirect  # users.create_logout_url(self.values['redirect'])
+			self.values['logout'] = '/user.logout?redirect_to=%s' % redirect  # users.create_logout_url(self.values['redirect'])
 			"""
 			user_data = model.UserData.gql('WHERE email=:1', user.email()).get()
 			if not user_data:
@@ -199,7 +199,7 @@ class BaseHandler(webapp.RequestHandler):
 			self.values['user'] = user
 		else:
 			self.values['user'] = None
-			self.values['login'] = 'http://www.debugmodeon.com/user.login?redirect_to=%s' % redirect # users.create_login_url(self.values['redirect'])
+			self.values['login'] = '/user.login?redirect_to=%s' % redirect # users.create_login_url(self.values['redirect'])
 
 	def to_url_path(self, value):
 		value = value.lower()

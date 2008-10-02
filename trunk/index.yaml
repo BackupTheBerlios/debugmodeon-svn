@@ -54,20 +54,20 @@ indexes:
   - name: items
     direction: desc
 
-# Used 3 times in query history.
+# Used 7 times in query history.
 - kind: Group
   properties:
   - name: members
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used once in query history.
 - kind: GroupItem
   properties:
   - name: group
   - name: creation_date
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used once in query history.
 - kind: GroupUser
   properties:
   - name: group
@@ -143,7 +143,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 3 times in query history.
+# Used 5 times in query history.
 - kind: Item
   properties:
   - name: deletion_date
@@ -224,7 +224,7 @@ indexes:
   - name: form
   - name: creation_date
 
-# Used 3 times in query history.
+# Used 4 times in query history.
 - kind: Tag
   properties:
   - name: count
@@ -250,7 +250,7 @@ indexes:
   - name: last_update
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used 2 times in query history.
 - kind: Thread
   properties:
   - name: group
@@ -272,7 +272,7 @@ indexes:
   - name: last_update
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used 2 times in query history.
 - kind: Thread
   properties:
   - name: parent_thread
@@ -285,7 +285,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 3 times in query history.
+# Used 6 times in query history.
 - kind: Thread
   properties:
   - name: parent_thread
@@ -311,7 +311,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used once in query history.
 - kind: UserData
   properties:
   - name: items
