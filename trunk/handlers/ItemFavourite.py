@@ -35,7 +35,12 @@ class ItemFavourite(AuthenticatedHandler):
 
 		favourite = model.Favourite.gql('WHERE user=:1 AND item=:2', user, item).get()
 		if not favourite:
-			favourite = model.Favourite(item=item,user=user)
+			favourite = model.Favourite(item=item,
+				user=user,
+				item_author_nickname=item.author_nickname,
+				item_title=item.title,
+				item_url_path=item.url_path,
+				user_nickname=user.nickname)
 			favourite.put()
 
 			user.favourites += 1

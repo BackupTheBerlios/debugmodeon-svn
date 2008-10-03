@@ -30,15 +30,14 @@ class GroupMove(AuthenticatedHandler):
 		user = self.values['user']
 
 		if method == 'GET':
-			if user.rol !='admin':
-		        	self.forbidden()
-			 	return
+			if user.rol != 'admin':
+				self.forbidden()
+				return
 			group_orig = model.Group.get(self.get_param('key_orig'))
 			self.values['key_orig'] = group_orig.key
-			
 			self.render('templates/group-move.html')	
 		else:
-			if user.rol !='admin':
+			if user.rol != 'admin':
 				self.forbidden()
 				return
 			
@@ -74,20 +73,18 @@ class GroupMove(AuthenticatedHandler):
 					i.put()
 
 			for i in group_orig.thread_set:
-							
 				i.group=group_dest
 				group_dest.threads += 1
 				i.put()
 			
 			group_dest.put()
-                	group_orig.delete()
-
-               		app = self.get_application()
-                	if app:
-                        	app.groups -=1
-                        	app.put()
-		
+			group_orig.delete()
 			
+			app = model.Application.all().get()		
+			if app:
+				app.groups -= 1
+				app.put()
+				memcache.delete('app')
 			
 			self.values['move_ok'] = True
 

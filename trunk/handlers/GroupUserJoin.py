@@ -36,7 +36,11 @@ class GroupUserJoin(AuthenticatedHandler):
 		if gu == 'False':
 			self.create_group_subscribers(group)
 			
-			gu = model.GroupUser(user=user, group=group)
+			gu = model.GroupUser(user=user,
+				group=group,
+				user_nickname=user.nickname,
+				group_title=group.title,
+				group_url_path=group.url_path)
 			gu.put()
 			
 			group.subscribers.append(user.email)

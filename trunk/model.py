@@ -115,7 +115,6 @@ class Comment(db.Model):
 	last_update = db.DateTimeProperty(auto_now=True)
 	creation_date = db.DateTimeProperty(auto_now_add=True)
 	deletion_date = db.DateTimeProperty()
-	deletion_message = db.StringProperty()
 
 class Vote(db.Model):
 	user = db.ReferenceProperty(UserData,required=True)
@@ -173,6 +172,8 @@ class GroupItem(db.Model):
 
 class Thread(search.SearchableModel):
 	group = db.ReferenceProperty(Group,required=True)
+	group_title = db.StringProperty()
+	group_url_path = db.StringProperty()
 	author = db.ReferenceProperty(UserData,required=True)
 	author_nickname = db.StringProperty()
 	title = db.StringProperty(required=True)

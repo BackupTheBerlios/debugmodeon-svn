@@ -73,6 +73,7 @@ class ItemEdit(AuthenticatedHandler):
 				# show an empty form
 				self.values['title'] = u'Título...'
 				self.values['lic'] = 'copyright'
+				self.values['draft'] = True
 				self.render('templates/item-edit.html')
 		else:
 			if x and draft:
@@ -184,10 +185,11 @@ class ItemEdit(AuthenticatedHandler):
 					user.items += 1
 					user.put()
 					self.update_tags(tags)
-					app = self.get_application()
+					app = model.Application.all().get()
 					if app:
 						app.items += 1
 						app.put()
+						memcache.delete('app')
 				else:
 					user.draft_items += 1
 					user.put()

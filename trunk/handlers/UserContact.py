@@ -34,7 +34,10 @@ class UserContact(AuthenticatedHandler):
 		
 		contact = model.Contact.all().filter('user_from', user).filter('user_to', user_to).get()
 		if not contact:
-			contact = model.Contact(user_from=user, user_to=user_to)
+			contact = model.Contact(user_from=user,
+				user_to=user_to,
+				user_from_nickname=user.nickname,
+				user_to_nickname=user_to.nickname)
 			contact.put()
 			
 			user.contacts += 1

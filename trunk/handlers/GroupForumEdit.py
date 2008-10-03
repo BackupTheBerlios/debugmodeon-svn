@@ -46,6 +46,8 @@ class GroupForumEdit(AuthenticatedHandler):
 		url_path = ''
 
 		thread = model.Thread(group=group,
+			group_title=group.title,
+			group_url_path=group.url_path,
 			author=user,
 			author_nickname=user.nickname,
 			title=title,

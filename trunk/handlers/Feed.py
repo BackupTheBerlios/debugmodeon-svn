@@ -35,7 +35,7 @@ class Feed(webapp.RequestHandler):
 	def get(self):
 		data = memcache.get(self.request.path)
 		if not data:
-			params = self.request.path.split('/')
+			params = self.request.path.split('/', 3)
    
 			if params[2] == 'tag':
 				query = model.Item.all().filter('deletion_date', None).filter('tags =', params[3]).order('-creation_date')
@@ -44,11 +44,15 @@ class Feed(webapp.RequestHandler):
    
 			elif params[2] == 'group.forum':
 				group = model.Group.gql('WHERE url_path=:1',params[3]).get()
+				if not group:
+					group = model.Group.gql('WHERE old_url_path=:1',params[3]).get()
 				threads = model.Thread.gql('WHERE group=:1 ORDER BY creation_date DESC LIMIT 20', group)
 				data = self.threads_to_rss(u'Foro %s' % group.title, threads) # TODO: escape
    
 			elif params[2] == 'group':
 				group = model.Group.gql('WHERE url_path=:1',params[3]).get()
+				if not group:
+					group = model.Group.gql('WHERE old_url_path=:1',params[3]).get()
 				group_items = model.GroupItem.gql('WHERE group=:1 ORDER BY creation_date DESC LIMIT 20', group)
 				latest = [gi.item for gi in group_items]
 				data = self.to_rss(u'Artículos del grupo %s' % group.title, latest) # TOOD: escape

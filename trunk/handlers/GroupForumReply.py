@@ -43,7 +43,9 @@ class GroupForumReply(AuthenticatedHandler):
 			self.forbidden()
 			return
 		
-		response = model.Thread(group=thread.group,
+		response = model.Thread(group=group,
+			group_title=group.title,
+			group_url_path=group.url_path,
 			author=user,
 			author_nickname=user.nickname,
 			title=thread.title,

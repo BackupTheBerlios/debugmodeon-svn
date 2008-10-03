@@ -121,7 +121,11 @@ class GroupEdit(AuthenticatedHandler):
 					app.put()
 				memcache.delete('app')
 				
-				group_user = model.GroupUser(user=user, group=group)
+				group_user = model.GroupUser(user=user,
+					group=group,
+					user_nickname=user.nickname,
+					group_title=group.title,
+					group_url_path=group.url_path)
 				group_user.put()
 				memcache.delete('index_groups')
 

@@ -38,7 +38,13 @@ class GroupItemAdd(AuthenticatedHandler):
 		if gu and not item.draft:
 			gi = model.GroupItem.gql('WHERE group=:1 and item=:2', group, item).get()
 			if not gi and user.nickname == item.author.nickname:
-				gi = model.GroupItem(item=item, group=group)
+				gi = model.GroupItem(item=item,
+					group=group,
+					item_author_nickname=item.author_nickname,
+					item_title=item.title,
+					item_url_path=item.url_path,
+					group_title=group.title,
+					group_url_path=group.url_path)
 				gi.put()
 				
 				self.create_group_subscribers(group)
