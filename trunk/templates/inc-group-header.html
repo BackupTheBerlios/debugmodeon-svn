@@ -47,6 +47,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	{% endif %}
 	{% if user.rol == 'admin' %}
 		| <a href="/group.delete?key={{ group.key() }}"><img src="/static/images/cross.png" class="icon" alt="" /> Eliminar grupo</a>
+		| <a method="get" href="/group.move?key_orig={{ group.key() }}"><img src="/static/images/arrow_switch.png" class="icon" alt="" /> Mover grupo</a>
+		| <a> {{ group.key() }}</a>
 	{% endif %}
 {% endif %}
 
