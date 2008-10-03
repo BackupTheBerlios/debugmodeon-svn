@@ -41,7 +41,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<div class="form">
 		<p>
 			<label for="title">Título</label>
-			<input id="title" type="text" name="title" value="{{ title|escape }}" style="font-size:200%" size="40" />
+			<input id="title" type="text" name="title" value="{{ title|escape }}" style="font-size:200%" size="40"{% if key %} disabled="disabled"{% endif %} />
 		</p>
 
 		<p>

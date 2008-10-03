@@ -97,11 +97,14 @@ class ItemEdit(AuthenticatedHandler):
 				
 				if  not item.draft:
 					self.delete_tags(item.tags)
-				item.title = self.get_param('title')
 				item.lic = lic
 				item.tags = self.parse_tags(self.get_param('tags'))
 				item.description = ' '.join(self.get_param('description').splitlines())
 				item.content = self.get_param('content')
+				if item.draft:
+					# title and url_path can change only if the item hasn't already been published
+					item.title = self.get_param('title')
+					item.url_path = '%d/%s' % (item.key().id(), self.to_url_path(item.title))
 				if item.draft and not draft:
 					item.draft = draft
 					user.items += 1
@@ -126,7 +129,6 @@ class ItemEdit(AuthenticatedHandler):
 					item.content_html.content = self.markdown(item.content)
 					item.content_html.put()
 				
-				item.url_path = '%d/%s' % (item.key().id(), self.to_url_path(item.title))
 				item.put()
 				
 				memcache.delete('index_items')

@@ -92,7 +92,7 @@ Entra en el debate:
 			thread.subscribers.append(user.email)
 
 		thread.put()
-		thread.url_path = ('%d/%s/%s') % (thread.key().id(), group.url_path, self.to_url_path(title))
+		thread.url_path = ('%d/%s/%s') % (thread.key().id(), self.to_url_path(group.title), self.to_url_path(title))
 		thread.put()
 		
 		memcache.delete('index_threads')

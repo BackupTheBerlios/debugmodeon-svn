@@ -30,6 +30,10 @@ class GroupView(BaseHandler):
 		url_path = self.request.path.split('/', 2)[2]
 		group = model.Group.gql('WHERE url_path=:1', url_path).get()
 		if not group:
+			group = model.Group.gql('WHERE old_url_path=:1', url_path).get()
+			if group:
+				self.redirect('/group/%s' % group.url_path, permanent=True)
+				return
 			self.not_found()
 			return
 

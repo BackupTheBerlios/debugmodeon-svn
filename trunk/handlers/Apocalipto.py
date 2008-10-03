@@ -21,24 +21,19 @@
 # 
 
 from google.appengine.ext import db
-from handlers.BaseHandler import *
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
+from handlers.BaseHandler import *
 
-class Apocalipto(webapp.RequestHandler):
+class Apocalipto(BaseHandler):
 
 	def get(self):
-		"""
-		self.kill(model.Item.all())
-		self.kill(model.Comment.all())
-		self.kill(model.UserData.all())
-		self.kill(model.GroupItem.all())
-		self.kill(model.GroupUser.all())
-		self.kill(model.Group.all())
-		self.kill(model.Tag.all())
-		self.kill(model.Thread.all())
-		self.kill(model.ThreadResponse.all())
-		"""
+		for group in model.Group.all():
+			if len(group.url_path.split('/')) == 1:
+				group.old_url_path = group.url_path
+				group.url_path = '%d/%s' % (group.key().id(), self.to_url_path(group.title))
+				group.put()
+			
 		self.redirect('/')
 	
 	def kill(self, all):

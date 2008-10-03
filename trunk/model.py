@@ -132,6 +132,7 @@ class Group(search.SearchableModel):
 	title = db.StringProperty(required=True)
 	description = db.StringProperty(required=True)
 	url_path = db.StringProperty(required=True)
+	old_url_path = db.StringProperty()
 	subscribers = db.StringListProperty()
 	
 	members = db.IntegerProperty(required=True)
@@ -153,11 +154,22 @@ class GroupUser(db.Model):
 	user = db.ReferenceProperty(UserData,required=True)
 	group = db.ReferenceProperty(Group,required=True)
 	creation_date = db.DateTimeProperty(auto_now_add=True)
+	# denormalization
+	user_nickname = db.StringProperty()
+	group_title = db.StringProperty()
+	group_url_path = db.StringProperty()
 
 class GroupItem(db.Model):
 	item = db.ReferenceProperty(Item,required=True)
 	group = db.ReferenceProperty(Group,required=True)
 	creation_date = db.DateTimeProperty(auto_now_add=True)
+	# denormalization
+	item_author_nickname = db.StringProperty()
+	item_title = db.StringProperty()
+	item_url_path = db.StringProperty()
+	group_title = db.StringProperty()
+	group_url_path = db.StringProperty()
+	
 
 class Thread(search.SearchableModel):
 	group = db.ReferenceProperty(Group,required=True)
@@ -183,24 +195,23 @@ class Thread(search.SearchableModel):
 	
 	deletion_message = db.StringProperty()
 
-class ThreadResponse(db.Model):
-	thread = db.ReferenceProperty(Thread,required=True)
-	author = db.ReferenceProperty(UserData,required=True)
-	content = db.TextProperty(required=True)
-
-	last_update = db.DateTimeProperty(auto_now=True)
-	creation_date = db.DateTimeProperty(auto_now_add=True)
-	deletion_date = db.DateTimeProperty()
-
 class Favourite(db.Model):
 	item = db.ReferenceProperty(Item,required=True)
 	user = db.ReferenceProperty(UserData,required=True)
 	creation_date = db.DateTimeProperty(auto_now_add=True)
+	# denormalize
+	item_author_nickname = db.StringProperty()
+	item_title = db.StringProperty()
+	item_url_path = db.StringProperty()
+	user_nickname = db.StringProperty()
 	
 class Contact(db.Model):
 	user_from = db.ReferenceProperty(UserData,required=True,collection_name='cf')
 	user_to = db.ReferenceProperty(UserData,required=True,collection_name='ct')
 	creation_date = db.DateTimeProperty(auto_now_add=True)
+	# denormalize
+	user_from_nickname = db.StringProperty()
+	user_to_nickname = db.StringProperty()
 
 class Application(db.Model):
 	users = db.IntegerProperty()

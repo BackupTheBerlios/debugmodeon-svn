@@ -60,7 +60,8 @@ class GroupEdit(AuthenticatedHandler):
 				if user.nickname != group.owner.nickname:
 					self.forbidden()
 					return
-				group.title = self.get_param('title')
+				# group title is not editable since many-to-many relationships are denormalizated
+				# group.title = self.get_param('title')
 				group.description = self.get_param('description')
 				image = self.request.get("img")
 				if image:
@@ -85,8 +86,7 @@ class GroupEdit(AuthenticatedHandler):
 			else:
 				# new group
 				title = self.get_param('title')
-				url_path = self.to_url_path(title)
-				url_path = self.unique_url_path(model.Group, url_path)
+				url_path = '-'
 				all_users = False
 				if self.get_param('all_users'):
 					all_users = True
@@ -108,6 +108,8 @@ class GroupEdit(AuthenticatedHandler):
 					group.thumbnail = img.resize(image, 48, 48)
 					group.image_version = 1
 				
+				group.put()
+				group.url_path = '%d/%s' % (group.key().id(), self.to_url_path(group.title))
 				group.put()
 				
 				user.groups += 1

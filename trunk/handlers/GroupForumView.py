@@ -39,22 +39,8 @@ class GroupForumView(BaseHandler):
 		if thread.deletion_date:
 			self.not_found()
 			return
-		# migration
+		# migration. supposed to be finished
 		if len(thread.url_path.split('/')) == 2:
-			responses = model.ThreadResponse.all().filter('thread', thread).order('creation_date')
-			for r in responses:
-				resp = model.Thread(group=thread.group,
-					author=r.author,
-					title=thread.title,
-					url_path=None,
-					content=r.content,
-					parent_thread=thread,
-					responses=0,
-					last_update=r.last_update,
-					creation_date=r.creation_date,
-					deletion_date=r.deletion_date)
-				resp.put()
-				r.delete()
 			thread.url_path = '%d/%s' % (thread.key().id(), thread.url_path)
 			thread.parent_thread = None
 			thread.put()
