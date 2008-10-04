@@ -20,26 +20,23 @@
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-from google.appengine.ext import db
-from handlers.BaseHandler import *
+from handlers.AuthenticatedHandler import *
 
-class GroupView(BaseHandler):
+class MessageRead(AuthenticatedHandler):
 
 	def execute(self):
-		self.values['tab'] = '/group.list'
+		user = self.values['user']
 		url_path = self.request.path.split('/', 2)[2]
-		group = model.Group.gql('WHERE url_path=:1', url_path).get()
-		if not group:
-			group = model.Group.gql('WHERE old_url_path=:1', url_path).get()
-			if group:
-				self.redirect('/group/%s' % group.url_path, permanent=True)
-				return
-			self.not_found()
+		message = model.Message.gql('WHERE url_path=:1', url_path).get()
+		if message.user_to_nickname != user.nickname:
+			self.forbidden()
 			return
-
-		self.values['group'] = group
-		self.values['joined'] = self.joined(group)
-		self.values['items'] = [i for i in model.GroupItem.all().filter('group =', group).order('-creation_date').fetch(5)]
-		self.values['threads'] = [t for t in model.Thread.all().filter('group', group).filter('parent_thread', None).order('-last_response_date').fetch(5)]
-		self.values['users'] = [gu.user for gu in model.GroupUser.all().filter('group =', group).order('-creation_date').fetch(5)]
-		self.render('templates/group-view.html')
+		
+		if not message.read:
+			message.read = True
+			message.put()
+			user.unread_messages -= 1
+			user.put()
+		
+		self.values['message'] = message
+		self.render('templates/message-read.html')

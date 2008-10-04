@@ -32,10 +32,11 @@ class Apocalipto(BaseHandler):
 		p = int(self.request.get('p'))
 		key = self.request.get('key')
 		action = self.request.get('action')
-		group = model.Group.get(key)
-		if not group:
-			self.response.out.write('group not found')
-			return
+		if key:
+			group = model.Group.get(key)
+			if not group:
+				self.response.out.write('group not found')
+				return
 		
 		offset = (p-1)*10
 		if action == 'gi':
@@ -43,7 +44,7 @@ class Apocalipto(BaseHandler):
 		elif action == 'gu':
 			i = self.group_users(group, offset)
 		elif action == 'th':
-			i = self.group_threads(group, offset)
+			i = self.threads(offset)
 		elif action == 'cc':
 			i = self.contacts(offset)
 		elif action == 'fv':
@@ -85,14 +86,16 @@ class Apocalipto(BaseHandler):
 			i+=1
 		return (i, p)
 
-	def group_threads(self, group, offset):
+	def threads(self, offset):
 		i = offset
 		p = 0
-		for th in model.Thread.all().filter('group', group).order('-creation_date').fetch(10, offset):
+		for th in model.Thread.all().order('-creation_date').fetch(10, offset):
 			if not th.group_title:
 				group = th.group
 				th.group_title = group.title
 				th.group_url_path = group.url_path
+				if not th.url_path:
+					th.url_path = th.parent_thread.url_path
 				th.put()
 				p += 1
 			i+=1

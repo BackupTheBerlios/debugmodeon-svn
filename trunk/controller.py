@@ -60,6 +60,11 @@ def main():
 									   ('/user.favourites/.*',	UserFavourites),
 									   ('/user.contacts/.*',	UserContacts),
 									   ('/user.contact',		UserContact),
+									   # messages
+									   ('/message.edit',		MessageEdit),
+									   ('/message.sent',		MessageSent),
+									   ('/message.inbox',		MessageInbox),
+									   ('/message.read/.*',		MessageRead),
 									   # forums,
 									   ('/forum.list',			ForumList),
 									   # groups

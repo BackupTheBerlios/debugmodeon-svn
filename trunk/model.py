@@ -50,6 +50,8 @@ class UserData(search.SearchableModel):
 	# messages
 	messages = db.IntegerProperty(required=True)
 	draft_messages = db.IntegerProperty(required=True)
+	unread_messages = db.IntegerProperty()
+	sent_messages = db.IntegerProperty()
 	# comments
 	comments = db.IntegerProperty(required=True)
 	# rating
@@ -231,3 +233,17 @@ class Application(db.Model):
 	
 	google_adsense = db.StringProperty()
 	google_adsense_channel = db.StringProperty()
+	
+class Message(db.Model):
+	user_from = db.ReferenceProperty(UserData,required=True,collection_name='mf')
+	user_to = db.ReferenceProperty(UserData,required=True,collection_name='mt')
+	creation_date = db.DateTimeProperty(auto_now_add=True)
+	title = db.StringProperty(required=True)
+	url_path = db.StringProperty(required=True)
+	content = db.TextProperty(required=True)
+	read = db.BooleanProperty(required=True)
+	from_deletion_date = db.DateTimeProperty()
+	to_deletion_date = db.DateTimeProperty()
+
+	user_from_nickname = db.StringProperty()
+	user_to_nickname = db.StringProperty()

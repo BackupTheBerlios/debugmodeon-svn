@@ -50,5 +50,5 @@ class UserView(BaseHandler):
 		self.values['personal_message'] = this_user.personal_message
 		self.values['items'] = model.Item.all().filter('author =', this_user).filter('draft =', False).filter('deletion_date', None).order('-creation_date').fetch(5)
 		self.values['groups'] = [gi.group for gi in model.GroupUser.all().filter('user =', this_user).order('-creation_date').fetch(5)]
-		self.values['contacts'] = [c.user_to for c in model.Contact.all().filter('user_from', this_user).order('-creation_date').fetch(5)]
+		self.values['contacts'] = model.Contact.all().filter('user_from', this_user).order('-creation_date').fetch(5)
 		self.render('templates/user-view.html')

@@ -1,0 +1,57 @@
+{#
+(C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+#}
+
+{% extends "base.html" %}
+{% block title %}
+	Nuevo mensaje
+{% endblock %}
+
+{% block content %}
+	<h1>Nuevo mensaje para {{ user_to }}</h1>
+
+<form id="form" action="/message.edit" method="post" accept-charset="utf-8">
+	<input id="key" type="hidden" name="user_to" value="{{ user_to }}" />
+
+	<div class="form">
+		<p>
+			<label for="title">Título</label>
+			<input id="title" type="text" name="title" value="{{ title|escape }}" style="font-size:200%" size="40" />
+		</p>
+		
+		<p>
+			<label for="content">Contenido</label>
+			<textarea name="content" rows="30" cols="50" id="markdown_example"></textarea>
+		</p>
+
+		<p><input type="submit" value="Enviar" /></p>
+		
+		<p>
+			<label for="preview">Vista previa</label>
+			<div class="comment"><div id="markdown_formatted"></div></div>
+		</p>
+	</div>
+</form>
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript" src="/static/js/prototype.js"></script>
+<script type="text/javascript" src="/static/js/livepipe.js"></script>
+<script type="text/javascript" src="/static/js/textarea.js"></script>
+<script type="text/javascript" src="/static/js/showdown.js"></script>
+<script type="text/javascript" src="/static/js/showtextarea.js"></script>
+<script type="text/javascript" src="/static/js/validation.js"></script>
+{% endblock %}

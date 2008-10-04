@@ -20,21 +20,13 @@
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-from handlers.BaseHandler import *
-from google.appengine.api import users
+from handlers.AuthenticatedHandler import *
 
-class UserContacts(BaseHandler):
+class MessageInbox(AuthenticatedHandler):
 
 	def execute(self):
-		self.values['tab'] = '/user.list'
-		nickname = self.request.path.split('/', 2)[2]
-		this_user = model.UserData.gql('WHERE nickname=:1', nickname).get()
-		if not this_user:
-			self.not_found()
-			return
-		# TODO: not show if the user profile is not public
-		self.values['this_user'] = this_user
-		query = model.Contact.all().filter('user_from', this_user)
-		contacts = self.paging(query, 10, '-creation_date', this_user.contacts, ['-creation_date'])
-		self.values['contacts'] = contacts
-		self.render('templates/user-contacts.html')
+		user = self.values['user']
+		query = model.Message.all().filter('user_to', user).filter('to_deletion_date', None)
+		self.values['messages'] = self.paging(query, 10, '-creation_date', user.messages, ['-creation_date'])
+		self.render('templates/message-inbox.html')
+

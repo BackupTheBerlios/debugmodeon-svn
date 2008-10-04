@@ -36,6 +36,5 @@ class UserFavourites(BaseHandler):
 		self.values['this_user'] = this_user
 		query = model.Favourite.all().filter('user', this_user)
 		favs = self.paging(query, 10, '-creation_date', this_user.favourites, ['-creation_date'])
-		favs = [f.item for f in favs]
-		self.values['items'] = favs
+		self.values['favourites'] = favs
 		self.render('templates/user-favourites.html')

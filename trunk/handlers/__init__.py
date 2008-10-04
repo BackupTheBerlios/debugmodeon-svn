@@ -48,6 +48,12 @@ from handlers.UserContact import *
 from handlers.UserFavourites import *
 from handlers.UserContacts import *
 
+# messages
+from handlers.MessageEdit import *
+from handlers.MessageSent import *
+from handlers.MessageInbox import *
+from handlers.MessageRead import *
+
 # forums
 from handlers.ForumList import *
 

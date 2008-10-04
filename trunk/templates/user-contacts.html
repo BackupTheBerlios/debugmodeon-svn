@@ -36,7 +36,20 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% block content %}
 	<h1><img src="/images/user/thumbnail/{{ this_user.nickname }}" alt="{{ this_user.nickname}}" style="vertical-align: middle" /> <a href="/user/{{ this_user.nickname }}">{{ this_user.nickname }}</a>: contactos</h1>
 	
-{% include 'inc-user-list.html' %}
+	<table class="forum">
+		<thead>
+			<th>&nbsp;</th>
+			<th class="subject">Usuario</th>
+		</thead>
+		<tbody>
+		{% for contact in contacts %}
+			<tr>
+				<td style="text-align:center"><a href="/user/{{ contact.user_to_nickname }}"><img src="/images/user/thumbnail/{{ contact.user_to_nickname }}" alt="{{ contact.user_to_nickname }}" title="{{ contact.user_to_nickname }}" /></a></td>
+				<td class="subject"><strong><a href="/item/{{ contact.user_to_nickname }}">{{ contact.user_to_nickname }}</a></strong></td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
 
 {% include 'inc-pagination.html' %}
 	

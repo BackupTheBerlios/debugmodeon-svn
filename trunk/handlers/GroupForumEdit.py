@@ -69,6 +69,10 @@ class GroupForumEdit(AuthenticatedHandler):
 			app.put()
 		memcache.delete('app')
 		
+		thread.put()
+		thread.url_path = ('%d/%s/%s') % (thread.key().id(), self.to_url_path(group.title), self.to_url_path(title))
+		thread.put()
+
 		group.threads += 1
 		group.put()
 		
@@ -92,10 +96,6 @@ Entra en el debate:
 		subscribe = self.get_param('subscribe')
 		if subscribe and not user.email in thread.subscribers:
 			thread.subscribers.append(user.email)
-
-		thread.put()
-		thread.url_path = ('%d/%s/%s') % (thread.key().id(), self.to_url_path(group.title), self.to_url_path(title))
-		thread.put()
 		
 		memcache.delete('index_threads')
 

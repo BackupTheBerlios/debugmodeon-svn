@@ -48,8 +48,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<ul>
 				{% for item in items %}
 					<li>
-						<strong><a href="/item/{{ item.url_path }}">{{ item.title|escape }}</a></strong>
-						<br/><span style="color: #777">hace {{ item.creation_date|relativize }}</span>
+						<strong><a href="/item/{{ item.item_url_path }}">{{ item.item_title|escape }}</a></strong>
+						<br/><span style="color: #777">por {{ item.item_author_nickname }}</span>
 					</li>
 				{% endfor %}
 				</ul>

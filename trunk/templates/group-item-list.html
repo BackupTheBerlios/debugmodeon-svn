@@ -38,9 +38,20 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% block content %}
 	{% include 'inc-group-header.html' %}
 	
-	<div class="grid_9 alpha omega">
+	<table class="forum">
+		<thead>
+		    <th style="text-align:center">Autor</th>
+			<th class="subject">Título</th>
+		</thead>
+		<tbody>
+		{% for item in items %}
+			<tr>
+			    <td style="text-align:center"><a href="/user/{{ item.item_author_nickname }}"><img src="/images/user/thumbnail/{{ item.item_author_nickname }}" alt="{{ item.item_author_nickname }}" title="{{ item.item_author_nickname }}" /></a></td>
+				<td class="subject"><strong><a href="/item/{{ item.item_url_path }}">{{ item.item_title }}</a></strong></td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
 	
-	{% include 'inc-item-list.html' %}
-	</div>
-	<div class="clear">&nbsp;</div>
+	{% include 'inc-pagination.html' %}
 {% endblock %}

@@ -1,0 +1,53 @@
+{#
+(C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+#}
+
+{% extends "base.html" %}
+{% block title %}
+	Mensajes recibidos
+{% endblock %}
+
+{% block content %}
+	<h1>Mensajes recibidos</h1>
+
+	<table class="forum">
+		<thead>
+		    <th>De</th>
+			<th class="subject">Asunto</th>
+			<th>Fecha</th>
+		</thead>
+		<tbody>
+		{% for message in messages %}
+			<tr>
+				<td style="text-align:center">
+					<a href="/user/{{ message.user_from_nickname }}"><img src="/images/user/thumbnail/{{ message.user_from_nickname }}" alt="{{ message.user_from_nickname }}" title="{{ message.user_from_nickname }}" /></a>
+				</td>
+				<td class="subject"><a href="/message.read/{{ message.url_path }}">
+					{% if message.read %}
+						{{ message.title|escape }}
+					{% else %}
+						<strong>{{ message.title|escape }}</strong>
+					{% endif %}
+				</a></td>
+				<td>hace {{ message.creation_date|relativize }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	
+	{% include 'inc-pagination.html' %}
+{% endblock %}

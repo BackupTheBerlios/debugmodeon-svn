@@ -92,19 +92,20 @@ class ItemView(BaseHandler):
 		self.values['a'] = 'comments'
 		self.values['keywords'] = ', '.join(item.tags)
 		
-		groups = [g.group for g in model.GroupItem.all().filter('item =', item)]
+		groups = model.GroupItem.all().filter('item', item).order('group_title')
 		self.values['groups'] = groups
 		
 		if user and item.author_nickname == user.nickname:
-			all_groups = [g.group for g in model.GroupUser.all().filter('user =', user)]
+			all_groups = [o for o in model.GroupUser.all().filter('user', user).order('group_title')]
 			
 			# TODO: this could be improved
 			for g in groups:
 				for gr in all_groups:
-					if str(gr.key()) == str(g.key()):
+					if gr.group_url_path == g.group_url_path:
 						all_groups.remove(gr)
 				
-			self.values['all_groups'] = all_groups
+			if all_groups:
+				self.values['all_groups'] = all_groups
 		
 		related = model.Item.all() \
 			.filter('author =', item.author) \

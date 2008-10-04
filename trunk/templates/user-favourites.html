@@ -35,5 +35,20 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% block content %}
 	<h1><img src="/images/user/thumbnail/{{ this_user.nickname }}" alt="{{ this_user.nickname}}" style="vertical-align: middle" /> <a href="/user/{{ this_user.nickname }}">{{ this_user.nickname }}</a>: favoritos</h1>
 
-	{% include 'inc-item-list.html' %}
+	<table class="forum">
+		<thead>
+			<th style="text-align:center">Autor</th>
+		    <th class="subject">Título</th>
+		</thead>
+		<tbody>
+		{% for fav in favourites %}
+			<tr>
+			    <td style="text-align:center"><a href="/user/{{ fav.item_author_nickname }}"><img src="/images/user/thumbnail/{{ fav.item_author_nickname }}" alt="{{ fav.item_author_nickname }}" title="{{ fav.item_author_nickname }}" /></a></td>
+				<td class="subject"><strong><a href="/item/{{ fav.item_url_path }}">{{ fav.item_title }}</a></strong></td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	
+	{% include 'inc-pagination.html' %}
 {% endblock %}
