@@ -1,5 +1,6 @@
 {#
 (C) Copyright 2008  Juan Luis Belmonte  <jlbelmonte at gmail dot com> 
+(C) Copyright 2008  Ignacio Andreu  <plunchete at gmail dot com> 
 This file is part of "debug_mode_on".
 
 "debug_mode_on" is free software: you can redistribute it and/or modify
@@ -22,22 +23,37 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 {% block content %}
 	<div class="info">
-		<h1>Movimiento de grupos</h1>
+		<h1>Administración de grupos</h1>
 	</div>
 	
 	{% if m %}
 		<p class="message">{{ m|escape }}</p>
 	{% endif %}
-
+	{% if message %}
+		<p class="message">{{ message }}</p>
+	{% endif %}
 	<form action="/group.move" method="post" accept-charset="utf-8">
 		<div class="form">
-			<input type="hidden" name="key_orig" value="{{ key_orig() }}" />
 			<p> 
-				<label for="key_dest">Key grupo destino</label>
-				<input id="key_dest" type="text" name="key_dest" value="{{ key_dest }}" style="width: 250px" /> 
+				<label for="key_orig">Key grupo origen (el que queremos que desaparezca)</label>
+				<input id="key_orig" type="text" name="key_orig" {% if key_orig %}value="{{ key_orig() }}"{% endif %} style="width: 250px" /> 
 			</p>
-			
-	
+			<p> 
+				<label for="key_dest">Key grupo destino (el que va a permanecer)</label>
+				<input id="key_dest" type="text" name="key_dest" {% if key_dest %}value="{{ key_dest() }}"{% endif %} style="width: 250px" /> 
+			</p>
+			<p>
+				<input type="radio" name="action" value="mu">Mover Usuarios.
+			</p>
+			<p>
+				<input type="radio" name="action" value="mt">Mover Hilos.
+			</p>
+			<p>
+				<input type="radio" name="action" value="mi">Mover Items.
+			</p>
+			<p>
+				<input type="radio" name="action" value="delete">Borrar Grupo Origen.
+			</p>
 		<p><input type="submit" value="Mover el grupo" /></p>
 		</div>
 	</form>
