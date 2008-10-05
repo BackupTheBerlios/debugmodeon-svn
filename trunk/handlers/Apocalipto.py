@@ -49,6 +49,9 @@ class Apocalipto(BaseHandler):
 			i = self.contacts(offset)
 		elif action == 'fv':
 			i = self.favourites(offset)
+		elif action == 'sg':
+			i = self.show_groups(offset)
+			return
 		else:
 			self.response.out.write('unknown action -%s-' % action)
 			return
@@ -127,3 +130,7 @@ class Apocalipto(BaseHandler):
 				p += 1
 			i+=1
 		return (i, p)
+
+	def show_groups(self, offset):
+		for g in model.Group.all().order('-creation_date').fetch(10, offset):
+			self.response.out.write("('%s', '%s', %d),\n" % (g.title, str(g.key()), g.members))
