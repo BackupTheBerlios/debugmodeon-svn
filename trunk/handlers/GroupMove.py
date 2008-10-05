@@ -130,9 +130,9 @@ class GroupMove(AuthenticatedHandler):
 		counter = 0
 		for group_user in group_users:
 			user_dest = model.GroupUser.all().filter('group', group_dest).filter('user', group_user.user).get()
-			group_user.user.groups -= 1
-			group_user.user.put()
 			if user_dest:
+				group_user.user.groups -= 1
+				group_user.user.put()
 				group_user.delete()
 			else:
 				group_user.group = group_dest
