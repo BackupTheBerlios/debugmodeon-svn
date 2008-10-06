@@ -89,6 +89,8 @@ class GroupMove(AuthenticatedHandler):
 			item_dest = model.GroupItem.all().filter('group', group_dest).filter('item', group_item.item).get()
 			if item_dest:
 				group_item.delete()
+				group_orig.items -= 1
+				group_orig.put()
 			else:
 				group_item.group = group_dest
 				group_item.group_title = group_dest.title
@@ -97,8 +99,6 @@ class GroupMove(AuthenticatedHandler):
 				group_dest.items += 1
 				group_dest.put()
 				counter +=1
-			group_orig.items -= 1
-			group_orig.put()
 		
 		return 'Movidos %s items. Quedan %s en el grupo origen.' % (counter, group_orig.items)
 		
