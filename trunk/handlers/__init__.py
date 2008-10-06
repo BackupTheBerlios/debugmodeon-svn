@@ -30,6 +30,7 @@ from handlers.ItemComment import *
 from handlers.ItemFavourite import *
 from handlers.ItemCommentSubscribe import *
 from handlers.ItemCommentDelete import *
+from handlers.ItemAddGroups import *
 
 # users
 from handlers.UserList import *

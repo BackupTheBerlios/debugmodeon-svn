@@ -96,7 +96,7 @@ class ItemView(BaseHandler):
 		self.values['groups'] = groups
 		
 		if user and item.author_nickname == user.nickname:
-			all_groups = [o for o in model.GroupUser.all().filter('user', user).order('group_title')]
+			all_groups = list(model.GroupUser.all().filter('user', user).order('group_title'))
 			
 			# TODO: this could be improved
 			for g in groups:

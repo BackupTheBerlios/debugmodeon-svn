@@ -140,8 +140,8 @@ class ItemEdit(AuthenticatedHandler):
 					self.update_tags(item.tags)
 				if x:
 					self.render_json({ 'saved': True, 'key' : str(item.key()), 'updated' : True, "draft_items" : str(user.draft_items) })
-				else :
-					self.redirect('/item/%s' % (item.url_path, ))
+				else:
+					self.redirect('/item/%s' % item.url_path)
 			else:
 				# new item
 				today = datetime.date.today()
@@ -195,5 +195,8 @@ class ItemEdit(AuthenticatedHandler):
 					user.put()
 				if x:
 					self.render_json({ 'saved': True, 'key' : str(item.key()), "updated" : False, "draft_items" : str(user.draft_items) })
-				else :	
-					self.redirect('/item/%s' % (item.url_path, ))
+				else:
+					if item.draft:
+						self.redirect('/item/%s' % item.url_path)
+					else:
+						self.redirect('/item.add.groups?key=%s' % str(item.key()))

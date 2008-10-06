@@ -1,0 +1,46 @@
+{#
+(C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+#}
+
+{% extends "base.html" %}
+{% block title %}
+	Añadir artículo a grupos
+{% endblock %}
+
+{% block content %}
+	<h1>Añade <em>{{ item.title|escape }}</em> a algunos de tus grupos</h1>
+
+<form id="form" action="/item.add.groups" method="post" accept-charset="utf-8">
+	<input id="key" type="hidden" name="key" value="{{ key|escape }}" />
+
+	<div class="form">
+	
+	<p>Has publicado <em>{{ item.title|escape }}</em>. Ahora lo puedes añadir a algunos de tus grupos.</p>
+
+{% for group in groups %}
+	<p>
+	    <input type="checkbox" name="group-{{ group.group.key().id() }}" value="add" />
+		<img src="/images/group/thumbnail/{{ group.group.key().id() }}" class="icon" alt="" />
+		{{ group.group_title|escape }}
+	</p>
+{% endfor %}
+
+	<p><input type="submit" value="Continuar" /></p>
+	
+	</div>
+</form>
+{% endblock %}

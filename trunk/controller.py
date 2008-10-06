@@ -35,15 +35,16 @@ def main():
 	application = webapp.WSGIApplication(
 									   [('/', MainPage),
 									   # items
-									   ('/item.list',		ItemList),
-									   ('/item.edit',		ItemEdit),
-									   ('/item.favourite',	ItemFavourite),
-									   ('/item.vote',		ItemVote),
-									   ('/item/.*',			ItemView),
+									   ('/item.list',				ItemList),
+									   ('/item.edit',				ItemEdit),
+									   ('/item.favourite',			ItemFavourite),
+									   ('/item.vote',				ItemVote),
+									   ('/item/.*',					ItemView),
 									   ('/item.comment.subscribe',	ItemCommentSubscribe),
-									   ('/item.comment',	ItemComment),
-									   ('/item.delete',		ItemDelete),
+									   ('/item.comment',			ItemComment),
+									   ('/item.delete',				ItemDelete),
 									   ('/item.comment.delete',		ItemCommentDelete),
+									   ('/item.add.groups',			ItemAddGroups),
 									   # users
 									   ('/user.list',			UserList),
 									   ('/user/.*',				UserView),
