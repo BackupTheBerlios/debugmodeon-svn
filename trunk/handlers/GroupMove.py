@@ -151,7 +151,7 @@ class GroupMove(AuthenticatedHandler):
 	
 	def delete_group(self, group_orig):
 		group_orig.delete()
-		app = self.get_application()
+		app = model.Application.all().get()
 		if app:
 			app.groups -= 1
 			app.put()
