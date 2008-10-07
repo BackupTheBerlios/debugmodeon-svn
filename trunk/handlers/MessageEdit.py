@@ -64,6 +64,17 @@ class MessageEdit(AuthenticatedHandler):
 			
 			user.put()
 			user_to.put()
+			
+			app = self.get_application()
+			subject = "%s te ha enviado un mensaje" % user.nickname
 
-			self.redirect('/user.sent/%s' % message.url_path)
+			body = u"""
+%s te ha enviado un mensaje.
+Leelo en:
+%s/message.inbox
+
+""" % (user.nickname, app.url)
+			self.mail(subject=subject, body=body, to=user_to.email)
+
+			self.redirect('/message.sent')
 

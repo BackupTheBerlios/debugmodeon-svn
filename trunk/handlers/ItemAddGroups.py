@@ -39,7 +39,11 @@ class ItemAddGroups(AuthenticatedHandler):
 		if method == 'GET':
 			self.values['key'] = key
 			self.values['item'] = item
-			self.values['groups'] = list(model.GroupUser.all().filter('user', user).order('group_title'))
+			groups = list(model.GroupUser.all().filter('user', user).order('group_title'))
+			self.values['groups'] = groups
+			if not groups:
+				self.redirect('/item/%s' % item.url_path)
+				return
 			self.render('templates/item-add-groups.html')
 		else:
 			arguments = self.request.arguments()

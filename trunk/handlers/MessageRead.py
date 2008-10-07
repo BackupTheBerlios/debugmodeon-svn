@@ -28,11 +28,11 @@ class MessageRead(AuthenticatedHandler):
 		user = self.values['user']
 		url_path = self.request.path.split('/', 2)[2]
 		message = model.Message.gql('WHERE url_path=:1', url_path).get()
-		if message.user_to_nickname != user.nickname:
+		if message.user_to_nickname != user.nickname and message.user_from_nickname != user.nickname:
 			self.forbidden()
 			return
 		
-		if not message.read:
+		if message.user_to_nickname == user.nickname and not message.read:
 			message.read = True
 			message.put()
 			user.unread_messages -= 1

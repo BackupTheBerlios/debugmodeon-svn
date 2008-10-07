@@ -26,7 +26,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 	<table class="forum">
 		<thead>
-			<th>A</th>
+			<th class="subject">Enviado a</th>
 			<th class="subject">Asunto</th>
 			<th>Fecha</th>
 		</thead>
@@ -36,7 +36,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<td style="text-align:center">
 					<a href="/user/{{ message.user_to_nickname }}"><img src="/images/user/thumbnail/{{ message.user_to_nickname }}" alt="{{ message.user_to_nickname }}" title="{{ message.user_to_nickname }}" /></a>
 				</td>
-				<td class="subject"><strong>{{ message.title|escape }}</strong></td>
+				<td class="subject"><a href="/message.read/{{ message.url_path }}">{{ message.title|escape }}</a></td>
 				<td>hace {{ message.creation_date|relativize }}</td>
 			</tr>
 		{% endfor %}

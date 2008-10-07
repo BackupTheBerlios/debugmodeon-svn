@@ -36,7 +36,20 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% block content %}
 	<h1><img src="/images/user/thumbnail/{{ this_user.nickname }}" alt="{{ this_user.nickname}}" style="vertical-align: middle" /> <a href="/user/{{ this_user.nickname }}">{{ this_user.nickname }}</a>: grupos</h1>
 
-	{% include 'inc-group-list.html' %}
+	<table class="forum">
+		<thead>
+		    <th>&nbsp;</th>
+			<th class="subject">Título</th>
+		</thead>
+		<tbody>
+		{% for group in groups %}
+			<tr>
+			    <td style="text-align:center"><a href="/group/{{ group.group_url_path }}"><img src="/images/group/thumbnail/{{ group.group.key().id() }}" alt="{{ group.group_title|escape }}" title="{{ group.group_title|escape }}" /></a></td>
+				<td class="subject"><a href="/group/{{ group.group_url_path }}"><strong>{{ group.group_title|escape }}</strong></a></td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
 	
 	{% include 'inc-pagination.html' %}
 {% endblock %}

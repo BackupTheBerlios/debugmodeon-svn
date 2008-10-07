@@ -135,7 +135,7 @@ class BaseHandler(webapp.RequestHandler):
 		except ImportError:
 			return "error"
 		else:
-			return markdown.markdown(value, [], safe_mode=True)
+			return markdown.markdown(value, [], safe_mode='escape')
 	
 	def render_json(self, data):
 		self.response.headers['Content-Type'] = 'application/json;charset=UTF-8'

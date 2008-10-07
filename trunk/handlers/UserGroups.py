@@ -36,6 +36,5 @@ class UserGroups(BaseHandler):
 		self.values['this_user'] = this_user
 		query = model.GroupUser.all().filter('user', this_user)
 		groups = self.paging(query, 10, '-creation_date', this_user.groups, ['-creation_date'])
-		groups = [g.group for g in groups]
 		self.values['groups'] = groups
 		self.render('templates/user-groups.html')

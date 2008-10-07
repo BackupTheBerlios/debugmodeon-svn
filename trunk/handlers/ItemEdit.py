@@ -96,7 +96,7 @@ class ItemEdit(AuthenticatedHandler):
 				if not lic in lics:
 					lic = 'copyright'
 				
-				if  not item.draft:
+				if not item.draft:
 					self.delete_tags(item.tags)
 				item.lic = lic
 				item.tags = self.parse_tags(self.get_param('tags'))
@@ -106,6 +106,7 @@ class ItemEdit(AuthenticatedHandler):
 					# title and url_path can change only if the item hasn't already been published
 					item.title = self.get_param('title')
 					item.url_path = '%d/%s' % (item.key().id(), self.to_url_path(item.title))
+				add_groups = False
 				if item.draft and not draft:
 					item.draft = draft
 					user.items += 1
@@ -118,6 +119,7 @@ class ItemEdit(AuthenticatedHandler):
 						app.items += 1
 						app.put()
 					memcache.delete('app')
+					add_groups = True
 				
 				if not item.author_nickname:
 					item.author_nickname = user.nickname
@@ -141,7 +143,10 @@ class ItemEdit(AuthenticatedHandler):
 				if x:
 					self.render_json({ 'saved': True, 'key' : str(item.key()), 'updated' : True, "draft_items" : str(user.draft_items) })
 				else:
-					self.redirect('/item/%s' % item.url_path)
+					if add_groups:
+						self.redirect('/item.add.groups?key=%s' % str(item.key()))
+					else:
+						self.redirect('/item/%s' % item.url_path)
 			else:
 				# new item
 				today = datetime.date.today()
