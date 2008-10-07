@@ -46,7 +46,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 						<span><a id="contact" href="/user.contact?user_to={{ this_user.nickname }}"><img src="/static/images/add.png" alt="" class="icon" /> Añadir a contactos</a></span>
 					{% endif %}
 				{% endif %}
-				{% if user %}
+				{% if user and this_user.nickname != user.nickname %}
 					| <a href="/message.edit?user_to={{ this_user.nickname }}"><img src="/static/images/page_white_edit.png" alt="" class="icon" /> Escribir un mensaje a {{ this_user.nickname }}</a>
 				{% endif %}
 				{% if user.rol == 'admin' %}
