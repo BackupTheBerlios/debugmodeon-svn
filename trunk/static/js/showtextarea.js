@@ -45,10 +45,13 @@ toolbar.addButton('Image',function(){
 });
 
 toolbar.addButton('Heading',function(){
+	this.wrapSelection('#### ','');
+	/*
 	var selection = this.getSelection();
 	if(selection == '')
 		selection = 'Heading';
 	this.replaceSelection("\n" + selection + "\n" + $R(0,Math.max(5,selection.length)).collect(function(){'-'}).join('') + "\n");
+	*/
 },{
 	id: 'markdown_heading_button'
 });
