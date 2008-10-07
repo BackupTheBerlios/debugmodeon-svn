@@ -35,10 +35,10 @@ class ImageDisplayer(webapp.RequestHandler):
 		params = self.request.path.split('/')
 		if params[2] == 'user':
 			user = model.UserData.gql('WHERE nickname=:1', params[4]).get()
-			self.display_image(user, params, cached, 'user128.jpg', 'user48.jpg')
+			self.display_image(user, params, cached, 'user128_1.png', 'user48_1.png')
 		elif params[2] == 'group':
 			group = model.Group.get_by_id(int(params[4]))
-			self.display_image(group, params, cached, 'glider128.png', 'glider48.png')
+			self.display_image(group, params, cached, 'group128.png', 'group48.png')
 		else:
 			self.error(404)
 			return
