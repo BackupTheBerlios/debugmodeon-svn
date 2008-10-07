@@ -57,7 +57,7 @@ class ItemEdit(AuthenticatedHandler):
 				if not item:
 					self.not_found()
 					return
-				if not user.nickname == item.author.nickname:
+				if not user.nickname == item.author.nickname and user.rol != 'admin':
 					self.forbidden()
 					return
 				self.values['key'] = key
@@ -87,7 +87,7 @@ class ItemEdit(AuthenticatedHandler):
 				if not item:
 					self.not_found()
 					return
-				if not user.nickname == item.author.nickname:
+				if not user.nickname == item.author.nickname and user.rol != 'admin':
 					self.forbidden()
 					return
 				

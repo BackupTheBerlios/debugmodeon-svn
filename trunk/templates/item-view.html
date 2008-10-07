@@ -100,7 +100,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				{% if user.rol == 'admin' or  user.nickname == item.author_nickname %}
 					| <strong><a href="/item.delete?key={{ item.key() }}"><img src="/static/images/cross.png" alt="" class="icon" /> Eliminar</a></strong>
 				{% endif %}
-				{% if user.nickname == item.author_nickname %}
+				{% if user.nickname == item.author_nickname or  user.rol == 'admin' %}
 					| <strong><a href="/item.edit?key={{ item.key() }}"><img src="/static/images/page_white_edit.png" alt="" class="icon" /> Editar</a></strong>
 				{% endif %}
 			</p>
