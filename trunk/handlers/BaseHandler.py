@@ -20,6 +20,7 @@
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
 
+import os
 import re
 import sha
 import img
@@ -40,6 +41,8 @@ from google.appengine.ext import db
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 
+from jinja2 import Template, Environment, FileSystemLoader
+
 from google.appengine.runtime import apiproxy_errors
 
 class BaseHandler(webapp.RequestHandler):
@@ -53,26 +56,33 @@ class BaseHandler(webapp.RequestHandler):
 		except TypeError:
 			return value
 		return value
-
-	def render(self, f):
-		import os
-		from jinja2 import Template, Environment, FileSystemLoader
-
+		
+	def create_jinja_environment(self):
 		env = Environment(loader=FileSystemLoader(os.path.join(os.path.dirname(__file__), '..', 'templates' )))
 		env.filters['relativize'] = self.relativize
 		env.filters['markdown'] = self.markdown
 		env.filters['smiley'] = self.smiley
 		env.filters['pagination'] = self.pagination
+		return env
+	
+	def get_template(self, env, f):
 		p = f.split('/')
 		if p[0] == 'templates':
 			f = '/'.join(p[1:])
 		t = env.get_template(f)
-		
+		return t
+	
+	def render_chunk(self, f, params):
+		env = self.create_jinja_environment()
+		t = self.get_template(env, f)
+		return t.render(params)
+
+	def render(self, f):
 		self.response.headers['Content-Type'] = 'text/html;charset=UTF-8'
 		self.response.headers['Pragma'] = 'no-cache'
 		self.response.headers['Cache-Control'] = 'no-cache'
 		self.response.headers['Expires'] = 'Wed, 27 Aug 2008 18:00:00 GMT'
-		self.response.out.write(t.render(self.values))
+		self.response.out.write(self.render_chunk(f, self.values))
 
 	def relativize(self, value):
 		now = datetime.datetime.now()

@@ -66,7 +66,7 @@ indexes:
   - name: items
     direction: desc
 
-# Used 9 times in query history.
+# Used 14 times in query history.
 - kind: Group
   properties:
   - name: members
@@ -167,7 +167,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 10 times in query history.
+# Used 15 times in query history.
 - kind: Item
   properties:
   - name: deletion_date
@@ -278,7 +278,7 @@ indexes:
   - name: form
   - name: creation_date
 
-# Used 7 times in query history.
+# Used 9 times in query history.
 - kind: Tag
   properties:
   - name: count
@@ -345,7 +345,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 8 times in query history.
+# Used 13 times in query history.
 - kind: Thread
   properties:
   - name: parent_thread

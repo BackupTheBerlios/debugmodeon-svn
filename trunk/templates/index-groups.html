@@ -1,0 +1,39 @@
+{#
+(C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+(C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
+
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+#}
+<div class="box">
+	<p class="title">Grupos numerosos</p>
+	<ul>
+	{% for group in groups %}
+		<li style="clear:both">
+			<div class="avatar" style="float:left; padding-right: 3px"><a href="/group/{{ group.url_path }}">
+			{% if group.image_version %}
+				<img src="/images/group/thumbnail/{{ group.key().id() }}/{{ group.image_version }}" alt="{{ group.title|escape }}" title="{{ group.title|escape }}" />
+			{% else %}
+				<img src="/images/group/thumbnail/{{ group.key().id() }}" alt="{{ group.title|escape }}" title="{{ group.title|escape }}" />
+			{% endif %}
+			</a></div>
+			<strong><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></strong>
+			<br/><span style="color: #777">{{ group.members }} miembros</span>
+		</li>
+	{% endfor %}
+	</ul>
+	<p style="text-align:right"><strong><a href="/group.list">Ver todos »</a></strong></p>
+	<p class="end-box">&nbsp;</p>
+</div>

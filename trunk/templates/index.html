@@ -96,56 +96,13 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<div class="clear">&nbsp;</div>
 
 	<div class="grid_3 alpha">
-		<div class="box">
-			<p class="title">Últimos artículos</p>
-			<ul>
-			{% for item in items %}
-				<li>
-					<strong><a href="/item/{{ item.url_path }}">{{ item.title|escape }}</a></strong> <br/>
-					<span style="color: #777">por <a href="/user/{{ item.author_nickname }}">{{ item.author_nickname }}</a></span>
-				</li>
-			{% endfor %}
-			</ul>
-			<p style="text-align:right"><strong><a href="/item.list">Ver todos »</a></strong></p>
-			<p class="end-box">&nbsp;</p>
-		</div>
+		{{ items }}
 	</div>
 	<div class="grid_3">
-		<div class="box">
-			<p class="title">Grupos numerosos</p>
-			<ul>
-			{% for group in groups %}
-				<li style="clear:both">
-					<div class="avatar" style="float:left; padding-right: 3px"><a href="/group/{{ group.url_path }}">
-					{% if group.image_version %}
-						<img src="/images/group/thumbnail/{{ group.key().id() }}/{{ group.image_version }}" alt="{{ group.title|escape }}" title="{{ group.title|escape }}" />
-					{% else %}
-						<img src="/images/group/thumbnail/{{ group.key().id() }}" alt="{{ group.title|escape }}" title="{{ group.title|escape }}" />
-					{% endif %}
-					</a></div>
-					<strong><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></strong>
-					<br/><span style="color: #777">{{ group.members }} miembros</span>
-				</li>
-			{% endfor %}
-			</ul>
-			<p style="text-align:right"><strong><a href="/group.list">Ver todos »</a></strong></p>
-			<p class="end-box">&nbsp;</p>
-		</div>
+		{{ groups }}
 	</div>
 	<div class="grid_3 omega">
-		<div class="box">
-			<p class="title">Últimos mensajes en foros</p>
-			<ul>
-			{% for thread in threads %}
-				<li>
-					<strong><a href="/group.forum/{{ thread.url_path }}">{{ thread.title|escape }}</a></strong>
-					<br/><span style="color: #777">hace {{ thread.last_response_date|relativize }}</span>
-				</li>
-			{% endfor %}
-			</ul>
-			<p style="text-align:right"><strong><a href="/forum.list">Ver todos »</a></strong></p>
-			<p class="end-box">&nbsp;</p>
-		</div>
+		{{ threads }}
 	</div>
 	<div class="clear">&nbsp;</div> 
 {% endblock %}
