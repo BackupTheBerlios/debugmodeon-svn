@@ -94,7 +94,7 @@ def main():
 									   ('/feed/.*', Feed),
 									   
 									   ('/tag/.*', Tag),
-									   #('/search', Search),
+									   ('/search', Search),
 									   ('/search.result', SearchResult),
 									   # images
 									   ('/images/.*', ImageDisplayer),

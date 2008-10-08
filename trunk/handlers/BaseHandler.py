@@ -347,11 +347,14 @@ class BaseHandler(webapp.RequestHandler):
 			group.subscribers = list(set(com))
 
 	def cache(self, key, function, timeout=0):
+		# logging.debug('looking for %s in the cache' % key)
 		data = memcache.get(key)
 		if data is not None:
+			# logging.debug('%s is already in the cache' % key)
 			return data
 		else:
 			data = function.__call__()
+			# logging.debug('inserting %s in the cache' % key)
 			memcache.add(key, data, timeout)
 			return data
 	
