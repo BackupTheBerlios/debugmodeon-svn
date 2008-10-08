@@ -36,7 +36,10 @@ class ItemComment(AuthenticatedHandler):
 		if not item or item.draft or item.deletion_date:
 			self.not_found()
 			return
-		
+		content = self.get_param('content')
+		if self.check_duplicate(item, user, content):
+			self.error('Comentario duplicado')
+			return
 		# migration
 		if not item.subscribers:
 			com = [c.author.email for c in model.Comment.all().filter('item', item).fetch(1000) ]
@@ -47,7 +50,7 @@ class ItemComment(AuthenticatedHandler):
 		comment = model.Comment(item=item,
 			author=user,
 			author_nickname=user.nickname,
-			content=self.get_param('content'),
+			content=content,
 			response_number=item.responses+1)
 		comment.put()
 		
@@ -83,3 +86,11 @@ Lee los comentarios en:
 			page += 1
 		
 		self.redirect('/item/%s?p=%d#comment-%d' % (item.url_path, page, comment.response_number))
+		
+	def check_duplicate(self, item, user, content):
+		last_comment = model.Comment.all().filter('item', item).filter('author', user).order('-creation_date').get()
+		if last_comment is not None:
+			if last_comment.content == content:
+				return True
+		return False
+		

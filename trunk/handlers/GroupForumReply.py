@@ -42,7 +42,10 @@ class GroupForumReply(AuthenticatedHandler):
 		if group.all_users is not None and not self.can_write(group):
 			self.forbidden()
 			return
-		
+		content = self.get_param('content')
+		if self.check_duplicate(group, user, thread, content):
+			self.error('Respuesta duplicada')
+			return
 		response = model.Thread(group=group,
 			group_title=group.title,
 			group_url_path=group.url_path,
@@ -50,7 +53,7 @@ class GroupForumReply(AuthenticatedHandler):
 			author_nickname=user.nickname,
 			title=thread.title,
 			url_path=thread.url_path,
-			content=self.get_param('content'),
+			content=content,
 			parent_thread=thread,
 			response_number=thread.responses+1,
 			responses=0)
@@ -92,3 +95,10 @@ Entra en el debate:
 			page += 1
 
 		self.redirect('/group.forum/%s?p=%d#comment-%d' % (thread.url_path, page, response.response_number))
+		
+	def check_duplicate(self, group, user, parent_thread, content):
+		last_thread = model.Thread.all().filter('group', group).filter('parent_thread', parent_thread).filter('author', user).order('-creation_date').get()
+		if last_thread is not None:
+			if last_thread.content == content:
+				return True
+		return False

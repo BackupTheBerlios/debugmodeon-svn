@@ -44,7 +44,10 @@ class GroupForumEdit(AuthenticatedHandler):
 			return
 		title = self.get_param('title')
 		url_path = ''
-
+		content = self.get_param('content')
+		if self.check_duplicate(group, user, content, title):
+			self.error('Hilo duplicado')
+			return
 		thread = model.Thread(group=group,
 			group_title=group.title,
 			group_url_path=group.url_path,
@@ -52,7 +55,7 @@ class GroupForumEdit(AuthenticatedHandler):
 			author_nickname=user.nickname,
 			title=title,
 			url_path=url_path,
-			content=self.get_param('content'),
+			content=content,
 			last_response_date = datetime.datetime.now(),
 			responses=0)
 		
@@ -101,3 +104,10 @@ Entra en el debate:
 
 		self.redirect('/group.forum/%s' % thread.url_path)
 
+	def check_duplicate(self, group, user, content, title):
+		last_thread = model.Thread.all().filter('group', group).filter('parent_thread', None).filter('author', user).order('-creation_date').get()
+		if last_thread is not None:
+			if last_thread.title == title and last_thread.content == content:
+				return True
+		return False
+		

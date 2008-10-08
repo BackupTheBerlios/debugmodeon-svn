@@ -558,3 +558,7 @@ class BaseHandler(webapp.RequestHandler):
 		except apiproxy_errors.OverQuotaError, message:
 			# Record the error in your logs
 			logging.error(message)
+			
+	def error(self, message):
+		self.values['message'] = message
+		self.render('templates/error.html')
