@@ -31,7 +31,7 @@ class GroupForumView(BaseHandler):
 		self.values['tab'] = '/group.list'
 		user = self.values['user']
 		url_path = self.request.path.split('/', 2)[2]
-		thread = model.Thread.gql('WHERE url_path=:1', url_path).get()
+		thread = model.Thread.all().filter('url_path', url_path).filter('parent_thread', None).get()
 		if not thread:
 			# TODO: try with the id in the url_path and redirect
 			self.not_found()
