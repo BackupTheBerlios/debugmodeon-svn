@@ -52,6 +52,8 @@ class ItemAddGroups(AuthenticatedHandler):
 				if self.request.get('group-%d' % group.key().id()):
 					gi = model.GroupItem.all().filter('group', group).filter('item', item).count(1)
 					if not gi:
+						group.items += 1
+						group.put()
 						gi = model.GroupItem(group=group,
 							item=item,
 							item_author_nickname = item.author_nickname,
