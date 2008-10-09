@@ -50,6 +50,11 @@ class GroupForumDelete(AuthenticatedHandler):
 			group = thread.group
 			group.threads -=1
 			group.put()
+			#decrement thread in the app
+			app = model.Application().all().get()
+			app.threads -= 1
+			app.put()
+			memcache.delete('app')
 			#delete comments in this thread
 			childs = model.Thread.all().filter('parent_thread', thread)
 			db.delete(childs)

@@ -45,6 +45,7 @@ def main():
 									   ('/item.delete',				ItemDelete),
 									   ('/item.comment.delete',		ItemCommentDelete),
 									   ('/item.add.groups',			ItemAddGroups),
+									   ('/item.comment.edit',		ItemCommentEdit),
 									   # users
 									   ('/user.list',			UserList),
 									   ('/user/.*',				UserView),
@@ -81,6 +82,7 @@ def main():
 									   ('/group.forum.reply',	GroupForumReply),
 									   ('/group.forum.subscribe',	GroupForumSubscribe),
 									   ('/group.forum.delete',	GroupForumDelete),
+									   ('/group.thread.edit',	GroupThreadEdit),
 									   # group items
 									   ('/group.item.list/.*',	GroupItemList),
 									   ('/group.item.add',		GroupItemAdd),

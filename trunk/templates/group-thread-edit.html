@@ -1,0 +1,71 @@
+{#
+(C) Copyright 2008 Ignacio Andreu  <plunchete at gmail dot com>
+
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+#}
+
+{% extends "base.html" %}
+{% block head %}
+	<link href="/static/css/prettify.css" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+	<div>&nbsp;</div>
+	<div class="grid_2 alpha">
+		<p class="info comment-info">
+			<img src="/images/user/thumbnail/{{ user.nickname|escape }}" alt="{{ user.nickname|escape }}" /> <br/>
+			<strong><a href="/user/{{ user.nickname|escape }}">{{ user.nickname|escape }}</a></strong>
+		</p>
+	</div>
+	<div class="grid_7 omega">
+		<form action="/group.thread.edit" method="post" accept-charset="utf-8">
+			<input type="hidden" name="key" value="{{ thread.key() }}" />
+			{% if is_parent_thread %}
+			<p>
+				<label for="title">Título</label>
+				<input type="text" name="title" style="font-size: 200%" size="35" value="{{ thread.title }}" />
+			</p>
+			{% endif %}
+			<textarea name="content" rows="8" cols="54" id="markdown_example">{{ thread.content }}</textarea>
+			{% if is_parent_thread %}			                
+			<p><input type="submit" value="Editar hilo" /></p>
+			{% else %}
+			<p><input type="submit" value="Editar respuesta" /></p>
+			{% endif %}
+		</form>
+		
+		<p>
+			<label for="preview">Vista previa</label>
+			<div class="comment"><div id="markdown_formatted"></div></div>
+		</p>
+	</div>
+	<div class="clear">&nbsp;</div>
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript" src="/static/js/prototype.js"></script>
+<script type="text/javascript" src="/static/js/livepipe.js"></script>
+<script type="text/javascript" src="/static/js/textarea.js"></script>
+<script type="text/javascript" src="/static/js/showdown.js"></script>
+<script type="text/javascript" src="/static/js/showtextarea.js"></script>
+<script type="text/javascript" src="/static/js/prettify.js"></script>
+<script type="text/javascript" charset="utf-8">
+	var d = $$('#item pre');
+	d.each(function(node) {
+		node.addClassName('prettyprint');
+	});
+	prettyPrint();
+</script>
+{% endblock %}

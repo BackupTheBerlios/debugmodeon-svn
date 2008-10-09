@@ -31,6 +31,7 @@ from handlers.ItemFavourite import *
 from handlers.ItemCommentSubscribe import *
 from handlers.ItemCommentDelete import *
 from handlers.ItemAddGroups import *
+from handlers.ItemCommentEdit import *
 
 # users
 from handlers.UserList import *
@@ -71,6 +72,7 @@ from handlers.GroupForumView import *
 from handlers.GroupForumReply import *
 from handlers.GroupForumSubscribe import *
 from handlers.GroupForumDelete import *
+from handlers.GroupThreadEdit import *
 # group items
 from handlers.GroupItemList import *
 from handlers.GroupItemAdd import *

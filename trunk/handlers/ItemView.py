@@ -93,7 +93,7 @@ class ItemView(BaseHandler):
 		self.values['keywords'] = ', '.join(item.tags)
 		
 		groups = model.GroupItem.all().filter('item', item).order('group_title')
-		self.values['groups'] = groups
+		self.values['groups'] = list(groups)
 		
 		if user and item.author_nickname == user.nickname:
 			all_groups = list(model.GroupUser.all().filter('user', user).order('group_title'))

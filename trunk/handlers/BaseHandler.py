@@ -3,6 +3,7 @@
 
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+# (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -409,6 +410,8 @@ class BaseHandler(webapp.RequestHandler):
 			p = 1
 		self.values['p'] = p
 		offset = (p-1)*max
+		if offset > 1000:
+			return None
 		o = self.get_param('o')
 		if o and o in accepted_orderings:
 			query = query.order(o)
