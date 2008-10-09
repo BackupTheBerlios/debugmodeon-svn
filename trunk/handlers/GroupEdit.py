@@ -36,7 +36,7 @@ class GroupEdit(AuthenticatedHandler):
 			if key:
 				# show edit form
 				group = model.Group.get(key)
-				if user.nickname != group.owner.nickname:
+				if user.nickname != group.owner.nickname and user.rol != 'admin':
 					self.forbidden()
 					return
 				self.values['key'] = key
@@ -57,7 +57,7 @@ class GroupEdit(AuthenticatedHandler):
 			if key:
 				# update group
 				group = model.Group.get(key)
-				if user.nickname != group.owner.nickname:
+				if user.nickname != group.owner.nickname and user.rol != 'admin':
 					self.forbidden()
 					return
 				# group title is not editable since many-to-many relationships are denormalizated
