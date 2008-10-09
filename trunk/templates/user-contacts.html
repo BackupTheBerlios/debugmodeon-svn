@@ -45,7 +45,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		{% for contact in contacts %}
 			<tr>
 				<td style="text-align:center"><a href="/user/{{ contact.user_to_nickname }}"><img src="/images/user/thumbnail/{{ contact.user_to_nickname }}" alt="{{ contact.user_to_nickname }}" title="{{ contact.user_to_nickname }}" /></a></td>
-				<td class="subject"><strong><a href="/item/{{ contact.user_to_nickname }}">{{ contact.user_to_nickname }}</a></strong></td>
+				<td class="subject"><strong><a href="/user/{{ contact.user_to_nickname }}">{{ contact.user_to_nickname }}</a></strong></td>
 			</tr>
 		{% endfor %}
 		</tbody>
