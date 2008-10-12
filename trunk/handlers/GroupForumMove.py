@@ -76,9 +76,9 @@ class GroupForumMove(AuthenticatedHandler):
 				response.group = group
 				response.group_title = group.title
 				response.group_url_path = group.url_path
+				response.put()
 			
 			#save fields
-			db.put(responses)
 			group_orig.put()
 			thread.put()
 			group.put()
