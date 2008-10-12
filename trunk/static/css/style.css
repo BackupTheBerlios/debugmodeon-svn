@@ -1,5 +1,6 @@
 /*
 (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+(C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 
 This file is part of "debug_mode_on".
 
@@ -558,4 +559,32 @@ input.LV_invalid_field:active,
 textarea.LV_invalid_field:hover, 
 textarea.LV_invalid_field:active {
 	border: 1px solid #CC0000;
+}
+
+.info_box, .success_box, .warning_box, .error_box, .validation_box {  
+    border: 1px solid;  
+    margin: 0px 0px 10px 0px;  
+    padding:15px 10px 15px 50px;  
+    background-repeat: no-repeat;  
+    background-position: 10px center;  
+}  
+.info_box {  
+    color: #00529B;  
+    background-color: #BDE5F8;  
+    background-image: url('info.png');  
+}  
+.success_box {  
+    color: #4F8A10;  
+    background-color: #DFF2BF;  
+    background-image:url('success.png');  
+}  
+.warning_box {  
+     color: #9F6000;  
+     background-color: #FEEFB3;  
+     background-image: url(/static/images/warning.png);  
+}  
+.error_box {  
+     color: #D8000C;  
+     background-color: #FFBABA;  
+     background-image: url('error.png');  
 }

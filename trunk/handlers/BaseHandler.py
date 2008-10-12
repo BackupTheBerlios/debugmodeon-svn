@@ -565,3 +565,13 @@ class BaseHandler(webapp.RequestHandler):
 	def error(self, message):
 		self.values['message'] = message
 		self.render('templates/error.html')
+		
+	def can_update(self, value):
+		now = datetime.datetime.now()
+		diff = now - value
+		seconds = diff.seconds
+		minutes = seconds / 60
+		if minutes < 15:
+			return True
+		else:
+			return False

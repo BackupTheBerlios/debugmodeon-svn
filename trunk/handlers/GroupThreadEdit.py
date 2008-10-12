@@ -35,13 +35,16 @@ class GroupThreadEdit(AuthenticatedHandler):
 			if key:
 				# show edit form
 				thread = model.Thread.get(key)
-				"""user.nickname != comment.author_nickname and"""
-				if user.rol != 'admin':
+				if user.nickname!= thread.author_nickname and user.rol != 'admin':
 					self.forbidden()
 					return
 				if thread is None:
 					self.not_found()
 					return
+				if user.rol != 'admin':
+					if not self.can_update(thread.creation_date):
+						self.error('No es posible editar pasados m&aacute;s de 15 minutos.')
+						return
 				#TODO Check if it's possible
 				if thread.parent_thread is None:
 					self.values['is_parent_thread'] = True
@@ -55,13 +58,16 @@ class GroupThreadEdit(AuthenticatedHandler):
 			if key:
 				# update comment
 				thread = model.Thread.get(key)
-				if user.rol != 'admin':
+				if user.nickname!= thread.author_nickname and user.rol != 'admin':
 					self.forbidden()
 					return
-				
 				if thread is None:
 					self.not_found()
 					return
+				if user.rol != 'admin':
+					if not self.can_update(thread.creation_date):
+						self.error('No es posible editar pasados m&aacute;s de 15 minutos.')
+						return
 				if thread.parent_thread is None:
 					thread.title = self.get_param('title')
 				thread.content = self.get_param('content')

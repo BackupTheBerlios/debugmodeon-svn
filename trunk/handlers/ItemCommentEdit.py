@@ -35,10 +35,13 @@ class ItemCommentEdit(AuthenticatedHandler):
 			if key:
 				# show edit form
 				comment = model.Comment.get(key)
-				"""user.nickname != comment.author_nickname and"""
-				if user.rol != 'admin':
+				if user.nickname != comment.author_nickname and user.rol != 'admin':
 					self.forbidden()
 					return
+				if user.rol != 'admin':
+					if not self.can_update(comment.creation_date):
+						self.error('No es posible editar pasados m&aacute;s de 15 minutos.')
+						return
 				if comment is None:
 					self.not_found()
 					return
@@ -53,16 +56,19 @@ class ItemCommentEdit(AuthenticatedHandler):
 			if key:
 				# update comment
 				comment = model.Comment.get(key)
-				if user.rol != 'admin':
+				if user.nickname != comment.author_nickname and user.rol != 'admin':
 					self.forbidden()
 					return
-				
+				if user.rol != 'admin':
+					if not self.can_update(comment.creation_date):
+						self.error('No es posible editar pasados m&aacute;s de 15 minutos.')
+						return
 				if not comment:
 					self.not_found()
 					return
 				comment.content = self.get_param('content')
 				comment.put()
-				self.redirect('/item/%s' % (comment.item.url_path))
+				self.redirect('/item/%s/#comment-%s' % (comment.item.url_path, comment.response_number))
 			else:
 				self.error('Comentario no encontrado')
 				return

@@ -54,11 +54,18 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	</div>
 	<div class="grid_7 omega">
 		<div class="comment">
+			{% if thread.can_edit and user.rol != 'admin' %}
+				<div class="warning_box">
+					Hilo iniciado hace {{ thread.creation_date|relativize }}, puedes editarlo antes de que pasen 15 minutos desde que fue posteado. Para ello haz click <a href="/group.thread.edit?key={{ thread.key() }}">aquí.</a>
+				</div>
+			{% endif %}
 			{{ thread.content|markdown|smiley }}
 		</div>
-		
 		{% if user.rol == 'admin' %}
-			<p class="options"><a href="/group.forum.delete?key={{ thread.key() }}"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar hilo</a>&nbsp;<a href="/group.thread.edit?key={{ thread.key() }}"><img src="/static/images/page_white_edit.png" class="icon" alt="" /> editar hilo</a></p>
+			<p class="options">
+				<a href="/group.forum.delete?key={{ thread.key() }}"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar hilo</a>&nbsp;
+				<a href="/group.thread.edit?key={{ thread.key() }}"><img src="/static/images/page_white_edit.png" class="icon" alt="" /> editar hilo</a>
+			</p>
 		{% endif %}
 		
 		{% if user.nickname != thread.author_nickname %}
@@ -95,9 +102,21 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<p class="comment-anchor">
 				<a href="#comment-{{ comment.response_number }}" name="comment-{{ comment.response_number }}">#{{ comment.response_number }}</a>&nbsp;&nbsp;&nbsp;
 			</p>
+			{% if comment.can_edit and user.rol != 'admin' %}
+				<br/><div class="warning_box">
+					Respuesta realizado hace {{ comment.creation_date|relativize }}, puedes editarlo antes de que pasen 15 minutos desde que fue posteado. Para ello haz click <a href="/group.thread.edit?key={{ comment.key() }}">aquí.</a>
+				</div>
+			{% endif %}
 			
-			{{ comment.content|markdown|smiley }} {% if user.rol == 'admin' %}<p class="options"><a href="javascript:setComment('/group.forum.delete?key={{ comment.key() }}')"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar comentario</a>&nbsp;<a href="/group.thread.edit?key={{ comment.key() }}"><img src="/static/images/page_white_edit.png" class="icon" alt="" /> editar respuesta</a></p>{% endif %}
+			{{ comment.content|markdown|smiley }}
+
 		</div>
+		{% if user.rol == 'admin' %}
+			<p class="options">
+				<a href="javascript:setComment('/group.forum.delete?key={{ comment.key() }}')"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar comentario</a>&nbsp;
+				<a href="/group.thread.edit?key={{ comment.key() }}"><img src="/static/images/page_white_edit.png" class="icon" alt="" /> editar respuesta</a>
+			</p>
+		{% endif %}
 	</div>
 	<div class="clear">&nbsp;</div>
 	{% else %}

@@ -48,6 +48,9 @@ class GroupForumView(BaseHandler):
 			return
 		# end migration
 				
+		if user and user.nickname == thread.author_nickname and self.can_update(thread.creation_date):
+			thread.can_edit = True
+		
 		group = thread.group
 
 		self.values['group'] = group
@@ -67,7 +70,11 @@ class GroupForumView(BaseHandler):
 				t.put()
 			i += 1
 		# end migration
-		
+		if responses and user:
+			last_response = responses[len(responses) -1]
+			if user.nickname == last_response.author_nickname and self.can_update(last_response.creation_date):
+				last_response.can_edit = True
+				
 		self.values['responses'] = responses
 		
 		if group.all_users:
