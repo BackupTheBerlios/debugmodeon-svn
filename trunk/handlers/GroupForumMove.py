@@ -62,14 +62,6 @@ class GroupForumMove(AuthenticatedHandler):
 			group_orig = thread.group
 			group_orig.threads -= 1
 			
-			#change gorup in thread and desnormalizated fields
-			thread.group = group
-			thread.group_title = group.title
-			thread.group_url_path = group.url_path
-			
-			#increment threads in actual group
-			group.threads += 1
-
 			#update comments
 			responses = model.Thread.all().filter('parent_thread', thread)
 			for response in responses:
@@ -77,6 +69,14 @@ class GroupForumMove(AuthenticatedHandler):
 				response.group_title = group.title
 				response.group_url_path = group.url_path
 				response.put()
+			
+			#change gorup in thread and desnormalizated fields
+			thread.group = group
+			thread.group_title = group.title
+			thread.group_url_path = group.url_path
+			
+			#increment threads in actual group
+			group.threads += 1
 			
 			#save fields
 			group_orig.put()
