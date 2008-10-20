@@ -24,6 +24,20 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 {% block content %}
 	<div>&nbsp;</div>
+	{% if preview %}
+		<div class="grid_2 alpha">
+			<p class="info comment-info">
+				<img src="/images/user/thumbnail/{{ comment.author_nickname }}" alt"{{ comment.author_nickname }}" /> <br/>
+				<a href="/user/{{ comment.author_nickname|escape }}">{{ comment.author_nickname|escape }}</a> escribió <br/>
+			</p>
+		</div>
+		<div class="grid_7 omega">
+			<div class="comment">
+				{{ comment.content|markdown|smiley }}
+			</div>
+		</div>
+		<div class="clear">&nbsp;</div>
+	{% endif %}
 	<div class="grid_2 alpha">
 		<p class="info comment-info">
 			<img src="/images/user/thumbnail/{{ user.nickname|escape }}" alt="{{ user.nickname|escape }}" /> <br/>
@@ -31,12 +45,20 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		</p>
 	</div>
 	<div class="grid_7 omega">
+		{% if comment_key %}
 		<form action="/item.comment.edit" method="post" accept-charset="utf-8">
 			<input type="hidden" name="key" value="{{ comment.key() }}" />
-			
+		{% else %}
+		<form action="/item.comment" method="post" accept-charset="utf-8">
+			<input type="hidden" name="key" value="{{ comment.item.key() }}" />
+		{% endif %}
 			<textarea name="content" rows="8" cols="54" id="markdown_example">{{ comment.content }}</textarea>
-						                
-			<p><input type="submit" value="Editar comentario" /></p>
+			
+			{% if comment_key %}
+				<p><input type="submit" value="Editar comentario" /></p>
+			{% else %}
+				<p><input type="submit" value="Publicar comentario" />&nbsp;<input type="submit" name="preview" value="Previsualizar"></p>
+			{% endif %}
 		</form>
 		
 		<p>

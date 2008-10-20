@@ -3,6 +3,7 @@
 
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+# (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -37,6 +38,17 @@ class ItemComment(AuthenticatedHandler):
 			self.not_found()
 			return
 		content = self.get_param('content')
+		preview = self.get_param('preview')
+		if preview:
+			comment = model.Comment(item=item,
+				author=user,
+				author_nickname=user.nickname,
+				content=content)
+			self.values['comment'] = comment
+			self.values['preview'] = True
+			self.render('templates/item-comment-edit.html')
+			return
+			
 		if self.check_duplicate(item, user, content):
 			self.error('Comentario duplicado')
 			return

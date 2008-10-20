@@ -29,12 +29,12 @@ class ItemCommentEdit(AuthenticatedHandler):
 		self.values['tab'] = '/item.list'
 		method = self.request.method
 		user = self.values['user']
-		key = self.get_param('key')
+		comment_key = self.get_param('key')
 
 		if method == 'GET':
-			if key:
+			if comment_key:
 				# show edit form
-				comment = model.Comment.get(key)
+				comment = model.Comment.get(comment_key)
 				if user.nickname != comment.author_nickname and user.rol != 'admin':
 					self.forbidden()
 					return
@@ -47,15 +47,16 @@ class ItemCommentEdit(AuthenticatedHandler):
 					return
 				#TODO Check if it's possible
 				self.values['comment'] = comment
+				self.values['comment_key'] = comment.key
 				self.render('templates/item-comment-edit.html')
 				return
 			else:
 				self.error('Comentario no encontrado')
 				return
 		else:
-			if key:
+			if comment_key:
 				# update comment
-				comment = model.Comment.get(key)
+				comment = model.Comment.get(comment_key)
 				if user.nickname != comment.author_nickname and user.rol != 'admin':
 					self.forbidden()
 					return
