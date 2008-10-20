@@ -41,10 +41,6 @@ class GroupThreadEdit(AuthenticatedHandler):
 				if thread is None:
 					self.not_found()
 					return
-				if user.rol != 'admin':
-					if not self.can_update(thread.creation_date):
-						self.error('No es posible editar pasados m&aacute;s de 15 minutos.')
-						return
 				#TODO Check if it's possible
 				if thread.parent_thread is None:
 					self.values['is_parent_thread'] = True
@@ -65,9 +61,10 @@ class GroupThreadEdit(AuthenticatedHandler):
 					self.not_found()
 					return
 				if user.rol != 'admin':
-					if not self.can_update(thread.creation_date):
-						self.error('No es posible editar pasados m&aacute;s de 15 minutos.')
-						return
+					if thread.editions is None:
+						thread.editions = 0
+					thread.editions +=1
+					thread.last_edition = datetime.datetime.now()
 				if thread.parent_thread is None:
 					thread.title = self.get_param('title')
 				thread.content = self.get_param('content')

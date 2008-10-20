@@ -57,7 +57,8 @@ class GroupForumEdit(AuthenticatedHandler):
 			url_path=url_path,
 			content=content,
 			last_response_date = datetime.datetime.now(),
-			responses=0)
+			responses=0,
+			editions=0)
 		
 		user.threads += 1
 		user.put()

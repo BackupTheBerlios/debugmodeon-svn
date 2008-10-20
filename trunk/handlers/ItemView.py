@@ -88,10 +88,6 @@ class ItemView(BaseHandler):
 				c.put()
 			i += 1
 		# end migration
-		if comments and user:
-			last_comment = comments[len(comments) -1]
-			if user.nickname == last_comment.author_nickname and self.can_update(last_comment.creation_date):
-				last_comment.can_edit = True
 		self.values['comments'] = comments
 		self.values['a'] = 'comments'
 		self.values['keywords'] = ', '.join(item.tags)

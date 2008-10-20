@@ -63,6 +63,7 @@ class ItemComment(AuthenticatedHandler):
 			author=user,
 			author_nickname=user.nickname,
 			content=content,
+			editions = 0,
 			response_number=item.responses+1)
 		comment.put()
 		

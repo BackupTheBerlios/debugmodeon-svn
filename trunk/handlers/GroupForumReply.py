@@ -56,7 +56,8 @@ class GroupForumReply(AuthenticatedHandler):
 			content=content,
 			parent_thread=thread,
 			response_number=thread.responses+1,
-			responses=0)
+			responses=0,
+			editios=0)
 		response.put()
 		
 		self.create_group_subscribers(group)

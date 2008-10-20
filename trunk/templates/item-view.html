@@ -231,18 +231,21 @@ google_color_text = "000000";
 			<p class="comment-anchor">
 				<a href="#comment-{{ comment.response_number }}" name="comment-{{ comment.response_number }}">#{{ comment.response_number }}</a>&nbsp;&nbsp;&nbsp;
 			</p>
-			{% if comment.can_edit and user.rol != 'admin' %}
-				<br/><div class="warning_box">
-					Comentario realizado hace {{ comment.creation_date|relativize }}, puedes editarlo antes de que pasen 15 minutos desde que fue posteado. Para ello haz click <a href="/item.comment.edit?key={{ comment.key() }}">aquí.</a>
-				</div>
-			{% endif %}
 			{{ comment.content|markdown|smiley }}
-			{% if user.rol == 'admin' %}
-				<p class="options">
-					<a href="javascript:setComment('/item.comment.delete?key={{ comment.key() }}')"><img src="/static/images/cross.png" class="icon" alt="" /> eliminar comentario</a>&nbsp;<a href="/item.comment.edit?key={{ comment.key() }}"><img src="/static/images/page_white_edit.png" class="icon" alt="" /> editar comentario</a>
-				</p>
-			{% endif %}
 		</div>
+		<p class="options">
+		{% if comment.editions %}
+			<span style="color:#777">Editado {{comment.editions}} veces. La última vez hace {{ comment.last_edition|relativize }}.</span>
+		{% endif %}
+		
+		{% if user.rol == 'admin' %}
+				<a href="javascript:setComment('/item.comment.delete?key={{ comment.key() }}')"><img src="/static/images/cross.png" class="icon" alt="" /> eliminar comentario</a>&nbsp;<a href="/item.comment.edit?key={{ comment.key() }}"><img src="/static/images/page_white_edit.png" class="icon" alt="" /> editar comentario</a>
+		{% else %}
+			{% if user.nickname == comment.author_nickname %}
+			<a href="/item.comment.edit?key={{ comment.key() }}"><img src="/static/images/page_white_edit.png" class="icon" alt="" /> editar comentario</a>
+			{% endif %}
+		{% endif %}
+		</p>
 	</div>
 	<div class="clear">&nbsp;</div>
 	{% else %}

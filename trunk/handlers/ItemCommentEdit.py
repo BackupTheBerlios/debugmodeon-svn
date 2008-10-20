@@ -38,10 +38,6 @@ class ItemCommentEdit(AuthenticatedHandler):
 				if user.nickname != comment.author_nickname and user.rol != 'admin':
 					self.forbidden()
 					return
-				if user.rol != 'admin':
-					if not self.can_update(comment.creation_date):
-						self.error('No es posible editar pasados m&aacute;s de 15 minutos.')
-						return
 				if comment is None:
 					self.not_found()
 					return
@@ -60,14 +56,16 @@ class ItemCommentEdit(AuthenticatedHandler):
 				if user.nickname != comment.author_nickname and user.rol != 'admin':
 					self.forbidden()
 					return
-				if user.rol != 'admin':
-					if not self.can_update(comment.creation_date):
-						self.error('No es posible editar pasados m&aacute;s de 15 minutos.')
-						return
+					
 				if not comment:
 					self.not_found()
 					return
 				comment.content = self.get_param('content')
+				if user.rol != 'admin':
+					if comment.editions is None:
+						comment.editions = 0
+					comment.editions +=1
+					comment.last_edition = datetime.datetime.now()
 				comment.put()
 				self.redirect('/item/%s/#comment-%s' % (comment.item.url_path, comment.response_number))
 			else:

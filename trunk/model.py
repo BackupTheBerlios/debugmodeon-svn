@@ -117,6 +117,8 @@ class Comment(db.Model):
 	last_update = db.DateTimeProperty(auto_now=True)
 	creation_date = db.DateTimeProperty(auto_now_add=True)
 	deletion_date = db.DateTimeProperty()
+	editions = db.IntegerProperty()
+	last_edition = db.DateTimeProperty()
 
 class Vote(db.Model):
 	user = db.ReferenceProperty(UserData,required=True)
@@ -185,6 +187,9 @@ class Thread(search.SearchableModel):
 	
 	last_response_date = db.DateTimeProperty()
 	response_number = db.IntegerProperty()
+	
+	editions = db.IntegerProperty()
+	last_edition = db.DateTimeProperty()
 	
 	# responses
 	parent_thread = db.SelfReferenceProperty()
