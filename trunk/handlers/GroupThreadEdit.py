@@ -69,7 +69,10 @@ class GroupThreadEdit(AuthenticatedHandler):
 					thread.title = self.get_param('title')
 				thread.content = self.get_param('content')
 				thread.put()
-				self.redirect('/group.forum/%s' % (thread.url_path))
+				if thread.parent_thread is None:
+					self.redirect('/group.forum/%s' % (thread.url_path))
+				else:
+					self.redirect('/group.forum/%s#comment-%s' % (thread.url_path, thread.response_number))
 			else:
 				self.error('Comentario no encontrado')
 				return
