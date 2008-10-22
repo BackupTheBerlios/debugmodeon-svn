@@ -27,6 +27,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<p class="options">Usarios: {{ app.users }}. Artículos: {{ app.items }}. Grupos: {{ app.groups }}. Temas: {{ app.threads }}</p>
 	</div>
 	
+	<p><a href="/group.add.related">Relacionar grupos</a></p>
+	
 	{% if m %}
 		<p class="message">{{ m|escape }}</p>
 	{% endif %}

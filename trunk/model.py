@@ -252,3 +252,13 @@ class Message(db.Model):
 
 	user_from_nickname = db.StringProperty()
 	user_to_nickname = db.StringProperty()
+
+class RelatedGroup(db.Model):
+	group_from = db.ReferenceProperty(Group,required=True,collection_name='gf')
+	group_to = db.ReferenceProperty(Group,required=True,collection_name='gt')
+	creation_date = db.DateTimeProperty(auto_now_add=True)
+	# denormalization
+	group_from_title = db.StringProperty(required=True)
+	group_from_url_path = db.StringProperty(required=True)
+	group_to_title = db.StringProperty(required=True)
+	group_to_url_path = db.StringProperty(required=True)

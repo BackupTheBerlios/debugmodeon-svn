@@ -27,6 +27,22 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endblock %}
 
 {% block sidebar %}
+	
+	{% if related %}
+		<div class="box">
+			<p class="title">Grupos relacionados</p>
+			<ul>
+				{% for group in related %}
+				<li style="clear:both">
+					<div class="avatar" style="float:left; padding-right: 3px"><a href="/group/{{ group.group_to_url_path }}"><img src="/images/group/thumbnail/{{ group.group_to.key().id() }}" alt="{{ group.group_to_title|escape }}" /></a></div>
+					<strong><a href="/group/{{ group.group_to_url_path }}">{{ group.group_to_title|escape }}</a></strong>
+				</li>
+				{% endfor %}
+			</ul>
+			<p style="clear:both">&nbsp;</p>
+			<p class="end-box">&nbsp;</p>
+		</div>
+	{% endif %}
 
 	<div class="box">
 		<p class="title">Sindicación RSS</p>

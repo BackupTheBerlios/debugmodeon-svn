@@ -99,6 +99,7 @@ from handlers.ImageDisplayer import *
 
 # admin
 from handlers.AdminApplication import *
+from handlers.GroupAddRelated import *
 
 from handlers.Apocalipto import *
 from handlers.NotFound import *
