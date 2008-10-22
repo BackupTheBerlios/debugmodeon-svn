@@ -62,6 +62,7 @@ def main():
 									   ('/user.favourites/.*',	UserFavourites),
 									   ('/user.contacts/.*',	UserContacts),
 									   ('/user.contact',		UserContact),
+									   ('/user.promote',			UserPromote),
 									   # messages
 									   ('/message.edit',		MessageEdit),
 									   ('/message.sent',		MessageSent),

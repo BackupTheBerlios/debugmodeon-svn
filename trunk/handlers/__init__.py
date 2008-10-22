@@ -49,6 +49,7 @@ from handlers.UserDrafts import *
 from handlers.UserContact import *
 from handlers.UserFavourites import *
 from handlers.UserContacts import *
+from handlers.UserPromote import *
 
 # messages
 from handlers.MessageEdit import *

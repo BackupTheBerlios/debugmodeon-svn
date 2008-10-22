@@ -1,0 +1,87 @@
+{#
+(C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
+
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+#}
+
+{% extends "base.html" %}
+{% block title %} Promociona tu perfil {% endblock %}
+
+{% block content %}
+	<div class="grid_9 alpha omega">
+		<h1>¡Promociona tu perfil de debug_mode=ON!</h1>
+		<p>Enseña al resto del mundo qué temas te interesan, qué es lo que sabes, los artículos que escribes, etc. Pon este botón en tu blog, tu e-mail, tu web.</p>
+		<hr/>
+		<div style="margin-top:10px">
+			<div class="grid_3 alpha" style="text-align:center">
+				<img src="/static/images/webpromo/btn_negro.gif" alt="Icono negro" />
+			</div>
+			<div class="grid_5 omega">
+				<textarea cols="50" rows="4" readonly><a href="{{ user_url }}"><img src="{{ app.url }}/static/images/webpromo/btn_negro.gif" width="160" height="33" border="0" alt="Ver mi perfil en debug_mode=ON"></a></textarea>
+			</div>
+			<div class="clear">&nbsp;</div>
+		</div>
+		<hr/>
+		<div style="margin-top:10px">
+			<div class="grid_3 alpha" style="text-align:center;">
+				<img src="/static/images/webpromo/btn_rojo.gif" alt="Icono negro"/>
+			</div>
+			<div class="grid_5 omega">
+				<textarea cols="50" rows="4" readonly><a href="{{ user_url }}"><img src="{{ app.url }}/static/images/webpromo/btn_rojo.gif" width="160" height="33" border="0" alt="Ver mi perfil en debug_mode=ON"></a></textarea>
+			</div>
+			<div class="clear">&nbsp;</div>
+		</div>
+		<hr/>
+		<div style="margin-top:10px">
+			<div class="grid_3 alpha" style="text-align:center">
+				<img src="/static/images/webpromo/btn_azul.gif" alt="Icono negro" />
+			</div>
+			<div class="grid_5 omega">
+				<textarea cols="50" rows="4" readonly><a href="{{ user_url }}"><img src="{{ app.url }}/static/images/webpromo/btn_azul.gif" width="160" height="33" border="0" alt="Ver mi perfil en debug_mode=ON"></a></textarea>
+			</div>
+			<div class="clear">&nbsp;</div>
+		</div>
+		<hr/>
+		<div style="margin-top:10px">
+			<div class="grid_3 alpha" style="text-align:center">
+				<img src="/static/images/webpromo/btn_blanco.gif" alt="Icono negro" />
+			</div>
+			<div class="grid_5 omega">
+				<textarea cols="50" rows="4" readonly><a href="{{ user_url }}"><img src="{{ app.url }}/static/images/webpromo/btn_blanco.gif" width="160" height="33" border="0" alt="Ver mi perfil en debug_mode=ON"></a></textarea>
+			</div>
+			<div class="clear">&nbsp;</div>
+		</div>
+		<hr/>
+	</div>
+	<div class="clear">&nbsp;</div>
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript" charset="utf-8">
+		
+		function modify_textareas(){
+			if(!document.getElementsByTagName)
+				return;
+			var textareas = document.getElementsByTagName('textarea');
+			for(var i=0;i<textareas.length;i++){
+				textareas[i].onclick=function(){
+					this.focus();
+					this.select();
+				};
+			}
+		}
+		modify_textareas();
+</script>
+{% endblock %}
