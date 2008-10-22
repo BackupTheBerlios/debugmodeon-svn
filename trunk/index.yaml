@@ -10,26 +10,26 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
-# Used 22 times in query history.
+# Used 3 times in query history.
 - kind: Comment
   properties:
   - name: item
   - name: creation_date
 
-# Used once in query history.
+# Unused in query history -- copied from input.
 - kind: Contact
   properties:
   - name: creation_date
     direction: desc
 
-# Used 12 times in query history.
+# Unused in query history -- copied from input.
 - kind: Contact
   properties:
   - name: user_from
   - name: creation_date
     direction: desc
 
-# Used once in query history.
+# Unused in query history -- copied from input.
 - kind: Favourite
   properties:
   - name: creation_date
@@ -66,40 +66,40 @@ indexes:
   - name: items
     direction: desc
 
-# Used 13 times in query history.
+# Used 16 times in query history.
 - kind: Group
   properties:
   - name: members
     direction: desc
 
-# Used 28 times in query history.
+# Used 15 times in query history.
 - kind: GroupItem
   properties:
   - name: group
   - name: creation_date
     direction: desc
 
-# Used 18 times in query history.
+# Used 6 times in query history.
 - kind: GroupItem
   properties:
   - name: item
   - name: group_title
 
-# Used 35 times in query history.
+# Used 15 times in query history.
 - kind: GroupUser
   properties:
   - name: group
   - name: creation_date
     direction: desc
 
-# Used 13 times in query history.
+# Unused in query history -- copied from input.
 - kind: GroupUser
   properties:
   - name: user
   - name: creation_date
     direction: desc
 
-# Used 25 times in query history.
+# Used 6 times in query history.
 - kind: GroupUser
   properties:
   - name: user
@@ -112,7 +112,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 14 times in query history.
+# Unused in query history -- copied from input.
 - kind: Item
   properties:
   - name: author
@@ -121,7 +121,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 22 times in query history.
+# Used 3 times in query history.
 - kind: Item
   properties:
   - name: author
@@ -138,7 +138,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used once in query history.
+# Unused in query history -- copied from input.
 - kind: Item
   properties:
   - name: author
@@ -167,7 +167,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 12 times in query history.
+# Used 16 times in query history.
 - kind: Item
   properties:
   - name: deletion_date
@@ -258,14 +258,14 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 8 times in query history.
+# Unused in query history -- copied from input.
 - kind: Message
   properties:
   - name: user_from
   - name: creation_date
     direction: desc
 
-# Used 18 times in query history.
+# Unused in query history -- copied from input.
 - kind: Message
   properties:
   - name: user_to
@@ -278,20 +278,20 @@ indexes:
   - name: form
   - name: creation_date
 
-# Used 4 times in query history.
+# Used 13 times in query history.
 - kind: RelatedGroup
   properties:
   - name: group_from
   - name: creation_date
     direction: desc
 
-# Used 11 times in query history.
+# Used 10 times in query history.
 - kind: Tag
   properties:
   - name: count
     direction: desc
 
-# Used once in query history.
+# Unused in query history -- copied from input.
 - kind: Thread
   properties:
   - name: author
@@ -312,7 +312,7 @@ indexes:
   - name: group
   - name: creation_date
 
-# Used 2 times in query history.
+# Unused in query history -- copied from input.
 - kind: Thread
   properties:
   - name: group
@@ -326,7 +326,7 @@ indexes:
   - name: last_update
     direction: desc
 
-# Used 31 times in query history.
+# Used 16 times in query history.
 - kind: Thread
   properties:
   - name: group
@@ -348,7 +348,7 @@ indexes:
   - name: last_update
     direction: desc
 
-# Used 16 times in query history.
+# Used 4 times in query history.
 - kind: Thread
   properties:
   - name: parent_thread
@@ -361,7 +361,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 13 times in query history.
+# Used 15 times in query history.
 - kind: Thread
   properties:
   - name: parent_thread
@@ -387,7 +387,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 3 times in query history.
+# Used once in query history.
 - kind: UserData
   properties:
   - name: items
