@@ -68,6 +68,7 @@ def main():
 									   ('/message.sent',		MessageSent),
 									   ('/message.inbox',		MessageInbox),
 									   ('/message.read/.*',		MessageRead),
+									   ('/message.delete',		MessageDelete),
 									   # forums,
 									   ('/forum.list',			ForumList),
 									   # groups

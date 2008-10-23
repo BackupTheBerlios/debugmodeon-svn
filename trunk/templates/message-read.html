@@ -22,9 +22,10 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endblock %}
 
 {% block content %}
-	<h1>{{ message.title|escape }}</h1>
 	
 	{% if user.nickname == message.user_to_nickname %}
+		<h1>Mensaje recibido: {{ message.title|escape }}</h1>
+	
 		<div class="grid_2 alpha">
 			<p class="info comment-info">
 				<a href="/user/{{ message.user_from_nickname }}">
@@ -38,11 +39,16 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			{{ message.content|markdown }}
 			</div>
    
-			<p class="options"><a href="/message.edit?user_to={{ message.user_from_nickname }}&amp;title=Re:{{ message.title|escape }}"><img src="/static/images/email_edit.png" alt="" class="icon" /> Responder</a></p>
+			<p class="options">
+				<a href="/message.edit?user_to={{ message.user_from_nickname }}&amp;title={{ message.title|escape }}"><img src="/static/images/email_edit.png" alt="" class="icon" /> Responder</a>
+				| <a href="/message.delete?key={{ message.key() }}" onclick="return confirm('¿Seguro que desea eliminar el mensaje?')"><img src="/static/images/cross.png" alt="" class="icon" /> Eliminar mensaje</a>
+			</p>
    
 		</div>
 		<div class="clear">&nbsp;</div>
 	{% else %}
+		<h1>Mensaje enviado: {{ message.title|escape }}</h1>
+		
 		<div class="grid_2 alpha">
 			<p class="info comment-info">
 				<a href="/user/{{ message.user_to_nickname }}">
@@ -56,7 +62,10 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			{{ message.content|markdown }}
 			</div>
    
-			<p class="options"><a href="/message.edit?user_to={{ message.user_to_nickname }}&amp;title=Re:{{ message.title|escape }}"><img src="/static/images/email_edit.png" alt="" class="icon" /> Escribir otro mensaje a {{ message.user_to_nickname }}</a></p>
+			<p class="options">
+				<a href="/message.edit?user_to={{ message.user_to_nickname }}&amp;title={{ message.title|escape }}"><img src="/static/images/email_edit.png" alt="" class="icon" /> Escribir otro mensaje a {{ message.user_to_nickname }}</a>
+				| <a href="/message.delete?key={{ message.key() }}" onclick="return confirm('¿Seguro que desea eliminar el mensaje?')"><img src="/static/images/cross.png" alt="" class="icon" /> Eliminar mensaje</a>
+			</p>
    
 		</div>
 		<div class="clear">&nbsp;</div>

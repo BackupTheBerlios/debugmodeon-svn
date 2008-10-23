@@ -59,16 +59,19 @@ class GroupForumReply(AuthenticatedHandler):
 			responses=0,
 			editios=0)
 		response.put()
-		
+
+		page = response.response_number / 20
+		if (response.response_number % 20) > 0:
+			page += 1
+		response_url = '/group.forum/%s?p=%d#comment-%d' % (thread.url_path, page, response.response_number)
+					
 		self.create_group_subscribers(group)
 		group.responses = group.responses + 1
 		group.put()
 		
 		subscribers = thread.subscribers
-		"""
 		if subscribers and user.email in subscribers:
 			subscribers.remove(user.email)
-		"""
 
 		if subscribers:
 			app = self.get_application()
@@ -76,10 +79,15 @@ class GroupForumReply(AuthenticatedHandler):
 
 			body = u"""
 Nueva respuesta en %s.
-Entra en el debate:
+%s%s
+
+Todas las respuestas:
 %s/group.forum/%s
 
-""" % (self.clean_ascii(thread.title), app.url, thread.url_path)
+Eliminar suscripcion a este hilo:
+%s/group.forum.subscribe?key=%s
+
+""" % (self.clean_ascii(thread.title), app.url, response_url, app.url, thread.url_path, app.url, str(thread.key()))
 			self.mail(subject=subject, body=body, bcc=thread.subscribers)
 		
 		subscribe = self.get_param('subscribe')
@@ -91,11 +99,7 @@ Entra en el debate:
 		
 		memcache.delete('index_threads')
 
-		page = response.response_number / 20
-		if (response.response_number % 20) > 0:
-			page += 1
-
-		self.redirect('/group.forum/%s?p=%d#comment-%d' % (thread.url_path, page, response.response_number))
+		self.redirect(response_url)
 		
 	def check_duplicate(self, group, user, parent_thread, content):
 		last_thread = model.Thread.all().filter('group', group).filter('parent_thread', parent_thread).filter('author', user).order('-creation_date').get()

@@ -67,8 +67,16 @@ class ItemComment(AuthenticatedHandler):
 			response_number=item.responses+1)
 		comment.put()
 		
+		page = comment.response_number / 10
+		if (comment.response_number % 10) > 0:
+			page += 1
+		comment_url = '/item/%s?p=%d#comment-%d' % (item.url_path, page, comment.response_number)
+		
 		user.comments += 1
 		user.put()
+		
+		item.responses += 1
+		item.put()
 
 		subscribers = item.subscribers
 		if subscribers and user.email in subscribers:
@@ -80,25 +88,22 @@ class ItemComment(AuthenticatedHandler):
 
 			body = u"""
 Nuevo comentario en el articulo: '%s':
+%s%s
 
-Lee los comentarios en:
+Todos los comentarios en:
 %s/item/%s#comments
 
-""" % (self.clean_ascii(item.title), app.url, item.url_path)
+Eliminar suscripcion a este articulo:
+%s/item.comment.subscribe?key=%s
+
+""" % (self.clean_ascii(item.title), app.url, comment_url, app.url, item.url_path, app.url, str(item.key()))
 			self.mail(subject=subject, body=body, bcc=item.subscribers)
 			
 		subscribe = self.get_param('subscribe')
 		if subscribe and not user.email in item.subscribers:
 			item.subscribers.append(user.email)
-
-		item.responses += 1
-		item.put()
 		
-		page = comment.response_number / 10
-		if (comment.response_number % 10) > 0:
-			page += 1
-		
-		self.redirect('/item/%s?p=%d#comment-%d' % (item.url_path, page, comment.response_number))
+		self.redirect(comment_url)
 		
 	def check_duplicate(self, item, user, content):
 		last_comment = model.Comment.all().filter('item', item).filter('author', user).order('-creation_date').get()

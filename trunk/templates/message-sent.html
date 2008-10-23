@@ -1,4 +1,4 @@
-{#
+﻿{#
 (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
 This file is part of "debug_mode_on".
 
@@ -29,6 +29,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<th class="subject">Enviado a</th>
 			<th class="subject">Asunto</th>
 			<th>Fecha</th>
+			<th>&nbsp;</th>
 		</thead>
 		<tbody>
 		{% for message in messages %}
@@ -36,8 +37,9 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<td style="text-align:center">
 					<a href="/user/{{ message.user_to_nickname }}"><img src="/images/user/thumbnail/{{ message.user_to_nickname }}" alt="{{ message.user_to_nickname }}" title="{{ message.user_to_nickname }}" /></a>
 				</td>
-				<td class="subject"><a href="/message.read/{{ message.url_path }}">{{ message.title|escape }}</a></td>
-				<td>hace {{ message.creation_date|relativize }}</td>
+				<td class="subject"><p><a href="/message.read/{{ message.url_path }}">{{ message.title|escape }}</a></p></td>
+				<td><p>hace {{ message.creation_date|relativize }}</p></td>
+				<td><p class="options"><a href="/message.delete?key={{ message.key() }}" onclick="return confirm('¿Seguro que desea eliminar el mensaje?')"><img src="/static/images/cross.png" alt="" class="icon" /> Eliminar mensaje</a></p></td>
 			</tr>
 		{% endfor %}
 		</tbody>

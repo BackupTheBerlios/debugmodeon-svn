@@ -54,4 +54,14 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 <script type="text/javascript" src="/static/js/showdown.js"></script>
 <script type="text/javascript" src="/static/js/showtextarea.js"></script>
 <script type="text/javascript" src="/static/js/validation.js"></script>
+
+<script type="text/javascript" charset="utf-8">
+	function validate_presence(id) {
+		var field = new LiveValidation(id, { validMessage: "", wait: 500 });
+		field.add(Validate.Presence, { failureMessage: "Campo obligatorio" });
+	}
+
+	validate_presence('title');
+	validate_presence('markdown_example');
+</script>
 {% endblock %}

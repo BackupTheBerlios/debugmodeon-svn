@@ -37,6 +37,8 @@ class MessageEdit(AuthenticatedHandler):
 			title = self.get_param('title')
 			if not title:
 				title = 'Nuevo mensaje...'
+			elif not title.startswith('Re:'):
+				title = 'Re:%s' % title
 			self.values['title'] = title
 			self.render('templates/message-edit.html')
 			return

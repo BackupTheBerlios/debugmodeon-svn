@@ -56,6 +56,7 @@ from handlers.MessageEdit import *
 from handlers.MessageSent import *
 from handlers.MessageInbox import *
 from handlers.MessageRead import *
+from handlers.MessageDelete import *
 
 # forums
 from handlers.ForumList import *
