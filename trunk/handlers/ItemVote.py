@@ -58,6 +58,6 @@ class ItemVote(AuthenticatedHandler):
 				avg = item.rating_average
 				
 		if self.get_param('x'):
-			self.render_json({ 'average': avg })
+			self.render_json({ 'average': avg, 'votes': item.rating_count })
 		else:
 			self.redirect('/item/%s' % item.url_path)

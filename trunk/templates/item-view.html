@@ -173,7 +173,7 @@ google_color_text = "000000";
 			{% endfor %}
 			| <a href="#comments"><img src="/static/images/comments.png" class="icon" alt="" /> {{ item.responses }} comentarios</a>
 			| {{ item.views }} visitas
-			| {{item.rating_count}} votos
+			| <span id="votes">{{item.rating_count}}</span> votos
 			<br/><br/>
 			{% if canadd %}
 				<span><a id="item.favourite" href="/item.favourite?key={{ item.key() }}" title="añadir a favoritos"><img src="/static/images/add.png" class="icon" /> Añadir a favoritos</a></span>
@@ -397,6 +397,7 @@ google_color_text = "000000";
 					onSuccess: function(transport, json) {
 						var avg = transport.responseText.evalJSON().average;
 						parent.innerHTML = '<p class="rating star'+avg+'"></p>';
+						$('votes').innerHTML = transport.responseText.evalJSON().votes;
 					},
 					onFailure: function() {
 						parent.innerHTML = 'Ocurrió un error :(';
