@@ -86,6 +86,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<div class="clear">&nbsp;</div>
 		<div class="grid_3">
 			{% include 'inc-quick-links.html' %}
+{% block sidebar %}{% endblock %}
 			<div class="box">
 				<p class="title">Estadísticas de la web</p>
 				<ul>
@@ -96,7 +97,6 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				</ul>
 				<p class="end-box">&nbsp;</p>
 			</div>
-{% block sidebar %}{% endblock %}
 		</div>
 		<div class="grid_9">
 {% block content %}{% endblock %}
