@@ -121,6 +121,15 @@ indexes:
   - name: creation_date
     direction: desc
 
+# Used 9 times in query history.
+- kind: Item
+  properties:
+  - name: author
+  - name: deletion_date
+  - name: draft
+  - name: last_update
+    direction: desc
+
 # Unused in query history -- copied from input.
 - kind: Item
   properties:

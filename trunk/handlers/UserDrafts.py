@@ -27,6 +27,6 @@ class UserDrafts(AuthenticatedHandler):
 
 	def execute(self):
 		user = self.get_current_user()
-		query = model.Item.all().filter('author =', user).filter('draft =', True)
+		query = model.Item.all().filter('author =', user).filter('draft =', True).filter('deletion_date', None)
 		self.values['items'] = self.paging(query, 10, '-last_update', user.draft_items, ['-last_update'])
 		self.render('templates/user-drafts.html')
