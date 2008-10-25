@@ -40,11 +40,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			</p>
 			{% endif %}
 			<textarea name="content" rows="8" cols="54" id="markdown_example">{{ thread.content }}</textarea>
-			{% if is_parent_thread %}			                
-			<p><input type="submit" value="Editar hilo" /></p>
-			{% else %}
-			<p><input type="submit" value="Editar respuesta" /></p>
-			{% endif %}
+			<p><input type="submit" value="Guardar Cambios" /></p>
 		</form>
 		
 		<p>
