@@ -32,6 +32,6 @@ class AdminCategories(AuthenticatedHandler):
 		if user.rol != 'admin':
 			self.forbidden()
 			return
-		
-		self.values['categories'] = list(model.Category.all().filter('parent_category', None).order('title'))
+			
+		self.add_categories()
 		self.render('templates/admin-categories.html')

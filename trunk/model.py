@@ -135,6 +135,8 @@ class Category(db.Model):
 	description = db.StringProperty(required=True)
 	groups = db.IntegerProperty(required=True)
 	items = db.IntegerProperty(required=True)
+	
+	subcategories = None
 
 class Group(search.SearchableModel):
 	owner = db.ReferenceProperty(UserData,required=True)

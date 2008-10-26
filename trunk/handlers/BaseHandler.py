@@ -295,6 +295,23 @@ class BaseHandler(webapp.RequestHandler):
 		taglist = [(tag, 6*tagdict[tag]/maxcount, tagdict[tag]) for tag in tagdict.keys()]
 		taglist.sort()
 		return taglist
+	
+	
+	def add_categories(self):
+		cats = list(model.Category.all().order('title'))
+		categories = {}
+		for category in cats:
+			if category.parent_category is None:
+				categories[str(category.key())] = category
+
+		for category in cats:
+			if category.parent_category is not None:
+				parent_category = categories[str(category.parent_category.key())]
+				if not parent_category.subcategories:
+					parent_category.subcategories = []
+				parent_category.subcategories.append(category)
+
+		self.values['categories'] = [categories[key] for key in categories]
 
 	def add_tag_cloud(self):
 		self.values['tag_cloud'] = self.cache('tag_cloud', self.get_tag_cloud)

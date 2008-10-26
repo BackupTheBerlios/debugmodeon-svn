@@ -52,7 +52,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<select id="parent_category" name="parent_category">
 				<option value="">Ninguna</option>
 				{% if parent_categories %}
-				{% for category in parent_categories.order("title") %}
+				{% for category in parent_categories %}
 					<option value="{{ category.key() }}"{% if parent_category and category.key() == parent_category.key() %} selected="selected"{% endif %}>{{ category.title|escape }}</option>
 				{% endfor %}
 				{% endif %}
