@@ -128,6 +128,13 @@ class Vote(db.Model):
 class Tag(db.Model):
 	tag = db.StringProperty(required=True)
 	count = db.IntegerProperty(required=True)
+	
+class Category(db.Model):
+	parent_category = db.SelfReferenceProperty()
+	title = db.StringProperty(required=True)
+	description = db.StringProperty(required=True)
+	groups = db.IntegerProperty(required=True)
+	items = db.IntegerProperty(required=True)
 
 class Group(search.SearchableModel):
 	owner = db.ReferenceProperty(UserData,required=True)
@@ -152,6 +159,9 @@ class Group(search.SearchableModel):
 	image_version = db.IntegerProperty()
 	
 	all_users = db.BooleanProperty()
+	
+	# category = db.ReferenceProperty(Category, collection_name='groups_set')
+	# sub_category = db.ReferenceProperty(Category, collection_name='subgroups_set')
 
 class GroupUser(db.Model):
 	user = db.ReferenceProperty(UserData,required=True)
@@ -262,3 +272,4 @@ class RelatedGroup(db.Model):
 	group_from_url_path = db.StringProperty(required=True)
 	group_to_title = db.StringProperty(required=True)
 	group_to_url_path = db.StringProperty(required=True)
+	

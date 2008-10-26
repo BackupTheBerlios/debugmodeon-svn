@@ -104,8 +104,11 @@ def main():
 									   # images
 									   ('/images/.*', ImageDisplayer),
 									   # admin
-									   ('/admin.application', AdminApplication),
-									   ('/group.add.related', GroupAddRelated),
+									   ('/admin', 				Admin),
+									   ('/admin.application',	AdminApplication),
+									   ('/admin.categories',	AdminCategories),
+									   ('/admin.category.edit',	AdminCategoryEdit),
+									   ('/group.add.related',	GroupAddRelated),
 									   
 									   ('/apocalipto', 	Apocalipto),
 									   ('/html/.*', 	Static),

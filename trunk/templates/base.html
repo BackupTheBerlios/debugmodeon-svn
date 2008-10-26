@@ -79,7 +79,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<li><a href="/forum.list"{% if tab == '/forum.list' %} class="selected"{% endif %}>Foros</a></li>
 				<li><a href="/user.list"{% if tab == '/user.list' %} class="selected"{% endif %}>Usuarios</a></li>
 				{% if sess.user_rol == 'admin' %}
-				<li><a href="/admin.application"{% if tab == '/admin' %} class="selected"{% endif %}>Admin</a></li>
+				<li><a href="/admin"{% if tab == '/admin' %} class="selected"{% endif %}>Admin</a></li>
 				{% endif %}
 			</ul>
 		</div>

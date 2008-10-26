@@ -1,0 +1,76 @@
+{#
+(C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+#}
+
+{% extends "base.html" %}
+
+{% block title %}
+	{% if key %}
+		Editando: {{ title|escape }}
+	{% else %}
+		Nueva categoría
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+
+{% if key %}
+	<h1>Editar categoría</h1>
+{% else %}
+	<h1>Nueva categoría</h1>
+{% endif %}
+
+
+<form action="/admin.category.edit" method="post" accept-charset="utf-8">
+	{% if key %}
+		<input type="hidden" name="key" value="{{ key|escape }}" />
+	{% endif %}
+
+	<div class="form">
+		<p>
+			<label for="title">Nombre</label>
+			<input id="title" type="text" name="title" value="{{ title|escape }}" style="font-size:200%" size="40" />
+		</p>
+
+		<p>
+			<label for="parent_category">Categoría padre</label>
+			<select id="parent_category" name="parent_category">
+				<option value="">Ninguna</option>
+				{% for category in parent_categories.order("title") %}
+					<option value="{{ category.key() }}"{% if parent_category and category.key() == parent_category.key() %} selected="selected"{% endif %}>{{ category.title|escape }}</option>
+				{% endfor %}
+			</select>
+		</p>
+
+		<p>
+			<label for="description">Descripción</label>
+			<textarea id="description" name="description" rows="4" cols="50">{{ description|escape }}</textarea>
+		</p>
+	<p>
+	{% if key %}
+		<input type="submit" value="Guardar cambios" />
+	{% else %}
+		<input type="submit" value="Crear categoría" />
+	{% endif %}
+		o <strong><a href="/admin.categories">Cancelar</a></strong>
+	</p>
+	</div>
+</form>
+
+
+{% endblock %}

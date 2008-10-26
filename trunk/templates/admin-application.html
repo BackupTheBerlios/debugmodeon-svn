@@ -19,15 +19,13 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 {% extends "base.html" %}
 
-{% block title %} Administración {% endblock %}
+{% block title %} Configuración aplicación {% endblock %}
 
 {% block content %}
 	<div class="info">
-		<h1>Administración</h1>
+		<h1>Configuración aplicación</h1>
 		<p class="options">Usarios: {{ app.users }}. Artículos: {{ app.items }}. Grupos: {{ app.groups }}. Temas: {{ app.threads }}</p>
 	</div>
-	
-	<p><a href="/group.add.related">Relacionar grupos</a></p>
 	
 	{% if m %}
 		<p class="message">{{ m|escape }}</p>

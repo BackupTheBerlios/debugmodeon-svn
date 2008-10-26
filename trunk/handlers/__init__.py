@@ -99,6 +99,9 @@ from handlers.Search import *
 from handlers.ImageDisplayer import *
 
 # admin
+from handlers.Admin import *
+from handlers.AdminCategories import *
+from handlers.AdminCategoryEdit import *
 from handlers.AdminApplication import *
 from handlers.GroupAddRelated import *
 
