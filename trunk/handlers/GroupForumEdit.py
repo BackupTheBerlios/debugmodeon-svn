@@ -58,7 +58,8 @@ class GroupForumEdit(AuthenticatedHandler):
 			content=content,
 			last_response_date = datetime.datetime.now(),
 			responses=0,
-			editions=0)
+			editions=0,
+			views=0)
 		
 		user.threads += 1
 		user.put()

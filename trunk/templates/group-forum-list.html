@@ -46,6 +46,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		    <th class="subject">Tema</th>
 			<th>Autor</th>
 			<th>Respuestas</th>
+			<th>Lecturas</th>
 			<th>Última actualización</th>
 		</thead>
 		<tbody>
@@ -54,6 +55,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<td class="subject"><strong><a href="/group.forum/{{ thread.url_path }}">{{ thread.title|escape }}</a></strong></td>
 				<td style="text-align:center"><a href="/user/{{ thread.author_nickname }}"><img src="/images/user/thumbnail/{{ thread.author_nickname }}" alt="{{ thread.author_nickname }}" title="{{ thread.author_nickname }}" /></a></td>
 				<td>{{ thread.responses }}</td>
+				<td>{{ thread.views }}</td>
 				<td>hace {{ thread.last_response_date|relativize }}</td>
 			</tr>
 		{% endfor %}

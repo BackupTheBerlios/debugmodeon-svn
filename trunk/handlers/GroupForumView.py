@@ -47,9 +47,10 @@ class GroupForumView(BaseHandler):
 			self.redirect('/group.forum/%s' % thread.url_path)
 			return
 		# end migration
-				
-		if user and user.nickname == thread.author_nickname and self.can_update(thread.creation_date):
-			thread.can_edit = True
+		if thread.views is None:
+			thread.views = 0;
+		thread.views += 1
+		thread.put()
 		
 		group = thread.group
 

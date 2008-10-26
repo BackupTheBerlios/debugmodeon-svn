@@ -52,6 +52,8 @@ class Apocalipto(BaseHandler):
 		elif action == 'sg':
 			i = self.show_groups(offset)
 			return
+		elif action == 'ut':
+			i = self.update_threads(offset)
 		else:
 			self.response.out.write('unknown action -%s-' % action)
 			return
@@ -134,3 +136,14 @@ class Apocalipto(BaseHandler):
 	def show_groups(self, offset):
 		for g in model.Group.all().order('-creation_date').fetch(10, offset):
 			self.response.out.write("('%s', '%s', %d),\n" % (g.title, str(g.key()), g.members))
+			
+	def update_threads(self, offset):
+		i = offset
+		p = 0
+		for th in model.Thread.all().filter('parent_thread', None).order('-creation_date').fetch(10, offset):
+			if th.views is None:
+				th.views = 0
+				th.put()
+				p += 1
+			i+=1
+		return (i, p)

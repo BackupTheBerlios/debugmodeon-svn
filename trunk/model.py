@@ -214,6 +214,7 @@ class Thread(search.SearchableModel):
 	deletion_date = db.DateTimeProperty()
 	
 	deletion_message = db.StringProperty()
+	views = db.IntegerProperty()
 
 class Favourite(db.Model):
 	item = db.ReferenceProperty(Item,required=True)
