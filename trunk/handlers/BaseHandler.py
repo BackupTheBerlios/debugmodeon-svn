@@ -311,7 +311,9 @@ class BaseHandler(webapp.RequestHandler):
 					parent_category.subcategories = []
 				parent_category.subcategories.append(category)
 
-		self.values['categories'] = [categories[key] for key in categories]
+		ret = [categories[key] for key in categories]
+		ret.sort()
+		self.values['categories'] = ret
 
 	def add_tag_cloud(self):
 		self.values['tag_cloud'] = self.cache('tag_cloud', self.get_tag_cloud)

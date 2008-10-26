@@ -28,11 +28,13 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<ul>
 		{% for category in categories %}
 		<li><a href="/admin.category.edit?key={{ category.key() }}">{{ category.title|escape }}</a>
+		{% if category.subcategories %}
 		<ul>
 		{% for subcategory in category.subcategories %}
 		<li><a href="/admin.category.edit?key={{ subcategory.key() }}">{{ subcategory.title|escape }}</a></li>
 		{% endfor %}
 		</ul>
+		{% endif %}
 		</li>
 		{% endfor %}
 	</ul>
@@ -41,9 +43,11 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<select name="test">
 		{% for category in categories %}
 		<optgroup label="{{ category.title|escape }}">
+		{% if category.subcategories %}
 		{% for subcategory in category.subcategories %}
 		<option value="subcategory.key()">{{ subcategory.title|escape }}</option>
 		{% endfor %}
+		{% endif %}
 		</optgroup>
 		{% endfor %}
 	</select>
