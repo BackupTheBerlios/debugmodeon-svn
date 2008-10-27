@@ -56,7 +56,9 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<h1>debug_mode=ON</h1>
 			<p>Red social y de contenidos en español. <br/> 
 				Programación, desarrollo y diseño web, administración de sistemas, redes,...<br/>
-				Difunde tu perfil en debug_mode=ON con <a href="user.promote">nuestros botones</a>.
+				{% if user %}
+				<strong>Difunde tu perfil en debug_mode=ON con <a href="user.promote">nuestros botones</a></strong>
+				{% endif %}
 			</p>
 			 
 		</div>
