@@ -79,7 +79,7 @@ indexes:
   - name: items
     direction: desc
 
-# Used 20 times in query history.
+# Used 21 times in query history.
 - kind: Group
   properties:
   - name: members
