@@ -27,13 +27,25 @@ class GroupList(BaseHandler):
 	def execute(self):
 		self.values['tab'] = '/group.list'
 		query = model.Group.all()
-		app = self.get_application()
 		key = '%s?%s' % (self.request.path, self.request.query)
-		groups = self.paging(query, 10, '-members', app.groups, ['-creation_date', '-members', '-items'], key)
+		
+		cat = self.get_param('cat')
+		if cat:
+			category = model.Category.all().filter('url_path', cat).get()
+			self.values['category'] = category
+			self.values['cat'] = cat
+			query = query.filter('category', category)
+			max = category.groups
+		else:
+			app = self.get_application()
+			max = app.groups
+			
+		groups = self.paging(query, 10, '-members', max, ['-creation_date', '-members', '-items'], key)
 		self.values['groups'] = groups
+		# denormalization
 		for g in groups:
 			if not g.owner_nickname:
 				g.owner_nickname = g.owner.nickname
 				g.put()
-		self.values['groups'] = groups
+		self.add_categories()
 		self.render('templates/group-list.html')

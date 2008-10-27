@@ -132,6 +132,7 @@ class Tag(db.Model):
 class Category(db.Model):
 	parent_category = db.SelfReferenceProperty()
 	title = db.StringProperty(required=True)
+	url_path = db.StringProperty()
 	description = db.StringProperty(required=True)
 	groups = db.IntegerProperty(required=True)
 	items = db.IntegerProperty(required=True)

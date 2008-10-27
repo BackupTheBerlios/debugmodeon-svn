@@ -60,6 +60,13 @@ indexes:
   - name: database
   - name: creation_date
 
+# Used 9 times in query history.
+- kind: Group
+  properties:
+  - name: category
+  - name: members
+    direction: desc
+
 # Unused in query history -- copied from input.
 - kind: Group
   properties:
@@ -72,13 +79,13 @@ indexes:
   - name: items
     direction: desc
 
-# Used 16 times in query history.
+# Used 19 times in query history.
 - kind: Group
   properties:
   - name: members
     direction: desc
 
-# Used 41 times in query history.
+# Used 44 times in query history.
 - kind: GroupItem
   properties:
   - name: group
@@ -91,7 +98,7 @@ indexes:
   - name: item
   - name: group_title
 
-# Used 48 times in query history.
+# Used 51 times in query history.
 - kind: GroupUser
   properties:
   - name: group
@@ -293,7 +300,7 @@ indexes:
   - name: form
   - name: creation_date
 
-# Used 17 times in query history.
+# Used 20 times in query history.
 - kind: RelatedGroup
   properties:
   - name: group_from
@@ -341,7 +348,7 @@ indexes:
   - name: last_update
     direction: desc
 
-# Used 44 times in query history.
+# Used 47 times in query history.
 - kind: Thread
   properties:
   - name: group

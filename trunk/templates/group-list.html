@@ -23,7 +23,28 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% block content %}
 	<div class="info">
 		<h1>Grupos</h1>
-		<p class="options">Ordenar por: <a href="?o=-creation_date"><img src="/static/images/date.png" alt="" class="icon" /> Fecha creación</a> | <a href="?o=-members"><img src="/static/images/group.png" alt="" class="icon" /> Número de usuarios</a> | <a href="?o=-items"><img src="/static/images/page_white_edit.png" alt="" class="icon" /> Número de artículos</a></p>
+			<form action="/group.list" method="get" accept-charset="utf-8" id="category-chooser-form">
+				<input type="hidden" name="o" value="{{ o }}" />
+				
+				<label for="cat" style="color:#777">Categoría</label>
+				<select name="cat" id="category-chooser-select">
+					<option value="">Todas</option>
+					{% for cat in categories %}
+					<optgroup label="{{ cat.title|escape }}">
+					{% if cat.subcategories %}
+					{% for subcategory in cat.subcategories %}
+					<option value="{{ subcategory.url_path }}"{% if category and category.key() == subcategory.key() %} selected="selected"{% endif %}>{{ subcategory.title|escape }}</option>
+					{% endfor %}
+					{% endif %}
+					</optgroup>
+					{% endfor %}
+				</select>
+			
+				<input type="submit" value="Filtrar" id="category-chooser-submit" />
+			</form>
+		<p class="options">
+			Ordenar por: <a href="?o=-creation_date&amp;cat={{ cat }}"><img src="/static/images/date.png" alt="" class="icon" /> Fecha creación</a> | <a href="?o=-members&amp;cat={{ cat }}"><img src="/static/images/group.png" alt="" class="icon" /> Número de usuarios</a> | <a href="?o=-items&amp;cat={{ cat }}"><img src="/static/images/page_white_edit.png" alt="" class="icon" /> Número de artículos</a>
+		</p>
 	</div>
 
 {% if len == 0 %}
@@ -33,4 +54,15 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% include 'inc-group-list.html' %}
 
 {% include 'inc-pagination.html' %}
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="/static/js/prototype.js"></script>
+<script type="text/javascript" src="/static/js/validation.js"></script>
+<script type="text/javascript" charset="utf-8">
+	Event.observe($('category-chooser-select'), 'change', function() {
+		$('category-chooser-form').submit();
+	});
+	$('category-chooser-submit').hide();
+</script>
 {% endblock %}

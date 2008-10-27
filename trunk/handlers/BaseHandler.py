@@ -301,6 +301,11 @@ class BaseHandler(webapp.RequestHandler):
 		cats = list(model.Category.all().order('title'))
 		categories = {}
 		for category in cats:
+			# legacy code
+			if not category.url_path:
+				category.url_path = self.to_url_path(category.title)
+				category.put()
+			# end
 			if category.parent_category is None:
 				categories[str(category.key())] = category
 
@@ -503,7 +508,12 @@ class BaseHandler(webapp.RequestHandler):
 			a = self.value('a')
 			t = self.value('t')
 			o = self.value('o')
+			cat = self.value('cat')
 			pages = self.value('pages')
+			
+			# order
+			if cat:
+				params.append('cat=%s' % cat)
    
 			# query string
 			if q:

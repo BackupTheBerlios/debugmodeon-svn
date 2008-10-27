@@ -59,6 +59,7 @@ class AdminCategoryEdit(AuthenticatedHandler):
 				category = model.Category.get(key)
 				category.title = self.get_param('title')
 				category.description = self.get_param('description')
+				category.url_path = self.to_url_path(category.title)
 				parent_key = self.request.get('parent_category')
 				if parent_key:
 					category.parent_category = model.Category.get(parent_key)
@@ -69,6 +70,7 @@ class AdminCategoryEdit(AuthenticatedHandler):
 					description=self.get_param('description'),
 					items = 0,
 					groups = 0)
+				category.url_path = self.to_url_path(category.title)
 				parent_key = self.request.get('parent_category')
 				if parent_key:
 					category.parent_category = model.Category.get(parent_key)

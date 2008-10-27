@@ -19,15 +19,13 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 #}
 	{% if group.category %}
 		<p style="padding-top:10px">
-		Grupos »
 			{% if group.category.parent_category %}
 				{{ group.category.parent_category.title|escape }} »
 			{% endif %}
-			{{ group.category.title|escape }}
+			<a href="/group.list?cat={{ group.category.url_path }}">{{ group.category.title|escape }}</a>
 		</p>
 	{% endif %}
 <div class="grid_2 alpha">
-	<br/>
 	<p style="text-align:center"><a href="/group/{{ group.url_path}}">
 	{% if group.image_version %}
 		<img src="/images/group/avatar/{{ group.key().id() }}/{{ group.image_version }}" alt="{{ group.title|escape }}" />
