@@ -47,11 +47,15 @@ class GroupEdit(AuthenticatedHandler):
 					self.values['all_users'] = group.all_users
 				else:
 					self.values['all_users'] = True
+				if group.category:
+					self.values['category'] = group.category
+				self.add_categories()
 				self.render('templates/group-edit.html')
 			else:
 				# show an empty form
 				self.values['title'] = 'Grupo...'
 				self.values['all_users'] = True
+				self.add_categories()
 				self.render('templates/group-edit.html')
 		else:
 			if key:
@@ -80,7 +84,18 @@ class GroupEdit(AuthenticatedHandler):
 					group.all_users = True
 				else:
 					group.all_users = False
+				category = model.Category.get(self.request.get('category'))
+				prev_category = group.category
+				group.category = category
 				group.put()
+				
+				if prev_category:
+					prev_category.groups -= 1
+					prev_category.put()
+				
+				category.groups += 1
+				category.put()
+				
 				memcache.delete('index_groups')
 				self.redirect('/group/%s' % (group.url_path, ))
 			else:
@@ -101,6 +116,8 @@ class GroupEdit(AuthenticatedHandler):
 					threads=0,
 					responses=0,
 					subscribers=[user.email])
+				category = model.Category.get(self.request.get('category'))
+				group.category = category
 				image = self.request.get("img")
 				if image:
 					image = images.im_feeling_lucky(image, images.JPEG)
@@ -111,6 +128,9 @@ class GroupEdit(AuthenticatedHandler):
 				group.put()
 				group.url_path = '%d/%s' % (group.key().id(), self.to_url_path(group.title))
 				group.put()
+				
+				category.groups += 1
+				category.put()
 				
 				user.groups += 1
 				user.put()

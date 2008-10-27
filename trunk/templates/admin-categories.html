@@ -31,27 +31,13 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		{% if category.subcategories %}
 		<ul>
 		{% for subcategory in category.subcategories %}
-		<li><a href="/admin.category.edit?key={{ subcategory.key() }}">{{ subcategory.title|escape }}</a></li>
+		<li><a href="/admin.category.edit?key={{ subcategory.key() }}">{{ subcategory.title|escape }}</a> {{ subcategory.groups }} grupos</li>
 		{% endfor %}
 		</ul>
 		{% endif %}
 		</li>
 		{% endfor %}
 	</ul>
-	
-	<p> <label for="test">Ejemplo selector categorías:</label>
-	<select name="test">
-		{% for category in categories %}
-		<optgroup label="{{ category.title|escape }}">
-		{% if category.subcategories %}
-		{% for subcategory in category.subcategories %}
-		<option value="subcategory.key()">{{ subcategory.title|escape }}</option>
-		{% endfor %}
-		{% endif %}
-		</optgroup>
-		{% endfor %}
-	</select>
-	</p>
 	
 	<p class="options"><a href="/admin.category.edit">Nueva categoría</a></p>
 

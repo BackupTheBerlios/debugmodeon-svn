@@ -17,6 +17,15 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 #}
+	{% if group.category %}
+		<p style="padding-top:10px">
+		Grupos »
+			{% if group.category.parent_category %}
+				{{ group.category.parent_category.title|escape }} »
+			{% endif %}
+			{{ group.category.title|escape }}
+		</p>
+	{% endif %}
 <div class="grid_2 alpha">
 	<br/>
 	<p style="text-align:center"><a href="/group/{{ group.url_path}}">
