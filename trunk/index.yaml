@@ -70,6 +70,20 @@ indexes:
 # Unused in query history -- copied from input.
 - kind: Group
   properties:
+  - name: category
+  - name: items
+    direction: desc
+
+# Unused in query history -- copied from input.  
+- kind: Group
+  properties:
+  - name: category
+  - name: creation_date
+    direction: desc
+
+# Unused in query history -- copied from input.
+- kind: Group
+  properties:
   - name: creation_date
     direction: desc
 
