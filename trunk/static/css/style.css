@@ -19,11 +19,11 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 */
 
 a:hover {
-	color: orange;
+	color: #ff6314;
 }
 
 div.box strong a:hover {
-	color: orange;
+	color: #ff6314;
 }
 
 .up {
@@ -417,17 +417,24 @@ div.error {
 }
 
 /* display the individual items next to each other, not one-per-line */
-.tag-cloud { margin:0; padding:10px; }
+.tag-cloud { margin:0; padding:10px; text-align: center }
 .tag-cloud li { display: inline; margin:0; padding:0; }
 /* hide the extra context from CSS-enabled browsers, but not screenreaders */
 .tag-cloud span { position: absolute; left: -999px; width: 990px; }
 /* size is purely presentational, based upon the class */
-.tag-cloud .size1 { font-size: 1em; }
-.tag-cloud .size2 { font-size: 1.3em; }
-.tag-cloud .size3 { font-size: 1.6em; }
-.tag-cloud .size4 { font-size: 1.9em; }
-.tag-cloud .size5 { font-size: 2.2em; }
-.tag-cloud .size6 { font-size: 2.5em; }
+.tag-cloud .size1 { font-size: 1em }
+.tag-cloud .size2 { font-size: 1.3em }
+.tag-cloud .size3 { font-size: 1.6em }
+.tag-cloud .size4 { font-size: 1.9em }
+.tag-cloud .size5 { font-size: 2.2em }
+.tag-cloud .size6 { font-size: 2.5em }
+
+.tag-cloud .size1 a { color: #265e70 }
+.tag-cloud .size2 a { color: #3e91c1 }
+.tag-cloud .size3 a { color: #92c64d }
+.tag-cloud .size4 a { color: #ff9d00 }
+.tag-cloud .size5 a { color: #ff6314 }
+.tag-cloud .size6 a { color: #ad0000 }
 
 span.highlight {
 	background-color: #ffa;

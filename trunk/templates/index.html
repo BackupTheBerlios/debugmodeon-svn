@@ -26,6 +26,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<style type="text/css" media="screen">
 		h4 {
 			color: orange;
+			font-size: 180%;
 		}
 	</style>
 
@@ -61,50 +62,9 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<strong>Difunde tu perfil en debug_mode=ON con <a href="user.promote">nuestros botones</a></strong>
 				{% endif %}
 			</p>
-			 
 		</div>
 	</div>
 	<div class="clear">&nbsp;</div>
-	
-	{#
-	
-	<div class="grid_9 alpha omega">
-		<div class="grid_3 alpha">
-			<div class="box" style="text-align:center">
-				<p class="start-box">&nbsp;</p>
-				<p class="up"><img src="/static/images/page_white_edit.png" class="icon" alt="" /> <a href="/item.list"><strong>Artículos</strong></a></p>
-				<p>
-					¡Publica! <br/> Si tienes Adsense <br/> <a href="/item/5674/como-anadir-adsense-a-tus-articulos"><strong>puedes ganar dinero</strong></a>
-				</p>
-				<p class="end-box">&nbsp;</p>
-			</div>
-		</div>
-		<div class="grid_3">
-			<div class="box" style="text-align:center">
-				<p class="start-box">&nbsp;</p>
-				<p class="up"><img src="/static/images/group.png" class="icon" alt="" /> <a href="/group.list"><strong>Grupos</strong></a></p>
-				<p>
-					Créalos, únete a ellos. <br/>
-					Tienen <strong><a href="/forum.list">foros</a></strong> y artículos relacionados.
-				</p>
-				<p class="end-box">&nbsp;</p>
-			</div>
-		</div>
-		<div class="grid_3 omega">
-			<div class="box" style="text-align:center">
-				<p class="start-box">&nbsp;</p>
-				<p class="up"><img src="/static/images/help.png" class="icon" alt="" /> <a href="/group.forum/9240/debug-mode-on/opiniones-sugerencias-feedback-general"><strong>Feedback</strong></a></p>
-				<p>
-					Escríbenos sugerencias, comentarios, bugs,... <br/> <strong><a href="/group.forum/9240/debug-mode-on/opiniones-sugerencias-feedback-general">¡Queremos tu feedback!</a></strong>
-				</p>
-				<p class="end-box">&nbsp;</p>
-			</div>
-		</div>
-
-	</div>
-	<div class="clear">&nbsp;</div>
-	
-	#}
 
 	<div class="grid_9 alpha omega">
 	
@@ -137,21 +97,6 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<hr/>
 
 		<h4>Grupos por categorías</h4>
-		{#
-		<ul>
-			{% for category in categories %}
-			<li><strong>{{ category.title|escape }}</strong>
-			{% if category.subcategories %}
-			<ul>
-			{% for subcategory in category.subcategories %}
-			<li><a href="/group.list?cat={{ subcategory.url_path }}">{{ subcategory.title|escape }}</a></li>
-			{% endfor %}
-			</ul>
-			{% endif %}
-			</li>
-			{% endfor %}
-		</ul>
-		#}
 		
 		
 		<div class="grid_4 alpha">
@@ -238,18 +183,4 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		
 	</div>
 	<div class="clear">&nbsp;</div>
-	
-	{#
-	<div class="grid_3 alpha">
-		{{ items }}
-	</div>
-	<div class="grid_3">
-		{{ groups }}
-	</div>
-	<div class="grid_3 omega">
-		{{ threads }}
-	</div>
-	<div class="clear">&nbsp;</div> 
-	
-	#}
 {% endblock %}

@@ -35,7 +35,7 @@ class MainPage(BaseHandler):
 		# self.values['groups'] = self.cache('index_groups', self.get_groups)
 		self.values['threads'] = self.cache('index_threads', self.get_threads)
 		self.add_tag_cloud()
-		self.add_categories()
+		# self.add_categories()
 		self.render('templates/index.html')
 		
 	def get_items(self):
