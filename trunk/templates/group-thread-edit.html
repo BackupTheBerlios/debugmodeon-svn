@@ -31,22 +31,24 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		</p>
 	</div>
 	<div class="grid_7 omega">
-		<form action="/group.thread.edit" method="post" accept-charset="utf-8">
-			<input type="hidden" name="key" value="{{ thread.key() }}" />
-			{% if is_parent_thread %}
-			<p>
-				<label for="title">Título</label>
-				<input type="text" name="title" style="font-size: 200%" size="35" value="{{ thread.title }}" />
-			</p>
-			{% endif %}
-			<textarea name="content" rows="8" cols="54" id="markdown_example">{{ thread.content }}</textarea>
-			<p><input type="submit" value="Guardar Cambios" /></p>
-		</form>
-		
+		<div class="form">
+			<form action="/group.thread.edit" method="post" accept-charset="utf-8">
+				<input type="hidden" name="key" value="{{ thread.key() }}" />
+				{% if is_parent_thread %}
+				<p>
+					<label for="title">Título</label>
+					<input type="text" name="title" style="font-size: 200%" size="35" value="{{ thread.title }}" />
+				</p>
+				{% endif %}
+				<textarea name="content" rows="8" cols="54" id="markdown_example">{{ thread.content }}</textarea>
+				<p><input type="submit" value="Guardar Cambios" /></p>
+			</form>
+		</div>
 		<p>
 			<label for="preview">Vista previa</label>
 			<div class="comment"><div id="markdown_formatted"></div></div>
 		</p>
+		
 	</div>
 	<div class="clear">&nbsp;</div>
 {% endblock %}

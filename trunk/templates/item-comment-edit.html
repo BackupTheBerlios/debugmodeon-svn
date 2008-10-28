@@ -45,22 +45,22 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		</p>
 	</div>
 	<div class="grid_7 omega">
-		{% if comment_key %}
-		<form action="/item.comment.edit" method="post" accept-charset="utf-8">
-			<input type="hidden" name="key" value="{{ comment.key() }}" />
-		{% else %}
-		<form action="/item.comment" method="post" accept-charset="utf-8">
-			<input type="hidden" name="key" value="{{ comment.item.key() }}" />
-		{% endif %}
-			<textarea name="content" rows="8" cols="54" id="markdown_example">{{ comment.content }}</textarea>
-			
+		<div class="form">
+			{% if comment_key %}
+			<form action="/item.comment.edit" method="post" accept-charset="utf-8">
+				<input type="hidden" name="key" value="{{ comment.key() }}" />
+			{% else %}
+			<form action="/item.comment" method="post" accept-charset="utf-8">
+				<input type="hidden" name="key" value="{{ comment.item.key() }}" />
+			{% endif %}
+				<textarea name="content" rows="8" cols="54" id="markdown_example">{{ comment.content }}</textarea>	
 			{% if comment_key %}
 				<p><input type="submit" value="Guardar Cambios" /></p>
 			{% else %}
 				<p><input type="submit" value="Publicar comentario" />&nbsp;<input type="submit" name="preview" value="Previsualizar"></p>
 			{% endif %}
-		</form>
-		
+			</form>
+		</div>
 		<p>
 			<label for="preview">Vista previa</label>
 			<div class="comment"><div id="markdown_formatted"></div></div>
