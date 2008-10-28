@@ -602,8 +602,9 @@ class BaseHandler(webapp.RequestHandler):
 			subscription_type=subscription_type,
 			subscription_id=subscription_id)
 		subscription = model.UserSubscription.all().filter('user', user).filter('subscription_type', subscription_type).filter('subscription_id', subscription_id).get()
-		if sunscription is None:
+		if subscription is None:
 			user_subscription.put()
+			
 	def remove_user_subscription(self, user, subscription_type, subscription_id):
 		user_subscription = model.UserSubscription.all().filter('user', user).filter('subscription_type', subscription_type).filter('subscription_id', subscription_id).get()
 		if user_subscription is not None:
