@@ -93,6 +93,7 @@ Eliminar suscripcion a este hilo:
 		subscribe = self.get_param('subscribe')
 		if subscribe and not user.email in thread.subscribers:
 			thread.subscribers.append(user.email)
+			self.add_user_subscription(user, 'thread', thread.key().id())
 		thread.responses += 1
 		thread.last_response_date = datetime.datetime.now()
 		thread.put()

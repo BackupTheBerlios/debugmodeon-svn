@@ -595,12 +595,16 @@ class BaseHandler(webapp.RequestHandler):
 		self.values['message'] = message
 		self.render('templates/error.html')
 		
-	def can_update(self, value):
-		now = datetime.datetime.now()
-		diff = now - value
-		seconds = diff.seconds
-		minutes = seconds / 60
-		if minutes < 15:
-			return True
-		else:
-			return False
+	def add_user_subscription(self, user, subscription_type, subscription_id):
+		user_subscription = model.UserSubscription(user=user,
+			user_nickname=user.nickname,
+			user_email=user.email,
+			subscription_type=subscription_type,
+			subscription_id=subscription_id)
+		subscription = model.UserSubscription.all().filter('user', user).filter('subscription_type', subscription_type).filter('subscription_id', subscription_id).get()
+		if sunscription is None:
+			user_subscription.put()
+	def remove_user_subscription(self, user, subscription_type, subscription_id):
+		user_subscription = model.UserSubscription.all().filter('user', user).filter('subscription_type', subscription_type).filter('subscription_id', subscription_id).get()
+		if user_subscription is not None:
+			user_subscription.delete()

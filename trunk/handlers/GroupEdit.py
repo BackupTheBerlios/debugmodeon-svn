@@ -126,6 +126,7 @@ class GroupEdit(AuthenticatedHandler):
 					group.image_version = 1
 				
 				group.put()
+				self.add_user_subscription(user, 'group', group.key().id())
 				group.url_path = '%d/%s' % (group.key().id(), self.to_url_path(group.title))
 				group.put()
 				

@@ -46,7 +46,7 @@ class GroupUserJoin(AuthenticatedHandler):
 			group.subscribers.append(user.email)
 			group.members += 1
 			group.put()
-			
+			self.add_user_subscription(user, 'group', group.key().id())
 			user.groups += 1
 			user.put()
 		self.redirect(redirect)

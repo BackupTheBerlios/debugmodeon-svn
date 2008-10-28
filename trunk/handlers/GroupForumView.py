@@ -71,10 +71,6 @@ class GroupForumView(BaseHandler):
 				t.put()
 			i += 1
 		# end migration
-		if responses and user:
-			last_response = responses[len(responses) -1]
-			if user.nickname == last_response.author_nickname and self.can_update(last_response.creation_date):
-				last_response.can_edit = True
 				
 		self.values['responses'] = responses
 		

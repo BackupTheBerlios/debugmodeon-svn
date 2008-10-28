@@ -34,6 +34,7 @@ class GroupForumSubscribe( AuthenticatedHandler ):
 		if not mail in thread.subscribers:
 			thread.subscribers.append(user.email)
 			thread.put()
+			self.add_user_subscription(user, 'thread', thread.key().id())
 			if self.get_param('x'):
 				self.render_json({ 'action': 'subscribed' })
 			else:	
@@ -41,6 +42,7 @@ class GroupForumSubscribe( AuthenticatedHandler ):
 		else:
 			thread.subscribers.remove(user.email)
 			thread.put()
+			self.remove_user_subscription(user, 'thread', thread.key().id())
 			if self.get_param('x'):
 				self.render_json({ 'action': 'unsubscribed' })
 			else:	

@@ -67,7 +67,10 @@ class ItemCommentEdit(AuthenticatedHandler):
 					comment.editions +=1
 					comment.last_edition = datetime.datetime.now()
 				comment.put()
-				self.redirect('/item/%s/#comment-%s' % (comment.item.url_path, comment.response_number))
+				page = comment.response_number / 10
+				if (comment.response_number % 10) > 0:
+					page += 1
+				self.redirect('/item/%s?p=%d#comment-%s' % (comment.item.url_path, page, comment.response_number))
 			else:
 				self.error('Comentario no encontrado')
 				return

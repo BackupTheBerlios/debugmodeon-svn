@@ -76,8 +76,11 @@ class GroupForumEdit(AuthenticatedHandler):
 		
 		thread.put()
 		thread.url_path = ('%d/%s/%s') % (thread.key().id(), self.to_url_path(group.title), self.to_url_path(title))
+		subscribe = self.get_param('subscribe')
+		if subscribe:
+			thread.subscribers.append(user.email)
+			self.add_user_subscription(user, 'thread', thread.key().id())
 		thread.put()
-
 		group.threads += 1
 		group.put()
 		
@@ -98,9 +101,7 @@ Entra en el debate:
 """ % (self.clean_ascii(group.title), self.clean_ascii(thread.title), app.url, thread.url_path)
 			self.mail(subject=subject, body=body, bcc=group.subscribers)
 		
-		subscribe = self.get_param('subscribe')
-		if subscribe and not user.email in thread.subscribers:
-			thread.subscribers.append(user.email)
+			
 		
 		memcache.delete('index_threads')
 

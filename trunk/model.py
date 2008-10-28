@@ -276,3 +276,9 @@ class RelatedGroup(db.Model):
 	group_to_title = db.StringProperty(required=True)
 	group_to_url_path = db.StringProperty(required=True)
 	
+class UserSubscription(db.Model):
+	user = db.ReferenceProperty(UserData,required=True)
+	user_email = db.StringProperty(required=True)
+	user_nickname = db.StringProperty(required=True)
+	subscription_type = db.StringProperty(required=True)
+	subscription_id = db.IntegerProperty(required=True)

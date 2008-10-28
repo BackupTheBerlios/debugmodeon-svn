@@ -34,6 +34,7 @@ class ItemCommentSubscribe( AuthenticatedHandler ):
 		if not mail in item.subscribers:
 			item.subscribers.append(mail)
 			item.put()
+			self.add_user_subscription(user, 'item', item.key().id())
 			if self.get_param('x'):
 				self.render_json({ 'action': 'subscribed' })
 			else:
@@ -41,6 +42,7 @@ class ItemCommentSubscribe( AuthenticatedHandler ):
 		else:
 			item.subscribers.remove(mail)
 			item.put()
+			self.remove_user_subscription(user, 'item', item.key().id())
 			if self.get_param('x'):
                                 self.render_json({ 'action': 'unsubscribed' })
                         else:

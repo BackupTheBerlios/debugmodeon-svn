@@ -179,6 +179,7 @@ class ItemEdit(AuthenticatedHandler):
 				item.subscribers = [user.email]
 				item.put()
 				
+				self.add_user_subscription(user, 'item', item.key().id())
 				item.url_path = '%d/%s' % (item.key().id(), self.to_url_path(item.title))
 				item.put()
 				

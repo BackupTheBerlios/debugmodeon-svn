@@ -73,16 +73,14 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			{% endif %}
 		{% endif %}
 		</p>
-		{% if user.nickname != thread.author_nickname %}
-			{% if user %}
-			<p class="options">
-				{% if cansubscribe %}
-					<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key() }}" title="suscripción por mail"><img src="/static/images/email_add.png" class="icon" /> Suscribirme por email a las respuestas de este hilo</a>
-				{% else %}
-					<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key() }}" title="anular suscripción"><img src="/static/images/email_delete.png" class="icon" /> Anular mi suscripción a este hilo</a>
-				{% endif %}
-			</p>
+		{% if user %}
+		<p class="options">
+			{% if cansubscribe %}
+			<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key() }}" title="suscripción por mail"><img src="/static/images/email_add.png" class="icon" /> Suscribirme por email a las respuestas de este hilo</a>
+			{% else %}
+			<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key() }}" title="anular suscripción"><img src="/static/images/email_delete.png" class="icon" /> Anular mi suscripción a este hilo</a>
 			{% endif %}
+		</p>
 		{% endif %}
 	</div>
 	<div class="clear">&nbsp;</div>
@@ -167,12 +165,13 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<div class="form">
 
 		<textarea name="content" rows="8" cols="54" id="markdown_example"></textarea>
-
+		<span id="subscribe_box">
 		{% if cansubscribe %}
 		<p>
 			<input type="checkbox" name="subscribe" value="True" id="subscribe" />Suscribirme por email
 		</p>
 		{% endif %}
+		</span>
 
 		<p><input type="submit" value="Publicar respuesta" /></p>
 
@@ -216,33 +215,34 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	});
 
 	prettyPrint();
-        function ajaxSubs() {
-                var subs = $('group.forum.subscribe');
-                if(subs == null) return;
-                var parent = $(subs.parentNode);
-                Element.observe(subs, 'click', function(e) {
-                        href = subs.href + '&x=1';
-                        parent.innerHTML = '<img class="icon" src="/static/images/spinner.gif" />';
-                        new Ajax.Request(href, {
-                                method: 'get',
-                                onSuccess: function(transport, json) {
-                                        var action = transport.responseText.evalJSON().action;
-                                        if(action == 'unsubscribed') {
-                                                parent.innerHTML = '<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key() }}" title="suscripción por mail"><img src="/static/images/email_add.png" class="icon" /> Suscribirme por email a las respuestas de este hilo</a>';
-                                        } else {
-                                                parent.innerHTML = '<a d="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key() }}" title="anular suscripción"><img src="/static/images/email_delete.png" class="icon" /> Anular mi suscripción a este hilo</a>';
-                                        }
-                                        ajaxSubs();
-                                },
-                                onFailure: function() {
-                                        parent.innerHTML = 'Ocurrió un error :(';
-                                }
-                        });
-                        Event.stop(e);
-                });
-        }
-        
-        ajaxSubs();
+	function ajaxSubs() {
+		var subs = $('group.forum.subscribe');
+		if(subs == null) return;
+		var parent = $(subs.parentNode);
+		Element.observe(subs, 'click', function(e) {
+			href = subs.href + '&x=1';
+			parent.innerHTML = '<img class="icon" src="/static/images/spinner.gif" />';
+			new Ajax.Request(href, {
+				method: 'get',
+				onSuccess: function(transport, json) {
+					var action = transport.responseText.evalJSON().action;
+					if(action == 'unsubscribed') {
+						parent.innerHTML = '<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key() }}" title="suscripción por mail"><img src="/static/images/email_add.png" class="icon" /> Suscribirme por email a las respuestas de este hilo</a>';
+						$('subscribe_box').innerHTML = '<p><input type="checkbox" name="subscribe" value="True" id="subscribe" />Suscribirme por email</p>';
+					} else {
+						parent.innerHTML = '<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key() }}" title="anular suscripción"><img src="/static/images/email_delete.png" class="icon" /> Anular mi suscripción a este hilo</a>';
+						$('subscribe_box').innerHTML = '';
+					}
+					ajaxSubs();
+				},
+				onFailure: function() {
+					parent.innerHTML = 'Ocurrió un error :(';
+				}
+			});
+			Event.stop(e);
+		});
+	}
+	ajaxSubs();
 
 
 </script>
