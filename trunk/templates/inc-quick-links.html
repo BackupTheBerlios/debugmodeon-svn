@@ -18,9 +18,9 @@ You should have received a copy of the GNU Affero General Public License
 along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
  #}
 
+{% if user %}
 <div class="box" id="quick-links">
 	<p class="title">Quick links</p>
-{% if user %}
 	<p><strong>Acciones</strong></p>
 	<ul>
 		<li><strong><a href="/item.edit"><img src="/static/images/page_white_edit.png" alt="" class="icon" /> Nuevo artículo</a></strong></li>
@@ -44,7 +44,12 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<li><a href="/message.sent"><img src="/static/images/email_edit.png" alt="" class="icon" /> Mensajes enviados</a></li>
 	</ul>
 
+	<p class="end-box">&nbsp;</p>
+</div>
+
 {% else %}
+<div class="box" id="quick-links">
+	<p class="title">Quick links</p>
 	<p style="text-align: center">
 	{% if sess.user %}
 		Hola {{ sess.user_nickname }} | <a href="/user.logout">desconectar</a>
@@ -53,6 +58,31 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		¿<a href="{{ app.url }}/user.forgotpassword?redirect_to={{ redirect }}">Olvidaste la contraseña</a>?
 	{% endif %}
 	</p>
-{% endif %}
 	<p class="end-box">&nbsp;</p>
 </div>
+			<div class="box" style="text-align:center">
+				<p class="start-box">&nbsp;</p>
+				<p class="up"><img src="/static/images/page_white_edit.png" class="icon" alt="" /> <a href="/item.list"><strong>Artículos</strong></a></p>
+				<p>
+					¡Publica! <br/> Si tienes Adsense <br/> <a href="/item/5674/como-anadir-adsense-a-tus-articulos"><strong>puedes ganar dinero</strong></a>
+				</p>
+				<p class="end-box">&nbsp;</p>
+			</div>
+			<div class="box" style="text-align:center">
+				<p class="start-box">&nbsp;</p>
+				<p class="up"><img src="/static/images/group.png" class="icon" alt="" /> <a href="/group.list"><strong>Grupos</strong></a></p>
+				<p>
+					Créalos, únete a ellos. <br/>
+					Tienen <strong><a href="/forum.list">foros</a></strong> y artículos relacionados.
+				</p>
+				<p class="end-box">&nbsp;</p>
+			</div>
+			<div class="box" style="text-align:center">
+				<p class="start-box">&nbsp;</p>
+				<p class="up"><img src="/static/images/help.png" class="icon" alt="" /> <a href="/group.forum/9240/debug-mode-on/opiniones-sugerencias-feedback-general"><strong>Feedback</strong></a></p>
+				<p>
+					Escríbenos sugerencias, comentarios, bugs,... <br/> <strong><a href="/group.forum/9240/debug-mode-on/opiniones-sugerencias-feedback-general">¡Queremos tu feedback!</a></strong>
+				</p>
+				<p class="end-box">&nbsp;</p>
+			</div>
+{% endif %}

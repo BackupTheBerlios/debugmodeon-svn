@@ -38,7 +38,7 @@ class UserLogin(BaseHandler):
 			self.render('templates/user-login.html')
 		else:
 			nickname = self.request.get('nickname')
-			password = self.request.get('password')		
+			password = self.request.get('password')
 
 			user = model.UserData.gql('WHERE nickname=:1', nickname).get()
 			if user:

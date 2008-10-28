@@ -32,19 +32,20 @@ class MainPage(BaseHandler):
 		# memcache.delete('index_groups')
 		# memcache.delete('index_threads')
 		self.values['items'] = self.cache('index_items', self.get_items)
-		self.values['groups'] = self.cache('index_groups', self.get_groups)
+		# self.values['groups'] = self.cache('index_groups', self.get_groups)
 		self.values['threads'] = self.cache('index_threads', self.get_threads)
 		self.add_tag_cloud()
+		self.add_categories()
 		self.render('templates/index.html')
 		
 	def get_items(self):
-		items = model.Item.all().filter('draft', False).filter('deletion_date', None).order('-creation_date').fetch(10)
-		return self.render_chunk('templates/index-items.html', {'items': items})
+		return model.Item.all().filter('draft', False).filter('deletion_date', None).order('-creation_date').fetch(5)
+		# return self.render_chunk('templates/index-items.html', {'items': items})
 
 	def get_groups(self):
-		groups = model.Group.all().order('-members').fetch(10)
-		return self.render_chunk('templates/index-groups.html', {'groups': groups})
+		return model.Group.all().order('-members').fetch(5)
+		# return self.render_chunk('templates/index-groups.html', {'groups': groups})
 
 	def get_threads(self):
-		threads = model.Thread.all().filter('parent_thread', None).order('-last_response_date').fetch(10)
-		return self.render_chunk('templates/index-threads.html', {'threads': threads})
+		return model.Thread.all().filter('parent_thread', None).order('-last_response_date').fetch(5)
+		# return self.render_chunk('templates/index-threads.html', {'threads': threads})

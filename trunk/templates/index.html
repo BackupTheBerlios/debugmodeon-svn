@@ -24,8 +24,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<meta name="description" content="Red de contenidos y red social con artículos, grupos, foros,..." />
 	<meta name="keywords" content="red social, programacion, artículos" />
 	<style type="text/css" media="screen">
-		.up {
-			font-size: 140%;
+		h4 {
+			color: orange;
 		}
 	</style>
 
@@ -46,6 +46,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endblock %}
 
 {% block content %}
+
 	<div class="grid_3 alpha">
 		<p style="text-align:center;margin-top:10px">
 			<img src="/static/images/logo1.jpg" alt="debug_mode=ON" />
@@ -64,6 +65,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		</div>
 	</div>
 	<div class="clear">&nbsp;</div>
+	
+	{#
 	
 	<div class="grid_9 alpha omega">
 		<div class="grid_3 alpha">
@@ -100,7 +103,143 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 	</div>
 	<div class="clear">&nbsp;</div>
+	
+	#}
 
+	<div class="grid_9 alpha omega">
+	
+		<h4>Últimos mensajes en foros</h4>
+		{% include 'inc-forum-list.html' %}
+		<p style="text-align:right"><strong><a href="/forum.list">Ver todos los mensajes en foros »</a></strong></p>
+		<hr/>
+		
+		<h4>Últimos artículos</h4>
+		<table class="forum">
+			<thead>
+				<th style="text-align:center">Autor</th>
+				<th class="subject">Título</th>
+			</thead>
+			<tbody>
+		{% for item in items %}
+			<tr {% if loop.index % 2 == 0 %}class="even"{% endif %}>
+				<td style="text-align:center">
+					<a href="/user/{{ item.author_nickname }}"><img class="icon" src="/images/user/thumbnail/{{ item.author_nickname }}" alt="{{ item.author_nickname }}" title="{{ item.author_nickname }}" /></a>
+				</td>
+				<td class="subject">
+				    <strong><a href="/item/{{ item.url_path }}">{{ item.title|escape }}</a></strong>
+				</td>
+			</tr>
+		{% endfor %}
+			</tbody>
+		</table>
+		</ul>
+		<p style="text-align:right"><strong><a href="/item.list">Ver todos los artículos »</a></strong></p>
+		<hr/>
+
+		<h4>Grupos por categorías</h4>
+		{#
+		<ul>
+			{% for category in categories %}
+			<li><strong>{{ category.title|escape }}</strong>
+			{% if category.subcategories %}
+			<ul>
+			{% for subcategory in category.subcategories %}
+			<li><a href="/group.list?cat={{ subcategory.url_path }}">{{ subcategory.title|escape }}</a></li>
+			{% endfor %}
+			</ul>
+			{% endif %}
+			</li>
+			{% endfor %}
+		</ul>
+		#}
+		
+		
+		<div class="grid_4 alpha">
+		<ul> 
+
+			<li><strong>Administración de Sistemas</strong> 
+
+			<ul> 
+
+			<li><a href="/group.list?cat=redes">Redes</a></li> 
+
+			<li><a href="/group.list?cat=sistemas-operativos">Sistemas Operativos</a></li> 
+
+			</ul> 
+
+			</li> 
+
+			<li><strong>Comunidades</strong> 
+
+			<ul> 
+
+			<li><a href="/group.list?cat=centros-de-estudio">Centros de estudio</a></li> 
+
+			<li><a href="/group.list?cat=empresas">Empresas</a></li> 
+
+			<li><a href="/group.list?cat=grupos-de-usuarios">Grupos de usuarios</a></li> 
+
+			<li><a href="/group.list?cat=otras">Otras</a></li> 
+
+			<li><a href="/group.list?cat=software-libre">Software libre</a></li> 
+
+			</ul> 
+
+			</li>
+		</ul>
+		</div>
+		
+		<div class="grid_5 omega">
+		<ul>
+			<li><strong>Hardware</strong> 
+
+			<ul> 
+
+			<!-- <li><a href="/group.list?cat=electronica">Electrónica</a></li> -->
+
+			<li><a href="/group.list?cat=ordenadores">Ordenadores</a></li> 
+
+			<li><a href="/group.list?cat=perifericos">Periféricos</a></li> 
+
+			<li><a href="/group.list?cat=sistemas-empotrados">Sistemas empotrados</a></li> 
+
+			</ul> 
+
+			</li> 
+
+			<li><strong>Programación</strong> 
+
+			<ul> 
+
+			<li><a href="/group.list?cat=desarrollo-web">Desarrollo web</a></li> 
+
+			<li><a href="/group.list?cat=frameworks-librerias">Frameworks / librerías</a></li> 
+
+			<li><a href="/group.list?cat=herramientas-de-desarrollo">Herramientas de desarrollo</a></li> 
+
+			<li><a href="/group.list?cat=ingenieria-de-software">Ingeniería de software</a></li> 
+
+			<li><a href="/group.list?cat=lenguajes-de-programacion">Lenguajes de programación</a></li> 
+
+			<li><a href="/group.list?cat=programacion-moviles">Programación móviles</a></li> 
+
+			<li><a href="/group.list?cat=software">Software</a></li> 
+
+			</ul> 
+
+			</li> 
+
+		</ul>
+		</div>
+		<div class="clear">&nbsp;</div>
+		
+		
+		<p style="text-align:right"><strong><a href="/group.list">Ver todos los grupos »</a></strong></p>
+		
+	</div>
+	<div class="clear">&nbsp;</div>
+	
+	{#
 	<div class="grid_3 alpha">
 		{{ items }}
 	</div>
@@ -111,4 +250,6 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		{{ threads }}
 	</div>
 	<div class="clear">&nbsp;</div> 
+	
+	#}
 {% endblock %}

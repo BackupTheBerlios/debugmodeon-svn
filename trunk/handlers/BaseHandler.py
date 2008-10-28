@@ -339,6 +339,7 @@ class BaseHandler(webapp.RequestHandler):
 		return list(set(tags))
 
 	def hash(self, login, p, times=100):
+		p = p.encode('ascii', 'ignore')
 		p = '%s:%s' % (login, p)
 		for i in range(0, times):
 			p = sha.new(p).hexdigest()
