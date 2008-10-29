@@ -1,5 +1,5 @@
 {#
-(C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+(C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 
 This file is part of "debug_mode_on".
 
@@ -19,18 +19,34 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 {% extends "base.html" %}
 
-{% block title %} Administración {% endblock %}
+{% block title %} Configuración aplicación {% endblock %}
 
 {% block content %}
+	<div class="info">
+		<h1>Administración de Usuarios</h1>
+	</div>
 	
-	<h1>Administración</h1>
+	{% if m %}
+		<p class="message">{{ m|escape }}</p>
+	{% endif %}
 
-	<ul>
-	    <li><strong><a href="/admin.application">Configuración aplicación</a></strong></li>
-		<li><strong><a href="/group.add.related">Relacionar grupos</a></strong></li>
-		<li><strong><a href="/admin.categories">Administrar categorías</a></strong></li>
-		<li><strong><a href="/admin.users">Administrar usuarios</a></strong></li>
-		<li>Flush cache</li>
-	</ul>
+	<form action="/admin.users" method="post" accept-charset="utf-8">
+		<div class="form">
+			<p>
+				<label>Acción</label>
+				<select name="action">
+					<option value="block_user">Bloquear usuario</option>
+					<option value="unblock_user">Desbloquear usuario</optiom>
+				</select>
+			</p>
+			<p>
+				<label for="url">Nick del usuario</label>
+				<input id="url" type="text" name="nickname" style="width: 250px" />
+			</p>
+
+		</div>
+	
+		<p><input type="submit" value="Enviar" /></p>
+	</form>
 
 {% endblock %}

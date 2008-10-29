@@ -109,7 +109,8 @@ def main():
 									   ('/admin.categories',	AdminCategories),
 									   ('/admin.category.edit',	AdminCategoryEdit),
 									   ('/group.add.related',	GroupAddRelated),
-									   
+									   ('/admin.users',			AdminUsers),
+									
 									   ('/apocalipto', 	Apocalipto),
 									   ('/html/.*', 	Static),
 									   ('/.*', 			NotFound)],

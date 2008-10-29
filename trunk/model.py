@@ -76,6 +76,7 @@ class UserData(search.SearchableModel):
 	creation_date = db.DateTimeProperty(auto_now_add=True)
 	deletion_date = db.DateTimeProperty()
 	last_login = db.DateTimeProperty()
+	banned_date = db.DateTimeProperty()
 
 class ItemHtml(db.Model):
 	content = db.TextProperty(required=True)

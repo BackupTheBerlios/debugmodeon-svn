@@ -44,6 +44,9 @@ class UserLogin(BaseHandler):
 			if user:
 				
 				if self.check_password(user, password):
+					if user.banned_date is not None:
+						self.show_error(nickname, u'Usuario baneado. Póngase en contacto con un administrador.')
+						return
 					user.last_login = datetime.datetime.now()
 					user.password = self.hash_password(user.nickname, password) # if you want to change the way the password is hashed
 					user.put()

@@ -104,6 +104,7 @@ from handlers.AdminCategories import *
 from handlers.AdminCategoryEdit import *
 from handlers.AdminApplication import *
 from handlers.GroupAddRelated import *
+from handlers.AdminUsers import *
 
 from handlers.Apocalipto import *
 from handlers.NotFound import *
