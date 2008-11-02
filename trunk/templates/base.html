@@ -76,9 +76,9 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<ul>
 				<li><a href="/"{% if tab == '/' %} class="current"{% endif %}>						<span>Inicio</span>		</a></li>
 				<li><a href="/item.list"{% if tab == '/item.list' %} class="current"{% endif %}>	<span>Artículos</span>	</a></li>
-				<li><a href="/group.list"{% if tab == '/group.list' %} class="current"{% endif %}	<span>Grupos</span>		</a></li>
-				<li><a href="/forum.list"{% if tab == '/forum.list' %} class="current"{% endif %}	<span>Foros</span>		</a></li>
-				<li><a href="/user.list"{% if tab == '/user.list' %} class="current"{% endif %}		<span>Usuarios</span>	</a></li>
+				<li><a href="/group.list"{% if tab == '/group.list' %} class="current"{% endif %}>	<span>Grupos</span>		</a></li>
+				<li><a href="/forum.list"{% if tab == '/forum.list' %} class="current"{% endif %}>	<span>Foros</span>		</a></li>
+				<li><a href="/user.list"{% if tab == '/user.list' %} class="current"{% endif %}>	<span>Usuarios</span>	</a></li>
 				{% if sess.user_rol == 'admin' %}
 				<li><a href="/admin"{% if tab == '/admin' %} class="current"{% endif %}>			<span>Admin</span>		</a></li>
 				{% endif %}
