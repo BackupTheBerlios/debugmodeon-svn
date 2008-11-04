@@ -94,7 +94,8 @@ def main():
 									   ('/group.user.list/.*',	GroupUserList),
 									   ('/group.user.unjoin',	GroupUserUnjoin),
 									   ('/group.user.join',		GroupUserJoin),
-									   
+									   # inviting contacts
+									   ('/invite',			Invite),
 									   # rss
 									   ('/feed/.*', Feed),
 									   

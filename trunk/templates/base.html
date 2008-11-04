@@ -34,17 +34,19 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 </head>
 <body>
 	<div class="container_12">
-		<div class="grid_8">
+		<div class="grid_6">
 			<p id="heading" style="margin-left:20px"><a href="/"><img src="/static/images/logo3.png" alt="debug_mode=ON" class="icon" height="50" /></a></p>
 		</div>
-		<div class="grid_4">
+		<div class="grid_6">
+			
 			<p class="options" style="text-align: right">
 			{% if sess.user %}
-				Hola <a href="/user/{{ sess.user_nickname }}"><strong>{{ sess.user_nickname }}</strong></a> | <a href="/user.edit">preferencias</a> | <a href="/user.logout">desconectar</a>
+				Hola <a href="/user/{{ sess.user_nickname }}"><strong>{{ sess.user_nickname }}</strong></a> | <a href="/user.edit">preferencias</a> | <a href="/user.logout">desconectar</a> | <a href="/html/faq.html" ><strong>FAQ</strong></a> 
 			{% else %}
 				<strong><a href="{{ app.url }}/user.login?redirect_to={{ redirect }}">Login</a></strong> o <a href="{{ app.url }}/user.register?redirect_to={{ redirect }}">regístrate</a>.
-				¿<a href="{{ app.url }}/user.forgotpassword?redirect_to={{ redirect }}">Olvidaste la contraseña</a>?
+				¿<a href="{{ app.url }}/user.forgotpassword?redirect_to={{ redirect }}">Olvidaste la contraseña</a>? | 	<a href="/html/faq.html" ><strong>FAQ</strong></a>
 			{% endif %}
+
 			</p>
 		</div>
 		<div class="clear">&nbsp;</div>
@@ -109,8 +111,12 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<div style="text-align: right">
 					<p>
 						&copy; Copyright 2008 debug_mode=ON <br/>
+						
 						<a href="/html/aviso-legal.html">Aviso legal</a> |
 						<a href="mailto:contacto@debugmodeon.com">contacto@debugmodeon.com</a>
+					</p>
+					<p>
+						<a href="/html/faq.html">FAQ</a>
 					</p>
 					<p>
 						Iconos gracias a <strong><a href="http://www.famfamfam.com/lab/icons/silk/">Silk icons</a></strong>. Creative Commons, <a href="http://creativecommons.org/licenses/by/2.5/" title="Creative Commons Attribution 2.5 License">algunos derechos reservados</a>.

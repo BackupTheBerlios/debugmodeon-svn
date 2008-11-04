@@ -89,6 +89,8 @@ from handlers.GroupUserJoin import *
 #search
 from handlers.SearchResult import *
 
+# inviting contacts
+from handlers.Invite import *
 # feed RSS
 from handlers.Feed import *
 
