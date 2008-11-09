@@ -41,7 +41,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			
 			<p class="options" style="text-align: right">
 			{% if sess.user %}
-				Hola <a href="/user/{{ sess.user_nickname }}"><strong>{{ sess.user_nickname }}</strong></a> | <a href="/user.edit">preferencias</a> | <a href="/user.logout">desconectar</a> | <a href="/html/faq.html" ><strong>FAQ</strong></a> 
+				Hola <a href="/user/{{ sess.user_nickname }}"><strong>{{ sess.user_nickname }}</strong></a>{% if sess.user_rol == 'admin' %} | <a href="/admin"><strong>Admin</strong></a>{% endif %} | <a href="/user.edit">preferencias</a> | <a href="/user.logout">desconectar</a> | <a href="/html/faq.html" ><strong>FAQ</strong></a> 
 			{% else %}
 				<strong><a href="{{ app.url }}/user.login?redirect_to={{ redirect }}">Login</a></strong> o <a href="{{ app.url }}/user.register?redirect_to={{ redirect }}">regístrate</a>.
 				¿<a href="{{ app.url }}/user.forgotpassword?redirect_to={{ redirect }}">Olvidaste la contraseña</a>? | 	<a href="/html/faq.html" ><strong>FAQ</strong></a>
@@ -81,9 +81,6 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<li><a href="/group.list"{% if tab == '/group.list' %} class="current"{% endif %}>	<span>Grupos</span>		</a></li>
 				<li><a href="/forum.list"{% if tab == '/forum.list' %} class="current"{% endif %}>	<span>Foros</span>		</a></li>
 				<li><a href="/user.list"{% if tab == '/user.list' %} class="current"{% endif %}>	<span>Usuarios</span>	</a></li>
-				{% if sess.user_rol == 'admin' %}
-				<li><a href="/admin"{% if tab == '/admin' %} class="current"{% endif %}>			<span>Admin</span>		</a></li>
-				{% endif %}
 			</ul>
 		  </div>
 		</div>

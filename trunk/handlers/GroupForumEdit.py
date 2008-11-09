@@ -45,6 +45,18 @@ class GroupForumEdit(AuthenticatedHandler):
 		title = self.get_param('title')
 		url_path = ''
 		content = self.get_param('content')
+		preview = self.get_param('preview')
+		if preview:
+			thread = model.Thread(group=group,
+				group_url_path=group.url_path,
+				author=user,
+				title=title)
+			self.values['thread'] = comment
+			self.values['preview'] = True
+			self.values['is_parent_thread'] = True
+			self.render('templates/group-thread-edit.html')
+			return
+		
 		if self.check_duplicate(group, user, content, title):
 			self.error('Hilo duplicado')
 			return

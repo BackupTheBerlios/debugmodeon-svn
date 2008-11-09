@@ -54,6 +54,16 @@ class Apocalipto(BaseHandler):
 			return
 		elif action == 'ut':
 			i = self.update_threads(offset)
+		elif action == 'uis':
+			i = self.update_item_subscription(p-1)
+			self.response.out.write('Processed from %d to %d. %d updated. Action %s' % (p-1, i[0], i[1], action))
+			return
+		elif action == 'ugs':
+			i = self.update_group_subscription(group, offset)
+		elif action == 'uts':
+			i = sel.update_thread_subscription(p-1)
+			self.response.out.write('Processed from %d to %d. %d updated. Action %s' % (p-1, i[0], i[1], action))
+			return
 		else:
 			self.response.out.write('unknown action -%s-' % action)
 			return
@@ -146,4 +156,40 @@ class Apocalipto(BaseHandler):
 				th.put()
 				p += 1
 			i+=1
+		return (i, p)
+		
+	def update_item_subscription(self, offset):
+		i = offset
+		p = 0
+		for item in model.Item.all().order('-creation_date').fetch(1, offset):
+			if item.subscribers:
+				for subscriber in item.subscribers:
+					user = model.UserData.all().filter('email', subscriber).get()
+					if not model.UserSubscription.all().filter('user', user).filter('subscription_type', 'item').filter('subscription_id', item.key().id()).get():
+						self.add_user_subscription(user, 'item', item.key().id())
+						p += 1
+			i+=1
+		return (i, p)
+		
+	def update_group_subscription(self, group, offset):
+		i = offset
+		p = 0
+		for group_user in model.GroupUser.all().filter('group', group).order('-creation_date').fetch(10, offset):
+			if not model.UserSubscription.all().filter('user', group_user.user).filter('subscription_type', 'group').filter('subscription_id', group.key().id()).get():
+				self.add_user_subscription(group_user.user, 'group', group.key().id())
+				p += 1
+			i += 1
+		return (i, p)
+			
+	def update_thread_subscription(self, offset):
+		i = offset
+		p = 0
+		for thread in model.Thread.all().filter('parent_thread', None).order('-creation_date').fetch(1, offset):
+			if thread.subscribers:
+				for subscriber in thread.subscribers:
+					user = model.UserData.all().filter('email', subscriber).get()
+					if not model.UserSubscription.all().filter('user', user).filter('subscription_type', 'thread').filter('subscription_id', thread.key().id()).get():
+						self.add_user_subscription(user, 'thread', thread.key().id())
+						p += 1
+				i+=1
 		return (i, p)

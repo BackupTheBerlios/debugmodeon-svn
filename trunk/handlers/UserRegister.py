@@ -135,6 +135,34 @@ class UserRegister(BaseHandler):
 					app.put()
 				memcache.delete('app')
 
+				#send welcome email
+				app = self.get_application()
+				subject = "Bienvenido a debug_mode=ON"
+				body = u"""
+Gracias por registrarte en debug_mode=ON. El equipo de debug_mode=ON te damos la bienvenida.
+
+Completa tu perfil con tu información 
+%s/user.edit
+
+Publica artículos, ¡puedes ganar dinero!. 
+Informaté en http://www.debugmodeon.com/item/5674/como-anadir-adsense-a-tus-articulos
+
+Forma parte de los grupos que te interesan. Cada grupo tiene un foro, para compartir o debatir con las personas a las que les interese lo mismo que a ti.
+Listado de grupos %s/group.list
+Listado de hilos %s/forum.list
+
+Sugerencias, opiniones, nos gustaría tener tu feedback 
+http://www.debugmodeon.com/group.forum/9240/debug-mode-on/opiniones-sugerencias-feedback-general
+
+Para más información tenemos una sección de FAQ
+%s/html/faq.html
+
+Atentamente,
+
+El equipo de debug_mode=ON.
+
+""" % (app.url, app.url, app.url, app.url)
+				self.mail(subject=subject, body=body, bcc=user.email)
 				self.sess = session.Session()
 				self.sess['user_nickname'] = user.nickname
 				self.sess['user_email'] = user.email
