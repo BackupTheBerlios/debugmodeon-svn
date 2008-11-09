@@ -3,6 +3,7 @@
 
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+# (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -47,10 +48,10 @@ class GroupItemAdd(AuthenticatedHandler):
 					group_url_path=group.url_path)
 				gi.put()
 				
-				self.create_group_subscribers(group)
 				group.items += 1
+				if group.activity:
+					group.activity += 15
 				group.put()
-				
 				subscribers = group.subscribers
 				if subscribers and user.email in subscribers:
 					subscribers.remove(user.email)

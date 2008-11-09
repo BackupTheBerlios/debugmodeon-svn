@@ -98,6 +98,10 @@ Eliminar suscripcion a este hilo:
 		thread.last_response_date = datetime.datetime.now()
 		thread.put()
 		
+		group = thread.group
+		if group.activity:
+			group.activity += 2
+		group.put()
 		memcache.delete('index_threads')
 
 		self.redirect(response_url)

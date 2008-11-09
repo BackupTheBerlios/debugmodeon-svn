@@ -3,6 +3,7 @@
 
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+# (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -35,5 +36,7 @@ class GroupItemRemove(AuthenticatedHandler):
 		if self.values['user'].nickname == item.author.nickname:
 			gi.delete()
 			group.items -= 1
+			if group.activity:
+				group.activity -= 15
 			group.put()
 		self.redirect('/item/%s' % item.url_path)

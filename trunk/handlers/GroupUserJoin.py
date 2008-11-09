@@ -3,6 +3,7 @@
 
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+# (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -45,6 +46,8 @@ class GroupUserJoin(AuthenticatedHandler):
 			
 			group.subscribers.append(user.email)
 			group.members += 1
+			if group.activity:
+				group.activity += 1
 			group.put()
 			self.add_user_subscription(user, 'group', group.key().id())
 			user.groups += 1

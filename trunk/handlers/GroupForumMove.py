@@ -61,6 +61,10 @@ class GroupForumMove(AuthenticatedHandler):
 			#decrement threads in previous group
 			group_orig = thread.group
 			group_orig.threads -= 1
+			group_orig.comments -= thread.responses
+			value = 5 + (2 * thread.responses)
+			if group_orig.activity:
+				group_orig.activity -= value
 			
 			#update comments
 			responses = model.Thread.all().filter('parent_thread', thread)
@@ -77,6 +81,9 @@ class GroupForumMove(AuthenticatedHandler):
 			
 			#increment threads in actual group
 			group.threads += 1
+			group.comments += thread.comments
+			if group.activity:
+				group.activity += value
 			
 			#save fields
 			group_orig.put()

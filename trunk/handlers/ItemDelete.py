@@ -3,6 +3,7 @@
 
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+# (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -69,6 +70,9 @@ class ItemDelete(AuthenticatedHandler):
 			gi = model.GroupItem.all().filter('item =', item)
 			for g in gi:
 				g.group.items -= 1
+				if g.group.activity:
+					g.group.activity -= 15
+				g.group
 				g.group.put()
 				g.delete()
 			

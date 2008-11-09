@@ -48,6 +48,9 @@ class GroupForumDelete(AuthenticatedHandler):
 		else:
 			#decrement threads in the group
 			group = thread.group
+			if group.activity:
+				value = 5 + (2 * thread.responses)
+				group.activity -= value
 			group.threads -=1
 			group.put()
 			#decrement thread in the app

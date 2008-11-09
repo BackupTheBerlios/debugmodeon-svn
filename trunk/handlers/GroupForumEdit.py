@@ -3,6 +3,7 @@
 
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+# (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -94,6 +95,8 @@ class GroupForumEdit(AuthenticatedHandler):
 			self.add_user_subscription(user, 'thread', thread.key().id())
 		thread.put()
 		group.threads += 1
+		if group.activity:
+			group.activity += 5
 		group.put()
 		
 		subscribers = group.subscribers

@@ -105,6 +105,11 @@ indexes:
   - name: group
   - name: creation_date
     direction: desc
+    
+- kind: Group
+  properties:
+  - name: activity
+    direction: desc
 
 # Used 18 times in query history.
 - kind: GroupItem

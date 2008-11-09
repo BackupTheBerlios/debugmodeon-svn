@@ -3,6 +3,7 @@
 
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+# (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -53,6 +54,8 @@ class ItemAddGroups(AuthenticatedHandler):
 					gi = model.GroupItem.all().filter('group', group).filter('item', item).count(1)
 					if not gi:
 						group.items += 1
+						if group.activity:
+							group.activity += 15
 						group.put()
 						gi = model.GroupItem(group=group,
 							item=item,

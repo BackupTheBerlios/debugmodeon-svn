@@ -115,7 +115,8 @@ class GroupEdit(AuthenticatedHandler):
 					items=0,
 					threads=0,
 					responses=0,
-					subscribers=[user.email])
+					subscribers=[user.email],
+					activity=1)
 				category = model.Category.get(self.request.get('category'))
 				group.category = category
 				image = self.request.get("img")

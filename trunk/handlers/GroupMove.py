@@ -89,39 +89,51 @@ class GroupMove(AuthenticatedHandler):
 			item_dest = model.GroupItem.all().filter('group', group_dest).filter('item', group_item.item).get()
 			if item_dest:
 				group_item.delete()
-				group_orig.items -= 1
-				group_orig.put()
 			else:
 				group_item.group = group_dest
 				group_item.group_title = group_dest.title
 				group_item.group_url_path = group_dest.url_path
 				group_item.put()
 				group_dest.items += 1
+				if group_dest.activity:
+					group_dest.activity += 15
 				group_dest.put()
 				counter +=1
+			group_orig.items -= 1
+			if group_dest.activity:
+				group_dest.activity -= 15
+			group_orig.put()
 		
 		return 'Movidos %s items. Quedan %s en el grupo origen.' % (counter, group_orig.items)
 		
 	def move_threads(self, group_orig, group_dest):
-		group_thread = model.Thread.all().filter('group', group_orig).filter('parent_thread', None).fetch(1)[0]
-		group_thread.group = group_dest
-		group_thread.group_url_path = group_dest.url_path
-		group_thread.group_title = group_dest.title
-		responses = model.Thread.all().filter('parent_thread', group_thread)
 		counter = 0
-		if responses:
-			for response in responses:
-				response.group = group_dest
-				response.group_url_path = group_dest.url_path
-				response.group_title = group_dest.title
-				response.put()
-				counter +=1
+		for group_thread in model.Thread.all().filter('group', group_orig).filter('parent_thread', None).fetch(1):
 		
-		group_thread.put()
-		group_orig.threads -= 1
-		group_orig.put()
-		group_dest.threads += 1
-		group_dest.put()
+			group_thread.group = group_dest
+			group_thread.group_url_path = group_dest.url_path
+			group_thread.group_title = group_dest.title
+			responses = model.Thread.all().filter('parent_thread', group_thread)
+			if responses:
+				for response in responses:
+					response.group = group_dest
+					response.group_url_path = group_dest.url_path
+					response.group_title = group_dest.title
+					response.put()
+					counter +=1
+		
+			group_thread.put()
+			group_orig.threads -= 1
+			group_orig.comments -= group_thread.comments
+			value = 5 + (2 * thread.responses)
+			if group_orig.activity:
+				group_dest.activity -= value
+			group_orig.put()
+			group_dest.threads += 1
+			group_dest.comments += group_thread.comments
+			if group_dest.activity:
+				group_dest.activity += value
+				group_dest.put()
 		return 'Movido un hilo con %s comentarios. Quedan %s hilos.' % (counter, group_orig.threads)
 		
 		
@@ -138,6 +150,8 @@ class GroupMove(AuthenticatedHandler):
 				group_user.group = group_dest
 				group_dest.members += 1
 				group_dest.subscribers.append(group_user.user.email)
+				if group_dest.activity:
+					group_dest.activity += 1
 				group_dest.put()
 				counter += 1
 				group_user.group_title = group_dest.title
@@ -145,6 +159,8 @@ class GroupMove(AuthenticatedHandler):
 				group_user.put()
 			
 			group_orig.members -= 1
+			if group_orig.activity:
+				group_orig.activity -= 1
 			group_orig.put()
 
 		return 'Movidos %s usuarios. Quedan %s en el grupo origen.' % (counter, group_orig.members)

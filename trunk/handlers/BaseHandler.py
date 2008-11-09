@@ -181,7 +181,7 @@ class BaseHandler(webapp.RequestHandler):
 		redirect = '%s?%s' % (self.request.path, self.request.query)
 		self.values['redirect'] = redirect
 		self.values['app'] = self.get_application()
-		
+		#self.values['activity_groups'] = self.groups_by_activity()
 		user = self.get_current_user()
 		# user = users.get_current_user()
 		if user:
@@ -296,6 +296,9 @@ class BaseHandler(webapp.RequestHandler):
 		taglist.sort()
 		return taglist
 	
+	def groups_by_activity(self):
+		groups = model.Group.all().order('-activity').fetch(10)
+		return groups
 	
 	def add_categories(self):
 		cats = list(model.Category.all().order('title'))
@@ -592,9 +595,9 @@ class BaseHandler(webapp.RequestHandler):
 			# Record the error in your logs
 			logging.error(message)
 			
-	def error(self, message):
-		self.values['message'] = message
-		self.render('templates/error.html')
+	#def error(self, message):
+	#	self.values['message'] = message
+	#	self.render('templates/error.html')
 		
 	def add_user_subscription(self, user, subscription_type, subscription_id):
 		user_subscription = model.UserSubscription(user=user,

@@ -64,6 +64,10 @@ class Apocalipto(BaseHandler):
 			i = sel.update_thread_subscription(p-1)
 			self.response.out.write('Processed from %d to %d. %d updated. Action %s' % (p-1, i[0], i[1], action))
 			return
+		elif action == 'ugc':
+			i = self.update_group_counters(p-1)
+			self.response.out.write('Processed from %d to %d. %d updated. Action %s' % (p-1, i[0], i[1], action))
+			return
 		else:
 			self.response.out.write('unknown action -%s-' % action)
 			return
@@ -193,3 +197,28 @@ class Apocalipto(BaseHandler):
 						p += 1
 				i+=1
 		return (i, p)
+		
+	def update_group_counters(self, offset):
+		i = offset
+		p = 0
+		for group in model.Group.all().order('-creation_date').fetch(1, offset):
+			users = model.GroupUser.all().filter('group', group).count()
+			items = model.GroupItem.all().filter('group', group).count()
+			group_threads = model.Thread.all().filter('group', group).filter('parent_thread', None)
+			threads = group_threads.count()
+			comments = 0
+			for thread in group_threads:
+				comments += model.Thread.all().filter('group', group).filter('parent_thread', thread).count()
+			if group.members != users or group.items != items or group.threads != threads or group.responses != comments:
+				group.members = users
+				group.items = items
+				group.threads = threads
+				group.responses = comments
+				p += 1
+			if not group.activity:
+				group.activity = 0
+			group.activity = (group.members * 1) + (group.threads * 5) + (group.items * 15) + (group.responses * 2)
+			group.put()
+			i += 1
+		return (i,p)
+			

@@ -165,6 +165,8 @@ class Group(search.SearchableModel):
 	all_users = db.BooleanProperty()
 	
 	category = db.ReferenceProperty(Category, collection_name='groups_set')
+	
+	activity = db.IntegerProperty()
 
 class GroupUser(db.Model):
 	user = db.ReferenceProperty(UserData,required=True)
