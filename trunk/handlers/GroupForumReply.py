@@ -70,7 +70,9 @@ class GroupForumReply(AuthenticatedHandler):
 		group.put()
 		
 		subscribers = thread.subscribers
+		email_removed = False
 		if subscribers and user.email in subscribers:
+			email_removed = True
 			subscribers.remove(user.email)
 
 		if subscribers:
@@ -91,6 +93,8 @@ Eliminar suscripcion a este hilo:
 			self.mail(subject=subject, body=body, bcc=thread.subscribers)
 		
 		subscribe = self.get_param('subscribe')
+		if email_removed:
+			thread.subscribers.append(user.email)
 		if subscribe and not user.email in thread.subscribers:
 			thread.subscribers.append(user.email)
 			self.add_user_subscription(user, 'thread', thread.key().id())
