@@ -61,13 +61,15 @@ class Apocalipto(BaseHandler):
 		elif action == 'ugs':
 			i = self.update_group_subscription(group, offset)
 		elif action == 'uts':
-			i = sel.update_thread_subscription(p-1)
+			i = self.update_thread_subscription(p-1)
 			self.response.out.write('Processed from %d to %d. %d updated. Action %s' % (p-1, i[0], i[1], action))
 			return
 		elif action == 'ugc':
 			i = self.update_group_counters(p-1)
 			self.response.out.write('Processed from %d to %d. %d updated. Action %s' % (p-1, i[0], i[1], action))
 			return
+		elif action == 'adus':
+			i = self.add_date_user_subscription(offset)
 		else:
 			self.response.out.write('unknown action -%s-' % action)
 			return
@@ -220,5 +222,15 @@ class Apocalipto(BaseHandler):
 			group.activity = (group.members * 1) + (group.threads * 5) + (group.items * 15) + (group.responses * 2)
 			group.put()
 			i += 1
-		return (i,p)
+		return (i, p)
 			
+	def add_date_user_subscription(self, offset):
+		i = offset
+		p = 0
+		for user_subscription in model.UserSubscription.all().fetch(10, offset):
+			if user_subscription.creation_date is None:
+				user_subscription.creation_date = datetime.datetime.now()
+				user_subscription.put()
+				p += 1
+			i += 1
+		return (i, p)

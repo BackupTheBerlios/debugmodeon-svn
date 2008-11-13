@@ -285,3 +285,4 @@ class UserSubscription(db.Model):
 	user_nickname = db.StringProperty(required=True)
 	subscription_type = db.StringProperty(required=True)
 	subscription_id = db.IntegerProperty(required=True)
+	creation_date = db.DateTimeProperty()

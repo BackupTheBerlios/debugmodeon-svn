@@ -604,7 +604,8 @@ class BaseHandler(webapp.RequestHandler):
 			user_nickname=user.nickname,
 			user_email=user.email,
 			subscription_type=subscription_type,
-			subscription_id=subscription_id)
+			subscription_id=subscription_id,
+			creation_date = datetime.datetime.now())
 		subscription = model.UserSubscription.all().filter('user', user).filter('subscription_type', subscription_type).filter('subscription_id', subscription_id).get()
 		if subscription is None:
 			user_subscription.put()
