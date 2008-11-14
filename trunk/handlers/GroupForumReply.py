@@ -32,6 +32,9 @@ from handlers.AuthenticatedHandler import *
 class GroupForumReply(AuthenticatedHandler):
 
 	def execute(self):
+		method = self.request.method
+		if method == "GET":
+			return
 		user = self.values['user']
 		key = self.get_param('key')
 		thread = model.Thread.get(key)
@@ -43,6 +46,19 @@ class GroupForumReply(AuthenticatedHandler):
 			self.forbidden()
 			return
 		content = self.get_param('content')
+		preview = self.get_param('preview')
+		if preview:
+			response = model.Thread(group=group,
+				author=user,
+				author_nickname=user.nickname,
+				title=thread.title,
+				content=content,
+				parent_thread=thread,
+				responses=0)
+			self.values['thread'] = response
+			self.values['preview'] = True
+			self.render('templates/group-thread-edit.html')
+			return
 		if self.check_duplicate(group, user, thread, content):
 			self.error('Respuesta duplicada')
 			return
@@ -57,7 +73,7 @@ class GroupForumReply(AuthenticatedHandler):
 			parent_thread=thread,
 			response_number=thread.responses+1,
 			responses=0,
-			editios=0)
+			editions=0)
 		response.put()
 
 		page = response.response_number / 20

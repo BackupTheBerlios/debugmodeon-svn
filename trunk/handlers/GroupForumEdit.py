@@ -33,6 +33,9 @@ from handlers.AuthenticatedHandler import *
 class GroupForumEdit(AuthenticatedHandler):
 
 	def execute(self):
+		method = self.request.method
+		if method == "GET":
+			return
 		user = self.values['user']
 		key = self.get_param('key')
 		group = model.Group.get(key)
@@ -51,8 +54,11 @@ class GroupForumEdit(AuthenticatedHandler):
 			thread = model.Thread(group=group,
 				group_url_path=group.url_path,
 				author=user,
-				title=title)
-			self.values['thread'] = comment
+				author_nickname = user.nickname,
+				title=title,
+				content=content,
+				responses=0)
+			self.values['thread'] = thread
 			self.values['preview'] = True
 			self.values['is_parent_thread'] = True
 			self.render('templates/group-thread-edit.html')

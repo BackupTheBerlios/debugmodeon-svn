@@ -23,6 +23,27 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endblock %}
 
 {% block content %}
+	{% if preview %}
+	<div>&nbsp;</div>
+		{% if is_parent_thread %}
+		<div class="grid_9 alpha omega">
+			<h2>{{ thread.title|escape }}</h2>
+		</div>
+		{% endif %}
+		<div class="grid_2 alpha">
+			<p class="info comment-info">
+				<a href="/user/{{ thread.author_nickname|escape }}"><img src="/images/user/thumbnail/{{ thread.author_nickname|escape }}" alt="{{ thread.author_nickname|escape }}" /></a> <br/>
+				<strong><a href="/user/{{ thread.author_nickname|escape }}">{{ thread.author_nickname|escape }}</a></strong>
+
+			</p>
+		</div>
+		<div class="grid_7 omega">
+			<div class="comment">
+				{{ thread.content|markdown|smiley }}
+			</div>
+		</div>
+	{% endif %}
+	<div class="clear">&nbsp;</div>
 	<div>&nbsp;</div>
 	<div class="grid_2 alpha">
 		<p class="info comment-info">
@@ -32,16 +53,36 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	</div>
 	<div class="grid_7 omega">
 		<div class="form">
+		{% if preview %}
+			{% if is_parent_thread %}
+			<form action="/group.forum.edit" method="post" accept-charset="utf-8">
+				<input type="hidden" name="key" value="{{ thread.group.key() }}" />
+			{% else %}
+			<form action="/group.forum.reply" method="post" accept-charset="utf-8">
+				<input type="hidden" name="key" value="{{ thread.parent_thread.key() }}" />
+			{% endif %}
+		{% else %}
 			<form action="/group.thread.edit" method="post" accept-charset="utf-8">
 				<input type="hidden" name="key" value="{{ thread.key() }}" />
+		{% endif %}
 				{% if is_parent_thread %}
 				<p>
 					<label for="title">Título</label>
-					<input type="text" name="title" style="font-size: 200%" size="35" value="{{ thread.title }}" />
+					<input type="text" name="title" style="font-size: 200%; width:100%" value="{{ thread.title }}" />
 				</p>
 				{% endif %}
 				<textarea name="content" rows="8" cols="54" id="markdown_example">{{ thread.content }}</textarea>
+				{% if preview %}
+				<p>
+				{% if is_parent_thread %}
+				<input type="submit" value="Publicar hilo" />
+				{% else %}
+				<input type="submit" value="Publicar respuesta" />
+				{% endif %}
+				&nbsp;<input type="submit" name="preview" value="Previsualizar"></p>
+				{% else %}
 				<p><input type="submit" value="Guardar Cambios" /></p>
+				{% endif %}
 			</form>
 		</div>
 		<p>
