@@ -50,7 +50,7 @@ class ItemComment(AuthenticatedHandler):
 			return
 			
 		if self.check_duplicate(item, user, content):
-			self.error('Comentario duplicado')
+			self.show_error('Comentario duplicado')
 			return
 		# migration
 		if not item.subscribers:

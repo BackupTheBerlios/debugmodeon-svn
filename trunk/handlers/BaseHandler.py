@@ -595,9 +595,9 @@ class BaseHandler(webapp.RequestHandler):
 			# Record the error in your logs
 			logging.error(message)
 			
-	#def error(self, message):
-	#	self.values['message'] = message
-	#	self.render('templates/error.html')
+	def show_error(self, message):
+		self.values['message'] = message
+		self.render('templates/error.html')
 		
 	def add_user_subscription(self, user, subscription_type, subscription_id):
 		user_subscription = model.UserSubscription(user=user,

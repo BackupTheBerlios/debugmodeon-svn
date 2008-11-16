@@ -65,7 +65,7 @@ class GroupForumEdit(AuthenticatedHandler):
 			return
 		
 		if self.check_duplicate(group, user, content, title):
-			self.error('Hilo duplicado')
+			self.show_error('Hilo duplicado')
 			return
 		thread = model.Thread(group=group,
 			group_title=group.title,

@@ -60,7 +60,7 @@ class GroupForumReply(AuthenticatedHandler):
 			self.render('templates/group-thread-edit.html')
 			return
 		if self.check_duplicate(group, user, thread, content):
-			self.error('Respuesta duplicada')
+			self.show_error('Respuesta duplicada')
 			return
 		response = model.Thread(group=group,
 			group_title=group.title,

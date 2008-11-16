@@ -48,7 +48,7 @@ class GroupThreadEdit(AuthenticatedHandler):
 				self.render('templates/group-thread-edit.html')
 				return
 			else:
-				self.error('Hilo no encontrado')
+				self.show_error('Hilo no encontrado')
 				return
 		else:
 			if key:
@@ -85,5 +85,5 @@ class GroupThreadEdit(AuthenticatedHandler):
 						page += 1
 					self.redirect('/group.forum/%s?p=%d#comment-%s' % (thread.url_path, page, thread.response_number))
 			else:
-				self.error('Comentario no encontrado')
+				self.show_error('Comentario no encontrado')
 				return

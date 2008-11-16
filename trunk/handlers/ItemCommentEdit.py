@@ -47,7 +47,7 @@ class ItemCommentEdit(AuthenticatedHandler):
 				self.render('templates/item-comment-edit.html')
 				return
 			else:
-				self.error('Comentario no encontrado')
+				self.show_error('Comentario no encontrado')
 				return
 		else:
 			if comment_key:
@@ -76,5 +76,5 @@ class ItemCommentEdit(AuthenticatedHandler):
 					page += 1
 				self.redirect('/item/%s?p=%d#comment-%s' % (comment.item.url_path, page, comment.response_number))
 			else:
-				self.error('Comentario no encontrado')
+				self.show_error('Comentario no encontrado')
 				return
