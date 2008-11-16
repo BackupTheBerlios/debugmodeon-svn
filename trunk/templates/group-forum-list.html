@@ -47,12 +47,21 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<th>Autor</th>
 			<th>Respuestas</th>
 			<th>Lecturas</th>
-			<th>Última actualización</th>
+			<th>Actualizado</th>
 		</thead>
 		<tbody>
 		{% for thread in threads %}
 			<tr {% if loop.index % 2 == 0 %}class="even"{% endif %}>
-				<td class="subject"><strong><a href="/group.forum/{{ thread.url_path }}">{{ thread.title|escape }}</a></strong></td>
+				<td class="subject">
+					<strong>
+						<a href="/group.forum/{{ thread.url_path }}">{{ thread.title|escape }}</a>
+						{% if thread.responses > app.max_results_sublist %}
+							{% for page in range(1, ((thread.responses / app.max_results_sublist)|round(0, 'ceil') +1)) %}
+								&nbsp;<a href="/group.forum/{{ thread.url_path }}?p={{ page }}">[{{ page }}]</a>
+							{% endfor %}
+						{% endif %}
+					</strong>
+				</td>
 				<td style="text-align:center"><a href="/user/{{ thread.author_nickname }}"><img src="/images/user/thumbnail/{{ thread.author_nickname }}" alt="{{ thread.author_nickname }}" title="{{ thread.author_nickname }}" /></a></td>
 				<td>{{ thread.responses }}</td>
 				<td>{{ thread.views }}</td>
