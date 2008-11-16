@@ -318,4 +318,5 @@ class Event(db.Model):
 	thread = db.ReferenceProperty(Thread)
 	thread_title = db.StringProperty(required=True)
 	thread_url_path = db.StringProperty()
+	
 """
