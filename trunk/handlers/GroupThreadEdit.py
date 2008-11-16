@@ -66,7 +66,11 @@ class GroupThreadEdit(AuthenticatedHandler):
 					thread.editions +=1
 					thread.last_edition = datetime.datetime.now()
 				if thread.parent_thread is None:
-					thread.title = self.get_param('title')
+					if thread.responses <= 5:
+						thread.title = self.get_param('title')
+						for comment in model.Thread.all().filter('parent_thread', thread):
+							comment.title = thread.title
+							comment.put()
 				thread.content = self.get_param('content')
 				thread.put()
 				if thread.parent_thread is None:

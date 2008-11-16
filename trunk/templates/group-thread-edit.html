@@ -65,7 +65,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<form action="/group.thread.edit" method="post" accept-charset="utf-8">
 				<input type="hidden" name="key" value="{{ thread.key() }}" />
 		{% endif %}
-				{% if is_parent_thread %}
+				{% if is_parent_thread and thread.responses <= 5 %}
 				<p>
 					<label for="title">Título</label>
 					<input type="text" name="title" style="font-size: 200%; width:100%" value="{{ thread.title }}" />
