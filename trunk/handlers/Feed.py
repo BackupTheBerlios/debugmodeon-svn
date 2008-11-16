@@ -47,7 +47,7 @@ class Feed(webapp.RequestHandler):
 				if not group:
 					group = model.Group.gql('WHERE old_url_path=:1',params[3]).get()
 				threads = model.Thread.gql('WHERE group=:1 ORDER BY creation_date DESC LIMIT 20', group)
-				data = self.threads_to_rss(u'Foro %s' % group.title, threads) # TODO: escape
+				data = self.threads_to_rss(u'Foro %s' % group.title, threads)
    
 			elif params[2] == 'group':
 				group = model.Group.gql('WHERE url_path=:1',params[3]).get()
@@ -55,7 +55,7 @@ class Feed(webapp.RequestHandler):
 					group = model.Group.gql('WHERE old_url_path=:1',params[3]).get()
 				group_items = model.GroupItem.gql('WHERE group=:1 ORDER BY creation_date DESC LIMIT 20', group)
 				latest = [gi.item for gi in group_items]
-				data = self.to_rss(u'Artículos del grupo %s' % group.title, latest) # TOOD: escape
+				data = self.to_rss(u'Artículos del grupo %s' % group.title, latest)
    
 			elif params[2] == 'user':
 				user = model.UserData.gql('WHERE nickname=:1', params[3]).get()
@@ -84,7 +84,7 @@ class Feed(webapp.RequestHandler):
 			item = {
 				'title': i.title,
 				'link': "%s/group.forum/%s" % (url, i.url_path),
-				'description': '<![CDATA[%s]]>' % (md.convert(i.content), ),
+				'description': md.convert(i.content),
 				'pubDate': self.to_rfc822(i.creation_date),
 				'guid':"%s/group.forum/%s" % (url,i.url_path)
 				# guid como link para mantener compatibilidad con feed.xml
@@ -108,7 +108,7 @@ class Feed(webapp.RequestHandler):
 			item = {
 				'title': i.title,
 				'link': "%s/item/%s" % (url, i.url_path),
-				'description': '<![CDATA[%s]]>' % (md.convert(i.description), ),
+				'description': md.convert(i.description),
 				'pubDate': self.to_rfc822(i.creation_date),
 				'guid':"%s/item/%d/" % (url, i.key().id())
 			}

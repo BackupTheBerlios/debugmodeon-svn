@@ -294,3 +294,28 @@ class Follower(db.Model):
 	object_type = db.StringProperty(required=True)
 	object_id = db.IntegerProperty(required=True)
 	followers = db.StringListProperty()
+
+"""
+class Event(db.Model):
+	event_type = db.StringProperty(required=True)
+	followers = db.StringListProperty(required=True)
+	
+	user = db.ReferenceProperty(UserData,required=True)
+	user_nickname = db.StringProperty(required=True)
+	
+	user_to = db.ReferenceProperty(UserData,required=True)
+	user_to_nickname = db.StringProperty(required=True)
+	
+	group = db.ReferenceProperty(Group)
+	group_title = db.StringProperty()
+	group_url_path = db.StringProperty()
+	
+	item = db.ReferenceProperty(Item)
+	item_author_nickname = db.StringProperty()
+	item_title = db.StringProperty()
+	item_url_path = db.StringProperty()
+	
+	thread = db.ReferenceProperty(Thread)
+	thread_title = db.StringProperty(required=True)
+	thread_url_path = db.StringProperty()
+"""
