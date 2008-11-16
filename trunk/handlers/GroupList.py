@@ -39,8 +39,10 @@ class GroupList(BaseHandler):
 		else:
 			app = self.get_application()
 			max = app.groups
-			
-		groups = self.paging(query, 10, '-members', max, ['-creation_date', '-members', '-items'], key)
+		results = 10
+		if app.max_results:
+			results = app.max_results
+		groups = self.paging(query, results, '-members', max, ['-creation_date', '-members', '-items'], key)
 		self.values['groups'] = groups
 		# denormalization
 		for g in groups:

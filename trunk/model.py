@@ -255,6 +255,9 @@ class Application(db.Model):
 	google_adsense = db.StringProperty()
 	google_adsense_channel = db.StringProperty()
 	
+	max_results = db.IntegerProperty()
+	max_results_sublist = db.IntegerProperty()
+	
 class Message(db.Model):
 	user_from = db.ReferenceProperty(UserData,required=True,collection_name='mf')
 	user_to = db.ReferenceProperty(UserData,required=True,collection_name='mt')

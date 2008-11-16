@@ -75,9 +75,12 @@ class GroupForumReply(AuthenticatedHandler):
 			responses=0,
 			editions=0)
 		response.put()
-
-		page = response.response_number / 20
-		if (response.response_number % 20) > 0:
+		results = 20
+		app = self.get_application()
+		if app.max_results_sublist:
+			results = app.max_results_sublist
+		page = response.response_number / results
+		if (response.response_number % results) > 0:
 			page += 1
 		response_url = '/group.forum/%s?p=%d#comment-%d' % (thread.url_path, page, response.response_number)
 					
@@ -92,7 +95,6 @@ class GroupForumReply(AuthenticatedHandler):
 			subscribers.remove(user.email)
 
 		if subscribers:
-			app = self.get_application()
 			subject = "Nueva respuesta en: '%s'" % self.clean_ascii(thread.title)
 
 			body = u"""

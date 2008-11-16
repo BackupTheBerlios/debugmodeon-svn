@@ -66,9 +66,12 @@ class ItemComment(AuthenticatedHandler):
 			editions = 0,
 			response_number=item.responses+1)
 		comment.put()
-		
-		page = comment.response_number / 10
-		if (comment.response_number % 10) > 0:
+		results = 10
+		app = self.get_application()
+		if app.max_results_sublist:
+			results = app.max_results_sublist
+		page = comment.response_number / results
+		if (comment.response_number % results) > 0:
 			page += 1
 		comment_url = '/item/%s?p=%d#comment-%d' % (item.url_path, page, comment.response_number)
 		
@@ -83,7 +86,6 @@ class ItemComment(AuthenticatedHandler):
 			subscribers.remove(user.email)
 
 		if subscribers:
-			app = self.get_application()
 			subject = u"Nuevo comentario en: '%s'" % self.clean_ascii(item.title)
 
 			body = u"""

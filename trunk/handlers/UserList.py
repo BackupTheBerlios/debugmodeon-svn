@@ -32,7 +32,10 @@ class UserList(BaseHandler):
 		app = self.get_application()
 		query = model.UserData.all()
 		key = '%s?%s' % (self.request.path, self.request.query)
-		users = self.paging(query, 10, '-items', app.users, ['-creation_date', '-items'], key)
+		results = 10
+		if app.max_results:
+			results = app.max_results
+		users = self.paging(query, results, '-items', app.users, ['-creation_date', '-items'], key)
 		if users is not None:
 			self.values['users'] = users
 		self.render('templates/user-list.html')

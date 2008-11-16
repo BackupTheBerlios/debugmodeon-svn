@@ -58,7 +58,11 @@ class GroupForumView(BaseHandler):
 		self.values['joined'] = self.joined(group)
 		self.values['thread'] = thread
 		query = model.Thread.all().filter('parent_thread', thread)
-		responses = self.paging(query, 20, 'creation_date', thread.responses, ['creation_date'])
+		results = 20
+		app = self.get_application()
+		if app.max_results_sublist:
+			results = app.max_results_sublist
+		responses = self.paging(query, results, 'creation_date', thread.responses, ['creation_date'])
 		
 		# migration
 		if not thread.author_nickname:

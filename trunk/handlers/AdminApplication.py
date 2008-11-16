@@ -3,6 +3,7 @@
 
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+# (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -47,6 +48,8 @@ class AdminApplication(AuthenticatedHandler):
 			self.values['recaptcha_private_key'] = self.not_none(app.recaptcha_private_key)
 			self.values['google_adsense'] = self.not_none(app.google_adsense)
 			self.values['google_adsense_channel'] = self.not_none(app.google_adsense_channel)
+			self.values['max_results'] = self.not_none(app.max_results)
+			self.values['max_results_sublist'] = self.not_none(app.max_results_sublist)
 			self.render('templates/admin-application.html')
 		else:
 			app = self.get_application()
@@ -64,6 +67,10 @@ class AdminApplication(AuthenticatedHandler):
 			app.recaptcha_private_key	= self.get_param('recaptcha_private_key')
 			app.google_adsense			= self.get_param('google_adsense')
 			app.google_adsense_channel	= self.get_param('google_adsense_channel')
+			if self.get_param('max_results'):
+				app.max_results	= int(self.get_param('max_results'))
+			if self.get_param('max_results_sublist'):
+				app.max_results_sublist	= int(self.get_param('max_results_sublist'))
 			app.put()
 			memcache.delete('app')
 			self.redirect('/admin.application?m=Updated')

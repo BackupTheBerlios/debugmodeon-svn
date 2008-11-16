@@ -30,6 +30,9 @@ class ItemList(BaseHandler):
 		query = model.Item.all().filter('draft =', False).filter('deletion_date', None)
 		app = self.get_application()
 		key = '%s?%s' % (self.request.path, self.request.query)
-		self.values['items'] = self.paging(query, 10, '-creation_date', app.items, ['-creation_date', '-rating_average', '-responses'], key)
+		results = 10
+		if app.max_results:
+			results = app.max_results
+		self.values['items'] = self.paging(query, results, '-creation_date', app.items, ['-creation_date', '-rating_average', '-responses'], key)
 		self.add_tag_cloud()
 		self.render('templates/item-list.html')

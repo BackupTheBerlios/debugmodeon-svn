@@ -72,8 +72,12 @@ class GroupThreadEdit(AuthenticatedHandler):
 				if thread.parent_thread is None:
 					self.redirect('/group.forum/%s' % (thread.url_path))
 				else:
-					page = thread.response_number / 20
-					if (thread.response_number % 20) > 0:
+					results = 20
+					app = self.get_application()
+					if app.max_results_sublist:
+						results = app.max_results_sublist
+					page = thread.response_number / results
+					if (thread.response_number % results) > 0:
 						page += 1
 					self.redirect('/group.forum/%s?p=%d#comment-%s' % (thread.url_path, page, thread.response_number))
 			else:

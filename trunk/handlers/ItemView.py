@@ -75,8 +75,12 @@ class ItemView(BaseHandler):
 
 		
 		self.values['item'] = item
+		results = 10
+		app = self.get_application()
+		if app.max_results_sublist:
+			results = app.max_results_sublist
 		query = model.Comment.all().filter('item =', item)
-		comments = self.paging(query, 10, 'creation_date', item.responses, 'creation_date')
+		comments = self.paging(query, results, 'creation_date', item.responses, 'creation_date')
 		# migration
 		i = 1
 		for c in comments:

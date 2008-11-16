@@ -1,5 +1,6 @@
 {#
 (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+(C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
 
 This file is part of "debug_mode_on".
 
@@ -71,6 +72,14 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<p>
 				<label for="google_adsense_channel">Google Adsense Channel</label>
 				<input id="google_adsense_channel" type="text" name="google_adsense_channel" value="{{ google_adsense_channel|escape }}" style="width: 250px" />
+			</p>
+			<p>
+				<label for="max_results">Resultados por pagina (user.list, forum.list, group.list, item.list)</label>
+				<input id="max_results" type="text" name="max_results" value="{{ max_results }}" style="width: 250px" />
+			</p>
+			<p>
+				<label for="max_results_sublist">Resultados por pagina (comentarios y respuestas)</label>
+				<input id="max_results_sublist" type="text" name="max_results_sublist" value="{{ max_results_sublist }}" style="width: 250px" />
 			</p>
 		</div>
 	
