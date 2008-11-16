@@ -65,10 +65,10 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<form action="/group.thread.edit" method="post" accept-charset="utf-8">
 				<input type="hidden" name="key" value="{{ thread.key() }}" />
 		{% endif %}
-				{% if is_parent_thread and thread.responses <= 5 %}
+				{% if is_parent_thread %}
 				<p>
 					<label for="title">Título</label>
-					<input type="text" name="title" style="font-size: 200%; width:100%" value="{{ thread.title }}" />
+					<input type="text" name="title" style="font-size: 200%; width:100%" value="{{ thread.title }}" {% if thread.responses > 5 %}disabled="disabled"{% endif %}/>
 				</p>
 				{% endif %}
 				<textarea name="content" rows="8" cols="54" id="markdown_example">{{ thread.content }}</textarea>

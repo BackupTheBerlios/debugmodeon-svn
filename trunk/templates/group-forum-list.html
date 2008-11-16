@@ -55,7 +55,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<td class="subject">
 					<strong>
 						<a href="/group.forum/{{ thread.url_path }}">{{ thread.title|escape }}</a>
-						{% if thread.responses > app.max_results_sublist %}
+						{% if app.max_results_sublist and thread.responses > app.max_results_sublist %}
+							<br/> Páginas:
 							{% for page in range(1, ((thread.responses / app.max_results_sublist)|round(0, 'ceil') +1)) %}
 								&nbsp;<a href="/group.forum/{{ thread.url_path }}?p={{ page }}">[{{ page }}]</a>
 							{% endfor %}

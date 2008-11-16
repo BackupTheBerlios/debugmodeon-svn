@@ -70,6 +70,8 @@ class Apocalipto(BaseHandler):
 			return
 		elif action == 'adus':
 			i = self.add_date_user_subscription(offset)
+		elif action == 'afg':
+			i = self.add_follower_group(offset)
 		else:
 			self.response.out.write('unknown action -%s-' % action)
 			return
@@ -234,3 +236,12 @@ class Apocalipto(BaseHandler):
 				p += 1
 			i += 1
 		return (i, p)
+		
+	def add_follower_group(self, offset):
+		i = offset
+		p = 0
+		for group_user in model.GroupUser.all().fetch(10, offset):
+			self.add_follower('group', group_user.group.key().id(), group_user.user_nickname)
+			p +=1
+			i += 1
+		return(i,p)

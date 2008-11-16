@@ -614,3 +614,22 @@ class BaseHandler(webapp.RequestHandler):
 		user_subscription = model.UserSubscription.all().filter('user', user).filter('subscription_type', subscription_type).filter('subscription_id', subscription_id).get()
 		if user_subscription is not None:
 			user_subscription.delete()
+			
+	def add_follower(self, object_type, object_id, nickname):
+		follower = model.Follower.all().filter('object_type', object_type).filter('object_id', object_id).get()
+		if follower:
+			if nickname not in follower.followers:
+				follower.followers.append(nickname)
+				follower.put()
+		else:
+			follower = model.Follower(object_type=object_type,
+				object_id=object_id,
+				followers=[nickname])
+			follower.put()
+	
+	def remove_follower(self, object_type, object_id, nickname):
+		follower = model.Follower.all().filter('object_type', object_type).filter('object_id', object_id).get()
+		if follower:
+			if nickname in follower.followers:
+				follower.followers.remove(nickname)
+				follower.put()

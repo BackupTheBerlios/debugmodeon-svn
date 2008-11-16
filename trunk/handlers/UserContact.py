@@ -42,7 +42,7 @@ class UserContact(AuthenticatedHandler):
 			
 			user.contacts += 1
 			user.put()
-			
+			self.add_follower('user', user_to.key().id(), user.nickname)
 			app = self.get_application()
 			subject = "%s te ha agregado como contacto" % user.nickname
 			body = """
@@ -58,9 +58,9 @@ Puedes visitar su perfil en: %s/user/%s
 				self.redirect('/user/%s' % user_to.nickname)
 		else:
 			contact.delete()
-			
 			user.contacts -= 1
 			user.put()
+			self.remove_follower('user', user_to.key().id(), user.nickname)
 			
 			if self.get_param('x'):
 				self.render_json({ 'action': 'deleted' })

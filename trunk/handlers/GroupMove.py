@@ -145,11 +145,14 @@ class GroupMove(AuthenticatedHandler):
 			if user_dest:
 				group_user.user.groups -= 1
 				group_user.user.put()
+				self.remove_user_subscription(group_user.user, 'group', group_orig.key().id())
 				group_user.delete()
 			else:
 				group_user.group = group_dest
 				group_dest.members += 1
 				group_dest.subscribers.append(group_user.user.email)
+				self.add_follower('group', group_dest-key().id(), group_user.user.nickname)
+				self.add_user_subscription(group_user.user, 'group', group_dest.key().id())
 				if group_dest.activity:
 					group_dest.activity += 1
 				group_dest.put()

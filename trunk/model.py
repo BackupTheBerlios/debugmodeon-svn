@@ -289,3 +289,8 @@ class UserSubscription(db.Model):
 	subscription_type = db.StringProperty(required=True)
 	subscription_id = db.IntegerProperty(required=True)
 	creation_date = db.DateTimeProperty()
+	
+class Follower(db.Model):
+	object_type = db.StringProperty(required=True)
+	object_id = db.IntegerProperty(required=True)
+	followers = db.StringListProperty()

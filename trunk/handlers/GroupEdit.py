@@ -150,7 +150,10 @@ class GroupEdit(AuthenticatedHandler):
 					group_url_path=group.url_path)
 				group_user.put()
 				memcache.delete('index_groups')
-
+				
+				self.add_follower('group', group.key().id(), user.nickname)
+				
 				# TODO: update a user counter to know how many groups is owner of?
+				
 
 				self.redirect('/group/%s' % (group.url_path, ))

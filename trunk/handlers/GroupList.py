@@ -30,6 +30,7 @@ class GroupList(BaseHandler):
 		key = '%s?%s' % (self.request.path, self.request.query)
 		
 		cat = self.get_param('cat')
+		app = self.get_application()
 		if cat:
 			category = model.Category.all().filter('url_path', cat).get()
 			self.values['category'] = category
@@ -37,7 +38,6 @@ class GroupList(BaseHandler):
 			query = query.filter('category', category)
 			max = category.groups
 		else:
-			app = self.get_application()
 			max = app.groups
 		results = 10
 		if app.max_results:
