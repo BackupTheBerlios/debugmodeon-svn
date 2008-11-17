@@ -56,7 +56,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<div class="comment">
 			{% if thread.can_edit and user.rol != 'admin' %}
 			{% endif %}
-			{{ thread.content|markdown|smiley }}
+			{{ thread.content|markdown|smiley|media }}
 		</div>
 		<p class="options">
 		{% if thread.editions %}
@@ -106,7 +106,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<a href="#comment-{{ comment.response_number }}" name="comment-{{ comment.response_number }}">#{{ comment.response_number }}</a>&nbsp;&nbsp;&nbsp;
 			</p>
 			
-			{{ comment.content|markdown|smiley }}
+			{{ comment.content|markdown|smiley|media }}
 
 		</div>
 		<p class="options">

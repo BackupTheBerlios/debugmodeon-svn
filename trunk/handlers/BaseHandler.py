@@ -4,6 +4,7 @@
 #
 # (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
 # (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
+# (C) Copyright 2008 Juan Luis Belmonte <jlbelmonte at gmail dot com>
 # 
 # This file is part of "debug_mode_on".
 # 
@@ -64,6 +65,7 @@ class BaseHandler(webapp.RequestHandler):
 		env.filters['markdown'] = self.markdown
 		env.filters['smiley'] = self.smiley
 		env.filters['pagination'] = self.pagination
+		env.filters['media'] = self.media_content
 		return env
 	
 	def get_template(self, env, f):
@@ -147,6 +149,23 @@ class BaseHandler(webapp.RequestHandler):
 			return "error"
 		else:
 			return markdown.markdown(value, [], safe_mode='escape')
+	
+	def media_content(self,value):
+		if not isinstance(value, basestring):
+			value=str(value)
+		regex1 = re.compile('media=(.*);')
+                match1 = regex1.search(value)
+                if match1:
+                        if re.match('(.*)youtube(.*)', match1.group(1)):
+                                match2 = re.match('(.*)watch\?v=(\S+)', match1.group(1))
+                                html = '<object width="425" height="344"><param name="movie" value="http://www.youtube.com/v/%s"&hl=en&fs=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/%s"=es&fs=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="344"></embed></object>' % ( match2.group(2), match2.group(2))
+				return html
+
+                        elif re.match('(.*)vimeo(.*)', match1.group(1)):
+                                match2 = re.match('(.*)vimeo.com/(\S+)',match1.group(1))
+				html='<object width="400" height="300"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=%s&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" /><embed src="http://vimeo.com/moogaloop.swf?clip_id=%s&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="400" height="300"></embed></object><br />' % ( match2.group(2), match2.group(2))		
+				return html 
+                return value 
 	
 	def render_json(self, data):
 		self.response.headers['Content-Type'] = 'application/json;charset=UTF-8'
@@ -578,7 +597,7 @@ class BaseHandler(webapp.RequestHandler):
 %s
 
 %s
-""" % (body, app.mail_footer)
+""" % (body,app.mail_footer)
 
 		message = mail.EmailMessage(sender=app.mail_sender,
 							subject=subject, body=body)

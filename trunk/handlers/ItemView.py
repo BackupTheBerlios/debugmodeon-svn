@@ -133,6 +133,7 @@ class ItemView(BaseHandler):
 		item = self.values['item']
 		if not item.content_html:
 			html = model.ItemHtml(content=self.markdown(item.content))
+			html = model.ItemHtml(content=self.media_content(item.content))
 			html.put()
 			item.content_html = html
 			item.put()

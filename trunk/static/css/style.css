@@ -1,6 +1,7 @@
 /*
 (C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
 (C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
+(C) Copyright 2008 Juan Luis Belmonte <jlbelmonte at gmail dot com>
 
 This file is part of "debug_mode_on".
 
@@ -457,7 +458,7 @@ span.highlight {
 	background-color:#F6F6F6;
 	margin:0;
 	padding:0;
-	height:18px;
+	height:17px;
 	margin-bottom:2px;
 }
 
@@ -509,6 +510,7 @@ span.highlight {
 #markdown_code_button { background-position: 0 -136px; }
 #markdown_help_button { background-position: 0 -153px; }
 #markdown_heading_button { background-position: 0 -85px; }
+#markdown_media_button { background-position: 0 -306px; }
 
 
 

@@ -44,6 +44,7 @@ toolbar.addButton('Image',function(){
 	id: 'markdown_image_button'
 });
 
+
 toolbar.addButton('Heading',function(){
 	this.wrapSelection('#### ','');
 	/*
@@ -91,3 +92,10 @@ toolbar.addButton('Code Block',function(event){
 },{
 	id: 'markdown_code_button'
 });
+
+toolbar.addButton('Media Content',function(event){
+	 this.wrapSelection('media=',';');
+},{
+	id: 'markdown_media_button'
+}); 
+

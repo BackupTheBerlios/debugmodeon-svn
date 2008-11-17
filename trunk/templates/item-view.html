@@ -231,7 +231,7 @@ google_color_text = "000000";
 			<p class="comment-anchor">
 				<a href="#comment-{{ comment.response_number }}" name="comment-{{ comment.response_number }}">#{{ comment.response_number }}</a>&nbsp;&nbsp;&nbsp;
 			</p>
-			{{ comment.content|markdown|smiley }}
+			{{ comment.content|markdown|smiley|media }}
 		</div>
 		<p class="options">
 		{% if comment.editions %}

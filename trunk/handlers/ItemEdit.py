@@ -174,6 +174,7 @@ class ItemEdit(AuthenticatedHandler):
 					rating_total=0,
 					favourites=0)
 				html = model.ItemHtml(content=self.markdown(item.content))
+				html = model.ItemHtml(content=self.media_content(item.content))
 				html.put()
 				item.content_html = html
 				item.subscribers = [user.email]
