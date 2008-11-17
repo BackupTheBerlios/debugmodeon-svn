@@ -255,10 +255,10 @@ class Apocalipto(BaseHandler):
 		p = 0
 		for cc in model.Contact.all().fetch(10, offset):
 			if cc.user_from_nickname is None:
-				desnormalizate_user_contact(cc)
+				self.desnormalizate_user_contact(cc)
 			self.add_follower('user', cc.user_to.key().id(), cc.user_from_nickname)
-			p =+ 1
-			i =+ 1
+			p += 1
+			i += 1
 		return(i,p)
 		
 	def desnormalizate_group_user(self, gu):
