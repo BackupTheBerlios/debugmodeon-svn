@@ -72,6 +72,8 @@ class Apocalipto(BaseHandler):
 			i = self.add_date_user_subscription(offset)
 		elif action == 'afg':
 			i = self.add_follower_group(offset)
+		elif action == 'afu':
+			i = self.add_follower_user(offset)
 		else:
 			self.response.out.write('unknown action -%s-' % action)
 			return
@@ -241,7 +243,33 @@ class Apocalipto(BaseHandler):
 		i = offset
 		p = 0
 		for group_user in model.GroupUser.all().fetch(10, offset):
+			if group_user.user_nickname is None:
+				self.desnormalizate_group_user(group_user)
 			self.add_follower('group', group_user.group.key().id(), group_user.user_nickname)
 			p +=1
 			i += 1
 		return(i,p)
+	
+	def add_follower_user(self, offset):
+		i = offset
+		p = 0
+		for cc in model.Contact.all().fetch(10, offset):
+			if cc.user_from_nickname is None:
+				desnormalizate_user_contact(cc)
+			self.add_follower('user', cc.user_to.key().id(), cc.user_from_nickname)
+			p =+ 1
+			i =+ 1
+		return(i,p)
+		
+	def desnormalizate_group_user(self, gu):
+		user = gu.user
+		group = gu.group
+		gu.user_nickname = gu.user.nickname
+		gu.group_title = group.title
+		gu.group_url_path = group.url_path
+		gu.put()
+		
+	def desnormalizate_user_contact(cc):
+		cc.user_from_nickname = cc.user_from.nickname
+		cc.user_to_nickname = cc.user_to.nickname
+		cc.put()

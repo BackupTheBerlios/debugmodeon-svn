@@ -438,8 +438,8 @@ class BaseHandler(webapp.RequestHandler):
 			p = 1
 		self.values['p'] = p
 		offset = (p-1)*max
-		if offset > 1000:
-			return None
+		#if offset > 1000:
+		#	return None
 		o = self.get_param('o')
 		if o and o in accepted_orderings:
 			query = query.order(o)
