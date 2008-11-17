@@ -151,8 +151,6 @@ class BaseHandler(webapp.RequestHandler):
 			return markdown.markdown(value, [], safe_mode='escape')
 	
 	def media_content(self,value):
-		if not isinstance(value, basestring):
-			value=str(value)
 		regex1 = re.compile('media=(.*);')
                 match1 = regex1.search(value)
                 if match1:
