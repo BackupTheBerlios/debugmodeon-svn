@@ -106,6 +106,11 @@ class GroupForumEdit(AuthenticatedHandler):
 			group.activity += 5
 		group.put()
 		
+		followers = list(self.get_followers(group=group))
+		followers.extend(self.get_followers(user=user))
+		followers = list(set(followers))
+		self.create_event(event_type='thread.new', followers=followers, user=user, thread=thread, group=group)
+		
 		subscribers = group.subscribers
 		if subscribers and user.email in subscribers:
 			subscribers.remove(user.email)

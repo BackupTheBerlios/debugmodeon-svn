@@ -43,6 +43,13 @@ class UserContact(AuthenticatedHandler):
 			user.contacts += 1
 			user.put()
 			self.add_follower('user', user_to.key().id(), user.nickname)
+			
+			followers = list(self.get_followers(user=user))
+			followers.append(user.nickname)
+			if not user_to.nickname in followers:
+				followers.append(user_to.nickname)
+			self.create_event(event_type='contact.add', followers=followers, user=user, user_to=user_to)
+			
 			app = self.get_application()
 			subject = "%s te ha agregado como contacto" % user.nickname
 			body = """

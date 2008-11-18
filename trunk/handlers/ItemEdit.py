@@ -201,6 +201,11 @@ class ItemEdit(AuthenticatedHandler):
 				else:
 					user.draft_items += 1
 					user.put()
+				
+				followers = list(self.get_followers(user=user))
+				followers.append(user.nickname)
+				self.create_event(event_type='item.new', followers=followers, user=user, item=item)
+				
 				if x:
 					self.render_json({ 'saved': True, 'key' : str(item.key()), "updated" : False, "draft_items" : str(user.draft_items) })
 				else:

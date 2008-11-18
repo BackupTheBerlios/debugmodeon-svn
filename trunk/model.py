@@ -295,16 +295,15 @@ class Follower(db.Model):
 	object_id = db.IntegerProperty(required=True)
 	followers = db.StringListProperty()
 
-"""
 class Event(db.Model):
 	event_type = db.StringProperty(required=True)
-	followers = db.StringListProperty(required=True)
+	followers = db.StringListProperty()
 	
 	user = db.ReferenceProperty(UserData,required=True)
 	user_nickname = db.StringProperty(required=True)
 	
-	user_to = db.ReferenceProperty(UserData,required=True)
-	user_to_nickname = db.StringProperty(required=True)
+	user_to = db.ReferenceProperty(UserData,collection_name='events_user_to')
+	user_to_nickname = db.StringProperty()
 	
 	group = db.ReferenceProperty(Group)
 	group_title = db.StringProperty()
@@ -316,7 +315,7 @@ class Event(db.Model):
 	item_url_path = db.StringProperty()
 	
 	thread = db.ReferenceProperty(Thread)
-	thread_title = db.StringProperty(required=True)
+	thread_title = db.StringProperty()
 	thread_url_path = db.StringProperty()
 	
-"""
+	creation_date = db.DateTimeProperty(auto_now_add=True)

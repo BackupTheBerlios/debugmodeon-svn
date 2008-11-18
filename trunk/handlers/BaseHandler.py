@@ -650,3 +650,62 @@ class BaseHandler(webapp.RequestHandler):
 			if nickname in follower.followers:
 				follower.followers.remove(nickname)
 				follower.put()
+	
+	def create_event(self, event_type, followers, user, user_to=None, group=None, item=None, thread=None, creation_date=None):
+		event = model.Event(event_type=event_type,
+			followers=followers,
+			user=user,
+			user_nickname=user.nickname)
+		
+		if user_to is not None:
+			event.user_to = user_to
+			event.user_to_nickname = user_to.nickname
+		
+		if group is not None:
+			event.group = group
+			event.group_title = group.title
+			event.group_url_path = group.url_path
+		
+		if item is not None:
+			event.item = item
+			event.item_title = item.title
+			event.item_author_nickname = item.author_nickname
+			event.item_url_path = item.url_path
+		
+		if thread is not None:
+			event.thread = thread
+			event.thread_title = thread.title
+			event.thread_url_path = thread.url_path
+		
+		if creation_date is None:
+			event.creation_date = datetime.datetime.now()
+		else:
+			event.creation_date = creation_date
+		
+		event.put()
+	
+	def get_followers(self, user=None, group=None, thread=None, item=None):
+		object_type = None
+		obj = None
+		if user is not None:
+			object_type = 'user'
+			obj = user
+		elif group is not None:
+			object_type = 'group'
+			obj = group
+		elif thread is not None:
+			object_type = 'thread'
+			obj = thread
+		elif item is not None:
+			object_type = 'item'
+			obj = item
+		if object_type is None:
+			return None
+		
+		object_id = obj.key().id()
+		follower = model.Follower.all().filter('object_type', object_type).filter('object_id', object_id).get()
+		if not follower:
+			follower = model.Follower(object_type=object_type, object_id=object_id, followers=[])
+			follower.put()
+		
+		return follower.followers
