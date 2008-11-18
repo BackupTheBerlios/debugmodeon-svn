@@ -632,20 +632,56 @@ class BaseHandler(webapp.RequestHandler):
 		if user_subscription is not None:
 			user_subscription.delete()
 			
-	def add_follower(self, object_type, object_id, nickname):
-		follower = model.Follower.all().filter('object_type', object_type).filter('object_id', object_id).get()
+	def add_follower(self, group=None, user=None, item=None, thread=None, nickname=None):
+		object_type = None
+		obj = None
+		if user is not None:
+			object_type = 'user'
+			obj = user
+		elif group is not None:
+			object_type = 'group'
+			obj = group
+		elif thread is not None:
+			object_type = 'thread'
+			obj = thread
+		elif item is not None:
+			object_type = 'item'
+			obj = item
+		if object_type is None:
+			return None
+			
+		follower = model.Follower.all().filter('object_type', object_type).filter('object_id', obj.key().id()).get()
+		
 		if follower:
 			if nickname not in follower.followers:
 				follower.followers.append(nickname)
 				follower.put()
 		else:
 			follower = model.Follower(object_type=object_type,
-				object_id=object_id,
+				object_id=obj.key().id(),
 				followers=[nickname])
 			follower.put()
 	
-	def remove_follower(self, object_type, object_id, nickname):
-		follower = model.Follower.all().filter('object_type', object_type).filter('object_id', object_id).get()
+	def remove_follower(self, group=None, user=None, item=None, thread=None, nickname=None):
+		object_type = None
+		obj = None
+		if user is not None:
+			object_type = 'user'
+			obj = user
+		elif group is not None:
+			object_type = 'group'
+			obj = group
+		elif thread is not None:
+			object_type = 'thread'
+			obj = thread
+		elif item is not None:
+			object_type = 'item'
+			obj = item
+		if object_type is None:
+			return None
+			
+		follower = model.Follower.all().filter('object_type', object_type).filter('object_id', obj.key().id()).get()
+		
 		if follower:
 			if nickname in follower.followers:
 				follower.followers.remove(nickname)

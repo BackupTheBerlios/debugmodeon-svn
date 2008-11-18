@@ -50,8 +50,8 @@ class GroupUserJoin(AuthenticatedHandler):
 				group.activity += 1
 			group.put()
 			
-			self.add_follower('group', group.key().id(), user.nickname)
-				
+			self.add_follower(group=group, nickname=user.nickname)
+			
 			self.add_user_subscription(user, 'group', group.key().id())
 			user.groups += 1
 			user.put()

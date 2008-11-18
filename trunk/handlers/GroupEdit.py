@@ -155,7 +155,7 @@ class GroupEdit(AuthenticatedHandler):
 				followers.append(user.nickname)
 				self.create_event(event_type='group.new', followers=followers, user=user, group=group)
 				
-				self.add_follower('group', group.key().id(), user.nickname)
+				self.add_follower(group=group, nickname=user.nickname)
 				
 				# TODO: update a user counter to know how many groups is owner of?
 				

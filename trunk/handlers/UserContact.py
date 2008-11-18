@@ -42,7 +42,7 @@ class UserContact(AuthenticatedHandler):
 			
 			user.contacts += 1
 			user.put()
-			self.add_follower('user', user_to.key().id(), user.nickname)
+			self.add_follower(user=user_to, nickname=user.nickname)
 			
 			followers = list(self.get_followers(user=user))
 			followers.append(user.nickname)
@@ -67,7 +67,7 @@ Puedes visitar su perfil en: %s/user/%s
 			contact.delete()
 			user.contacts -= 1
 			user.put()
-			self.remove_follower('user', user_to.key().id(), user.nickname)
+			self.remove_follower(user=user_to, nickname=user.nickname)
 			
 			if self.get_param('x'):
 				self.render_json({ 'action': 'deleted' })

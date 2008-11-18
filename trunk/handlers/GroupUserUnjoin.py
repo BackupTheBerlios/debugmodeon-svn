@@ -45,7 +45,7 @@ class GroupUserUnjoin(AuthenticatedHandler):
 				group.activity -= 1
 			group.put()
 			self.remove_user_subscription(user, 'group', group.key().id())
-			self.remove_follower('group', group.key().id(), user.nickname)
+			self.remove_follower(group=group, nickname=user.nickname)
 			user.groups -= 1
 			user.put()
 		self.redirect(redirect)
