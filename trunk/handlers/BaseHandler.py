@@ -154,15 +154,17 @@ class BaseHandler(webapp.RequestHandler):
 		regex1 = re.compile('media=(.*);')
                 match1 = regex1.search(value)
                 if match1:
-                        if re.match('(.*)youtube(.*)', match1.group(1)):
+                        if re.match('(.*)youtube(.*)', match1.group(0)):
                                 match2 = re.match('(.*)watch\?v=(\S+)', match1.group(1))
-                                html = '<object width="425" height="344"><param name="movie" value="http://www.youtube.com/v/%s"&hl=en&fs=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/%s"=es&fs=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="344"></embed></object>' % ( match2.group(2), match2.group(2))
-				return html
+                                html = '<p><object width="425" height="344"><param name="movie" value="http://www.youtube.com/v/%s"&hl=en&fs=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/%s"=es&fs=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="344"></embed></object></p>' % ( match2.group(2), match2.group(2))
+				value=value.replace(match1.group(0),html)
+				return value
 
-                        elif re.match('(.*)vimeo(.*)', match1.group(1)):
+                        if re.match('(.*)vimeo(.*)', match1.group(0)):
                                 match2 = re.match('(.*)vimeo.com/(\S+)',match1.group(1))
-				html='<object width="400" height="300"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=%s&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" /><embed src="http://vimeo.com/moogaloop.swf?clip_id=%s&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="400" height="300"></embed></object><br />' % ( match2.group(2), match2.group(2))		
-				return html 
+				html='<p><object width="400" height="300"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=%s&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" /><embed src="http://vimeo.com/moogaloop.swf?clip_id=%s&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="400" height="300"></embed></object></p>' % ( match2.group(2), match2.group(2))		
+				value=value.replace(match1.group(0),html)
+				return value 
                 return value 
 	
 	def render_json(self, data):
