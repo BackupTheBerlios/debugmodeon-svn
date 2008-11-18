@@ -94,6 +94,7 @@ class GroupForumEdit(AuthenticatedHandler):
 		memcache.delete('app')
 		
 		thread.put()
+		self.add_follower('thread', thread.key().id(), user.nickname)
 		thread.url_path = ('%d/%s/%s') % (thread.key().id(), self.to_url_path(group.title), self.to_url_path(title))
 		subscribe = self.get_param('subscribe')
 		if subscribe:

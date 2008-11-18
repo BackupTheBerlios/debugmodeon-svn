@@ -192,6 +192,7 @@ class ItemEdit(AuthenticatedHandler):
 					user.items += 1
 					user.put()
 					self.update_tags(tags)
+					self.add_follower('item', item.key().id(), user.nickname)
 					app = model.Application.all().get()
 					if app:
 						app.items += 1

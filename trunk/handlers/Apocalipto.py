@@ -74,6 +74,10 @@ class Apocalipto(BaseHandler):
 			i = self.add_follower_group(offset)
 		elif action == 'afu':
 			i = self.add_follower_user(offset)
+		elif action == 'afi':
+			i = self.add_follower_item(offset)
+		elif action == 'aft':
+			i = self.add_follower_thread(offset)
 		else:
 			self.response.out.write('unknown action -%s-' % action)
 			return
@@ -260,6 +264,24 @@ class Apocalipto(BaseHandler):
 			p += 1
 			i += 1
 		return(i,p)
+	
+	def add_follower_item(self, offset):
+		i = offset
+		p = 0
+		for item in model.Item.all().fetch(10, offset):
+			self.add_follower('item', item.key().id(), item.author_nickname)
+			p += 1
+			i += 1
+		return(i,p)
+		
+	def add_follower_thread(self, offset):
+		i = offset
+		p = 0
+		for t in model.Thread.all().filter('parent_thread', None).fetch(10, offset):
+			self.add_follower('thead', t.key().id(), t.author_nickname)
+			p += 1
+			i += 1
+		return(i, p)
 		
 	def desnormalizate_group_user(self, gu):
 		user = gu.user
