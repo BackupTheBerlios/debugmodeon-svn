@@ -67,6 +67,6 @@ class ItemAddGroups(AuthenticatedHandler):
 						gi.put()
 						
 						followers = list(self.get_followers(group=group))
-						self.create_event(event_type='group.additem', followers=followers, user=user, group=group)
+						self.create_event(event_type='group.additem', followers=followers, user=user, group=group, item=item)
 						
 			self.redirect('/item/%s' % item.url_path)

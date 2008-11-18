@@ -54,7 +54,7 @@ class GroupItemAdd(AuthenticatedHandler):
 				group.put()
 				
 				followers = list(self.get_followers(group=group))
-				self.create_event(event_type='group.additem', followers=followers, user=user, group=group)
+				self.create_event(event_type='group.additem', followers=followers, user=user, group=group, item=item)
 				
 				subscribers = group.subscribers
 				if subscribers and user.email in subscribers:

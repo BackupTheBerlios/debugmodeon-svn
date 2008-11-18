@@ -50,6 +50,7 @@ from handlers.UserContact import *
 from handlers.UserFavourites import *
 from handlers.UserContacts import *
 from handlers.UserPromote import *
+from handlers.UserEvents import *
 
 # messages
 from handlers.MessageEdit import *

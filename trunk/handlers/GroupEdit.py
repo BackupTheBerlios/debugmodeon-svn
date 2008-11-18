@@ -151,6 +151,10 @@ class GroupEdit(AuthenticatedHandler):
 				group_user.put()
 				memcache.delete('index_groups')
 				
+				followers = list(self.get_followers(user=user))
+				followers.append(user.nickname)
+				self.create_event(event_type='group.new', followers=followers, user=user, group=group)
+				
 				self.add_follower('group', group.key().id(), user.nickname)
 				
 				# TODO: update a user counter to know how many groups is owner of?
