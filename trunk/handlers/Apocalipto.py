@@ -249,7 +249,7 @@ class Apocalipto(BaseHandler):
 		for group_user in model.GroupUser.all().fetch(10, offset):
 			if group_user.user_nickname is None:
 				self.desnormalizate_group_user(group_user)
-			self.add_follower('group', group_user.group.key().id(), group_user.user_nickname)
+			self.add_follower(group=group, nickname=group_user.user_nickname)
 			p +=1
 			i += 1
 		return(i,p)
@@ -260,7 +260,7 @@ class Apocalipto(BaseHandler):
 		for cc in model.Contact.all().fetch(10, offset):
 			if cc.user_from_nickname is None:
 				self.desnormalizate_user_contact(cc)
-			self.add_follower('user', cc.user_to.key().id(), cc.user_from_nickname)
+			self.add_follower(user=cc.user_to, nickname=cc.user_from_nickname)
 			p += 1
 			i += 1
 		return(i,p)
@@ -269,7 +269,7 @@ class Apocalipto(BaseHandler):
 		i = offset
 		p = 0
 		for item in model.Item.all().fetch(10, offset):
-			self.add_follower('item', item.key().id(), item.author_nickname)
+			self.add_follower(item=item, nickname=item.author_nickname)
 			p += 1
 			i += 1
 		return(i,p)
@@ -278,7 +278,7 @@ class Apocalipto(BaseHandler):
 		i = offset
 		p = 0
 		for t in model.Thread.all().filter('parent_thread', None).fetch(10, offset):
-			self.add_follower('thead', t.key().id(), t.author_nickname)
+			self.add_follower(thead=t, nickname=t.author_nickname)
 			p += 1
 			i += 1
 		return(i, p)
