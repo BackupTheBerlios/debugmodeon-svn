@@ -1,0 +1,45 @@
+{#
+(C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
+
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+#}
+
+{% extends "base.html" %}
+{% block title %} {{ user.nickname }}: borradores {% endblock %}
+{% block content %}
+
+	<h1><img src="/images/user/thumbnail/{{ user.nickname }}" alt="{{ user.nickname}}" style="vertical-align: middle" /> <a href="/user/{{ user.nickname }}">{{ user.nickname }}</a>: lifestreamming</h1>
+	
+	<ul>
+	{% for event in events %}
+		<li>
+			<strong>{{ event.user_nickname }}</strong>
+			{% if event.event_type == 'thread.new' %}
+				ha escrito un hilo sobre {{ event.thread_title }} en el grupo {{ event.group_title }}
+			{% elif event.event_type == 'item.new' %}
+				ha escrito un artículo titulado {{ event.item_title }}
+			{% elif event.event_type == 'group.additem' %}
+				ha añadido el artículo titulado {{ event.item_title }} al grupo {{ event.group_title }}
+			{% elif event.event_type == 'group.new' %}
+				ha creado el grupo {{ event.group_title }}
+			{% else %}
+				tipo de evento desconocido: {{ event.event_type }}
+			{% endif %}
+			<br/>hace {{ event.creation_date|relativize }}</li>
+	{% endfor %}
+	</ul>
+
+{% endblock %}
