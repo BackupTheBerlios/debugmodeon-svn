@@ -18,28 +18,65 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 #}
 
 {% extends "base.html" %}
-{% block title %} {{ user.nickname }}: borradores {% endblock %}
+{% block title %} {{ user.nickname }}: lifestreamming {% endblock %}
 {% block content %}
 
 	<h1><img src="/images/user/thumbnail/{{ user.nickname }}" alt="{{ user.nickname}}" style="vertical-align: middle" /> <a href="/user/{{ user.nickname }}">{{ user.nickname }}</a>: lifestreamming</h1>
 	
-	<ul>
+	<table style="width: 100%">
+		<tbody>
 	{% for event in events %}
-		<li>
-			<strong>{{ event.user_nickname }}</strong>
+		<tr {% if loop.index % 2 == 0 %}class="even"{% endif %}>
+			<td style="text-align:center">
+				<a href="/user/{{ event.user_nickname}}">
+					<img src="/images/user/thumbnail/{{ event.user_nickname }}"
+						alt="{{ event.user_nickname }}" title="{{ event.user_nickname }}" />
+				</a>
+			</td>
+			<td style="vertical-align: middle">
+				<p style="margin-left:10px">
 			{% if event.event_type == 'thread.new' %}
-				ha escrito un hilo sobre {{ event.thread_title }} en el grupo {{ event.group_title }}
+				ha escrito un hilo titulado <strong><a href="/group.forum/{{ event.thread_url_path }}">{{ event.thread_title }}</a></strong>
+				en el grupo <strong><a href="/group/{{ event.group_url_path }}">{{ event.group_title }}</a></strong>
+			{% elif event.event_type == 'thread.reply' %}
+				ha respondido al hilo titulado
+				<strong><a href="/group.forum/{{ event.thread_url_path }}">{{ event.thread_title }}</a></strong>
+				del grupo <strong><a href="/group/{{ event.group_url_path }}">{{ event.group_title }}</a></strong>
 			{% elif event.event_type == 'item.new' %}
-				ha escrito un artículo titulado {{ event.item_title }}
+				ha escrito un nuevo artículo titulado <strong><a href="/item/{{ event.item_url_path }}">{{ event.item_title }}</a></strong>
+			{% elif event.event_type == 'item.comment' %}
+				ha escrito un comentario en el artículo titulado
+				<strong><a href="/item/{{ event.item_url_path }}">{{ event.item_title }}</a></strong>
 			{% elif event.event_type == 'group.additem' %}
-				ha añadido el artículo titulado {{ event.item_title }} al grupo {{ event.group_title }}
+				ha añadido el artículo titulado <strong><a href="/item/{{ event.item_url_path }}">{{ event.item_title }}</a></strong>
+				al grupo <strong><a href="/group/{{ event.group_url_path }}">{{ event.group_title }}</a></strong>
 			{% elif event.event_type == 'group.new' %}
-				ha creado el grupo {{ event.group_title }}
+				ha creado el grupo <strong><a href="/group/{{ event.group_url_path }}">{{ event.group_title }}</a></strong>
+			{% elif event.event_type == 'contact.add' %}
+				ha añadido a <strong><a href="/user/{{ event.user_to_nickname}}">{{ event.user_to_nickname }}</a></strong>
+				a sus contactos
 			{% else %}
 				tipo de evento desconocido: {{ event.event_type }}
 			{% endif %}
-			<br/>hace {{ event.creation_date|relativize }}</li>
+				</p>
+			</td>
+			<td style="text-align:center">
+				{% if event.group %}
+				<a href="/group/{{ event.group_url_path }}">
+					<img src="/images/group/thumbnail/{{ event.group.key().id() }}"
+						alt="{{ event.group_title|escape }}" title="{{ event.group_title|escape }}" />
+				</a>
+				{% elif event.user_to %}
+				<a href="/user/{{ event.user_to_nickname }}">
+					<img src="/images/user/thumbnail/{{ event.user_to_nickname }}"
+						alt="{{ event.user_to_nickname }}" title="{{ event.user_to_nickname }}" />
+				</a>
+				{% endif %}
+			</td>
+			<td style="vertical-align: middle"><p style="margin-left:10px">hace {{ event.creation_date|relativize }}</p></td>
+		</tr>
 	{% endfor %}
-	</ul>
+		</tbody>
+	</table>
 
 {% endblock %}

@@ -55,7 +55,7 @@ class AdminCategoryEdit(AuthenticatedHandler):
 				self.render('templates/admin-category-edit.html')
 		else:
 			if key:
-				# update group
+				# update category
 				category = model.Category.get(key)
 				category.title = self.get_param('title')
 				category.description = self.get_param('description')

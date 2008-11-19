@@ -88,6 +88,12 @@ class GroupForumReply(AuthenticatedHandler):
 		group.responses = group.responses + 1
 		group.put()
 		
+		followers = list(self.get_followers(user=user))
+		followers.append(user.nickname)
+		followers.extend(self.get_followers(thread=thread))
+		followers = list(set(followers))
+		self.create_event(event_type='thread.reply', followers=followers, user=user, thread=thread, group=group)
+		
 		subscribers = thread.subscribers
 		email_removed = False
 		if subscribers and user.email in subscribers:

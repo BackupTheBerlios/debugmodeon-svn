@@ -80,6 +80,12 @@ class ItemComment(AuthenticatedHandler):
 		
 		item.responses += 1
 		item.put()
+		
+		followers = list(self.get_followers(user=user))
+		followers.append(user.nickname)
+		followers.extend(self.get_followers(item=item))
+		followers = list(set(followers))
+		self.create_event(event_type='item.comment', followers=followers, user=user, item=item)
 
 		subscribers = item.subscribers
 		if subscribers and user.email in subscribers:
