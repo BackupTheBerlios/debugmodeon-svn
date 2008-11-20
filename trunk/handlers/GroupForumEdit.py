@@ -108,6 +108,8 @@ class GroupForumEdit(AuthenticatedHandler):
 		
 		followers = list(self.get_followers(group=group))
 		followers.extend(self.get_followers(user=user))
+		if not user.nickname in followers:
+			followers.append(user.nickname)
 		followers = list(set(followers))
 		self.create_event(event_type='thread.new', followers=followers, user=user, thread=thread, group=group)
 		
