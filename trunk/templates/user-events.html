@@ -55,6 +55,11 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			{% elif event.event_type == 'contact.add' %}
 				ha añadido a <strong><a href="/user/{{ event.user_to_nickname}}">{{ event.user_to_nickname }}</a></strong>
 				a sus contactos
+			{% elif event.event_type == 'user.edit' %}
+				ha editado <strong><a href="/user/{{ event.user_nickname}}">su perfil</a></strong>
+			{% elif event.event_type == 'item.favourite' %}
+				ha añadido a sus favoritos el artículo titulado
+				<strong><a href="/item/{{ event.item_url_path }}">{{ event.item_title }}</a></strong>
 			{% else %}
 				tipo de evento desconocido: {{ event.event_type }}
 			{% endif %}
@@ -78,5 +83,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	{% endfor %}
 		</tbody>
 	</table>
+	
+	{% include 'inc-pagination.html' %}
 
 {% endblock %}

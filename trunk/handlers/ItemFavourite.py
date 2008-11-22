@@ -46,6 +46,12 @@ class ItemFavourite(AuthenticatedHandler):
 			user.favourites += 1
 			user.put()
 			
+			followers = list(self.get_followers(user=user))
+			followers.append(user.nickname)
+			followers.extend(self.get_followers(item=item))
+			followers = list(set(followers))
+			self.create_event(event_type='item.favourite', followers=followers, user=user, item=item)
+			
 			if self.get_param('x'):
 				self.render_json({ 'action': 'added' })
 			else:

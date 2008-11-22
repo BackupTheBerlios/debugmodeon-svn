@@ -503,7 +503,7 @@ class BaseHandler(webapp.RequestHandler):
 		return self.hash(user.nickname, password, times) == user_password
 	
 	def hash_password(self, nickname, password):
-		times = 5
+		times = 1
 		return '%d:%s' % (times, self.hash(nickname, password, times))
 	
 	def get_application(self):

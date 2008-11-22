@@ -41,6 +41,6 @@ class GroupView(BaseHandler):
 		self.values['joined'] = self.joined(group)
 		self.values['items'] = list(model.GroupItem.all().filter('group', group).order('-creation_date').fetch(5))
 		self.values['threads'] = list(model.Thread.all().filter('group', group).filter('parent_thread', None).order('-last_response_date').fetch(5))
-		self.values['users'] = list(model.GroupUser.all().filter('group', group).order('-creation_date').fetch(5))
+		self.values['users'] = list(model.GroupUser.all().filter('group', group).order('-creation_date').fetch(27))
 		self.values['related'] = list(model.RelatedGroup.all().filter('group_from', group).order('-creation_date').fetch(10))
 		self.render('templates/group-view.html')

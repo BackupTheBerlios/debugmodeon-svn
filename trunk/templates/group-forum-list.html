@@ -41,6 +41,10 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 	<div class="grid_9 alpha omega">
 
+	{% if not threads %}
+		<p class="message">No hay mensajes en los foros</p>
+		<br/>
+	{% else %}
 	<table class="forum">
 		<thead>
 		    <th class="subject">Tema</th>
@@ -73,6 +77,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	</table>
 
 	{% include 'inc-pagination.html' %}
+	
+	{% endif %}
 
 {% if user and can_write %}
 	<h3>Inicia un tema</h3>

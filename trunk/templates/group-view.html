@@ -55,64 +55,110 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% block content %}
 	{% include 'inc-group-header.html' %}
 	
-	<div class="grid_3 alpha">
-		<div class="box">
-			<p class="title">Últimos artículos</p>
-			{% if not items %}
-				<p style="text-align:center">No hay artículos</p>
-			{% else %}
-				<ul>
-				{% for item in items %}
-					<li>
-						<strong><a href="/item/{{ item.item_url_path }}">{{ item.item_title|escape }}</a></strong>
-						<br/><span style="color: #777">por {{ item.item_author_nickname }}</span>
-					</li>
-				{% endfor %}
-				</ul>
-				<p style="text-align:right"><strong><a href="/group.item.list/{{ group.url_path }}">Ver todos »</a></strong></p>
-			{% endif %}
-			<p class="end-box">&nbsp;</p>
-		</div>
-	</div>
-	<div class="grid_3">
-		<div class="box">
-			<p class="title">Foro</p>
-			{% if not threads %}
-				<p style="text-align:center">No hay mensajes</p>
-				<p style="text-align:right"><strong><a href="/group.forum.list/{{ group.url_path }}">Nuevo tema »</a></strong></p>
-			{% else %}
-				<ul>
-				{% for thread in threads %}
-					<li>
-						<strong><a href="/group.forum/{{ thread.url_path }}">{{ thread.title|escape }}</a></strong>
-						<br/><span style="color: #777">actualizado hace {{ thread.last_response_date|relativize }}</span>
-					</li>
-				{% endfor %}
-				</ul>
-				<p style="text-align:right"><strong><a href="/group.forum.list/{{ group.url_path }}">Ver todos »</a></strong></p>
-			{% endif %}
-			<p class="end-box">&nbsp;</p>
-		</div>
-	</div>
-	<div class="grid_3 omega">
-		<div class="box">
-			<p class="title">Miembros</p>
-			<ul>
-			{% for u in users %}
-				<li>
-					<strong><a href="/user/{{ u.user_nickname }}">
-					{% if u.image_version %}
-						<img src="/images/user/thumbnail/{{ u.user_nickname }}/{{ u.image_version }}" alt="{{ u.user_nickname }}" />
-					{% else %}
-						<img src="/images/user/thumbnail/{{ u.user_nickname }}" alt="{{ u.user_nickname }}" />
-					{% endif %}
-					{{ u.user_nickname }}</a></strong>
-				</li>
+	
+	<div class="grid_9 alpha omega">
+		<hr/>
+		<h4 style="color: orange">Últimos mensajes en foros</h4>
+
+
+		{% if not threads %}
+		<p style="text-align:center" class="message">
+			No hay mensajes en los foros por el momento. <br/>
+			Empieza tú.
+			<strong><a href="/group.forum.list/{{ group.url_path }}">Abre un nuevo hilo</a></strong>
+		</p>
+		{% else %}
+		<table class="forum">
+			<thead>
+				<th style="text-align:center">Autor</th>
+				<th class="subject">Tema</th>
+				<th>Respuestas</th>
+				<th>Actualizado</th>
+			</thead>
+			<tbody>
+			{% for thread in threads %}
+				<tr {% if loop.index % 2 == 0 %}class="even"{% endif %}>
+					<td style="text-align:center">
+						<a href="/user/{{ thread.author_nickname }}" title="{{ thread.author_nickname }}">
+							<img src="/images/user/thumbnail/{{ thread.author_nickname }}" alt="{{ thread.author_nickname }}" />
+						</a>
+					</td>
+					<td class="subject">
+						<strong>
+							<a href="/group.forum/{{ thread.url_path }}">{{ thread.title|escape }}</a>
+							{% if app.max_results_sublist and thread.responses > app.max_results_sublist %}
+								<br/> Páginas:
+								{% for page in range(1, ((thread.responses / app.max_results_sublist)|round(0, 'ceil') +1)) %}
+									&nbsp;<a href="/group.forum/{{ thread.url_path }}?p={{ page }}">[{{ page }}]</a>
+								{% endfor %}
+							{% endif %}
+						</strong>
+					</td>
+					<td>{{ thread.responses }}</td>
+					<td>hace {{ thread.last_response_date|relativize }}</td>
+				</tr>
 			{% endfor %}
-			</ul>
-			<p style="text-align:right"><strong><a href="/group.user.list/{{ group.url_path }}">Ver todos »</a></strong></p>
-			<p class="end-box">&nbsp;</p>
-		</div>
+			</tbody>
+		</table>
+
+		<p style="text-align:right">
+			<strong><a href="/group.forum.list/{{ group.url_path }}">Ver todos o abrir un nuevo hilo »</a></strong>
+		</p>
+		{% endif %}
+		
+		{% if items %}
+		<hr/>
+		
+		<h4 style="color: orange">Últimos artículos</h4>
+		<table class="forum">
+			<thead>
+				<th style="text-align:center">Autor</th>
+				<th class="subject">Título</th>
+			</thead>
+			<tbody>
+		{% for item in items %}
+			<tr {% if loop.index % 2 == 0 %}class="even"{% endif %}>
+				<td style="text-align:center">
+					<a href="/user/{{ item.item_author_nickname }}">
+						<img class="icon" src="/images/user/thumbnail/{{ item.item_author_nickname }}"
+							alt="{{ item.item_author_nickname }}" title="{{ item.item_author_nickname }}" />
+					</a>
+				</td>
+				<td class="subject">
+				    <strong><a href="/item/{{ item.item_url_path }}">{{ item.item_title|escape }}</a></strong>
+				</td>
+			</tr>
+		{% endfor %}
+			</tbody>
+		</table>
+		<p style="text-align:right"><strong><a href="/group.item.list/{{ group.url_path }}">Ver todos los artículos »</a></strong></p>
+		{% endif %}
+		
+		
+		<h4 style="color: orange">Usuarios</h4>
+		{% for u in users %}
+			<div class="grid_1 {% if loop.index % 9 == 0 %}omega{% elif loop.index % 9 == 1 %}alpha{% endif %}">
+			<p style="text-align:center">
+				<a href="/user/{{ u.user_nickname }}">
+					<img src="/images/user/thumbnail/{{ u.user_nickname }}"
+						alt="{{ u.user_nickname }}"
+						title="{{ u.user_nickname }}" />
+				</a>
+			</p>
+			</div>
+			{% if loop.index % 9 == 0 %}
+			<div class="clear">&nbsp;</div>
+			{% endif %}
+		{% endfor %}
+		<div class="clear">&nbsp;</div>
+		
+		<p style="text-align:right"><strong>
+			<a href="/group.user.list/{{ group.url_path }}">Ver todos los miembros del grupo»</a>
+		</strong></p>
+		<p class="end-box">&nbsp;</p>
+		<div class="clear">&nbsp;</div>
+		
 	</div>
-	<div class="clear">&nbsp;</div> 
+	<div class="clear">&nbsp;</div>
+	
 {% endblock %}

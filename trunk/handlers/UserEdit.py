@@ -91,6 +91,11 @@ class UserEdit(AuthenticatedHandler):
 
 			user.about_user = self.get_param('about_user')
 			user.put()
+			
+			followers = list(self.get_followers(user=user))
+			followers.append(user.nickname)
+			self.create_event(event_type='user.edit', followers=followers, user=user)
+			
 			self.redirect('/user/%s' % user.nickname)
 		
 		
