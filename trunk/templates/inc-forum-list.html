@@ -1,4 +1,5 @@
 {#
+(C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
 (C) Copyright 2008 Néstor Salceda <nestor.salceda at gmail dot com>
 
 This file is part of "debug_mode_on".
@@ -17,21 +18,23 @@ You should have received a copy of the GNU Affero General Public License
 along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 #}
 
-<table class="forum">
+<table class="grid">
 	<thead>
-		<th style="text-align:center">Autor</th>
-		<th class="subject">Tema</th>
-		<th style="text-align:center">Grupo</th>
-		<th>Respuestas</th>
-		<th>Actualizado</th>
+		<tr>
+			<th class="center">Autor</th>
+			<th class="left">Tema</th>
+			<th class="center">Grupo</th>
+			<th class="right">Respuestas</th>
+			<th class="right">Actualizado</th>
+		</tr>
 	</thead>
 	<tbody>
 	{% for thread in threads %}
 		<tr {% if loop.index % 2 == 0 %}class="even"{% endif %}>
-			<td style="text-align:center">
+			<td class="center">
 				<a href="/user/{{ thread.author_nickname }}" title="{{ thread.author_nickname }}">
 					<img src="/images/user/thumbnail/{{ thread.author_nickname }}" alt="{{ thread.author_nickname }}" /></a></td>
-			<td class="subject">
+			<td class="left">
 				<strong>
 					<a href="/group.forum/{{ thread.url_path }}">{{ thread.title|escape }}</a>
 					{% if app.max_results_sublist and thread.responses > app.max_results_sublist %}
@@ -42,11 +45,11 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 					{% endif %}
 				</strong>
 			</td>
-			<td style="text-align:center"><a href="/group/{{ thread.group_url_path }}">
+			<td class="center"><a href="/group/{{ thread.group_url_path }}">
 				<img src="/images/group/thumbnail/{{ thread.group.key().id() }}"
 					alt="{{ thread.group_title|escape }}" title="{{ thread.group_title|escape }}" /></a></td>
-			<td>{{ thread.responses }}</td>
-			<td>hace {{ thread.last_response_date|relativize }}</td>
+			<td class="right">{{ thread.responses }}</td>
+			<td class="right">hace {{ thread.last_response_date|relativize }}</td>
 		</tr>
 	{% endfor %}
 	</tbody>

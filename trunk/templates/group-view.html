@@ -54,36 +54,38 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 {% block content %}
 	{% include 'inc-group-header.html' %}
+	<hr/>
 	
 	
 	<div class="grid_9 alpha omega">
-		<hr/>
-		<h4 style="color: orange">Últimos mensajes en foros</h4>
+		<h4>Últimos mensajes en foros</h4>
 
 
 		{% if not threads %}
-		<p style="text-align:center" class="message">
+		<p class="message">
 			No hay mensajes en los foros por el momento. <br/>
 			Empieza tú.
 			<strong><a href="/group.forum.list/{{ group.url_path }}">Abre un nuevo hilo</a></strong>
 		</p>
 		{% else %}
-		<table class="forum">
+		<table class="grid">
 			<thead>
-				<th style="text-align:center">Autor</th>
-				<th class="subject">Tema</th>
-				<th>Respuestas</th>
-				<th>Actualizado</th>
+				<tr>
+					<th class="center">Autor</th>
+					<th class="left">Tema</th>
+					<th class="right">Respuestas</th>
+					<th class="right">Actualizado</th>
+				</tr>
 			</thead>
 			<tbody>
 			{% for thread in threads %}
 				<tr {% if loop.index % 2 == 0 %}class="even"{% endif %}>
-					<td style="text-align:center">
+					<td class="center">
 						<a href="/user/{{ thread.author_nickname }}" title="{{ thread.author_nickname }}">
 							<img src="/images/user/thumbnail/{{ thread.author_nickname }}" alt="{{ thread.author_nickname }}" />
 						</a>
 					</td>
-					<td class="subject">
+					<td class="left">
 						<strong>
 							<a href="/group.forum/{{ thread.url_path }}">{{ thread.title|escape }}</a>
 							{% if app.max_results_sublist and thread.responses > app.max_results_sublist %}
@@ -94,14 +96,14 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 							{% endif %}
 						</strong>
 					</td>
-					<td>{{ thread.responses }}</td>
-					<td>hace {{ thread.last_response_date|relativize }}</td>
+					<td class="right">{{ thread.responses }}</td>
+					<td class="right">hace {{ thread.last_response_date|relativize }}</td>
 				</tr>
 			{% endfor %}
 			</tbody>
 		</table>
 
-		<p style="text-align:right">
+		<p class="right">
 			<strong><a href="/group.forum.list/{{ group.url_path }}">Ver todos o abrir un nuevo hilo »</a></strong>
 		</p>
 		{% endif %}
@@ -109,53 +111,40 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		{% if items %}
 		<hr/>
 		
-		<h4 style="color: orange">Últimos artículos</h4>
-		<table class="forum">
+		<h4>Últimos artículos</h4>
+		<table class="grid">
 			<thead>
-				<th style="text-align:center">Autor</th>
-				<th class="subject">Título</th>
+				<tr>
+					<th class="right">Autor</th>
+					<th class="left">Título</th>
+				</tr>
 			</thead>
 			<tbody>
 		{% for item in items %}
 			<tr {% if loop.index % 2 == 0 %}class="even"{% endif %}>
-				<td style="text-align:center">
+				<td class="center">
 					<a href="/user/{{ item.item_author_nickname }}">
 						<img class="icon" src="/images/user/thumbnail/{{ item.item_author_nickname }}"
 							alt="{{ item.item_author_nickname }}" title="{{ item.item_author_nickname }}" />
 					</a>
 				</td>
-				<td class="subject">
+				<td class="left">
 				    <strong><a href="/item/{{ item.item_url_path }}">{{ item.item_title|escape }}</a></strong>
 				</td>
 			</tr>
 		{% endfor %}
 			</tbody>
 		</table>
-		<p style="text-align:right"><strong><a href="/group.item.list/{{ group.url_path }}">Ver todos los artículos »</a></strong></p>
+		<p class="more"><a href="/group.item.list/{{ group.url_path }}">Ver todos los artículos »</a></p>
 		{% endif %}
 		
 		
-		<h4 style="color: orange">Usuarios</h4>
-		{% for u in users %}
-			<div class="grid_1 {% if loop.index % 9 == 0 %}omega{% elif loop.index % 9 == 1 %}alpha{% endif %}">
-			<p style="text-align:center">
-				<a href="/user/{{ u.user_nickname }}">
-					<img src="/images/user/thumbnail/{{ u.user_nickname }}"
-						alt="{{ u.user_nickname }}"
-						title="{{ u.user_nickname }}" />
-				</a>
-			</p>
-			</div>
-			{% if loop.index % 9 == 0 %}
-			<div class="clear">&nbsp;</div>
-			{% endif %}
-		{% endfor %}
-		<div class="clear">&nbsp;</div>
+		<h4>Usuarios</h4>
+		{% include 'inc-user-grid.html' %}
 		
-		<p style="text-align:right"><strong>
+		<p class="more">
 			<a href="/group.user.list/{{ group.url_path }}">Ver todos los miembros del grupo»</a>
-		</strong></p>
-		<p class="end-box">&nbsp;</p>
+		</p>
 		<div class="clear">&nbsp;</div>
 		
 	</div>

@@ -23,7 +23,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	{% for thread in threads %}
 		<li>
 			<strong><a href="/group.forum/{{ thread.url_path }}">{{ thread.title|escape }}</a></strong>
-			<br/><span style="color: #777">hace {{ thread.last_response_date|relativize }}</span>
+			<br/><span class="info">hace {{ thread.last_response_date|relativize }}</span>
 		</li>
 	{% endfor %}
 	</ul>

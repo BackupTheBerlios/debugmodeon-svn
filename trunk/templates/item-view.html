@@ -69,7 +69,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% endif %}
 	<div class="box">
 		<p class="title">Sindicación RSS</p>
-		<p style="text-align:center" class="options"><a href="/feed/user/{{ item.author_nickname }}"><img src="/static/images/feed.png" alt="feed" class="icon" /> Últimos artículos de {{ item.author_nickname}}</a></p>
+		<p class="options center"><a href="/feed/user/{{ item.author_nickname }}"><img src="/static/images/feed.png" alt="feed" class="icon" /> Últimos artículos de {{ item.author_nickname}}</a></p>
 		<p class="end-box">&nbsp;</p>
 	</div>
 
@@ -84,7 +84,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		</li>
 	{% endfor %}
 	</ul>
-	<p style="text-align:right"><strong><a href="/user/{{ item.author_nickname }}">Ver todos »</a></strong></p>
+	<p class="more"><a href="/user/{{ item.author_nickname }}">Ver todos »</a></p>
 	<p class="end-box">&nbsp;</p>
 </div>
 {% endif %}

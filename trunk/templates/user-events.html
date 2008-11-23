@@ -23,18 +23,17 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 	<h1><img src="/images/user/thumbnail/{{ user.nickname }}" alt="{{ user.nickname}}" style="vertical-align: middle" /> <a href="/user/{{ user.nickname }}">{{ user.nickname }}</a>: lifestreamming</h1>
 	
-	<table style="width: 100%">
+	<table class="grid">
 		<tbody>
 	{% for event in events %}
 		<tr {% if loop.index % 2 == 0 %}class="even"{% endif %}>
-			<td style="text-align:center">
+			<td class="center">
 				<a href="/user/{{ event.user_nickname}}">
 					<img src="/images/user/thumbnail/{{ event.user_nickname }}"
 						alt="{{ event.user_nickname }}" title="{{ event.user_nickname }}" />
 				</a>
 			</td>
-			<td style="vertical-align: middle">
-				<p style="margin-left:10px">
+			<td>
 			{% if event.event_type == 'thread.new' %}
 				ha escrito un hilo titulado <strong><a href="/group.forum/{{ event.thread_url_path }}">{{ event.thread_title }}</a></strong>
 				en el grupo <strong><a href="/group/{{ event.group_url_path }}">{{ event.group_title }}</a></strong>
@@ -63,9 +62,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			{% else %}
 				tipo de evento desconocido: {{ event.event_type }}
 			{% endif %}
-				</p>
 			</td>
-			<td style="text-align:center">
+			<td class="center">
 				{% if event.group %}
 				<a href="/group/{{ event.group_url_path }}">
 					<img src="/images/group/thumbnail/{{ event.group.key().id() }}"
@@ -78,7 +76,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				</a>
 				{% endif %}
 			</td>
-			<td style="vertical-align: middle"><p style="margin-left:10px">hace {{ event.creation_date|relativize }}</p></td>
+			<td class="right">hace {{ event.creation_date|relativize }}</td>
 		</tr>
 	{% endfor %}
 		</tbody>

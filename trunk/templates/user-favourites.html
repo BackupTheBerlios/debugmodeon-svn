@@ -28,23 +28,26 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% block sidebar %}
 	<div class="box">
 		<p class="title">Sindicación RSS</p>
-		<p style="text-align:center" class="options"><a href="/feed/user/{{ this_user.nickname }}"><img src="/static/images/feed.png" alt="feed" class="icon" /> Últimos artículos de {{ this_user.nickname}}</a></p>
+		<p class="center options"><a href="/feed/user/{{ this_user.nickname }}"><img src="/static/images/feed.png" alt="feed" class="icon" /> Últimos artículos de {{ this_user.nickname}}</a></p>
+		<p class="end-box">&nbsp;</p>
 	</div>
 {% endblock %}
 
 {% block content %}
 	<h1><img src="/images/user/thumbnail/{{ this_user.nickname }}" alt="{{ this_user.nickname}}" style="vertical-align: middle" /> <a href="/user/{{ this_user.nickname }}">{{ this_user.nickname }}</a>: favoritos</h1>
 
-	<table class="forum">
+	<table class="grid">
 		<thead>
-			<th style="text-align:center">Autor</th>
-		    <th class="subject">Título</th>
+			<tr>
+				<th class="center">Autor</th>
+				<th class="left">Título</th>
+			</tr>
 		</thead>
 		<tbody>
 		{% for fav in favourites %}
-			<tr>
-			    <td style="text-align:center"><a href="/user/{{ fav.item_author_nickname }}"><img src="/images/user/thumbnail/{{ fav.item_author_nickname }}" alt="{{ fav.item_author_nickname }}" title="{{ fav.item_author_nickname }}" /></a></td>
-				<td class="subject"><strong><a href="/item/{{ fav.item_url_path }}">{{ fav.item_title }}</a></strong></td>
+			<tr {% if loop.index % 2 == 0 %}class="even"{% endif %}>
+			    <td class="center"><a href="/user/{{ fav.item_author_nickname }}"><img src="/images/user/thumbnail/{{ fav.item_author_nickname }}" alt="{{ fav.item_author_nickname }}" title="{{ fav.item_author_nickname }}" /></a></td>
+				<td class="left"><strong><a href="/item/{{ fav.item_url_path }}">{{ fav.item_title }}</a></strong></td>
 			</tr>
 		{% endfor %}
 		</tbody>

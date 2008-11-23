@@ -45,18 +45,21 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<p class="message">No hay mensajes en los foros</p>
 		<br/>
 	{% else %}
-	<table class="forum">
+	<table class="grid">
 		<thead>
-		    <th class="subject">Tema</th>
-			<th>Autor</th>
-			<th>Respuestas</th>
-			<th>Lecturas</th>
-			<th>Actualizado</th>
+			<tr>
+				<th class="center">Autor</th>
+				<th class="left">Tema</th>
+				<th class="right">Respuestas</th>
+				<th class="right">Lecturas</th>
+				<th class="right">Actualizado</th>
+			</tr>
 		</thead>
 		<tbody>
 		{% for thread in threads %}
 			<tr {% if loop.index % 2 == 0 %}class="even"{% endif %}>
-				<td class="subject">
+				<td class="center"><a href="/user/{{ thread.author_nickname }}"><img src="/images/user/thumbnail/{{ thread.author_nickname }}" alt="{{ thread.author_nickname }}" title="{{ thread.author_nickname }}" /></a></td>
+				<td class="left">
 					<strong>
 						<a href="/group.forum/{{ thread.url_path }}">{{ thread.title|escape }}</a>
 						{% if app.max_results_sublist and thread.responses > app.max_results_sublist %}
@@ -67,10 +70,9 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 						{% endif %}
 					</strong>
 				</td>
-				<td style="text-align:center"><a href="/user/{{ thread.author_nickname }}"><img src="/images/user/thumbnail/{{ thread.author_nickname }}" alt="{{ thread.author_nickname }}" title="{{ thread.author_nickname }}" /></a></td>
-				<td>{{ thread.responses }}</td>
-				<td>{{ thread.views }}</td>
-				<td>hace {{ thread.last_response_date|relativize }}</td>
+				<td class="right">{{ thread.responses }}</td>
+				<td class="right">{{ thread.views }}</td>
+				<td class="right">hace {{ thread.last_response_date|relativize }}</td>
 			</tr>
 		{% endfor %}
 		</tbody>
@@ -112,7 +114,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	</form>
 {% else%}
 	{% if user and not can_write %}
-		<p class="options" style="text-align:center">Este grupo requiere que te unas a él para poder escribir. <a href="/group.user.join?group={{ group.key()|escape }}&amp;redirect={{ redirect }}"> <img src="/static/images/add.png" /> Únete a este grupo</a></p>
+		<p class="options right">Este grupo requiere que te unas a él para poder escribir. <a href="/group.user.join?group={{ group.key()|escape }}&amp;redirect={{ redirect }}"> <img src="/static/images/add.png" /> Únete a este grupo</a></p>
 	{% endif %}
 {% endif %}
 	</div>

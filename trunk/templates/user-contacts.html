@@ -28,7 +28,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% block sidebar %}
 	<div class="box">
 		<p class="title">Sindicación RSS</p>
-		<p style="text-align:center" class="options"><a href="/feed/user/{{ this_user.nickname }}"><img src="/static/images/feed.png" alt="feed" class="icon" /> Últimos artículos de {{ this_user.nickname}}</a></p>
+		<p class="options right"><a href="/feed/user/{{ this_user.nickname }}"><img src="/static/images/feed.png" alt="feed" class="icon" /> Últimos artículos de {{ this_user.nickname}}</a></p>
 		<p class="end-box">&nbsp;</p>
 	</div>
 {% endblock %}
@@ -36,20 +36,21 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% block content %}
 	<h1><img src="/images/user/thumbnail/{{ this_user.nickname }}" alt="{{ this_user.nickname}}" style="vertical-align: middle" /> <a href="/user/{{ this_user.nickname }}">{{ this_user.nickname }}</a>: contactos</h1>
 	
-	<table class="forum">
-		<thead>
-			<th>&nbsp;</th>
-			<th class="subject">Usuario</th>
-		</thead>
-		<tbody>
-		{% for contact in contacts %}
-			<tr>
-				<td style="text-align:center"><a href="/user/{{ contact.user_to_nickname }}"><img src="/images/user/thumbnail/{{ contact.user_to_nickname }}" alt="{{ contact.user_to_nickname }}" title="{{ contact.user_to_nickname }}" /></a></td>
-				<td class="subject"><strong><a href="/user/{{ contact.user_to_nickname }}">{{ contact.user_to_nickname }}</a></strong></td>
-			</tr>
-		{% endfor %}
-		</tbody>
-	</table>
+{% for u in users %}
+	<div class="grid_1 {% if loop.index % 9 == 0 %}omega{% elif loop.index % 9 == 1 %}alpha{% endif %}">
+	<p class="center">
+		<a href="/user/{{ u.user_to_nickname }}">
+			<img src="/images/user/thumbnail/{{ u.user_to_nickname }}"
+				alt="{{ u.user_to_nickname }}"
+				title="{{ u.user_to_nickname }}" />
+		</a>
+	</p>
+	</div>
+	{% if loop.index % 9 == 0 %}
+	<div class="clear">&nbsp;</div>
+	{% endif %}
+{% endfor %}
+<div class="clear">&nbsp;</div>
 
 {% include 'inc-pagination.html' %}
 	

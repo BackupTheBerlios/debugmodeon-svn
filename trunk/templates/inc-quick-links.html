@@ -36,7 +36,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<li><a href="/user.favourites/{{ user.nickname }}"><img src="/static/images/star.png" alt="" class="icon" /> Tus favoritos</a></li>
 		<li><a href="/user.groups/{{ user.nickname }}"><img src="/static/images/group.png" alt="" class="icon" /> Tus grupos</a></li>
 		<li><a href="/user.contacts/{{ user.nickname }}"><img src="/static/images/user.png" alt="" class="icon" /> Tus contactos</a></li>
-		<li><a href="/invite"><img src="/static/images/user_comment.png" alt="" class="icon" />Invita a tus amigos </a></li>
+		<li><a href="/invite"><img src="/static/images/user_comment.png" alt="" class="icon" /> Invita a tus amigos </a></li>
 	</ul>
 
 	<p><strong>Mensajes</strong></p>
@@ -51,7 +51,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% else %}
 <div class="box" id="quick-links">
 	<p class="title">Quick links</p>
-	<p style="text-align: center">
+	<p class="center">
 	{% if sess.user %}
 		Hola {{ sess.user_nickname }} | <a href="/user.logout">desconectar</a>
 	{% else %}
@@ -61,7 +61,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	</p>
 	<p class="end-box">&nbsp;</p>
 </div>
-			<div class="box" style="text-align:center">
+			<div class="box center">
 				<p class="start-box">&nbsp;</p>
 				<p class="up"><img src="/static/images/page_white_edit.png" class="icon" alt="" /> <a href="/item.list"><strong>Artículos</strong></a></p>
 				<p>
@@ -69,7 +69,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				</p>
 				<p class="end-box">&nbsp;</p>
 			</div>
-			<div class="box" style="text-align:center">
+			<div class="box center">
 				<p class="start-box">&nbsp;</p>
 				<p class="up"><img src="/static/images/group.png" class="icon" alt="" /> <a href="/group.list"><strong>Grupos</strong></a></p>
 				<p>
@@ -78,7 +78,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				</p>
 				<p class="end-box">&nbsp;</p>
 			</div>
-			<div class="box" style="text-align:center">
+			<div class="box center">
 				<p class="start-box">&nbsp;</p>
 				<p class="up"><img src="/static/images/help.png" class="icon" alt="" /> <a href="/group.forum/9240/debug-mode-on/opiniones-sugerencias-feedback-general"><strong>Feedback</strong></a></p>
 				<p>

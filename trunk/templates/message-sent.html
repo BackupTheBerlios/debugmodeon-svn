@@ -24,22 +24,24 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% block content %}
 	<h1>Mensajes enviados</h1>
 
-	<table class="forum">
+	<table class="grid">
 		<thead>
-			<th class="subject">Enviado a</th>
-			<th class="subject">Asunto</th>
-			<th>Fecha</th>
-			<th>&nbsp;</th>
+			<tr>
+				<th class="center">Enviado a</th>
+				<th class="left">Asunto</th>
+				<th class="right">Fecha</th>
+				<th class="right">&nbsp;</th>
+			</tr>
 		</thead>
 		<tbody>
 		{% for message in messages %}
-			<tr>
-				<td style="text-align:center">
+			<tr {% if loop.index % 2 == 0 %}class="even"{% endif %}>
+				<td class="center">
 					<a href="/user/{{ message.user_to_nickname }}"><img src="/images/user/thumbnail/{{ message.user_to_nickname }}" alt="{{ message.user_to_nickname }}" title="{{ message.user_to_nickname }}" /></a>
 				</td>
-				<td class="subject"><p><a href="/message.read/{{ message.url_path }}">{{ message.title|escape }}</a></p></td>
-				<td><p>hace {{ message.creation_date|relativize }}</p></td>
-				<td><p class="options"><a href="/message.delete?key={{ message.key() }}" onclick="return confirm('¿Seguro que desea eliminar el mensaje?')"><img src="/static/images/cross.png" alt="" class="icon" /> Eliminar mensaje</a></p></td>
+				<td class="left"><p><a href="/message.read/{{ message.url_path }}">{{ message.title|escape }}</a></p></td>
+				<td class="right"><p>hace {{ message.creation_date|relativize }}</p></td>
+				<td class="right"><p class="options"><a href="/message.delete?key={{ message.key() }}" onclick="return confirm('¿Seguro que desea eliminar el mensaje?')"><img src="/static/images/cross.png" alt="" class="icon" /> Eliminar mensaje</a></p></td>
 			</tr>
 		{% endfor %}
 		</tbody>

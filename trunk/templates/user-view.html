@@ -29,7 +29,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% block sidebar %}
 	<div class="box">
 		<p class="title">Sindicación RSS</p>
-		<p style="text-align:center" class="options"><a href="/feed/user/{{ this_user.nickname }}"><img src="/static/images/feed.png" alt="feed" class="icon" /> Últimos artículos de {{ this_user.nickname}}</a></p>
+		<p class="options center"><a href="/feed/user/{{ this_user.nickname }}"><img src="/static/images/feed.png" alt="feed" class="icon" /> Últimos artículos de {{ this_user.nickname}}</a></p>
 		<p class="end-box">&nbsp;</p>
 	</div>
 {% endblock %}
@@ -54,7 +54,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				{% endif %}
 			</p>
 		</div>
-	
+
 	</div>
 	<div class="clear">&nbsp;</div>
 	<div class="grid_9 alpha omega">
@@ -86,9 +86,9 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		{% endif %} 
 		{% if links %}
 			<hr/>
-			<h4 style="color: orange">Links</h4>
+			<h4>Enlaces</h4>
 			{% for link in links %}
-				<div class="grid_3 {% if loop.index % 3 == 0 %}omega{% elif loop.index % 3 == 1 %}alpha{% endif %}" style="text-align:center">
+				<div class="grid_3 center {% if loop.index % 3 == 0 %}omega{% elif loop.index % 3 == 1 %}alpha{% endif %}">
 					{{ link.0 }}:<br/>
 					{% if link.0 == 'blog' %}
 						<a href="{{ link.1 }}" target="_blank"><img src="http://api.thumbalizr.com/?url={{ link.1 }}&amp;width=128" alt=""></a>
@@ -106,33 +106,35 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		{% endif %}
 		{% if im_addresses and user %}
 			<hr/>
-			<h4 style="color: orange">Direcciones de contacto: </h4>
+			<h4>Direcciones de contacto: </h4>
 			{% for im_address in im_addresses %}
-				<div class="grid_3 {% if loop.index % 3 == 0 %}omega{% elif loop.index % 3 == 1 %}alpha{% endif %}" style="text-align:center">
+				<div class="grid_3 center {% if loop.index % 3 == 0 %}omega{% elif loop.index % 3 == 1 %}alpha{% endif %}">
 					{{ im_address.0}}:<br/>
 					<strong>{{im_address.1}}</strong>
 				</div>
 			{% endfor %}
-		
+
 		{% endif %}
-		
+
 	</div>
 	<div class="clear">&nbsp;</div>
 	<div class="grid_9 alpha omega">
 		{% if items %}
 		<hr/>
-		<h4 style="color: orange">Últimos artículos</h4>
-		<table class="forum">
+		<h4>Últimos artículos</h4>
+		<table class="grid">
 			<thead>
-				<th class="subject">Título</th>
-				<th>Comentarios</th>
-				<th>Valoración media</th>
+				<tr>
+					<th class="left">Título</th>
+					<th class="right">Comentarios</th>
+					<th class="right">Valoración media</th>
+				</tr>
 			</thead>
 			<tbody>
 		{% for item in items %}
 			<tr {% if loop.index % 2 == 0 %}class="even"{% endif %}>
-				<td class="subject">
-				    <strong><a href="/item/{{ item.url_path }}">{{ item.title|escape }}</a></strong>
+				<td class="left">
+					<strong><a href="/item/{{ item.url_path }}">{{ item.title|escape }}</a></strong>
 				</td>
 				<td>
 					{{ item.responses }}
@@ -144,14 +146,14 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		{% endfor %}
 			</tbody>
 		</table>
-		<p style="text-align:right"><strong><a href="/user.items/{{ this_user.nickname }}">Ver todos los artículos »</a></strong></p>
+		<p class="more"><a href="/user.items/{{ this_user.nickname }}">Ver todos los artículos »</a></p>
 		{% endif %}
 		{% if contacts %}
 		<hr/>
-		<h4 style="color: orange">Contactos</h4>
+		<h4>Contactos</h4>
 		{% for contact in contacts %}
 			<div class="grid_1 {% if loop.index % 9 == 0 %}omega{% elif loop.index % 9 == 1 %}alpha{% endif %}">
-			<p style="text-align:center">
+			<p class="center">
 				<a href="/user/{{ contact.user_to_nickname }}">
 					<img src="/images/user/thumbnail/{{ contact.user_to_nickname }}"
 						alt="{{ contact.user_to_nickname }}"
@@ -164,16 +166,16 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			{% endif %}
 		{% endfor %}
 		<div class="clear">&nbsp;</div>
-		<p style="text-align:right"><strong>
+		<p class="more">
 			<a href="/user.contacts/{{ this_user.nickname }}">Ver todos los contactos »</a>
-		</strong></p>
+		</p>
 		{% endif %}
 		{% if groups %}
 		<hr/>
-		<h4 style="color: orange">Grupos</h4>
+		<h4>Grupos</h4>
 		{% for group in groups %}
 			<div class="grid_1 {% if loop.index % 9 == 0 %}omega{% elif loop.index % 9 == 1 %}alpha{% endif %}">
-			<p style="text-align:center">
+			<p class="center">
 				<a href="/group/{{ group.group_url_path }}">
 					<img src="/images/group/thumbnail/{{ group.group.key().id() }}"
 						alt="{{ group.title }}"
@@ -186,9 +188,9 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			{% endif %}
 		{% endfor %}
 		<div class="clear">&nbsp;</div>
-		<p style="text-align:right"><strong>
+		<p class="more">
 			<a href="/user.groups/{{ this_user.nickname }}">Ver todos los grupos »</a>
-		</strong></p>
+		</p>
 		{% endif %}
 	</div>
 	<div class="clear">&nbsp;</div>

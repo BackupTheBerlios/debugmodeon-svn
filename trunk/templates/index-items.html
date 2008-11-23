@@ -23,7 +23,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	{% for item in items %}
 		<li>
 			<strong><a href="/item/{{ item.url_path }}">{{ item.title|escape }}</a></strong> <br/>
-			<span style="color: #777">por <a href="/user/{{ item.author_nickname }}">{{ item.author_nickname }}</a></span>
+			<span class="info">por <a href="/user/{{ item.author_nickname }}">{{ item.author_nickname }}</a></span>
 		</li>
 	{% endfor %}
 	</ul>

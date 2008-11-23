@@ -20,7 +20,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% for group in groups %}
 <div class="grid_2 alpha">
 	<br/>
-	<p style="text-align:center"><a href="/group/{{ group.url_path}}">
+	<p class="center"><a href="/group/{{ group.url_path}}">
 	{% if group.image_version %}
 		<img src="/images/group/avatar/{{ group.key().id() }}/{{ group.image_version }}" alt="{{ group.title|escape }}" />
 	{% else %}

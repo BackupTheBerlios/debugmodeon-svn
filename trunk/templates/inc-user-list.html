@@ -18,30 +18,32 @@ You should have received a copy of the GNU Affero General Public License
 along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 #}
 
-<table class="forum">
+<table class="grid">
 	<thead>
-		<th></th>
-		<th class="subject">Usuario</th>
-		<th>País</th>
-		<th>Ciudad</th>
-		<th>Registrado hace</th>
-		<th>Artículos y valoración media</th>
+		<tr>
+			<th></th>
+			<th class="left">Usuario</th>
+			<th class="left">País</th>
+			<th class="right">Ciudad</th>
+			<th class="right">Registrado hace</th>
+			<th class="right">Artículos y valoración media</th>
+		</tr>
 	</thead>
 	<tbody>
 {% for user in users %}
-		<tr>
-			<td><div class="avatar"><a href="/user/{{ user.nickname|escape }}">
+		<tr {% if loop.index % 2 == 0 %}class="even"{% endif %}>
+			<td class="center"><div class="avatar"><a href="/user/{{ user.nickname|escape }}">
 				{% if user.image_version %}
 					<img src="/images/user/thumbnail/{{ user.nickname }}/{{ user.image_version }}" alt"{{ user.nickname }}" />
 				{% else %}
 					<img src="/images/user/thumbnail/{{ user.nickname }}" alt"{{ user.nickname }}" />
 				{% endif %}
 			</a></div></td>
-			<td class="subject"><strong><a href="/user/{{ user.nickname|escape }}">{{ user.nickname|escape }}</a></strong></td>
-			<td>{% if user.country %}{{ user.country|escape }}{% endif %}</td>
-			<td>{% if user.city %}{{ user.city|escape }}{% endif %}</td>
-			<td>{{ user.creation_date|relativize }}</td>
-			<td>{% if user.items != 0 %}<p class="rating star{{ user.rating_average }}" style="float:right">&nbsp;</p>{{ user.items }}&nbsp;&nbsp;&nbsp;{% endif %}</td>
+			<td class="left"><strong><a href="/user/{{ user.nickname|escape }}">{{ user.nickname|escape }}</a></strong></td>
+			<td class="left">{% if user.country %}{{ user.country|escape }}{% endif %}</td>
+			<td class="right">{% if user.city %}{{ user.city|escape }}{% endif %}</td>
+			<td class="right">{{ user.creation_date|relativize }}</td>
+			<td class="right">{% if user.items != 0 %}<p class="rating star{{ user.rating_average }}" style="float:right">&nbsp;</p>{{ user.items }}&nbsp;&nbsp;&nbsp;{% endif %}</td>
 		</tr>
 {% endfor %}
 	</tbody>

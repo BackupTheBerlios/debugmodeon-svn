@@ -1,0 +1,448 @@
+/*
+(C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+(C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
+(C) Copyright 2008 Juan Luis Belmonte <jlbelmonte at gmail dot com>
+
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+a:hover {
+	color: #ff6314;
+}
+
+div.box strong a:hover {
+	color: #ff6314;
+}
+
+.up {
+	font-size: 140%;
+}
+
+#heading, #heading a {
+	font-size:25px;
+	text-decoration: none;
+	font-weight: bold;
+	color: #607890;
+	font-family: 'Consolas', monospace;
+	margin:0;
+}
+
+#heading {
+	margin-left: 20px;
+}
+
+h2 {
+	background-color: #4e5d6d;
+	padding-left: 10px;
+	-moz-border-radius: 3px;
+	background-image: url(dolphin_bg.png);
+	background-repeat: repeat-x;
+	background-position: top;
+	color: white;
+}
+
+h2 a {
+	text-decoration: none;
+	color: white;
+}
+
+h1, h1 a {
+	color: #7890a8;
+	color: orange;
+	margin-top: 10px;
+}
+
+div.info h1, div.info h2 {
+	margin-bottom:0;
+}
+
+div.info p, .info {
+	color: #888;
+}
+
+h2 a, h3 a {
+	text-decoration: none;
+}
+
+h3 {
+	padding-left: 10px;
+	margin:0;
+	margin-top: 10px;
+	background-color: #4e5d6d;
+	-moz-border-radius: 3px;
+	margin-bottom: 5px;
+	background-image: url(dolphin_bg.png);
+	background-repeat: repeat-x;
+	background-position: top;
+	color: white;
+}
+
+h3, h3 a {
+	color: white;
+}
+
+#footer {
+	background-color: #2b7ea8;
+	color: #f0f0f0;
+	-moz-border-radius: 5px;
+	background-image: url(bg1.png);
+	background-repeat: repeat-x;
+	background-position: bottom;
+}
+
+#footer div div {
+	padding: 10px;
+}
+
+#footer a {
+	color: white;
+}
+
+#quick-links a {
+	text-decoration: none;
+}
+
+p.options a {
+	text-decoration: none;
+}
+
+p.options a:hover{
+	background-color: #e8eef7;
+	color: blue;
+}
+
+.more {
+	font-weight: bold;
+	text-align: right;
+}
+
+div.box {
+	margin-bottom: 10px;
+	margin-top: 10px;
+	-moz-border-radius: 3px;
+	background-color: #fafafa;
+	background-image: url(bg4.png);
+	background-repeat: repeat-y;
+	background-position: left;
+}
+
+div.box p {
+	padding-left: 7px;
+	padding-right: 7px;
+	margin: 5px;
+}
+
+div.box p.title {
+	/*
+	font-size: 120%;
+	font-weight: bold;
+	*/
+	font-weight: bold;
+	text-align: center;
+	padding: 0;
+	padding-top: 2px;
+	margin: 0;
+	margin-bottom: 5px;
+
+	/*
+	color: #007;
+	background-color: #fff;
+	background-image: url(/static/images/bg6.png);
+	background-repeat: repeat-y;
+	background-position: top;
+	border-bottom: 1px dotted #007;
+	*/
+
+	color: white;
+	background-color: #4e5d6d;
+	background-image: url(dolphin_bg.png);
+	background-repeat: repeat-x;
+	background-position: top;
+}
+
+div.box ul {
+	margin-right: 20px;
+}
+
+div.box ul li {
+	border-bottom: 1px dotted #7890a8;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+div.box strong a {
+	color: blue;
+}
+
+.box ul a {
+	color: #333;
+	text-decoration: none;
+}
+
+.box ul li img {
+	vertical-align: middle;
+}
+
+div.box a:hover {
+	text-decoration: underline;
+}
+
+div.box p.end-box {
+	background-image: url(bg5.png);
+	background-repeat: no-repeat;
+	background-position: left bottom;
+	margin:0;
+	padding:0;
+	height: 3px;
+}
+
+div.box p.start-box {
+	background-image: url(bg8.png);
+	background-repeat: no-repeat;
+	background-position: left top;
+	margin:0;
+	padding:0;
+	height: 3px;
+}
+
+/*
+.avatar {
+	text-align: center;
+	width: 48px;
+	height: 48px;
+}
+*/
+
+ul {
+	list-style-image: url(/static/images/bullet.gif);
+}
+
+#search {
+	padding: 3px;
+	float: right;
+	margin-top: 4px;
+}
+
+input.search {
+	background-image: url(/static/images/magnifier.png);
+	background-repeat: no-repeat;
+	background-position: center right;
+	padding: 2px 25px 2px 2px;
+	border: 1px solid rgb(127, 157, 185);
+	width: 200px;
+}
+
+div.comment {
+	background-color: #eaefef;
+	padding: 10px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	-moz-border-radius: 5px;
+	background-image: url(bg3.png);
+	background-repeat: repeat-x;
+	background-position: bottom;
+}
+
+h4 {
+	color: orange;
+}
+
+p.comment-info {
+	text-align: right;
+	padding: 5px;
+	margin-top: 1px;
+}
+
+.pagination {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.pagination li {
+	border:0; margin:0; padding:0;
+	list-style-type: none;
+	margin-right: 2px;
+	display: inline;
+}
+
+.pagination a {
+	border:solid 1px #9aafe5;
+	margin-right:2px;
+}
+
+.pagination .previous-off,
+.pagination .next-off {
+	border:solid 1px #DEDEDE
+	color:#888888
+	display:block;
+	float:left;
+	font-weight:bold;
+	margin-right:2px;
+	padding:3px 4px;
+}
+
+.pagination .next a,
+.pagination .previous a {
+	font-weight:bold;
+} 
+
+.pagination .active{
+	background:#2e6ab1;
+	color:#FFFFFF;
+	font-weight:bold;
+	display:block;
+	float:left;
+	padding:4px 6px;
+}
+
+.pagination a:link,
+.pagination a:visited {
+	color:#0e509e
+	display:block;
+	float:left;
+	padding:3px 6px;
+	text-decoration:none;
+}
+
+.pagination a:hover{
+	border:solid 1px #0e509e
+}
+
+pre {
+	overflow: auto;
+}
+
+table.grid {
+	width: 100%;
+	text-align: right;
+}
+
+table.grid th {
+	background-color: #4e5d6d;
+	color: white;
+	background-image: url(dolphin_bg.png);
+	background-repeat: repeat-x;
+	background-position: top;
+}
+
+table.grid th, table.grid td {
+	padding: 3px;
+}
+
+table.grid td {
+	vertical-align: middle;
+}
+
+.even {
+	background-color:#eee;
+}
+
+div.error {
+	border: 1px solid red;
+	text-align: center;
+	background-color: #ffa;
+	padding: 10px;
+	margin: 10px;
+}
+
+.message {
+	text-align: center;
+	background-color: #ffa;
+	padding: 10px;
+	margin: 10px;
+}
+
+.comment-anchor {
+	float: left;
+}
+
+.comment-anchor a {
+	font-weight: bold;
+}
+
+/* ---------------------- nav ---------------------- */
+#navcontainer {
+	position:relative;
+	height:40px;
+	color:#E0E0E0;
+	background:#143D55;
+	font-family:Helvetica,Arial,Verdana,sans-serif;
+}
+
+#nav {
+	position:relative;
+	height:33px;
+	font-size:12px;
+	text-transform:uppercase;
+	font-weight:bold;
+	background:#fff url(dolphin_bg.gif) repeat-x bottom left;
+	padding:0 0 0 20px;
+}
+
+#nav ul{
+	margin:0;
+	padding:0;
+	list-style-type:none;
+	width:auto;
+	float:left;
+}
+
+#nav ul li {
+	display:block;
+	float:left;
+	margin:0 1px;
+}
+
+#nav ul li a {
+	display:block;
+	float:left;
+	color:#EAF3F8;
+	text-decoration:none;
+	padding:0 0 0 20px;
+	height:33px;
+}
+
+#nav ul li a span {
+	padding:12px 20px 0 0;
+	height:21px;
+	float:left;
+}
+
+#nav ul li a:hover {
+	color:#fff;
+	background:transparent url(dolphin_bg-OVER.gif) repeat-x bottom left;
+}
+
+#nav ul li a:hover span {
+	display:block;
+	width:auto;
+	cursor:pointer;
+}
+
+#nav ul li a.current,#nav ul li a.current:hover{
+	color:#fff;
+	background:#1D6893 url(dolphin_left-ON.gif) no-repeat top left;
+	line-height:275%;
+	}
+
+#nav ul li a.current span{
+	display:block;
+	padding:0 20px 0 0;
+	width:auto;
+	background:#1D6893 url(dolphin_right-ON.gif) no-repeat top right;
+	height:33px;
+	}
+/* ---------------------- END Dolphin nav ---------------------- */

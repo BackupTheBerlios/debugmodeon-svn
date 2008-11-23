@@ -25,7 +25,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
     <p class="title">Iniciar sesión</p>
 	
 	{% if error %}
-		<p style="color:red;text-align:center">{{ error }}</p>
+		<p class="center" style="color:red">{{ error }}</p>
 	{% endif %}
 	
 	<form action="/user.login" method="post" accept-charset="utf-8" enctype="multipart/form-data">

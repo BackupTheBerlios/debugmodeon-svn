@@ -60,7 +60,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		</div>
 		<p class="options">
 		{% if thread.editions %}
-			<span style="color:#777">Editado {{thread.editions}} veces. La última vez hace {{ thread.last_edition|relativize }}.</span>
+			<span class="info">Editado {{thread.editions}} veces. La última vez hace {{ thread.last_edition|relativize }}</span>
 		{% endif %}
 		{% if user.rol == 'admin' %}
 			<a href="/group.forum.delete?key={{ thread.key() }}"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar hilo</a>&nbsp;
@@ -111,7 +111,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		</div>
 		<p class="options">
 		{% if comment.editions %}
-			<span style="color:#777">Editado {{comment.editions}} veces. La última vez hace {{ comment.last_edition|relativize }}.</span>
+			<span class="info">Editado {{comment.editions}} veces. La última vez hace {{ comment.last_edition|relativize }}</span>
 		{% endif %}
 		{% if user.rol == 'admin' %}
 			<a href="javascript:setComment('/group.forum.delete?key={{ comment.key() }}')"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar comentario</a>&nbsp;
@@ -186,7 +186,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<div class="clear">&nbsp;</div>
 {% else %}
 	{% if user and not can_write %}
-		<p class="options" style="text-align:center">Este grupo requiere que te unas a él para poder escribir. <a href="/group.user.join?group={{ group.key()|escape }}&amp;redirect={{ redirect }}"><img src="/static/images/add.png" alt="" class="icon" /> Únete a este grupo</a></p>
+		<p class="options right">Este grupo requiere que te unas a él para poder escribir. <a href="/group.user.join?group={{ group.key()|escape }}&amp;redirect={{ redirect }}"><img src="/static/images/add.png" alt="" class="icon" /> Únete a este grupo</a></p>
 	{% endif %}
 {% endif %}
 {% endblock %}

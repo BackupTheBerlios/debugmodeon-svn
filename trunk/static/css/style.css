@@ -19,259 +19,32 @@ You should have received a copy of the GNU Affero General Public License
 along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 */
 
-a:hover {
-	color: #ff6314;
-}
-
-div.box strong a:hover {
-	color: #ff6314;
-}
-
-.up {
-	font-size: 140%;
-}
-
 html { overflow-y: scroll; overflow-x: auto; }
 
-#heading, #heading a {
-	font-size:25px;
-	text-decoration: none;
-	font-weight: bold;
-	color: #607890;
-	font-family: 'Consolas', monospace;
-	margin:0;
+.left {
+	text-align: left;
 }
 
-h2 {
-	background-color: #4e5d6d;
-	padding-left: 10px;
-	-moz-border-radius: 3px;
-	background-image: url(/static/images/dolphin_bg.png);
-	background-repeat: repeat-x;
-	background-position: top;
-	color: white;
+.right {
+	text-align: right;
 }
 
-h2 a {
-	text-decoration: none;
-	color: white;
+.center {
+	text-align: center;
 }
 
-h1, h1 a {
-	color: #7890a8;
-	color: orange;
-	margin-top: 10px;
+#item img {
+	max-width: 700px;
 }
 
-div.info h1, div.info h2 {
-	margin-bottom:0;
-}
-
-div.info p, p.info {
-	color: #888;
-}
-
-h2 a, h3 a {
-	text-decoration: none;
-}
-
-h3 {
-	padding-left: 10px;
-	margin:0;
-	margin-top: 10px;
-	background-color: #4e5d6d;
-	-moz-border-radius: 3px;
-	margin-bottom: 5px;
-	background-image: url(/static/images/dolphin_bg.png);
-	background-repeat: repeat-x;
-	background-position: top;
-	color: white;
-}
-
-h3, h3 a {
-	color: white;
-}
-
-/* menú de navegación */
-
-#nav {
-	background-color: #18485f;
-	-moz-border-radius: 3px;
-	background-image: url(/static/images/bg1.png);
-	background-repeat: repeat-x;
-	background-position: top;
-}
-
-#nav ul {
-	margin: 0;
-	padding: 5px;
-	list-style-type: none;
-}
-
-#nav li {
-	display: inline;
-}
-
-#nav a {
-	text-decoration: none;
-	color: white
-}
-
-#nav a:hover, #nav a.selected {
-	border-bottom: 2px solid white;
-}
-
-#footer {
-	background-color: #2b7ea8;
-	color: #f0f0f0;
-	-moz-border-radius: 5px;
-	background-image: url(/static/images/bg1.png);
-	background-repeat: repeat-x;
-	background-position: bottom;
-}
-
-#footer div div {
-	padding: 10px;
-}
-
-#footer a {
-	color: white;
-}
-
-#quick-links a {
-	text-decoration: none;
-}
-
-p.options a {
-	text-decoration: none;
-}
-
-p.options a:hover{
-	background-color: #e8eef7;
-	color: blue;
-}
-
-.more {
-	font-weight: bold;
+.comment img { 
+	max-width: 440px;
 }
 
 img.icon {
 	vertical-align: middle;
 }
 
-div.box {
-	margin-bottom: 10px;
-	margin-top: 10px;
-	-moz-border-radius: 3px;
-	background-color: #fafafa;
-	background-image: url(/static/images/bg4.png);
-	background-repeat: repeat-y;
-	background-position: left;
-}
-
-div.box p {
-	padding-left: 7px;
-	padding-right: 7px;
-	margin: 5px;
-}
-
-div.box p.title {
-	/*
-	font-size: 120%;
-	font-weight: bold;
-	*/
-	font-weight: bold;
-	text-align: center;
-	padding: 0;
-	padding-top: 2px;
-	margin: 0;
-	margin-bottom: 5px;
-	
-	/*
-	color: #007;
-	background-color: #fff;
-	background-image: url(/static/images/bg6.png);
-	background-repeat: repeat-y;
-	background-position: top;
-	border-bottom: 1px dotted #007;
-	*/
-
-	color: white;
-	background-color: #4e5d6d;
-	background-image: url(/static/images/dolphin_bg.png);
-	background-repeat: repeat-x;
-	background-position: top;
-}
-
-div.box ul {
-	margin-right: 20px;
-}
-
-div.box ul li {
-	border-bottom: 1px dotted #7890a8;
-	padding-top: 2px;
-	padding-bottom: 2px;
-}
-
-div.box strong a {
-	color: blue;
-}
-
-.box ul a {
-	color: #333;
-	text-decoration: none;
-}
-
-.box ul li img {
-	vertical-align: middle;
-}
-
-div.box a:hover {
-	text-decoration: underline;
-}
-
-div.box p.end-box {
-	background-image: url(/static/images/bg5.png);
-	background-repeat: no-repeat;
-	background-position: left bottom;
-	margin:0;
-	padding:0;
-	height: 3px;
-}
-
-div.box p.start-box {
-	background-image: url(/static/images/bg8.png);
-	background-repeat: no-repeat;
-	background-position: left top;
-	margin:0;
-	padding:0;
-	height: 3px;
-}
-
-.avatar {
-	text-align: center;
-	width: 48px;
-	height: 48px;
-}
-
-ul {
-	list-style-image: url(/static/images/bullet.gif);
-}
-
-#search div {
-	padding: 3px;
-	float: right;
-	margin-top: 4px;
-}
-
-input.search {
-	background-image: url(/static/images/magnifier.png);
-	background-repeat: no-repeat;
-	background-position: center right;
-	padding: 2px 25px 2px 2px;
-	border: 1px solid rgb(127, 157, 185);
-	width: 200px;
-}
 
 div.form p {
 	margin-top: 10px;
@@ -283,141 +56,8 @@ div.form label {
 	display: block
 }
 
-div.comment {
-	background-color: #eaefef;
-	padding: 10px;
-	margin-top: 5px;
-	margin-bottom: 5px;
-	-moz-border-radius: 5px;
-	background-image: url(/static/images/bg3.png);
-	background-repeat: repeat-x;
-	background-position: bottom;
-}
-
-p.comment-info {
-	text-align: right;
-	padding: 5px;
-	margin-top: 1px;
-}
-
-.pagination {
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-
-.pagination li {
-	border:0; margin:0; padding:0;
-	list-style-type: none;
-	margin-right: 2px;
-	display: inline;
-}
-
-.pagination a {
-	border:solid 1px #9aafe5;
-	margin-right:2px;
-}
-
-.pagination .previous-off,
-.pagination .next-off {
-	border:solid 1px #DEDEDE
-	color:#888888
-	display:block;
-	float:left;
-	font-weight:bold;
-	margin-right:2px;
-	padding:3px 4px;
-}
-
-.pagination .next a,
-.pagination .previous a {
-	font-weight:bold;
-} 
-
-.pagination .active{
-	background:#2e6ab1;
-	color:#FFFFFF;
-	font-weight:bold;
-	display:block;
-	float:left;
-	padding:4px 6px;
-}
-
-.pagination a:link,
-.pagination a:visited {
-	color:#0e509e
-	display:block;
-	float:left;
-	padding:3px 6px;
-	text-decoration:none;
-}
-
-.pagination a:hover{
-	border:solid 1px #0e509e
-}
-
 pre {
-	background-color: #ffa;
 	overflow: auto;
-}
-
-table.forum {
-	width: 100%;
-	text-align: right;
-}
-
-table.forum .subject {
-	text-align: left;
-}
-
-table.forum th {
-	background-color: #4e5d6d;
-	color: white;
-	background-image: url(/static/images/dolphin_bg.png);
-	background-repeat: repeat-x;
-	background-position: top;
-}
-
-table.forum th, table.forum td {
-	padding: 3px;
-}
-
-table.forum td {
-	vertical-align: middle;
-}
-
-.even {
-	background-color:#eee;
-}
-
-div.error {
-	border: 1px solid red;
-	text-align: center;
-	background-color: #ffa;
-	padding: 10px;
-	margin: 10px;
-}
-
-.message {
-	text-align: center;
-	background-color: #ffa;
-	padding: 10px;
-	margin: 10px;
-}
-
-.comment-anchor {
-	float: left;
-}
-
-.comment-anchor a {
-	font-weight: bold;
-}
-
-#item img {
-	max-width: 700px;
-}
-
-.comment img { 
-	max-width: 440px;
 }
 
 /* display the individual items next to each other, not one-per-line */
@@ -595,103 +235,29 @@ textarea.LV_invalid_field:active {
 }
 
 .info_box, .success_box, .warning_box, .error_box, .validation_box {  
-    border: 1px solid;  
-    margin: 0px 0px 10px 0px;  
-    padding:15px 10px 15px 50px;  
-    background-repeat: no-repeat;  
-    background-position: 10px center;  
+	border: 1px solid;  
+	margin: 0px 0px 10px 0px;  
+	padding:15px 10px 15px 50px;  
+	background-repeat: no-repeat;  
+	background-position: 10px center;  
 }  
 .info_box {  
-    color: #00529B;  
-    background-color: #BDE5F8;  
-    background-image: url(/static/images/info.png);  
+	color: #00529B;  
+	background-color: #BDE5F8;  
+	background-image: url(/static/images/info.png);  
 }  
 .success_box {  
-    color: #4F8A10;  
-    background-color: #DFF2BF;  
-    background-image:url(/static/images/success.png);  
+	color: #4F8A10;  
+	background-color: #DFF2BF;  
+	background-image:url(/static/images/success.png);  
 }  
 .warning_box {  
-     color: #9F6000;  
-     background-color: #FEEFB3;  
-     background-image: url(/static/images/warning.png);  
+	 color: #9F6000;  
+	 background-color: #FEEFB3;  
+	 background-image: url(/static/images/warning.png);  
 }  
 .error_box {  
-     color: #D8000C;  
-     background-color: #FFBABA;  
-     background-image: url(/static/images/error.png);  
+	 color: #D8000C;  
+	 background-color: #FFBABA;  
+	 background-image: url(/static/images/error.png);  
 }
-
-/* ---------------------- Dolphin nav ---------------------- */
-#dolphincontainer{
-	position:relative;
-	height:40px;
-	color:#E0E0E0;
-	background:#143D55;
-	font-family:Helvetica,Arial,Verdana,sans-serif;
-	}
-
-#dolphinnav{
-	position:relative;
-	height:33px;
-	font-size:12px;
-	text-transform:uppercase;
-	font-weight:bold;
-	background:#fff url(/static/images/dolphin_bg.gif) repeat-x bottom left;
-	padding:0 0 0 20px;
-	}
-
-#dolphinnav ul{
-	margin:0;
-	padding:0;
-	list-style-type:none;
-	width:auto;
-	float:left;
-	}
-
-#dolphinnav ul li{
-	display:block;
-	float:left;
-	margin:0 1px;
-	}
-
-#dolphinnav ul li a{
-	display:block;
-	float:left;
-	color:#EAF3F8;
-	text-decoration:none;
-	padding:0 0 0 20px;
-	height:33px;
-	}
-
-#dolphinnav ul li a span{
-	padding:10px 20px 0 0;
-	height:21px;
-	float:left;
-	}
-
-#dolphinnav ul li a:hover{
-	color:#fff;
-	background:transparent url(/static/images/dolphin_bg-OVER.gif) repeat-x bottom left;
-	}
-
-#dolphinnav ul li a:hover span{
-	display:block;
-	width:auto;
-	cursor:pointer;
-	}
-
-#dolphinnav ul li a.current,#dolphinnav ul li a.current:hover{
-	color:#fff;
-	background:#1D6893 url(/static/images/dolphin_left-ON.gif) no-repeat top left;
-	line-height:275%;
-	}
-
-#dolphinnav ul li a.current span{
-	display:block;
-	padding:0 20px 0 0;
-	width:auto;
-	background:#1D6893 url(/static/images/dolphin_right-ON.gif) no-repeat top right;
-	height:33px;
-	}
-/* ---------------------- END Dolphin nav ---------------------- */

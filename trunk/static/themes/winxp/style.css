@@ -1,0 +1,300 @@
+/*
+(C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+h1, h4 {
+	margin-top: 10px;
+}
+
+h1, h2, h3 {
+	border-bottom: 2px solid #f2a833;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+div.box {
+	margin-bottom: 10px;
+	margin-top: 10px;
+	background-color: #ece9d8;
+	background-image: url(/static/themes/winxp/box.png);
+	background-repeat: repeat-y;
+	background-position: center;
+}
+
+div.box p.title {
+	font-weight: bold;
+	text-align: center;
+	height: 36px;
+	line-height: 36px;
+
+	color: white;
+	background-color: blue;
+	background-image: url(/static/themes/winxp/box-title.png);
+	background-repeat: repeat-x;
+	background-position: top;
+}
+
+div.box ul, div.box p {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+div.box p.end-box {
+	background-image: url(/static/themes/winxp/box-bottom.png);
+	background-repeat: no-repeat;
+	background-position: center bottom;
+	margin:0;
+	padding:0;
+	height: 16px;
+}
+
+#navcontainer {
+}
+
+#navcontainer-top {
+	background: transparent url(/static/themes/winxp/nav-top.png);
+	background-repeat: no-repeat;
+	background-position: center bottom;
+	height: 11px;
+	display: block;
+	margin-top: 2px;
+}
+
+#navcontainer-bottom {
+	background-color: #ece9d8;
+	background-image: url(/static/themes/winxp/nav-bottom.png);
+	background-repeat: no-repeat;
+	background-position: center bottom;
+	height: 13px;
+}
+
+#navcontainer-middle {
+	padding: 10px;
+	padding-left: 50px;
+	background-color: #ece9d8;
+	background-image: url(/static/themes/winxp/nav.png);
+	background-repeat: repeat-y;
+	background-position: center bottom;
+}
+
+#nav {
+	height: 20px;
+	background-color: white;
+	position:relative;
+}
+
+#nav ul {
+	display: block;
+	margin:0;
+	padding:0;
+	list-style-type:none;
+	width:auto;
+	margin-left: 4px;
+}
+
+#nav ul li {
+	display: block;
+	float:left;
+	margin:0 1px;
+}
+
+#nav ul li a {
+	display: block;
+	float:left;
+	text-decoration:none;
+}
+
+#nav ul li a span {
+	background: transparent url(/static/themes/winxp/tab.png) no-repeat top right;
+}
+
+#nav ul li a span, #nav ul li a:hover span {
+	color: black;
+	width:auto;
+	cursor:pointer;
+	display: block;
+	float:left;
+	width: 81px;
+	height: 25px;
+	text-align: center;
+	line-height: 25px;
+}
+
+#nav ul li a:hover span {
+	background: transparent url(/static/themes/winxp/tab-selected.png) no-repeat top right;
+}
+
+#nav ul li a.current span {
+	background: transparent url(/static/themes/winxp/tab-selected.png) no-repeat top right;
+}
+
+#search {
+	float: right;
+	padding-right: 4px;
+}
+
+table.grid {
+	width: 100%;
+	border: 1px solid #7f9db9;
+}
+
+table.grid td {
+	vertical-align: middle;
+	padding: 3px;
+}
+
+table.grid th {
+	padding-left: 5px;
+	padding-right: 5px;
+	font-weight: normal;
+	background: #ece9d8 url(/static/themes/winxp/grid-header.png) repeat-x bottom center;
+}
+
+.more {
+	text-align: right;
+	color: red;
+}
+
+.even {
+	background-color:#eee;
+}
+
+div.comment {
+	background-color: #ece9d8;
+	padding: 10px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+p.comment-info {
+	text-align: right;
+	padding: 5px;
+	margin-top: 1px;
+}
+
+p.comment-info {
+	text-align: right;
+	padding: 5px;
+	margin-top: 1px;
+}
+
+div.info h1, div.info h2 {
+	margin-bottom:0;
+}
+
+div.info p, p.info {
+	color: #888;
+}
+
+
+.pagination {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.pagination li {
+	border:0; margin:0; padding:0;
+	list-style-type: none;
+	margin-right: 2px;
+	display: inline;
+}
+
+.pagination a {
+	border:solid 1px #9aafe5;
+	margin-right:2px;
+}
+
+.pagination .previous-off,
+.pagination .next-off {
+	border:solid 1px #DEDEDE
+	color:#888888
+	display:block;
+	float:left;
+	font-weight:bold;
+	margin-right:2px;
+	padding:3px 4px;
+}
+
+.pagination .next a,
+.pagination .previous a {
+	font-weight:bold;
+} 
+
+.pagination .active{
+	background:#2e6ab1;
+	color:#FFFFFF;
+	font-weight:bold;
+	display:block;
+	float:left;
+	padding:4px 6px;
+}
+
+.pagination a:link,
+.pagination a:visited {
+	color:#0e509e
+	display:block;
+	float:left;
+	padding:3px 6px;
+	text-decoration:none;
+}
+
+.pagination a:hover{
+	border:solid 1px #0e509e
+}
+
+div.error {
+	border: 1px solid red;
+	text-align: center;
+	background-color: #ffa;
+	padding: 10px;
+	margin: 10px;
+}
+
+.message {
+	text-align: center;
+	background-color: #ffa;
+	padding: 10px;
+	margin: 10px;
+}
+
+.comment-anchor {
+	float: left;
+}
+
+.comment-anchor a {
+	font-weight: bold;
+}
+
+#quick-links a {
+	text-decoration: none;
+}
+
+p.options a {
+	text-decoration: none;
+}
+
+p.options a:hover{
+	background-color: #e8eef7;
+	color: blue;
+}
