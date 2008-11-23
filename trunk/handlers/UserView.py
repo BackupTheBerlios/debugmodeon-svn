@@ -45,10 +45,22 @@ class UserView(BaseHandler):
 		else:
 			self.values['im_addresses'] = []
 		self.values['this_user'] = this_user
+		linksChanged = False
+		counter = 0
+		for link in this_user.list_urls:
+			if not link.startswith('http://'):
+				linksChanged = True
+				link = 'http://' + link
+				this_user.list_urls[counter] = link
+			counter += 1
+		if linksChanged:
+			this_user.put()
 		links = [(link.split('##', 2)[1], link.split('##', 2)[0]) for link in this_user.list_urls]
+
+			
 		self.values['links'] = links
 		self.values['personal_message'] = this_user.personal_message
 		self.values['items'] = model.Item.all().filter('author =', this_user).filter('draft =', False).filter('deletion_date', None).order('-creation_date').fetch(5)
-		self.values['groups'] = [gi.group for gi in model.GroupUser.all().filter('user =', this_user).order('-creation_date').fetch(5)]
-		self.values['contacts'] = model.Contact.all().filter('user_from', this_user).order('-creation_date').fetch(5)
+		self.values['groups'] =  model.GroupUser.all().filter('user =', this_user).order('-creation_date').fetch(27)
+		self.values['contacts'] = model.Contact.all().filter('user_from', this_user).order('-creation_date').fetch(27)
 		self.render('templates/user-view.html')

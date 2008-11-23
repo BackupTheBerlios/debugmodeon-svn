@@ -278,7 +278,7 @@ class Apocalipto(BaseHandler):
 		i = offset
 		p = 0
 		for t in model.Thread.all().filter('parent_thread', None).fetch(10, offset):
-			self.add_follower(thead=t, nickname=t.author_nickname)
+			self.add_follower(thread=t, nickname=t.author_nickname)
 			p += 1
 			i += 1
 		return(i, p)

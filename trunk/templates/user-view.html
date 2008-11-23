@@ -57,22 +57,39 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	
 	</div>
 	<div class="clear">&nbsp;</div>
-
-	<div class="grid_3 alpha">
-		<p style="text-align:center;margin-top:10px">
+	<div class="grid_9 alpha omega">
+		<div class="grid_2 alpha">
 			{% if this_user.image_version %}
-				<img src="/images/user/avatar/{{ this_user.nickname }}/{{ this_user.image_version }}" alt"{{ this_user.nickname }}" />
+				<img src="/images/user/avatar/{{ this_user.nickname }}/{{ this_user.image_version }}" alt="{{ this_user.nickname }}" />
 			{% else %}
-				<img src="/images/user/avatar/{{ this_user.nickname }}" alt"{{ this_user.nickname }}" />
+				<img src="/images/user/avatar/{{ this_user.nickname }}" alt="{{ this_user.nickname }}" />
 			{% endif %}
-		</p>
-		<ul>
-			{% if this_user.real_name %}<li>Nombre completo: <br/><strong>{{ this_user.real_name|escape }}</strong></li> {% endif %}
-			{% if this_user.personal_message %}<li>Mensaje personal: <br/><strong>{{ this_user.personal_message|escape }}</strong></li>{% endif %}
-			{% if this_user.country %}<li>País: <br/><strong>{{ this_user.country|escape }}</strong></li> {% endif %}
-			{% if this_user.city %}<li>Ciudad: <br/><strong>{{ this_user.city|escape }}</strong></li> {% endif %}
+		</div>
+		<div class="grid_7 omega">
+			{% if this_user.personal_message %}<h6>{{ this_user.personal_message|escape }}</h6>{% endif %}
+			<ul>
+				{% if this_user.real_name %}<li>Nombre completo: <strong>{{ this_user.real_name|escape }}</strong></li> {% endif %}
+				{% if this_user.country %}<li>País: <strong>{{ this_user.country|escape }}</strong></li> {% endif %}
+				{% if this_user.city %}<li>Ciudad: <strong>{{ this_user.city|escape }}</strong></li> {% endif %}
+				<li>Registrado hace {{ this_user.creation_date|relativize }}</li>
+			</ul>
+		</div>
+	</div>
+	<div class="clear">&nbsp;</div>
+	<hr/>
+	<div class="grid_9 alpha omega">
+		<strong>Sobre {{ this_user.nickname }}:</strong><br/>
+		{% if this_user.about_user %}
+			{{ this_user.about_user|escape }}
+		{% else %}
+			No ha escrito su descripción en el perfil. {% if user.nickname == this_user.nickname %} <a href="/user.edit">Edita tu perfil.</a>{% endif%}
+		{% endif %} 
+		<hr/>
+		{% if links %}
+			<h4 style="color: orange">Links</h4>
 			{% for link in links %}
-				<li>{{ link.0 }}: <br/> 
+				<div class="grid_3 {% if loop.index % 3 == 0 %}omega{% elif loop.index % 3 == 1 %}alpha{% endif %}" style="text-align:center">
+					{{ link.0 }}:<br/>
 					{% if link.0 == 'blog' %}
 						<a href="{{ link.1 }}" target="_blank"><img src="http://api.thumbalizr.com/?url={{ link.1 }}&amp;width=128" alt=""></a>
 					{% else %}
@@ -83,81 +100,98 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 							  <a href="{{link.1}}"><img src="{{link.1}}/widgets/account_detailed.gif" width="191" height="35" alt="Mi perfil en Ohloh"></a>
 						{% endif %}
 					{% endif %}
-					</li>
+				</div>
 			{% endfor %}
-
+			<div class="clear">&nbsp;</div>
+		{% endif %}
+		{% if im_addresses and user %}
+			<hr/>
+			<h4 style="color: orange">Direcciones de contacto: </h4>
 			{% for im_address in im_addresses %}
-				<li>{{ im_address.0}}:<br/>
+				<div class="grid_3 {% if loop.index % 3 == 0 %}omega{% elif loop.index % 3 == 1 %}alpha{% endif %}" style="text-align:center">
+					{{ im_address.0}}:<br/>
 					<strong>{{im_address.1}}</strong>
-				</li>
+				</div>
 			{% endfor %}
-			<li>Registrado hace {{ this_user.creation_date|relativize }}</li>
-			{% if this_user.about_user %}<li>Sobre este usuario:<br/>{{ this_user.about_user|escape }}</li>{% endif %}
-		</ul>
+		
+		{% endif %}
+		
 	</div>
-	<div class="grid_3">
-		<div class="box">
-			<p class="title">Últimos artículos</p>
-			{% if not items %}
-				<p style="text-align:center">No ha escrito ningún artículo</p>
-			{% else %}
-				<ul>
-				{% for item in items %}
-					<li>
-						<strong><a href="/item/{{ item.url_path }}">{{ item.title|escape }}</a></strong>
-						<br/><span style="color: #777">por <a href="/user/{{ item.author.nickname|escape}}">{{ item.author.nickname|escape }}</a></span>
-					</li>
-				{% endfor %}
-				</ul>
-				<p style="text-align:right"><strong><a href="/user.items/{{ this_user.nickname }}">Ver todos »</a></strong></p>
+	<div class="clear">&nbsp;</div>
+	<hr/>
+	<div class="grid_9 alpha omega">
+		{% if items %}
+		<h4 style="color: orange">Últimos artículos</h4>
+		<table class="forum">
+			<thead>
+				<th class="subject">Título</th>
+				<th>Comentarios</th>
+				<th>Valoración media</th>
+			</thead>
+			<tbody>
+		{% for item in items %}
+			<tr {% if loop.index % 2 == 0 %}class="even"{% endif %}>
+				<td class="subject">
+				    <strong><a href="/item/{{ item.url_path }}">{{ item.title|escape }}</a></strong>
+				</td>
+				<td>
+					{{ item.responses }}
+				</td>
+				<td>
+					<p class="rating star{{ item.rating_average }}" style="float:right">&nbsp;</p>&nbsp;&nbsp;&nbsp;
+				</td>
+			</tr>
+		{% endfor %}
+			</tbody>
+		</table>
+		<p style="text-align:right"><strong><a href="/user.items/{{ this_user.nickname }}">Ver todos los artículos »</a></strong></p>
+		{% endif %}
+		{% if contacts %}
+		<hr/>
+		<h4 style="color: orange">Contactos</h4>
+		{% for contact in contacts %}
+			<div class="grid_1 {% if loop.index % 9 == 0 %}omega{% elif loop.index % 9 == 1 %}alpha{% endif %}">
+			<p style="text-align:center">
+				<a href="/user/{{ contact.user_to_nickname }}">
+					<img src="/images/user/thumbnail/{{ contact.user_to_nickname }}"
+						alt="{{ contact.user_to_nickname }}"
+						title="{{ contact.user_to_nickname }}" />
+				</a>
+			</p>
+			</div>
+			{% if loop.index % 9 == 0 %}
+			<div class="clear">&nbsp;</div>
 			{% endif %}
-			<p class="end-box">&nbsp;</p>
-		</div>
+		{% endfor %}
+		<div class="clear">&nbsp;</div>
+		<p style="text-align:right"><strong>
+			<a href="/user.contacts/{{ this_user.nickname }}">Ver todos los contactos »</a>
+		</strong></p>
+		{% endif %}
+		{% if groups %}
+		<hr/>
+		<h4 style="color: orange">Grupos</h4>
+		{% for group in groups %}
+			<div class="grid_1 {% if loop.index % 9 == 0 %}omega{% elif loop.index % 9 == 1 %}alpha{% endif %}">
+			<p style="text-align:center">
+				<a href="/group/{{ group.group_url_path }}">
+					<img src="/images/group/thumbnail/{{ group.group.key().id() }}"
+						alt="{{ group.title }}"
+						title="{{ group.group_title }}" />
+				</a>
+			</p>
+			</div>
+			{% if loop.index % 9 == 0 %}
+			<div class="clear">&nbsp;</div>
+			{% endif %}
+		{% endfor %}
+		<div class="clear">&nbsp;</div>
+		<p style="text-align:right"><strong>
+			<a href="/user.groups/{{ this_user.nickname }}">Ver todos los grupos »</a>
+		</strong></p>
+		{% endif %}
 	</div>
-	<div class="grid_3 omega">
-		<div class="box">
-			<p class="title">Grupos</p>
-			{% if not groups %}
-				<p style="text-align:center">No pertenece a ningún grupo</p>
-			{% else %}
-				<ul>
-				{% for group in groups %}
-				<li style="clear:both">
-					{% if group.image_version %}
-						<img src="/images/group/thumbnail/{{ group.key().id() }}/{{ group.image_version }}" alt="{{ group.title|escape }}" style="float:left" />
-					{% else %}
-						<img src="/images/group/thumbnail/{{ group.key().id() }}" alt="{{ group.title|escape }}" style="float:left" />
-					{% endif %}
-					<strong><a href="/group/{{ group.url_path }}">{{ group.title|escape }}</a></strong>
-					<br/><span style="color: #777">por <a href="/user/{{ group.owner_nickname|escape }}">{{ group.owner_nickname|escape }}</a></span>
-				</li>
-				{% endfor %}
-				</ul>
-				<p style="text-align:right"><strong><a href="/user.groups/{{ this_user.nickname }}">Ver todos »</a></strong></p>
-			{% endif %}
-			<p class="end-box">&nbsp;</p>
-		</div>
-		<div class="box">
-			<p class="title">Contactos</p>
-			{% if not contacts %}
-				<p style="text-align:center">No tiene contactos</p>
-			{% else %}
-				<ul>
-				{% for contact in contacts %}
-					<li>
-						<strong><a href="/user/{{ contact.user_to_nickname }}">
-							<img src="/images/user/thumbnail/{{ contact.user_to_nickname }}" alt="{{ contact.user_to_nickname }}" />
-							{{ contact.user_to_nickname }}
-						</a></strong>
-					</li>
-				{% endfor %}
-				</ul>
-				<p style="text-align:right"><strong><a href="/user.contacts/{{ this_user.nickname }}">Ver todos »</a></strong></p>
-			{% endif %}
-			<p class="end-box">&nbsp;</p>
-		</div>
-	</div>
-	<div class="clear">&nbsp;</div> 
+	<div class="clear">&nbsp;</div>
 {% endblock %}
 
 {% block javascript %}
