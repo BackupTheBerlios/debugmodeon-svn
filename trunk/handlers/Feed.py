@@ -87,7 +87,8 @@ class Feed(webapp.RequestHandler):
 				'link': "%s/group.forum/%s" % (url, i.url_path),
 				'description': md.convert(i.content),
 				'pubDate': self.to_rfc822(i.creation_date),
-				'guid':"%s/group.forum/%s" % (url,i.url_path)
+				'guid':"%s/group.forum/%s" % (url,i.url_path),
+				'author': i.author_nickname
 				# guid como link para mantener compatibilidad con feed.xml
 			}
 			items.append(item)
