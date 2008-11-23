@@ -84,8 +84,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		{% else %}
 			No ha escrito su descripción en el perfil. {% if user.nickname == this_user.nickname %} <a href="/user.edit">Edita tu perfil.</a>{% endif%}
 		{% endif %} 
-		<hr/>
 		{% if links %}
+			<hr/>
 			<h4 style="color: orange">Links</h4>
 			{% for link in links %}
 				<div class="grid_3 {% if loop.index % 3 == 0 %}omega{% elif loop.index % 3 == 1 %}alpha{% endif %}" style="text-align:center">
@@ -118,9 +118,9 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		
 	</div>
 	<div class="clear">&nbsp;</div>
-	<hr/>
 	<div class="grid_9 alpha omega">
 		{% if items %}
+		<hr/>
 		<h4 style="color: orange">Últimos artículos</h4>
 		<table class="forum">
 			<thead>
