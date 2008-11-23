@@ -268,7 +268,7 @@ class Apocalipto(BaseHandler):
 	def add_follower_item(self, offset):
 		i = offset
 		p = 0
-		for item in model.Item.all().fetch(10, offset):
+		for item in model.Item.all().filter('deletion_date', None).filter('draft', False).fetch(10, offset):
 			self.add_follower(item=item, nickname=item.author_nickname)
 			p += 1
 			i += 1
@@ -295,3 +295,4 @@ class Apocalipto(BaseHandler):
 		cc.user_from_nickname = cc.user_from.nickname
 		cc.user_to_nickname = cc.user_to.nickname
 		cc.put()
+		

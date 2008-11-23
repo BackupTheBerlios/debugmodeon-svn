@@ -42,6 +42,8 @@ class UserEdit(AuthenticatedHandler):
 			self.values['city'] = self.not_none(user.city)
 			self.values['about'] = self.not_none(user.about_user)
 			self.values['personal_message'] = self.not_none(user.personal_message);
+			if user.not_full_rss:
+				self.values['not_full_rss'] = user.not_full_rss
 			self.render('templates/user-edit.html')
 		else:
 			user.google_adsense = self.get_param('google_adsense')
@@ -49,6 +51,10 @@ class UserEdit(AuthenticatedHandler):
 			user.real_name = self.get_param('real_name')
 			user.personal_message = self.get_param('personal_message')
 			user.country = self.get_param('country')
+			if self.get_param('not_full_rss'):
+				user.not_full_rss = True
+			else:
+				user.not_full_rss = False
 			image = self.request.get("img")
 			if image:
 				image = images.im_feeling_lucky(image, images.JPEG)

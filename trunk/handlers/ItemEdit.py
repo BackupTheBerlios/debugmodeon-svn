@@ -129,7 +129,9 @@ class ItemEdit(AuthenticatedHandler):
 					html.put()
 					item.content_html = html
 				else:
-					item.content_html.content = self.markdown(item.content)
+					html_content = self.markdown(item.content)
+					html_content = self.media_content(html_content)
+					item.content_html.content = html_content
 					item.content_html.put()
 				
 				item.put()
@@ -173,8 +175,10 @@ class ItemEdit(AuthenticatedHandler):
 					rating_count=0,
 					rating_total=0,
 					favourites=0)
-				html = model.ItemHtml(content=self.markdown(item.content))
-				html = model.ItemHtml(content=self.media_content(item.content))
+				#html = model.ItemHtml(content=self.markdown(item.content))
+				html_content = self.markdown(item.content)
+				
+				html = model.ItemHtml(content=self.media_content(html_content))
 				html.put()
 				item.content_html = html
 				item.subscribers = [user.email]

@@ -24,6 +24,7 @@ import time
 import model
 import datetime
 import markdown
+import BaseHandler
 
 from google.appengine.api import memcache
 from google.appengine.ext import webapp
@@ -102,15 +103,23 @@ class Feed(webapp.RequestHandler):
 
 	def to_rss(self, title, latest):
 		items = []
-		url = 'http://debugmodeon.com'
+		base = BaseHandler.BaseHandler()
+		url = base.get_application().url
 		md = markdown.Markdown()
 		for i in latest:
+			if i.author.not_full_rss:
+				content = md.convert(i.description)
+			else:
+				content = md.convert(i.content)
+				content = base.media_content(content)
 			item = {
 				'title': i.title,
 				'link': "%s/item/%s" % (url, i.url_path),
-				'description': md.convert(i.description),
+				'description': content,
 				'pubDate': self.to_rfc822(i.creation_date),
-				'guid':"%s/item/%d/" % (url, i.key().id())
+				'guid':"%s/item/%d/" % (url, i.key().id()),
+				'author': i.author_nickname
+				
 			}
 			items.append(item)
 			

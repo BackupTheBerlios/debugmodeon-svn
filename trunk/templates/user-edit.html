@@ -52,6 +52,10 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 					<label for="google_adsense">Identificador de Google Adsense</label>
 					<input type="text" name="google_adsense" value="{{ google_adsense }}" /> <br/> Formato pub-xxxxxxxxxxxxxxxx
 				</p>
+				<p>
+					<input type="checkbox" name="not_full_rss" {% if not_full_rss %}checked="checked"{% endif %}/> Incluir la descripción y no en el contenido completo de mis artículos en mi feed.
+					
+				</p>
 			</div>
 		</div>
 		
