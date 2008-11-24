@@ -72,19 +72,19 @@ class UserEdit(AuthenticatedHandler):
 			user.list_urls = []
 			blog = self.get_param('blog')
 			if blog:
-				if not blog.startswith('http://'):
+				if not blog.startswith('http'):
 					linkedin = 'http://' + blog
 				user.list_urls.append(blog + '##blog')
 
 			linkedin = self.get_param('linkedin')
 			if linkedin:
-				if not linkedin.startswith('http://'):
+				if not linkedin.startswith('http'):
 					linkedin = 'http://' + linkedin
 				user.list_urls.append(linkedin + '##linkedin')
 
 			ohloh = self.get_param('ohloh')
 			if ohloh:
-				if not ohloh.startswith('http://'):
+				if not ohloh.startswith('http'):
 					linkedin = 'http://' + ohloh
 				user.list_urls.append(ohloh + '##ohloh')
 

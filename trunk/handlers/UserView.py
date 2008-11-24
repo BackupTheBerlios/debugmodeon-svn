@@ -48,9 +48,13 @@ class UserView(BaseHandler):
 		linksChanged = False
 		counter = 0
 		for link in this_user.list_urls:
-			if not link.startswith('http://'):
+			if not link.startswith('http'):
 				linksChanged = True
 				link = 'http://' + link
+				this_user.list_urls[counter] = link
+			if link.startswith('http://https://'):
+				linksChanged = True
+				link = link[7:len(link)]
 				this_user.list_urls[counter] = link
 			counter += 1
 		if linksChanged:
