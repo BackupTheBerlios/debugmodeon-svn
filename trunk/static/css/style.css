@@ -58,6 +58,7 @@ div.form label {
 
 pre {
 	overflow: auto;
+	background-color: #ffa;
 }
 
 /* display the individual items next to each other, not one-per-line */
