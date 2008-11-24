@@ -31,7 +31,8 @@ import struct
 import logging
 import datetime
 import simplejson
-
+import sys
+import MediaContentFilters as contents
 from utilities import session
 
 from google.appengine.api import mail
@@ -151,20 +152,8 @@ class BaseHandler(webapp.RequestHandler):
 			return markdown.markdown(value, [], safe_mode='escape')
 	
 	def media_content(self,value):
-		regex1 = re.compile('media=\S*;')
-                targets = regex1.findall(value)
-		for url in targets:
-                        if re.search('youtube', url):
-                                match2 = re.match('(.*)watch\?v=(\S+)', url)
-                                html = '<p><object width="425" height="344"><param name="movie" value="http://www.youtube.com/v/%s"&hl=en&fs=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/%s"=es&fs=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="344"></embed></object></p>' % ( match2.group(2), match2.group(2))
-				value=value.replace(url,html)
-
-                        if re.search('vimeo', url):
-                                match2 = re.match('(.*)vimeo.com/(\S+)',url)
-				html='<p><object width="400" height="300"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=%s&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" /><embed src="http://vimeo.com/moogaloop.swf?clip_id=%s&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="400" height="300"></embed></object></p>' % ( match2.group(2), match2.group(2))		
-				value=value.replace(url,html)
-                return value 
-	
+   	    value=contents.media_content(value)		
+	    return value   
 	def render_json(self, data):
 		self.response.headers['Content-Type'] = 'application/json;charset=UTF-8'
 		self.response.headers['Pragma'] = 'no-cache'
