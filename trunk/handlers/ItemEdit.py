@@ -113,6 +113,10 @@ class ItemEdit(AuthenticatedHandler):
 					user.draft_items -=1
 					user.put()
 					item.creation_date = datetime.datetime.now()
+					self.add_follower(item=item, nickname=user.nickname)
+					followers = list(self.get_followers(user=user))
+					followers.append(user.nickname)
+					self.create_event(event_type='item.new', followers=followers, user=user, item=item)
 					
 					app = model.Application.all().get()
 					if app:
@@ -197,6 +201,9 @@ class ItemEdit(AuthenticatedHandler):
 					user.put()
 					self.update_tags(tags)
 					self.add_follower(item=item, nickname=user.nickname)
+					followers = list(self.get_followers(user=user))
+					followers.append(user.nickname)
+					self.create_event(event_type='item.new', followers=followers, user=user, item=item)
 					app = model.Application.all().get()
 					if app:
 						app.items += 1
@@ -205,10 +212,6 @@ class ItemEdit(AuthenticatedHandler):
 				else:
 					user.draft_items += 1
 					user.put()
-				
-				followers = list(self.get_followers(user=user))
-				followers.append(user.nickname)
-				self.create_event(event_type='item.new', followers=followers, user=user, item=item)
 				
 				if x:
 					self.render_json({ 'saved': True, 'key' : str(item.key()), "updated" : False, "draft_items" : str(user.draft_items) })

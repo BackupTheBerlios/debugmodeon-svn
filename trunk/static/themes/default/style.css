@@ -323,6 +323,7 @@ p.comment-info {
 
 pre {
 	overflow: auto;
+	background-color: #ffa;
 }
 
 table.grid {
