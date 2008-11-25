@@ -18,6 +18,11 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 */
+body {
+	background-image: url(background.png);
+	background-position: top center;
+	background-repeat: repeat-y;
+}
 
 a:hover {
 	color: #ff6314;
