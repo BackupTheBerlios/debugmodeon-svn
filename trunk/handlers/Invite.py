@@ -23,7 +23,7 @@
 from google.appengine.api import mail 
 from google.appengine.ext import db
 from handlers.BaseHandler import *
-
+import re
 class Invite(BaseHandler):
 	
 	def execute(self):
@@ -38,8 +38,20 @@ class Invite(BaseHandler):
 			return
 		
 		if method == 'POST':
-
+			
 			contacts = self.get_param('contacts').rstrip(' ').rsplit(',',19)
+			if contacts[0]=='' or not contacts:
+				self.values['failed']=True
+	                        self.render('templates/invite-friends.html')
+				return
+			self.values['_users'] = []
+			for contact in contacts:
+				u = model.UserData.gql('WHERE email=:1', contact).get()
+				contacts.remove(contact) if not re.match('\S+@\S+\.\S+', contact) else ''
+				if u is not None:
+					self.values['_users'].append(u) 
+					contacts.remove(contact)
+
 			personalmessage =  self.get_param('personalmessage')
 			subject = " %s te invita a participar en debug_mode=ON" % user.nickname  
 			body = """
@@ -47,8 +59,12 @@ class Invite(BaseHandler):
 	
 	http://www.debugmodeon.com	 
 	"""   
+			if personalmessage:
 
+				body="""%s \n\n\n\n\t http://www.debugmodeon.com
+					"""  % self.clean_ascii(personalmessage)
 			self.mail(subject=subject, body=body, bcc=contacts)
-	
-			self.redirect('/')		
+	 		
+			self.values['sent']=True
+                        self.render('templates/invite-friends.html')
 
