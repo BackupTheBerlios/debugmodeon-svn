@@ -1,0 +1,35 @@
+{#
+(C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
+
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+#}
+{% extends "blank2.html" %}
+{% block title %}
+	Servidores en labores de mantenimiento
+{% endblock %}
+
+{% block content %}
+	<p class="title">Servidores en labores de mantenimiento</p>
+	<div>
+	<p>El servicio Google App Engine en el que se encuentra alojado debug_mode=ON se encuentra realizando operaciones de 
+	mantenimiento. Podéis obtener más información sobre cuándo se producirán y cuánto durarán en el grupo oficial de 
+	<a href="http://groups.google.com/group/google-appengine-downtime-notify?hl=en">Google App Engine</a>.<br/>
+	Por norma general estas operaciones duran entre media hora y una hora.<br/>
+	Lo sentimos. Esperamos estar de vuelta en breve.<br/><br/>
+	Gracias,<br/>
+	El equipo de debug_mode=ON</p>
+	</div>
+{% endblock %}

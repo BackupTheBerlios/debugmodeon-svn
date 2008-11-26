@@ -43,6 +43,7 @@ from google.appengine.api import memcache
 from google.appengine.ext import db
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
+from google.appengine.runtime.apiproxy_errors import CapabilityDisabledError
 
 from jinja2 import Template, Environment, FileSystemLoader
 
@@ -165,8 +166,13 @@ class BaseHandler(webapp.RequestHandler):
 		self.execute()
 
 	def get(self):
-		self.common_stuff()
-		self.pre_execute()
+		try:
+			self.common_stuff()
+			self.pre_execute()
+		except CapabilityDisabledError:
+			self.values = {}
+			self.render('templates/maintenace.html')
+			return
 	
 	def post(self):
 		self.common_stuff()
@@ -181,8 +187,9 @@ class BaseHandler(webapp.RequestHandler):
 			return None
 
 	def common_stuff(self):
-		self.sess = session.Session()
 		self.values = {}
+		self.sess = session.Session()
+
 		self.values['sess'] = self.sess
 		redirect = '%s?%s' % (self.request.path, self.request.query)
 		self.values['redirect'] = redirect

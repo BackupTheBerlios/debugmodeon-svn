@@ -1,0 +1,80 @@
+{#
+(C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+#}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<body>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="pragma" content="no-cache" />
+	<meta http-equiv="cache-control" content="no-cache" />
+	<link rel="stylesheet" href="/static/css/960.css" type="text/css" media="screen" charset="utf-8" />
+	<link rel="stylesheet" href="/static/css/reset.css" type="text/css" media="screen" charset="utf-8" />
+	<link rel="stylesheet" href="/static/css/text.css" type="text/css" media="screen" charset="utf-8" />
+	<link rel="stylesheet" href="/static/css/style.css" type="text/css" />
+	<link rel="stylesheet" href="/static/themes/default/style.css" type="text/css" />
+	<title>{% block title %}{% endblock %}</title>
+	<style type="text/css" media="screen">
+		#center {
+			margin: 0 auto;
+			margin-top: 50px;
+		}
+		#center .box {
+			margin: 0 auto;
+			width: 600px;
+			margin-top: 20px;
+		}
+		#center .box div {
+			margin: 0 auto;
+			width: 550px;
+		}
+		#heading {
+			text-align: center;
+		}
+		
+		div.box {
+			border: 1px solid #7890a8;
+			background-color: #eaefef;
+			background-image: url(/static/images/bg3.png);
+			background-repeat: repeat-x;
+			background-position: bottom;
+		}
+		
+		div.box p.title {
+			background-color: #4e5d6d;
+			text-align: center;
+			color: white;
+			background-image: url(/static/images/bg2.png);
+			background-repeat: repeat-x;
+			background-position: top;
+		}
+	</style>
+	
+</head>
+
+<body>
+	<div id="center">
+		<p id="heading"><a href="/">debug_mode=ON</a></p>
+		<div class="box">
+			{% block content %}{% endblock %}
+		</div>
+	</div>
+<script type="text/javascript" src="/static/js/prototype.js"></script>
+{% block javascript %}{% endblock %}
+</body>
+</html>
