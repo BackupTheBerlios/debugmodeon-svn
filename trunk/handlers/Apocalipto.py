@@ -29,6 +29,63 @@ class Apocalipto(BaseHandler):
 
 	def get(self):
 		self.response.headers['Content-Type'] = 'text/plain'
+		
+		app = model.Application.all().get()
+		
+		if app is None:
+			app = model.Application()
+			app.recaptcha_public_key = '6LdORAMAAAAAAL42zaVvAyYeoOowf4V85ETg0_h-'
+			app.recaptcha_private_key = '6LdORAMAAAAAAGS9WvIBg5d7kwOBNaNpqwKXllMQ'
+			app.users = 0
+			app.groups = 0
+			app.items = 0
+			app.threads = 0
+			app.url = "http://localhost:8080"
+			app.mail_subject_prefix = "[localhost]"
+			app.mail_sender = "admin@example.com"
+			app.mail_footer = ""
+			app.max_results = 20
+			app.max_results_sublist = 20
+			app.put()
+			
+			user = model.UserData(nickname='admin',
+				email='admin@example.com',
+				password='1:c07cbf8821d47575a471c1606a56b79e5f6e6a68',
+				items=0,
+				draft_items=0,
+				messages=0,
+				draft_messages=0,
+				comments=0,
+				rating_count=0,
+				rating_total=0,
+				rating_average=0,
+				threads=0,
+				responses=0,
+				groups=0,
+				favourites=0,
+				public=False,
+				contacts=0,
+				rol='admin')
+			user.put()
+			
+			parent_category = model.Category(title='Programacion',
+			   description='description',
+			   items = 0,
+			   groups = 0)
+			parent_category.put()
+			
+			category = model.Category(title='Lenguajes de programacion',
+			   description='description',
+			   items = 0,
+			   groups = 0)
+			
+			category.parent_category = parent_category
+			category.put()
+			
+			self.response.out.write('app installed')
+			return
+		
+		
 		p = int(self.request.get('p'))
 		key = self.request.get('key')
 		action = self.request.get('action')

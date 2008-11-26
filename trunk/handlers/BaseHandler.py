@@ -440,6 +440,8 @@ class BaseHandler(webapp.RequestHandler):
 			self.values['pages'] = pages
 		try:
 			p = int(self.get_param('p'))
+			if p < 1:
+				p = 1
 		except ValueError:
 			p = 1
 		self.values['p'] = p
