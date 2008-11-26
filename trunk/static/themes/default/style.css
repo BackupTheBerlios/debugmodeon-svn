@@ -232,7 +232,7 @@ div.box p.start-box {
 */
 
 ul {
-	list-style-image: url(/static/images/bullet.gif);
+	list-style-image: url(bullet.gif);
 }
 
 #search {

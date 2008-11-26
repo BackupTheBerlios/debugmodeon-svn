@@ -73,6 +73,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<tr>
 					<th class="center">Autor</th>
 					<th class="left">Tema</th>
+					<th class="right">Lecturas</th>
 					<th class="right">Respuestas</th>
 					<th class="right">Actualizado</th>
 				</tr>
@@ -96,6 +97,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 							{% endif %}
 						</strong>
 					</td>
+					<td class="right">{{ thread.views }}</td>
 					<td class="right">{{ thread.responses }}</td>
 					<td class="right">hace {{ thread.last_response_date|relativize }}</td>
 				</tr>
@@ -115,7 +117,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<table class="grid">
 			<thead>
 				<tr>
-					<th class="right">Autor</th>
+					<th class="center">Autor</th>
 					<th class="left">Título</th>
 				</tr>
 			</thead>
