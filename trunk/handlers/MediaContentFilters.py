@@ -44,7 +44,7 @@ def media_content(value):
 # specific methods for the different services
 
 def youtube(text):
-	targets = re.findall('media=http://www.youtube.com/watch\?v=\S+;', text)
+	targets = re.findall('media=http://\S+.youtube.com/watch\?v=\S+;', text)
     	for i in targets:
         	match= re.match('(.*)watch\?v=(\S+);',i)
         	html = '<p><object width="425" height="344"><param name="movie" value="http://www.youtube.com/v/%s"&hl=en&fs=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/%s"=es&fs=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="344"></embed></object></p>' % ( match.group(2), match.group(2))
@@ -123,10 +123,4 @@ def dummy(text):
 #	return text
 
 
-#print media_content('''q
-#slide media=[slideshare id=776832&doc=billy-cripe-visual-resume-1227332474087406-9&w=425];
-#media=http://www.youtube.com/watch?v=j2lEk1NJwz4;
-#
-#media=http://www.vimeo.com/173714;
-#ddddddds''')
 
