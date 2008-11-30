@@ -194,7 +194,7 @@ class BaseHandler(webapp.RequestHandler):
 		redirect = '%s?%s' % (self.request.path, self.request.query)
 		self.values['redirect'] = redirect
 		self.values['app'] = self.get_application()
-		#self.values['activity_groups'] = self.groups_by_activity()
+		self.values['activity_groups'] = self.groups_by_activity()
 		user = self.get_current_user()
 		# user = users.get_current_user()
 		if user:
@@ -310,8 +310,15 @@ class BaseHandler(webapp.RequestHandler):
 		return taglist
 	
 	def groups_by_activity(self):
-		groups = model.Group.all().order('-activity').fetch(10)
-		return groups
+		key = 'activity_groups'
+		g = memcache.get(key)
+		if g is not None:
+			return g
+		else:
+			groups = model.Group.all().order('-activity').fetch(15)
+			memcache.add(key, groups, 3600)
+			return groups
+
 	
 	def add_categories(self):
 		cats = list(model.Category.all().order('title'))

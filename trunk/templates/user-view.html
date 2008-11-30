@@ -76,7 +76,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		</div>
 	</div>
 	<div class="clear">&nbsp;</div>
-	<hr/>
+	<hr class="separator"/>
 	<div class="grid_9 alpha omega">
 		<strong>Sobre {{ this_user.nickname }}:</strong><br/>
 		{% if this_user.about_user %}
@@ -85,7 +85,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			No ha escrito su descripción en el perfil. {% if user.nickname == this_user.nickname %} <a href="/user.edit">Edita tu perfil.</a>{% endif%}
 		{% endif %} 
 		{% if links %}
-			<hr/>
+			<hr class="separator"/>
 			<h4>Enlaces</h4>
 			{% for link in links %}
 				<div class="grid_3 center {% if loop.index % 3 == 0 %}omega{% elif loop.index % 3 == 1 %}alpha{% endif %}">
@@ -105,7 +105,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<div class="clear">&nbsp;</div>
 		{% endif %}
 		{% if im_addresses and user %}
-			<hr/>
+			<hr class="separator"/>
 			<h4>Direcciones de contacto: </h4>
 			{% for im_address in im_addresses %}
 				<div class="grid_3 center {% if loop.index % 3 == 0 %}omega{% elif loop.index % 3 == 1 %}alpha{% endif %}">
@@ -120,7 +120,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<div class="clear">&nbsp;</div>
 	<div class="grid_9 alpha omega">
 		{% if items %}
-		<hr/>
+		<hr class="separator"/>
 		<h4>Últimos artículos</h4>
 		<table class="grid">
 			<thead>
@@ -149,7 +149,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<p class="more"><a href="/user.items/{{ this_user.nickname }}">Ver todos los artículos »</a></p>
 		{% endif %}
 		{% if contacts %}
-		<hr/>
+		<hr class="separator"/>
 		<h4>Contactos</h4>
 		{% for contact in contacts %}
 			<div class="grid_1 {% if loop.index % 9 == 0 %}omega{% elif loop.index % 9 == 1 %}alpha{% endif %}">
@@ -171,7 +171,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		</p>
 		{% endif %}
 		{% if groups %}
-		<hr/>
+		<hr class="separator"/>
 		<h4>Grupos</h4>
 		{% for group in groups %}
 			<div class="grid_1 {% if loop.index % 9 == 0 %}omega{% elif loop.index % 9 == 1 %}alpha{% endif %}">

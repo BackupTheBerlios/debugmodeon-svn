@@ -42,30 +42,12 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 {% block content %}
 
-	<div class="grid_3 alpha">
-		<p class="center" style="margin-top:10px">
-			<img src="/static/images/logo2.png" alt="debug_mode=ON" />
-		</p>
-	</div>
-	<div class="grid_6 omega">
-		<div class="info">
-			<h1>debug_mode=ON</h1>
-			<p>Red social y de contenidos en español. <br/> 
-				Programación, desarrollo y diseño web, administración de sistemas, redes,...<br/>
-				{% if user %}
-				<strong>Difunde tu perfil en debug_mode=ON con <a href="user.promote">nuestros botones</a></strong>
-				{% endif %}
-			</p>
-		</div>
-	</div>
-	<div class="clear">&nbsp;</div>
-	<hr/>
-
+	<div>&nbsp;</div>
 	<div class="grid_9 alpha omega">
 		<h4>Últimos mensajes en foros</h4>
 		{% include 'inc-forum-list.html' %}
 		<p class="more"><a href="/forum.list">Ver todos los mensajes en foros »</a></p>
-		<hr/>
+		<hr class="separator"/>
 		
 		<h4>Últimos artículos</h4>
 		<table class="grid">
@@ -89,66 +71,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			</tbody>
 		</table>
 		<p class="more"><a href="/item.list">Ver todos los artículos »</a></p>
-		<hr/>
 
-		<h4>Grupos por categorías</h4>
-		
-		<div class="grid_4 alpha">
-		<ul> 
-			<li><strong>Administración de Sistemas</strong> 
-			<ul> 
-			<li><a href="/group.list?cat=redes">Redes</a></li> 
-			<li><a href="/group.list?cat=sistemas-operativos">Sistemas Operativos</a></li> 
-			</ul> 
-			</li> 
-			<li><strong>Comunidades</strong> 
-			<ul> 
-			<li><a href="/group.list?cat=centros-de-estudio">Centros de estudio</a></li> 
-			<li><a href="/group.list?cat=empresas">Empresas</a></li> 
-			<li><a href="/group.list?cat=grupos-de-usuarios">Grupos de usuarios</a></li> 
-			<li><a href="/group.list?cat=otras">Otras</a></li> 
-			<li><a href="/group.list?cat=software-libre">Software libre</a></li> 
-
-			</ul> 
-
-			</li>
-		</ul>
-		</div>
-		
-		<div class="grid_5 omega">
-		<ul>
-			<li><strong>Hardware</strong> 
-
-			<ul> 
-			<!-- <li><a href="/group.list?cat=electronica">Electrónica</a></li> -->
-			<li><a href="/group.list?cat=ordenadores">Ordenadores</a></li> 
-			<li><a href="/group.list?cat=perifericos">Periféricos</a></li> 
-			<li><a href="/group.list?cat=sistemas-empotrados">Sistemas empotrados</a></li> 
-			</ul> 
-			</li> 
-
-			<li><strong>Programación</strong> 
-
-			<ul> 
-
-			<li><a href="/group.list?cat=desarrollo-web">Desarrollo web</a></li> 
-			<li><a href="/group.list?cat=frameworks-librerias">Frameworks / librerías</a></li> 
-			<li><a href="/group.list?cat=herramientas-de-desarrollo">Herramientas de desarrollo</a></li> 
-			<li><a href="/group.list?cat=ingenieria-de-software">Ingeniería de software</a></li> 
-			<li><a href="/group.list?cat=lenguajes-de-programacion">Lenguajes de programación</a></li> 
-			<li><a href="/group.list?cat=programacion-moviles">Programación móviles</a></li> 
-			<li><a href="/group.list?cat=software">Software</a></li> 
-
-			</ul> 
-
-			</li> 
-
-		</ul>
-		</div>
-		<div class="clear">&nbsp;</div>
-		
-		
-		<p class="more"><a href="/group.list">Ver todos los grupos »</a></p>
 		
 	</div>
 	<div class="clear">&nbsp;</div>

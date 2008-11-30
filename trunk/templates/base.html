@@ -35,19 +35,21 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 </head>
 <body>
 	<div class="container_12">
-		<div class="grid_6">
-			<p id="heading"><a href="/"><img src="/static/images/logo3.png" alt="debug_mode=ON" class="icon" height="50" /></a></p>
+		<div class="grid_7">
+			<p id="heading">
+				<a href="/"><img src="/static/images/logo4.png" alt="debug_mode=ON Red social y de contenidos en español. Programación, desarrollo y diseño web, administración de sistemas, redes,..." class="icon" height="100" /></a>
+			</p>
 		</div>
-		<div class="grid_6">
+		<div class="grid_5">
 			
-			<p class="options right">
+			<p class="header right">
 			{% if sess.user %}
-				Hola <a href="/user/{{ sess.user_nickname }}"><strong>{{ sess.user_nickname }}</strong></a>{% if sess.user_rol == 'admin' %} | <a href="/admin"><strong>Admin</strong></a>{% endif %} | <a href="/user.edit">preferencias</a> | <a href="/user.logout">desconectar</a> | <a href="/html/faq.html" ><strong>FAQ</strong></a> 
+				<span class="header_box1">Hola <a href="/user/{{ sess.user_nickname }}"><strong>{{ sess.user_nickname }}</strong></a>{% if sess.user_rol == 'admin' %} | <a href="/admin"><strong>Admin</strong></a>{% endif %} | <a href="/user.edit"><strong>preferencias</strong></a></span>
+				<span class="header_box2"><a href="/user.logout">desconectar</a> | <a href="/html/faq.html" ><strong>FAQ</strong></a></span>
 			{% else %}
-				<strong><a href="{{ app.url }}/user.login?redirect_to={{ redirect }}">Login</a></strong> o <a href="{{ app.url }}/user.register?redirect_to={{ redirect }}">regístrate</a>.
-				¿<a href="{{ app.url }}/user.forgotpassword?redirect_to={{ redirect }}">Olvidaste la contraseña</a>? | 	<a href="/html/faq.html" ><strong>FAQ</strong></a>
+				<span class="header_box1"><strong><a href="{{ app.url }}/user.login?redirect_to={{ redirect }}">login</a></strong> o <a href="{{ app.url }}/user.register?redirect_to={{ redirect }}">regístrate</a></span>
+				<span class="header_box2"><a href="{{ app.url }}/user.forgotpassword?redirect_to={{ redirect }}">¿Olvidaste la contraseña?</a></span>
 			{% endif %}
-
 			</p>
 		</div>
 		<div class="clear">&nbsp;</div>
@@ -89,6 +91,50 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		  </div>
 		</div>
 		<div class="clear">&nbsp;</div>
+		{% if not user %}
+		<div class="grid_3">
+			<div class="box2 center">
+				<p class="start-box">&nbsp;</p>
+				<p class="up"><img src="/static/images/page_white_edit.png" class="icon" alt="" /> <a href="/item.list"><strong>Artículos</strong></a></p>
+				<p>
+					¡Publica! <br/> Si tienes Adsense <br/> <a href="/item/5674/como-anadir-adsense-a-tus-articulos"><strong>puedes ganar dinero</strong></a>
+				</p>
+				<p class="end-box">&nbsp;</p>
+			</div>
+		</div>
+		<div class="grid_3">
+			<div class="box2 center">
+				<p class="start-box">&nbsp;</p>
+				<p class="up"><img src="/static/images/group.png" class="icon" alt="" /> <a href="/group.list"><strong>Grupos</strong></a></p>
+				<p>
+					Créalos, únete a ellos. <br/>
+					Tienen <strong><a href="/forum.list">foros</a></strong> y artículos relacionados.
+				</p>
+				<p class="end-box">&nbsp;</p>
+			</div>
+		</div>
+		<div class="grid_3">
+			<div class="box2 center">
+				<p class="start-box">&nbsp;</p>
+				<p class="up"><img src="/static/images/help.png" class="icon" alt="" /> <a href="/group.forum/9240/debug-mode-on/opiniones-sugerencias-feedback-general"><strong>Feedback</strong></a></p>
+				<p>
+					Escríbenos sugerencias, comentarios, bugs,... <br/> <strong><a href="/group.forum/9240/debug-mode-on/opiniones-sugerencias-feedback-general">¡Queremos tu feedback!</a></strong>
+				</p>
+				<p class="end-box">&nbsp;</p>
+			</div>
+		</div>
+		<div class="grid_3">
+			<div class="box2 center">
+				<p class="start-box">&nbsp;</p>
+				<p class="up"><img src="/static/images/help.png" class="icon" alt="" /> <a href="/html/faq.html"><strong>FAQ</strong></a></p>
+				<p>
+					¿Qué es debug_mode=ON? ¿Qué es un artículo? <br/> <strong><a href="/html/faq.html" >¡Consulta nuestro FAQ!</a></strong>
+				</p>
+				<p class="end-box">&nbsp;</p>
+			</div>
+		</div>
+		<div class="clear">&nbsp;</div>
+		{% endif %}
 		<div class="grid_3">
 			{% include 'inc-quick-links.html' %}
 {% block sidebar %}{% endblock %}
@@ -108,18 +154,74 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		</div>
 		<div class="clear">&nbsp;</div>
 		<div class="grid_12" id="footer">
-			<div class="grid_12 alpha omega">
-				<div class="right">
-					<p>
-						&copy; Copyright 2008 debug_mode=ON <br/>
-						
-						<a href="/html/aviso-legal.html">Aviso legal</a> |
-						<a href="mailto:contacto@debugmodeon.com">contacto@debugmodeon.com</a> |
-						<a href="/html/faq.html">FAQ</a>
-					</p>
-					<p>
-						Iconos gracias a <strong><a href="http://www.famfamfam.com/lab/icons/silk/">Silk icons</a></strong>. Creative Commons, <a href="http://creativecommons.org/licenses/by/2.5/" title="Creative Commons Attribution 2.5 License">algunos derechos reservados</a>.
-					</p>
+			
+			<div class="grid_4 alpha">
+				<h4>Grupos más activos</h4>
+				<ul>
+				{% for ag in activity_groups %}
+					<li><a href="/group/{{ ag.url_path }}" title="Ir al grupo {{ ag.title }}">{{ ag.title }}</a></li>
+				{% endfor %}
+				</ul>
+			</div>
+			<div class="grid_8 omega">
+				<h4>Grupos por categorías</h4>
+				<div class="grid_4 alpha">
+				<ul> 
+					<li class="category"><p>Administración de Sistemas</p> 
+						<ul> 
+							<li><a href="/group.list?cat=redes">Redes</a></li> 
+							<li><a href="/group.list?cat=sistemas-operativos">Sistemas Operativos</a></li> 
+						</ul> 
+					</li> 
+					<br/>
+					<li class="category"><p>Comunidades</p> 
+						<ul> 
+							<li><a href="/group.list?cat=centros-de-estudio">Centros de estudio</a></li> 
+							<li><a href="/group.list?cat=empresas">Empresas</a></li> 
+							<li><a href="/group.list?cat=grupos-de-usuarios">Grupos de usuarios</a></li> 
+							<li><a href="/group.list?cat=otras">Otras</a></li> 
+							<li><a href="/group.list?cat=software-libre">Software libre</a></li> 
+						</ul> 
+					</li>
+				</ul>
+				</div>
+				<div class="grid_4 omega">
+				<ul>
+					<li class="category"><p>Hardware</p> 
+						<ul> 
+							<!-- <li><a href="/group.list?cat=electronica">Electrónica</a></li> -->
+							<li><a href="/group.list?cat=ordenadores">Ordenadores</a></li> 
+							<li><a href="/group.list?cat=perifericos">Periféricos</a></li> 
+							<li><a href="/group.list?cat=sistemas-empotrados">Sistemas empotrados</a></li> 
+						</ul> 
+					</li> 
+					<li class="category"><p>Programación</p> 
+						<ul> 
+							<li><a href="/group.list?cat=desarrollo-web">Desarrollo web</a></li> 
+							<li><a href="/group.list?cat=frameworks-librerias">Frameworks / librerías</a></li> 
+							<li><a href="/group.list?cat=herramientas-de-desarrollo">Herramientas de desarrollo</a></li> 
+							<li><a href="/group.list?cat=ingenieria-de-software">Ingeniería de software</a></li> 
+							<li><a href="/group.list?cat=lenguajes-de-programacion">Lenguajes de programación</a></li> 
+							<li><a href="/group.list?cat=programacion-moviles">Programación móviles</a></li> 
+							<li><a href="/group.list?cat=software">Software</a></li> 
+						</ul> 
+					</li> 
+				</ul>
+				</div>
+				<div class="clear">&nbsp;</div>
+			</div>
+			<div class="clear">&nbsp;</div>
+			<p class="more"><a href="/group.list">Ver todos los grupos »</a></p>
+		</div>
+		<div class="clear">&nbsp;</div>
+		<div class="grid_12">
+			<div class="center">
+				<div class="final_footer">
+					&copy; Copyright 2008 debug_mode=ON |
+					<a href="/html/aviso-legal.html">Aviso legal</a> |
+					<a href="mailto:contacto@debugmodeon.com">contacto@debugmodeon.com</a> |
+					<a href="/html/faq.html">FAQ</a> |
+					Iconos gracias a <strong><a href="http://www.famfamfam.com/lab/icons/silk/">Silk icons</a></strong>. Creative Commons, <a href="http://creativecommons.org/licenses/by/2.5/" title="Creative Commons Attribution 2.5 License">algunos derechos reservados</a>.
 				</div>
 			</div>
 		</div>

@@ -25,10 +25,10 @@ body {
 }
 
 a:hover {
-	color: #ff6314;
+	color: #FFA500;
 }
 
-div.box strong a:hover {
+div.box strong a:hover, div.box2 strong a:hover {
 	color: #ff6314;
 }
 
@@ -45,15 +45,11 @@ div.box strong a:hover {
 	margin:0;
 }
 
-#heading {
-	margin-left: 20px;
-}
 
 h2 {
-	background-color: #4e5d6d;
+	background-color: #3786b3;
 	padding-left: 10px;
-	-moz-border-radius: 3px;
-	background-image: url(dolphin_bg.png);
+	background-image: url(dolphin_bg_orange.gif);
 	background-repeat: repeat-x;
 	background-position: top;
 	color: white;
@@ -89,7 +85,7 @@ h3 {
 	background-color: #4e5d6d;
 	-moz-border-radius: 3px;
 	margin-bottom: 5px;
-	background-image: url(dolphin_bg.png);
+	background-image: url(dolphin_bg_orange.gif);
 	background-repeat: repeat-x;
 	background-position: top;
 	color: white;
@@ -100,20 +96,47 @@ h3, h3 a {
 }
 
 #footer {
-	background-color: #2b7ea8;
+	background-color: #3786B3;
 	color: #f0f0f0;
-	-moz-border-radius: 5px;
-	background-image: url(bg1.png);
-	background-repeat: repeat-x;
-	background-position: bottom;
+	border-top: 2px solid #FFA500;
 }
 
-#footer div div {
-	padding: 10px;
-}
 
 #footer a {
 	color: white;
+}
+
+#footer div {
+	margin-top: 10px;
+}
+
+#footer h4 {
+	padding: 5px 0 5px 25px;
+	color: white;
+}
+
+#footer li {
+	list-style-image: url(bullet_light.gif);
+}
+
+#footer li.category {
+	list-style-image: none;
+	list-style-type: none;
+}
+
+li.category p {
+	width: 80%;
+	padding: 3px 0 3px 10px;
+	background-color: #2D6D92;
+	font-weight:bold;
+}
+
+#footer a:hover {
+	color: #FFA100;
+}
+
+#footer p.more {
+	margin-right: 15px;
 }
 
 #quick-links a {
@@ -134,23 +157,32 @@ p.options a:hover{
 	text-align: right;
 }
 
-div.box {
-	margin-bottom: 10px;
-	margin-top: 10px;
-	-moz-border-radius: 3px;
-	background-color: #fafafa;
+div.box2 {
 	background-image: url(bg4.png);
 	background-repeat: repeat-y;
 	background-position: left;
 }
 
-div.box p {
+div.box {
+	background-image: url(bg6.png);
+	background-repeat: repeat-y;
+	background-position: left;
+}
+div.box, div.box2 {
+	margin-bottom: 10px;
+	margin-top: 10px;
+	-moz-border-radius: 3px;
+	background-color: #fafafa;
+
+}
+
+div.box p, div.box2 p {
 	padding-left: 7px;
 	padding-right: 7px;
 	margin: 5px;
 }
 
-div.box p.title {
+div.box p.title, div.box2 p.title {
 	/*
 	font-size: 120%;
 	font-weight: bold;
@@ -158,54 +190,46 @@ div.box p.title {
 	font-weight: bold;
 	text-align: center;
 	padding: 0;
-	padding-top: 2px;
+	padding-top: 5px;
+	padding-bottom: 3px;
 	margin: 0;
 	margin-bottom: 5px;
 
-	/*
-	color: #007;
-	background-color: #fff;
-	background-image: url(/static/images/bg6.png);
-	background-repeat: repeat-y;
-	background-position: top;
-	border-bottom: 1px dotted #007;
-	*/
-
 	color: white;
-	background-color: #4e5d6d;
-	background-image: url(dolphin_bg.png);
+	background-color: #3786B3;
+	background-image: url(header4.png);
 	background-repeat: repeat-x;
 	background-position: top;
 }
 
-div.box ul {
+div.box ul, div.box2 ul {
 	margin-right: 20px;
 }
 
-div.box ul li {
+div.box ul li, div.box2 ul il {
 	border-bottom: 1px dotted #7890a8;
 	padding-top: 2px;
 	padding-bottom: 2px;
 }
 
-div.box strong a {
+div.box strong a, div.box2 strong a {
 	color: blue;
 }
 
-.box ul a {
+.box ul a, .box2 ul a {
 	color: #333;
 	text-decoration: none;
 }
 
-.box ul li img {
+.box ul li img, .box2 ul li img {
 	vertical-align: middle;
 }
 
-div.box a:hover {
+div.box a:hover, div.box2 a:hover;{
 	text-decoration: underline;
 }
 
-div.box p.end-box {
+div.box p.end-box, div.box2 p.end-box {
 	background-image: url(bg5.png);
 	background-repeat: no-repeat;
 	background-position: left bottom;
@@ -214,7 +238,7 @@ div.box p.end-box {
 	height: 3px;
 }
 
-div.box p.start-box {
+div.box p.start-box, div.box2 p.start-box {
 	background-image: url(bg8.png);
 	background-repeat: no-repeat;
 	background-position: left top;
@@ -262,7 +286,8 @@ div.comment {
 }
 
 h4 {
-	color: orange;
+	color: #FFA100;
+	margin-bottom: 5px;
 }
 
 p.comment-info {
@@ -337,9 +362,9 @@ table.grid {
 }
 
 table.grid th {
-	background-color: #4e5d6d;
+	background-color: #3786B3;
 	color: white;
-	background-image: url(dolphin_bg.png);
+	background-image: url(dolphin_bg_orange.gif);
 	background-repeat: repeat-x;
 	background-position: top;
 }
@@ -353,8 +378,9 @@ table.grid td {
 }
 
 .even {
-	background-color:#eee;
+	background-color:#E0EAEF;
 }
+
 
 div.error {
 	border: 1px solid red;
@@ -379,6 +405,62 @@ div.error {
 	font-weight: bold;
 }
 
+.header_box1, .header_box2 {
+	padding: 5px 10px 5px 10px;
+	color:white;
+}
+
+.header_box1 {
+	background-color:#4895C0;
+}
+
+.header_box2 {
+	background-color: #FFA500;
+}
+
+.header_box1 a, .header_box2 a{
+	color:white;
+	text-decoration: underline;
+	font-weight:bold;
+}
+
+.header_box1 a:hover {
+	color: #FFA500;
+}
+
+.header_box2 a:hover {
+	color: #4895C0;
+}
+
+div.left_form p {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 25px;
+	color: #777;
+}
+
+div.left_form label {
+	display: block
+}
+
+div.left_form p.button {
+	text-align: center;
+	margin: 0 auto;
+}
+
+hr.separator {
+	margin-top:10px;
+	margin-bottom:10px;
+	width: 90%;
+	border:1px dotted #FFA100;
+}
+
+div.final_footer {
+	background-color: #EEEEEE;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	font-size: 12px;
+}
 /* ---------------------- nav ---------------------- */
 #navcontainer {
 	position:relative;
@@ -439,7 +521,7 @@ div.error {
 }
 
 #nav ul li a.current,#nav ul li a.current:hover{
-	color:#fff;
+	color:#FFA500;
 	background:#1D6893 url(dolphin_left-ON.gif) no-repeat top left;
 	line-height:275%;
 	}

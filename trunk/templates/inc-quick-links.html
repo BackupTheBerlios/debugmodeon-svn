@@ -52,39 +52,26 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% else %}
 <div class="box" id="quick-links">
 	<p class="title">Quick links</p>
+	<form enctype="multipart/form-data" accept-charset="utf-8" method="post" action="/user.login">
+		<div class="left_form">
+			<input type="hidden" name="redirect_to" value="{{ redirect }}" />
+			<p>
+				<label for="nickname">Usuario:</label>
+				<input id="nickname" type="text" name="nickname"/>
+			</p>
+			<p>
+				<label for="password">Contaseña:</label>
+				<input id="password" type="password" name="password"/>
+			</p>
+			<p class="button">
+				<input type="submit" value="Iniciar Sesión" />
+			</p>
+		</div>
+	</form>
 	<p class="center">
-	{% if sess.user %}
-		Hola {{ sess.user_nickname }} | <a href="/user.logout">desconectar</a>
-	{% else %}
-		<strong><a href="{{ app.url }}/user.login?redirect_to={{ redirect }}">Login</a></strong> o <a href="{{ app.url }}/user.register?redirect_to={{ redirect }}">regístrate</a> <br/>
+		<strong><a href="{{ app.url }}/user.register?redirect_to={{ redirect }}">¡Regístrate!</a></strong> <br/>
 		¿<a href="{{ app.url }}/user.forgotpassword?redirect_to={{ redirect }}">Olvidaste la contraseña</a>?
-	{% endif %}
-	</p>
+		</p>
 	<p class="end-box">&nbsp;</p>
 </div>
-			<div class="box center">
-				<p class="start-box">&nbsp;</p>
-				<p class="up"><img src="/static/images/page_white_edit.png" class="icon" alt="" /> <a href="/item.list"><strong>Artículos</strong></a></p>
-				<p>
-					¡Publica! <br/> Si tienes Adsense <br/> <a href="/item/5674/como-anadir-adsense-a-tus-articulos"><strong>puedes ganar dinero</strong></a>
-				</p>
-				<p class="end-box">&nbsp;</p>
-			</div>
-			<div class="box center">
-				<p class="start-box">&nbsp;</p>
-				<p class="up"><img src="/static/images/group.png" class="icon" alt="" /> <a href="/group.list"><strong>Grupos</strong></a></p>
-				<p>
-					Créalos, únete a ellos. <br/>
-					Tienen <strong><a href="/forum.list">foros</a></strong> y artículos relacionados.
-				</p>
-				<p class="end-box">&nbsp;</p>
-			</div>
-			<div class="box center">
-				<p class="start-box">&nbsp;</p>
-				<p class="up"><img src="/static/images/help.png" class="icon" alt="" /> <a href="/group.forum/9240/debug-mode-on/opiniones-sugerencias-feedback-general"><strong>Feedback</strong></a></p>
-				<p>
-					Escríbenos sugerencias, comentarios, bugs,... <br/> <strong><a href="/group.forum/9240/debug-mode-on/opiniones-sugerencias-feedback-general">¡Queremos tu feedback!</a></strong>
-				</p>
-				<p class="end-box">&nbsp;</p>
-			</div>
 {% endif %}
