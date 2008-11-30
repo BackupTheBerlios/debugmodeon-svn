@@ -52,7 +52,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% else %}
 <div class="box" id="quick-links">
 	<p class="title">Quick links</p>
-	<form enctype="multipart/form-data" accept-charset="utf-8" method="post" action="/user.login">
+	<form enctype="multipart/form-data" accept-charset="utf-8" method="post" action="{{ app.url }}/user.login">
 		<div class="left_form">
 			<input type="hidden" name="redirect_to" value="{{ redirect }}" />
 			<p>
