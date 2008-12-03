@@ -89,7 +89,7 @@ class ItemDelete(AuthenticatedHandler):
 			#	v.delete()
 			
 			# comments?
-			
+			memcache.delete('index_items')
 			app = model.Application.all().get()
 			if app:
 				app.items -= 1
