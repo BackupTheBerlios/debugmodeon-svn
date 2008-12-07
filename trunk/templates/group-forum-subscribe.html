@@ -1,6 +1,6 @@
 {#
-(C) Copyright 2008  Juan Luis Belmonte  <jlbelmonte at gmail dot com> 
-(C) Copyright 2008  Ignacio Andreu  <plunchete at gmail dot com> 
+(C) Copyright 2008 Alberto Gimeno <gimenete at gmail dot com>
+
 This file is part of "debug_mode_on".
 
 "debug_mode_on" is free software: you can redistribute it and/or modify
@@ -16,30 +16,28 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 #}
-
-{% extends "base.html" %}
-
-{% block title %} Mover hilos  {% endblock %}
+{% extends "blank.html" %}
+{% block title %}
+	Eliminar suscripción
+{% endblock %}
 
 {% block content %}
-	<div class="info">
-		<h1>Mover hilo</h1>
-	</div>
-	{% if message %}
-		<div class="error_box">
-			{{ message }}
-		</div>
-	{% endif %}
-	<form action="/group.forum.move" method="post" accept-charset="utf-8">
+	<p class="title">Eliminar suscripción</p>
+	
+	<form action="/group.forum.subscribe" method="post" accept-charset="utf-8">
 		<input type="hidden" name="auth" value="{{ auth }}" />
+		<input type="hidden" name="key" value="{{ thread.key() }}" />
+		
 		<div class="form">
-			<input id="key_dest" type="hidden" name="thread_key" value="{{ thread_key() }}"/>
-			<p> 
-				<label for="key_orig">Key del grupo</label>
-				<input id="key_orig" type="text" name="group_key" value="" style="width: 250px" /> 
+			<p class="center">
+				¿Eliminar tu suscripción por email <br/> del hilo de discusión
+				<br/><strong>{{ thread.title|escape }}</strong>?
 			</p>
-		<p><input type="submit" value="Mover hilo" /></p>
+			
+			<p class="center">
+				<input type="submit" value="Sí, eliminar suscripción" />
+				o <strong><a href="/group.forum/{{ thread.url_path }}">Cancelar</a></strong>
+			</p>
 		</div>
 	</form>
-		
 {% endblock %}

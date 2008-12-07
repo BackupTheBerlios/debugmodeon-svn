@@ -49,7 +49,7 @@ class ItemCommentEdit(AuthenticatedHandler):
 			else:
 				self.show_error('Comentario no encontrado')
 				return
-		else:
+		elif self.auth():
 			if comment_key:
 				# update comment
 				comment = model.Comment.get(comment_key)

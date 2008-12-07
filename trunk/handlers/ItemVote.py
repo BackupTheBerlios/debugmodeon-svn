@@ -30,6 +30,10 @@ class ItemVote(AuthenticatedHandler):
 		if not item or item.draft or item.deletion_date:
 			self.not_found()
 			return
+		
+		if not self.auth():
+			return
+		
 		rating = int(self.get_param('rating'))
 		if rating < 0:
 			rating = 0

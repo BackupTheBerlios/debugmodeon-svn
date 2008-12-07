@@ -86,6 +86,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<h3>Inicia un tema</h3>
 	
 	<form action="/group.forum.edit" method="post" accept-charset="utf-8">
+		<input type="hidden" name="auth" value="{{ auth }}" />
 		<input type="hidden" name="key" value="{{ group.key() }}" />
 		
 		<div class="form">
@@ -103,7 +104,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<input type="checkbox" name="subscribe" value="True" id="subscribe" />Suscribirme por email
 		</p>
 
-		<p><input type="submit" value="Iniciar tema" />&nbsp;<input type="submit" name="preview" value="Vista previa" /></p>
+		<p><input type="submit" value="Iniciar hilo" />&nbsp;<input type="submit" name="preview" value="Vista previa" /></p>
 
 		<p>
 			<label for="preview">Vista previa</label>

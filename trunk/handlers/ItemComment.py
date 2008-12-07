@@ -37,6 +37,10 @@ class ItemComment(AuthenticatedHandler):
 		if not item or item.draft or item.deletion_date:
 			self.not_found()
 			return
+		
+		if not self.auth():
+			return
+		
 		content = self.get_param('content')
 		preview = self.get_param('preview')
 		if preview:
@@ -85,8 +89,9 @@ class ItemComment(AuthenticatedHandler):
 		followers.append(user.nickname)
 		followers.extend(self.get_followers(item=item))
 		followers = list(set(followers))
-		self.create_event(event_type='item.comment', followers=followers, user=user, item=item)
-
+		self.create_event(event_type='item.comment',
+			followers=followers, user=user, item=item, response_number=comment.response_number)
+			
 		subscribers = item.subscribers
 		if subscribers and user.email in subscribers:
 			subscribers.remove(user.email)

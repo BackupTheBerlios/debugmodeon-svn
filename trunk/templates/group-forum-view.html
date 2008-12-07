@@ -63,9 +63,15 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<span class="info">Editado {{thread.editions}} veces. La última vez hace {{ thread.last_edition|relativize }}</span>
 		{% endif %}
 		{% if user.rol == 'admin' %}
-			<a href="/group.forum.delete?key={{ thread.key() }}"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar hilo</a>&nbsp;
-			<a href="/group.thread.edit?key={{ thread.key() }}"><img src="/static/images/page_white_edit.png" class="icon" alt="" /> editar hilo</a>
-			<a href="/group.forum.move?thread_key={{ thread.key() }}"><img src="/static/images/arrow_switch.png" class="icon" alt="" /> mover hilo</a>
+			<a href="/group.forum.delete?key={{ thread.key() }}&amp;auth={{ auth }}">
+				<img src="/static/images/cross.png" class="icon" alt="" /> eliminar hilo
+			</a>
+			<a href="/group.thread.edit?key={{ thread.key() }}">
+				<img src="/static/images/page_white_edit.png" class="icon" alt="" /> editar hilo
+			</a>
+			<a href="/group.forum.move?thread_key={{ thread.key() }}">
+				<img src="/static/images/arrow_switch.png" class="icon" alt="" /> mover hilo
+			</a>
 			
 		{% else %}
 			{% if user.nickname == thread.author_nickname %}
@@ -76,9 +82,15 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		{% if user %}
 		<p class="options">
 			{% if cansubscribe %}
-			<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key() }}" title="suscripción por mail"><img src="/static/images/email_add.png" class="icon" /> Suscribirme por email a las respuestas de este hilo</a>
+			<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key() }}&amp;auth={{ auth }}"
+				title="suscripción por mail"><img src="/static/images/email_add.png" class="icon" />
+				Suscribirme por email a las respuestas de este hilo
+			</a>
 			{% else %}
-			<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key() }}" title="anular suscripción"><img src="/static/images/email_delete.png" class="icon" /> Anular mi suscripción a este hilo</a>
+			<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key() }}&amp;auth={{ auth }}"
+				title="anular suscripción"><img src="/static/images/email_delete.png" class="icon" />
+				Anular mi suscripción a este hilo
+			</a>
 			{% endif %}
 		</p>
 		{% endif %}
@@ -114,11 +126,17 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<span class="info">Editado {{comment.editions}} veces. La última vez hace {{ comment.last_edition|relativize }}</span>
 		{% endif %}
 		{% if user.rol == 'admin' %}
-			<a href="javascript:setComment('/group.forum.delete?key={{ comment.key() }}')"><img src="/static/images/cancel.png" class="icon" alt="" /> eliminar comentario</a>&nbsp;
-			<a href="/group.thread.edit?key={{ comment.key() }}"><img src="/static/images/page_white_edit.png" class="icon" alt="" /> editar respuesta</a>
+			<a href="javascript:setComment('/group.forum.delete?key={{ comment.key() }}&amp;auth={{ auth }}')">
+				<img src="/static/images/cross.png" class="icon" alt="" /> eliminar respuesta
+			</a>
+			<a href="/group.thread.edit?key={{ comment.key() }}">
+				<img src="/static/images/page_white_edit.png" class="icon" alt="" /> editar respuesta
+			</a>
 		{% else %}
 			{% if user.nickname == comment.author_nickname %}
-				<a href="/group.thread.edit?key={{ comment.key() }}"><img src="/static/images/page_white_edit.png" class="icon" alt="" /> editar respuesta</a>
+				<a href="/group.thread.edit?key={{ comment.key() }}">
+					<img src="/static/images/page_white_edit.png" class="icon" alt="" /> editar respuesta
+				</a>
 			{% endif %}
 		{% endif %}
 		</p>
@@ -160,6 +178,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<div class="grid_7 omega">
 
 	<form action="/group.forum.reply" method="post" accept-charset="utf-8">
+		<input type="hidden" name="auth" value="{{ auth }}" />
 		<input type="hidden" name="key" value="{{ thread.key() }}" />
 
 		<div class="form">
@@ -227,10 +246,10 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				onSuccess: function(transport, json) {
 					var action = transport.responseText.evalJSON().action;
 					if(action == 'unsubscribed') {
-						parent.innerHTML = '<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key() }}" title="suscripción por mail"><img src="/static/images/email_add.png" class="icon" /> Suscribirme por email a las respuestas de este hilo</a>';
+						parent.innerHTML = '<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key() }}&amp;auth={{ auth }}" title="suscripción por mail"><img src="/static/images/email_add.png" class="icon" /> Suscribirme por email a las respuestas de este hilo</a>';
 						$('subscribe_box').innerHTML = '<p><input type="checkbox" name="subscribe" value="True" id="subscribe" />Suscribirme por email</p>';
 					} else {
-						parent.innerHTML = '<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key() }}" title="anular suscripción"><img src="/static/images/email_delete.png" class="icon" /> Anular mi suscripción a este hilo</a>';
+						parent.innerHTML = '<a id="group.forum.subscribe" href="/group.forum.subscribe?key={{ thread.key() }}&amp;auth={{ auth }}" title="anular suscripción"><img src="/static/images/email_delete.png" class="icon" /> Anular mi suscripción a este hilo</a>';
 						$('subscribe_box').innerHTML = '';
 					}
 					ajaxSubs();

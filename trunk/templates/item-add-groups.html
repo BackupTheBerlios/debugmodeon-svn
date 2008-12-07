@@ -25,6 +25,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<h1>Añade <em>{{ item.title|escape }}</em> a algunos de tus grupos</h1>
 
 <form id="form" action="/item.add.groups" method="post" accept-charset="utf-8">
+	<input id="key" type="hidden" name="auth" value="{{ auth }}" />
 	<input id="key" type="hidden" name="key" value="{{ key|escape }}" />
 
 	<div class="form">

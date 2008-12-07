@@ -40,7 +40,7 @@ class GroupMove(AuthenticatedHandler):
 				self.values['key_orig'] = group_orig.key
 			self.render('templates/group-move.html')
 			return
-		else:
+		elif self.auth():
 			action = action = self.get_param('action')
 			if not action:
 				self.render('templates/group-move.html')

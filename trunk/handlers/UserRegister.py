@@ -22,6 +22,7 @@
 # 
 
 import re
+import random
 import model
 
 from img import *
@@ -168,6 +169,7 @@ El equipo de debug_mode=ON.
 				self.sess['user_email'] = user.email
 				self.sess['user_key'] = user.key()
 				self.sess['user'] = user
+				self.sess['auth'] = self.hash(str(random.random()), user.nickname)
 				rt = self.request.get('redirect_to')
 				if not rt:
 					rt = '/'

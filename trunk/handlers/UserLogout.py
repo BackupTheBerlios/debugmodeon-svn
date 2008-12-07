@@ -26,7 +26,8 @@ from handlers.BaseHandler import *
 class UserLogout(BaseHandler):
 
 	def execute(self):
-		self.sess.delete()
+		if self.auth():
+			self.sess.delete()
 		if self.request.referrer:
 			self.redirect(self.request.referrer)
 		else:

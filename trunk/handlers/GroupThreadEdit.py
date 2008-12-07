@@ -50,7 +50,7 @@ class GroupThreadEdit(AuthenticatedHandler):
 			else:
 				self.show_error('Hilo no encontrado')
 				return
-		else:
+		elif self.auth():
 			if key:
 				# update comment
 				thread = model.Thread.get(key)

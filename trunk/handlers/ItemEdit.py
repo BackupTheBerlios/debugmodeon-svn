@@ -75,9 +75,9 @@ class ItemEdit(AuthenticatedHandler):
 				self.values['lic'] = 'copyright'
 				self.values['draft'] = True
 				self.render('templates/item-edit.html')
-		else:
+		elif self.auth():
 			if x and draft:
-				#check mandatory fields
+				# check mandatory fields
 				if not self.get_param('title') or not self.get_param('tags') or not self.get_param('description') or not self.get_param('content'):
 					self.render_json({ 'saved': False })
 					return

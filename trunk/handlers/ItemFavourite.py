@@ -32,6 +32,9 @@ class ItemFavourite(AuthenticatedHandler):
 		if not item or item.draft or item.deletion_date:
 			self.not_found()
 			return
+		
+		if not self.auth():
+			return
 
 		favourite = model.Favourite.gql('WHERE user=:1 AND item=:2', user, item).get()
 		if not favourite:

@@ -32,6 +32,10 @@ class GroupForumDelete(AuthenticatedHandler):
 		if user.rol != 'admin':
 			self.forbidden()
 			return
+		
+		if not self.auth():
+			return
+		
 		thread = model.Thread.get(self.get_param('key'))
 		url = '/group.forum.list/' + thread.group.url_path
 		if not thread:

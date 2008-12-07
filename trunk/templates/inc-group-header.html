@@ -38,24 +38,41 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<div class="info">
 		<h1><a href="/group/{{ group.url_path}}">{{ group.title|escape }}</a></h1>
 		<p class="options">
-			<a href="/group.forum.list/{{ group.url_path }}"><img src="/static/images/comments.png" alt="" class="icon" /> {{ group.threads }} temas en el foro</a>
-			| <a href="/group.item.list/{{ group.url_path }}"><img src="/static/images/page_white_edit.png" alt="" class="icon" /> {{ group.items }} artículos</a>
-			| <a href="/group.user.list/{{ group.url_path }}"><img src="/static/images/group.png" alt="" class="icon" /> {{ group.members }} usuarios</a>
+			<a href="/group.forum.list/{{ group.url_path }}">
+				<img src="/static/images/comments.png" alt="" class="icon" /> {{ group.threads }} temas en el foro
+			</a>
+			| <a href="/group.item.list/{{ group.url_path }}">
+				<img src="/static/images/page_white_edit.png" alt="" class="icon" /> {{ group.items }} artículos
+			</a>
+			| <a href="/group.user.list/{{ group.url_path }}">
+				<img src="/static/images/group.png" alt="" class="icon" /> {{ group.members }} usuarios
+			</a>
 {% if user %}
 	{% if joined == 'True' %}
 			{% if user.nickname != group.owner_nickname %}
-				| <a href="/group.user.unjoin?group={{ group.key() }}&amp;redirect={{ redirect }}"><img src="/static/images/delete.png" class="icon" alt="" /> Eliminarte del grupo</a>
+				| <a href="/group.user.unjoin?group={{ group.key() }}&amp;redirect={{ redirect }}&amp;auth={{ auth }}">
+					<img src="/static/images/delete.png" class="icon" alt="" /> Eliminarte del grupo
+				</a>
 			{% endif %}
 	{% elif joined == 'False' %}
-			| <a href="/group.user.join?group={{ group.key() }}&amp;redirect={{ redirect }}"><img src="/static/images/add.png" class="icon" alt="" /> Únete a este grupo</a>
+			| <a href="/group.user.join?group={{ group.key() }}&amp;redirect={{ redirect }}&amp;auth={{ auth }}">
+				<img src="/static/images/add.png" class="icon" alt="" /> Únete a este grupo
+			</a>
 	{% endif %}
 	{% if user.nickname == group.owner_nickname or user.rol == 'admin' %}
-			| <strong><a href="/group.edit?key={{ group.key() }}"><img src="/static/images/page_white_edit.png" alt="" class="icon" /> Editar grupo</a></strong>
+			| <strong><a href="/group.edit?key={{ group.key() }}">
+				<img src="/static/images/page_white_edit.png" alt="" class="icon" /> Editar grupo</a>
+			</strong>
 	{% endif %}
 	{% if user.rol == 'admin' %}
-		| <a href="/group.delete?key={{ group.key() }}"><img src="/static/images/cross.png" class="icon" alt="" /> Eliminar grupo</a>
-		| <a method="get" href="/group.move?key_orig={{ group.key() }}"><img src="/static/images/arrow_switch.png" class="icon" alt="" /> Mover grupo</a>
-		| <a> {{ group.key() }}</a>
+		<br/>
+		<a href="/group.delete?key={{ group.key() }}&amp;auth={{ auth }}">
+			<img src="/static/images/cross.png" class="icon" alt="" /> Eliminar grupo
+		</a>
+		| <a method="get" href="/group.move?key_orig={{ group.key() }}">
+			<img src="/static/images/arrow_switch.png" class="icon" alt="" /> Mover grupo
+		</a>
+		| {{ group.key() }}
 	{% endif %}
 {% endif %}
 

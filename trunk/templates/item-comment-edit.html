@@ -18,6 +18,10 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 #}
 
 {% extends "base.html" %}
+{% block title %}
+	Editar comentario
+{% endblock %}
+
 {% block head %}
 	<link href="/static/css/prettify.css" type="text/css" rel="stylesheet" />
 {% endblock %}
@@ -48,6 +52,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<div class="form">
 			{% if comment_key %}
 			<form action="/item.comment.edit" method="post" accept-charset="utf-8">
+				<input type="hidden" name="auth" value="{{ auth }}" />
 				<input type="hidden" name="key" value="{{ comment.key() }}" />
 			{% else %}
 			<form action="/item.comment" method="post" accept-charset="utf-8">

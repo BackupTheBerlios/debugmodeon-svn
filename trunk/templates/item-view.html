@@ -42,7 +42,9 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<li style="clear:both">
 			<div class="avatar" style="float:left; padding-right: 3px"><a href="/group/{{ group.group_url_path }}"><img src="/images/group/thumbnail/{{ group.group.key().id() }}" alt="{{ group.group_title|escape }}" /></a></div>
 			<strong><a href="/group/{{ group.group_url_path }}">{{ group.group_title|escape }}</a></strong>
-			{% if user.nickname == item.author_nickname %} <br/>[<a href="/group.item.remove?item={{ item.key() }}&amp;group={{ group.group.key() }}"><img src="/static/images/delete.png" class="icon" alt="" /> eliminar</a>] {% endif %}
+			{% if user.nickname == item.author_nickname %} <br/>
+			[<a href="/group.item.remove?item={{ item.key() }}&amp;group={{ group.group.key() }}&amp;auth={{ auth }}">
+				<img src="/static/images/delete.png" class="icon" alt="" /> eliminar</a>] {% endif %}
 		</li>
 {% endfor %}
 	</ul>
@@ -52,6 +54,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 {% if all_groups %}
 <form action="/group.item.add" method="post" accept-charset="utf-8">
+	<input type="hidden" name="auth" value="{{ auth }}" />
 	<input type="hidden" name="item" value="{{ item.key() }}" />
 	<p><select name="group">
 {% for group in all_groups %}
@@ -98,7 +101,9 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<p class="options">
 				Escrito por <strong><a href="/user/{{ item.author_nickname|escape}}">{{ item.author_nickname|escape }}</a></strong> hace <strong>{{ item.creation_date|relativize }}</strong>
 				{% if user.rol == 'admin' or  user.nickname == item.author_nickname %}
-					| <strong><a href="/item.delete?key={{ item.key() }}"><img src="/static/images/cross.png" alt="" class="icon" /> Eliminar</a></strong>
+					| <strong><a href="/item.delete?key={{ item.key() }}">
+						<img src="/static/images/cross.png" alt="" class="icon" /> Eliminar</a>
+					</strong>
 				{% endif %}
 				{% if user.nickname == item.author_nickname or  user.rol == 'admin' %}
 					| <strong><a href="/item.edit?key={{ item.key() }}"><img src="/static/images/page_white_edit.png" alt="" class="icon" /> Editar</a></strong>
@@ -144,11 +149,11 @@ google_color_text = "000000";
 		<div style="float:right">
 		{% if canvote %}
 			<ul class="rating star{{item.rating_average}}" id="star-rating">
-				<li class="one"><a title="Muy malo" href="/item.vote?key={{ item.key() }}&amp;rating=1">1</a></li>
-				<li class="two"><a title="Malo" href="/item.vote?key={{ item.key() }}&amp;rating=2">2</a></li>
-				<li class="three"><a title="Regular" href="/item.vote?key={{ item.key() }}&amp;rating=3">3</a></li>
-				<li class="four"><a title="Bueno" href="/item.vote?key={{ item.key() }}&amp;rating=4">4</a></li>
-				<li class="five"><a title="Muy bueno" href="/item.vote?key={{ item.key() }}&amp;rating=5">5</a></li>
+				<li class="one"><a title="Muy malo" href="/item.vote?key={{ item.key() }}&amp;rating=1&amp;auth={{ auth }}">1</a></li>
+				<li class="two"><a title="Malo" href="/item.vote?key={{ item.key() }}&amp;rating=2&amp;auth={{ auth }}">2</a></li>
+				<li class="three"><a title="Regular" href="/item.vote?key={{ item.key() }}&amp;rating=3&amp;auth={{ auth }}">3</a></li>
+				<li class="four"><a title="Bueno" href="/item.vote?key={{ item.key() }}&amp;rating=4&amp;auth={{ auth }}">4</a></li>
+				<li class="five"><a title="Muy bueno" href="/item.vote?key={{ item.key() }}&amp;rating=5&amp;auth={{ auth }}">5</a></li>
 			</ul>
 		{% else %}
 			<p class="rating star{{ item.rating_average }}"></p>
@@ -176,17 +181,29 @@ google_color_text = "000000";
 			| <span id="votes">{{item.rating_count}}</span> votos
 			<br/><br/>
 			{% if canadd %}
-				<span><a id="item.favourite" href="/item.favourite?key={{ item.key() }}" title="añadir a favoritos"><img src="/static/images/add.png" class="icon" /> Añadir a favoritos</a></span>
+				<span><a id="item.favourite" href="/item.favourite?key={{ item.key() }}&amp;auth={{ auth }}" title="añadir a favoritos">
+					<img src="/static/images/add.png" class="icon" /> Añadir a favoritos</a>
+				</span>
 			{% elif user %}
-				<span><a id="item.favourite" href="/item.favourite?key={{ item.key() }}" title="eliminar favorito"><img src="/static/images/delete.png" class="icon" /> Eliminar favorito</a></span>
+				<span><a id="item.favourite" href="/item.favourite?key={{ item.key() }}&amp;auth={{ auth }}" title="eliminar favorito">
+					<img src="/static/images/delete.png" class="icon" /> Eliminar favorito</a>
+				</span>
 			{% endif %}
 			
 		{% if user.nickname != item.author_nickname %}
 			{% if cansubscribe %}
-				| <span><a id="item.comment.subscribe" href="/item.comment.subscribe?key={{ item.key() }}" title="suscripción por mail"><img src="/static/images/email_add.png" class="icon" /> Suscribirme por email a los comentarios de este artículo</a></span>
+				| <span><a id="item.comment.subscribe" href="/item.comment.subscribe?key={{ item.key() }}&amp;auth={{ auth }}"
+					title="suscripción por mail">
+					<img src="/static/images/email_add.png" class="icon" />
+					Suscribirme por email a los comentarios de este artículo</a>
+				</span>
 			{% else %}
 				{% if user %}
-				| <span><a id="item.comment.subscribe" href="/item.comment.subscribe?key={{ item.key() }}" title="anular suscripción"><img src="/static/images/email_delete.png" class="icon" /> Anular mi suscripción por email a las respuestas</a></span>
+				| <span><a id="item.comment.subscribe" href="/item.comment.subscribe?key={{ item.key() }}&amp;auth={{ auth }}"
+					title="anular suscripción">
+					<img src="/static/images/email_delete.png" class="icon" />
+					Anular mi suscripción por email de los comentarios</a>
+				</span>
 				{% endif %}
 			{% endif %}
 		{% endif %}
@@ -223,7 +240,8 @@ google_color_text = "000000";
 	<div class="grid_2 alpha">
 		<p class="info comment-info">
 			<img src="/images/user/thumbnail/{{ comment.author_nickname }}" alt"{{ comment.author_nickname }}" /> <br/>
-			<a href="/user/{{ comment.author_nickname|escape }}">{{ comment.author_nickname|escape }}</a> escribió <br/> hace <strong>{{ comment.creation_date|relativize }}</strong> <br/>
+			<strong><a href="/user/{{ comment.author_nickname|escape }}">{{ comment.author_nickname|escape }}</a></strong>
+			escribió <br/> hace <strong>{{ comment.creation_date|relativize }}</strong> <br/>
 		</p>
 	</div>
 	<div class="grid_7 omega">
@@ -239,7 +257,11 @@ google_color_text = "000000";
 		{% endif %}
 		
 		{% if user.rol == 'admin' %}
-				<a href="javascript:setComment('/item.comment.delete?key={{ comment.key() }}')"><img src="/static/images/cross.png" class="icon" alt="" /> eliminar comentario</a>&nbsp;<a href="/item.comment.edit?key={{ comment.key() }}"><img src="/static/images/page_white_edit.png" class="icon" alt="" /> editar comentario</a>
+				<a href="javascript:setComment('/item.comment.delete?key={{ comment.key() }}&amp;auth={{ auth }}')">
+					<img src="/static/images/cross.png" class="icon" alt="" /> eliminar comentario</a>
+					
+				<a href="/item.comment.edit?key={{ comment.key() }}">
+					<img src="/static/images/page_white_edit.png" class="icon" alt="" /> editar comentario</a>
 		{% else %}
 			{% if user.nickname == comment.author_nickname %}
 			<a href="/item.comment.edit?key={{ comment.key() }}"><img src="/static/images/page_white_edit.png" class="icon" alt="" /> editar comentario</a>
@@ -286,11 +308,15 @@ google_color_text = "000000";
 	</div>
 	<div class="grid_7 omega">
 		<form action="/item.comment" method="post" accept-charset="utf-8">
+			<input type="hidden" name="auth" value="{{ auth }}" />
 			<input type="hidden" name="key" value="{{ item.key() }}" />
 			
 			<textarea name="content" rows="8" cols="54" id="markdown_example"></textarea>
 			{% if cansubscribe %}
-			<p><input type="checkbox" name="subscribe" value="True" id="subscribe" />Suscribirme por email a los comentarios de este artículo</p>
+			<p>
+				<input type="checkbox" name="subscribe" value="True" id="subscribe" />
+				Suscribirme por email a los comentarios de este artículo
+			</p>
 			{% endif %}
 						                
 			<p><input type="submit" value="Publicar comentario" />&nbsp;<input type="submit" name="preview" value="Previsualizar" /></p>
@@ -342,9 +368,11 @@ google_color_text = "000000";
 				onSuccess: function(transport, json) {
 					var action = transport.responseText.evalJSON().action;
 					if(action == 'deleted') {
-						parent.innerHTML = '<a id="item.favourite" href="/item.favourite?key={{ item.key() }}" title="añadir a favoritos"><img src="/static/images/add.png" class="icon" /> Añadir a favoritos</a>';
+						parent.innerHTML = '<a id="item.favourite" href="/item.favourite?key={{ item.key() }}&amp;auth={{ auth }}" '+
+						'title="Añadir a favoritos"><img src="/static/images/add.png" class="icon" /> Añadir a favoritos</a>';
 					} else {
-						parent.innerHTML = '<a id="item.favourite" href="/item.favourite?key={{ item.key() }}" title="eliminar favorito"><img src="/static/images/delete.png" class="icon" /> Eliminar favorito</a>';
+						parent.innerHTML = '<a id="item.favourite" href="/item.favourite?key={{ item.key() }}&amp;auth={{ auth }}" '+
+						'title="Eliminar favorito"><img src="/static/images/delete.png" class="icon" /> Eliminar favorito</a>';
 					}
 					ajaxFav();
 				},
@@ -359,32 +387,32 @@ google_color_text = "000000";
 	ajaxFav();
         
 	function ajaxSubs() {
-                var subs = $('item.comment.subscribe');
-                if(subs == null) return;
-                var parent = $(subs.parentNode);
-                Element.observe(subs, 'click', function(e) {
-                        href = subs.href + '&x=1';
-                        parent.innerHTML = '<img class="icon" src="/static/images/spinner.gif" />';
-                        new Ajax.Request(href, {
-                                method: 'get',
-                                onSuccess: function(transport, json) {
-                                        var action = transport.responseText.evalJSON().action;
-                                        if(action == 'unsubscribed') {
-                                                parent.innerHTML = '<a id="item.comment.subscribe" href="/item.comment.subscribe?key={{ item.key() }}" title="suscripción por mail"><img src="/static/images/email_add.png" class="icon" /> Suscribirme por email a los comentarios de este artículo</a>';
-                                        } else {
-                                                parent.innerHTML = '<a id="item.comment.subscribe" href="/item.comment.subscribe?key={{ item.key() }}" title="anular suscripción"><img src="/static/images/email_delete.png" class="icon" /> Anular mi suscripción por email a las respuestas</a>';
-                                        }
-                                        ajaxSubs();
-                                },
-                                onFailure: function() {
-                                        parent.innerHTML = 'Ocurrió un error :(';
-                                }
-                        });
-                        Event.stop(e);
-                });
-        }
-        
-        ajaxSubs();	
+		var subs = $('item.comment.subscribe');
+		if(subs == null) return;
+		var parent = $(subs.parentNode);
+			Element.observe(subs, 'click', function(e) {
+				href = subs.href + '&x=1';
+				parent.innerHTML = '<img class="icon" src="/static/images/spinner.gif" />';
+				new Ajax.Request(href, {
+					method: 'get',
+					onSuccess: function(transport, json) {
+						var action = transport.responseText.evalJSON().action;
+						if(action == 'unsubscribed') {
+							parent.innerHTML = '<a id="item.comment.subscribe" href="/item.comment.subscribe?key={{ item.key() }}&amp;auth={{ auth }}" title="suscripción por mail"><img src="/static/images/email_add.png" class="icon" /> Suscribirme por email a los comentarios de este artículo</a>';
+						} else {
+							parent.innerHTML = '<a id="item.comment.subscribe" href="/item.comment.subscribe?key={{ item.key() }}&amp;auth={{ auth }}" title="anular suscripción"><img src="/static/images/email_delete.png" class="icon" /> Anular mi suscripción por email de los comentarios</a>';
+						}
+						ajaxSubs();
+					},
+					onFailure: function() {
+						parent.innerHTML = 'Ocurrió un error :(';
+					}
+				});
+				Event.stop(e);
+			});
+		}
+		ajaxSubs();	
+		
 	{% if canvote %}
 		var sr = $('star-rating');
 		var parent = $(sr.parentNode);

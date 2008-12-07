@@ -41,9 +41,11 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<p class="options">
 				{% if canadd %}
 					{% if is_contact %}
-						<span><a id="contact" href="/user.contact?user_to={{ this_user.nickname }}"><img src="/static/images/delete.png" alt="" class="icon" /> Eliminar de contactos</a></span>
+						<span><a id="contact" href="/user.contact?user_to={{ this_user.nickname }}&amp;auth={{ auth }}">
+							<img src="/static/images/delete.png" alt="" class="icon" /> Eliminar de contactos</a></span>
 					{% else %}
-						<span><a id="contact" href="/user.contact?user_to={{ this_user.nickname }}"><img src="/static/images/add.png" alt="" class="icon" /> Añadir a contactos</a></span>
+						<span><a id="contact" href="/user.contact?user_to={{ this_user.nickname }}&amp;auth={{ auth }}">
+							<img src="/static/images/add.png" alt="" class="icon" /> Añadir a contactos</a></span>
 					{% endif %}
 				{% endif %}
 				{% if user and this_user.nickname != user.nickname %}
@@ -211,9 +213,11 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				onSuccess: function(transport, json) {
 					var action = transport.responseText.evalJSON().action;
 					if(action == 'deleted') {
-						parent.innerHTML = '<a id="contact" href="/user.contact?user_to={{ this_user.nickname }}"><img src="/static/images/add.png" alt="" class="icon" /> Añadir a contactos</a>';
+						parent.innerHTML = '<a id="contact" href="/user.contact?user_to={{ this_user.nickname }}&amp;auth={{ auth }}">'+
+							'<img src="/static/images/add.png" alt="" class="icon" /> Añadir a contactos</a>';
 					} else {
-						parent.innerHTML = '<a id="contact" href="/user.contact?user_to={{ this_user.nickname }}"><img src="/static/images/delete.png" alt="" class="icon" /> Eliminar de contactos</a>';
+						parent.innerHTML = '<a id="contact" href="/user.contact?user_to={{ this_user.nickname }}&amp;auth={{ auth }}">'+
+						'<img src="/static/images/delete.png" alt="" class="icon" /> Eliminar de contactos</a>';
 					}
 					add_contact();
 				},

@@ -18,6 +18,12 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 #}
 
 {% extends "base.html" %}
+
+{% block title %}
+	Editar hilo de discusión
+{% endblock %}
+
+
 {% block head %}
 	<link href="/static/css/prettify.css" type="text/css" rel="stylesheet" />
 {% endblock %}
@@ -32,9 +38,11 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		{% endif %}
 		<div class="grid_2 alpha">
 			<p class="info comment-info">
-				<a href="/user/{{ thread.author_nickname|escape }}"><img src="/images/user/thumbnail/{{ thread.author_nickname|escape }}" alt="{{ thread.author_nickname|escape }}" /></a> <br/>
+				<a href="/user/{{ thread.author_nickname|escape }}">
+					<img src="/images/user/thumbnail/{{ thread.author_nickname|escape }}"
+					alt="{{ thread.author_nickname|escape }}" />
+				</a> <br/>
 				<strong><a href="/user/{{ thread.author_nickname|escape }}">{{ thread.author_nickname|escape }}</a></strong>
-
 			</p>
 		</div>
 		<div class="grid_7 omega">
@@ -83,6 +91,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				{% else %}
 				<p><input type="submit" value="Guardar Cambios" /></p>
 				{% endif %}
+				<input type="hidden" name="auth" value="{{ auth }}" />
 			</form>
 		</div>
 		<p>

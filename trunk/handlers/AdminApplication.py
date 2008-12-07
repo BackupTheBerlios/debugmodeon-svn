@@ -51,7 +51,7 @@ class AdminApplication(AuthenticatedHandler):
 			self.values['max_results'] = self.not_none(app.max_results)
 			self.values['max_results_sublist'] = self.not_none(app.max_results_sublist)
 			self.render('templates/admin-application.html')
-		else:
+		elif self.auth():
 			app = self.get_application()
 			if not app:
 				app = model.Application()

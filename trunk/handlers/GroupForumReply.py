@@ -33,8 +33,9 @@ class GroupForumReply(AuthenticatedHandler):
 
 	def execute(self):
 		method = self.request.method
-		if method == "GET":
+		if method == "GET" or not self.auth():
 			return
+		
 		user = self.values['user']
 		key = self.get_param('key')
 		thread = model.Thread.get(key)
@@ -92,7 +93,8 @@ class GroupForumReply(AuthenticatedHandler):
 		followers.append(user.nickname)
 		followers.extend(self.get_followers(thread=thread))
 		followers = list(set(followers))
-		self.create_event(event_type='thread.reply', followers=followers, user=user, thread=thread, group=group)
+		self.create_event(event_type='thread.reply', followers=followers,
+			user=user, thread=thread, group=group, response_number=response.response_number)
 		
 		subscribers = thread.subscribers
 		email_removed = False

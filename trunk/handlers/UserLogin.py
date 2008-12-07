@@ -21,6 +21,7 @@
 # 
 
 import model
+import random
 import datetime
 
 from utilities import session
@@ -39,7 +40,7 @@ class UserLogin(BaseHandler):
 		else:
 			nickname = self.request.get('nickname')
 			password = self.request.get('password')
-
+			
 			user = model.UserData.gql('WHERE nickname=:1', nickname).get()
 			if user:
 				
@@ -50,9 +51,14 @@ class UserLogin(BaseHandler):
 					user.last_login = datetime.datetime.now()
 					user.password = self.hash_password(user.nickname, password) # if you want to change the way the password is hashed
 					user.put()
-					self.sess = session.Session()
+					if self.get_param('remember') is not None:
+						expires = False
+					else:
+						expires = True
+					self.sess = session.Session(set_cookie_expires=expires)
 					self.sess['user_nickname'] = user.nickname
 					self.sess['user_email'] = user.email
+					self.sess['auth'] = self.hash(str(random.random()), user.nickname)
 					if user.rol:
 						self.sess['user_rol'] = user.rol
 					self.sess['user_key'] = user.key()

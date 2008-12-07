@@ -33,6 +33,9 @@ class ItemCommentDelete(AuthenticatedHandler):
 			self.forbidden()
 			return
 		
+		if not self.auth():
+			return
+		
 		comment = model.Comment.get(self.get_param('key'))
 		
 		if not comment:

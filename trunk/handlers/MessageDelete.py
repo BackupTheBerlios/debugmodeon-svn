@@ -34,6 +34,9 @@ class MessageDelete(AuthenticatedHandler):
 			self.not_found()
 			return
 		
+		if not self.auth():
+			return
+		
 		if user.nickname == message.user_to_nickname:
 			message.to_deletion_date = datetime.datetime.now()
 			message.put()

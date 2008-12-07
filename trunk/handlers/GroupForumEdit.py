@@ -34,7 +34,7 @@ class GroupForumEdit(AuthenticatedHandler):
 
 	def execute(self):
 		method = self.request.method
-		if method == "GET":
+		if method == "GET" or not self.auth():
 			return
 		user = self.values['user']
 		key = self.get_param('key')

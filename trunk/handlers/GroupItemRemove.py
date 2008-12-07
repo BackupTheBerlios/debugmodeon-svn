@@ -32,6 +32,9 @@ class GroupItemRemove(AuthenticatedHandler):
 			self.not_found()
 			return
 		
+		if not self.auth():
+			return
+		
 		gi = model.GroupItem.gql('WHERE group=:1 and item=:2', group, item).get()
 		if self.values['user'].nickname == item.author.nickname:
 			gi.delete()

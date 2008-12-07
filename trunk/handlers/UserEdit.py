@@ -45,7 +45,7 @@ class UserEdit(AuthenticatedHandler):
 			if user.not_full_rss:
 				self.values['not_full_rss'] = user.not_full_rss
 			self.render('templates/user-edit.html')
-		else:
+		elif self.auth():
 			user.google_adsense = self.get_param('google_adsense')
 			user.google_adsense_channel = self.get_param('google_adsense_channel')
 			user.real_name = self.get_param('real_name')

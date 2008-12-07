@@ -46,7 +46,7 @@ class ItemAddGroups(AuthenticatedHandler):
 				self.redirect('/item/%s' % item.url_path)
 				return
 			self.render('templates/item-add-groups.html')
-		else:
+		elif self.auth():
 			arguments = self.request.arguments()
 			for gu in model.GroupUser.all().filter('user', user).order('group_title'):
 				group = gu.group

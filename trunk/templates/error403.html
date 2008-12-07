@@ -16,32 +16,14 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 #}
-
-{% extends "base.html" %}
-
-{% block title %} Añadir grupos relacionados {% endblock %}
+{% extends "blank.html" %}
+{% block title %}
+	Permiso denegado
+{% endblock %}
 
 {% block content %}
-	<h1>Añadir grupos relacionados</h1>
-
-	{% if m %}
-		<p class="message">{{ m|escape }}</p>
-	{% endif %}
-
-	<form action="/group.add.related" method="post" accept-charset="utf-8">
-		<input type="hidden" name="auth" value="{{ auth }}" />
-		<div class="form">
-			<p>
-				<label for="group_from">Id grupo origen</label>
-				<input id="group_from" type="text" name="group_from" style="width: 250px" />
-			</p>
-			
-			<p>
-				<label for="group_to">Id grupo destino</label>
-				<input id="group_to" type="text" name="group_to" style="width: 250px" />
-			</p>
-		</div>
-
-		<p><input type="submit" value="Relacionar" /></p>
-	</form>
+	<p class="title">Permiso denegado</p>
+	<div style="text-align: center">
+	<p>No tiene permisos para realizar esta acción o bien tu sesión ha expirado.</p>
+	</div>
 {% endblock %}

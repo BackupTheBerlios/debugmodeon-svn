@@ -36,13 +36,11 @@ class Invite(BaseHandler):
 		if method == 'GET':
 			self.render('templates/invite-friends.html')
 			return
-		
-		if method == 'POST':
-			
+		elif self.auth():
 			contacts = self.get_param('contacts').rstrip(' ').rsplit(',',19)
 			if contacts[0]=='' or not contacts:
 				self.values['failed']=True
-	                        self.render('templates/invite-friends.html')
+				self.render('templates/invite-friends.html')
 				return
 			self.values['_users'] = []
 			for contact in contacts:
@@ -51,7 +49,6 @@ class Invite(BaseHandler):
 				if u is not None:
 					self.values['_users'].append(u) 
 					contacts.remove(contact)
-
 			personalmessage =  self.get_param('personalmessage')
 			subject = " %s te invita a participar en debug_mode=ON" % user.nickname  
 			body = """
@@ -65,6 +62,6 @@ class Invite(BaseHandler):
 					"""  % self.clean_ascii(personalmessage)
 			self.mail(subject=subject, body=body, bcc=contacts)
 	 		
-			self.values['sent']=True
-                        self.render('templates/invite-friends.html')
+			self.values['sent'] = True
+			self.render('templates/invite-friends.html')
 

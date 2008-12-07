@@ -31,6 +31,10 @@ class GroupUserJoin(AuthenticatedHandler):
 		if not group:
 			self.not_found()
 			return
+		
+		if not self.auth():
+			return
+		
 		redirect = self.get_param('redirect')
 		
 		gu = self.joined(group)

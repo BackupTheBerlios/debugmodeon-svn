@@ -26,12 +26,14 @@ from handlers.AuthenticatedHandler import *
 class ItemCommentSubscribe( AuthenticatedHandler ):
 
 	def execute(self):
-		key = self.get_param('key')
+		key  = self.get_param('key')
 		item = model.Item.get(key)
 		user = self.values['user']
-		mail=user.email	
-
+		mail = user.email
+		
 		if not mail in item.subscribers:
+			if not self.auth():
+				return
 			item.subscribers.append(mail)
 			item.put()
 			self.add_user_subscription(user, 'item', item.key().id())
@@ -40,11 +42,18 @@ class ItemCommentSubscribe( AuthenticatedHandler ):
 			else:
 				self.redirect('/item/%s' % (item.url_path, ))
 		else:
-			item.subscribers.remove(mail)
-			item.put()
-			self.remove_user_subscription(user, 'item', item.key().id())
-			if self.get_param('x'):
-                                self.render_json({ 'action': 'unsubscribed' })
-                        else:
-                                self.redirect('/item/%s' % (item.url_path, ))
+			auth = self.get_param('auth')
+			if not auth:
+				self.values['item'] = item
+				self.render('templates/item-comment-subscribe.html')
+			else:
+				if not self.auth():
+					return
+				item.subscribers.remove(mail)
+				item.put()
+				self.remove_user_subscription(user, 'item', item.key().id())
+				if self.get_param('x'):
+					self.render_json({ 'action': 'unsubscribed' })
+				else:
+					self.redirect('/item/%s' % (item.url_path, ))
 

@@ -320,4 +320,6 @@ class Event(db.Model):
 	thread_title = db.StringProperty()
 	thread_url_path = db.StringProperty()
 	
+	response_number = db.IntegerProperty()
+	
 	creation_date = db.DateTimeProperty(auto_now_add=True)

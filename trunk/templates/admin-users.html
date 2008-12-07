@@ -31,6 +31,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	{% endif %}
 
 	<form action="/admin.users" method="post" accept-charset="utf-8">
+		<input type="hidden" name="auth" value="{{ auth }}" />
 		<div class="form">
 			<p>
 				<label>Acción</label>

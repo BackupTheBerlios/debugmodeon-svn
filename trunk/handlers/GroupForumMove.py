@@ -42,7 +42,7 @@ class GroupForumMove(AuthenticatedHandler):
 			self.values['thread_key'] = thread.key
 			self.render('templates/group-forum-move.html')
 			return
-		else:
+		elif self.auth():
 			thread_key = self.get_param('thread_key')
 			group_key = self.get_param('group_key')
 			thread = model.Thread.get(thread_key)

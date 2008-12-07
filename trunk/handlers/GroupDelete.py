@@ -22,6 +22,7 @@
 
 
 from google.appengine.ext import db
+from google.appengine.api import memcache
 from handlers.AuthenticatedHandler import *
 
 class GroupDelete(AuthenticatedHandler):
@@ -31,18 +32,21 @@ class GroupDelete(AuthenticatedHandler):
 		
 		if user.rol != 'admin':
 			self.forbidden()
-			return 
-
+			return
+		
+		if not self.auth():
+			return
+		
 		group=model.Group.get(self.get_param('key'))
 		db.delete(group.groupuser_set)
 		db.delete(group.groupitem_set)
 		db.delete(group.thread_set)
 		group.delete()
-
-		app = self.get_application()
-                if app:
+		
+		app = app = model.Application.all().get()
+		if app:
 			app.groups -=1
-                        app.put()
-	
-
+			app.put()
+		memcache.delete('app')
+		# TODO: some other memcache value should be removed? most active groups?
 		self.redirect('/')

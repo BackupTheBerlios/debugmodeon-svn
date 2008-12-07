@@ -83,7 +83,6 @@ h3 {
 	margin:0;
 	margin-top: 10px;
 	background-color: #4e5d6d;
-	-moz-border-radius: 3px;
 	margin-bottom: 5px;
 	background-image: url(dolphin_bg_orange.gif);
 	background-repeat: repeat-x;
@@ -169,11 +168,8 @@ div.box {
 	background-position: left;
 }
 div.box, div.box2 {
-	margin-bottom: 10px;
-	margin-top: 10px;
-	-moz-border-radius: 3px;
+	margin: 5px 0px 10px 0px;
 	background-color: #fafafa;
-
 }
 
 div.box p, div.box2 p {
@@ -279,7 +275,6 @@ div.comment {
 	padding: 10px;
 	margin-top: 5px;
 	margin-bottom: 5px;
-	-moz-border-radius: 5px;
 	background-image: url(bg3.png);
 	background-repeat: repeat-x;
 	background-position: bottom;
@@ -433,9 +428,7 @@ div.error {
 }
 
 div.left_form p {
-	margin-top: 10px;
-	margin-bottom: 10px;
-	margin-left: 25px;
+	margin: 10px;
 	color: #777;
 }
 

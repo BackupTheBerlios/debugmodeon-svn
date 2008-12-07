@@ -28,6 +28,7 @@ long with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<div>
 	</div>
 	<form action="/invite" method="post" accept-charset="utf-8">
+		<input id="key" type="hidden" name="auth" value="{{ auth }}" />
 		<input id="key" type="hidden" name="key" value="{{ key|escape }}" />
 		<div class="form" align="center">
 			<p>

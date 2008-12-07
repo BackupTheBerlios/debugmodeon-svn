@@ -31,6 +31,10 @@ class GroupUserUnjoin(AuthenticatedHandler):
 		if not group:
 			self.not_found()
 			return
+		
+		if not self.auth():
+			return
+		
 		redirect = self.get_param('redirect')
 
 		gu = model.GroupUser.gql('WHERE group=:1 and user=:2', group, user).get()

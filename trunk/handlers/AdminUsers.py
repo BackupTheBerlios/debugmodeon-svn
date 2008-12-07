@@ -35,7 +35,7 @@ class AdminUsers(AuthenticatedHandler):
 		
 		if method == 'GET':
 			self.render('templates/admin-users.html')
-		else:
+		elif self.auth():
 			nickname = self.get_param('nickname')
 			if nickname is None or nickname == '':
 				self.values['m'] = u'Debes completar el campo nickname'

@@ -43,7 +43,7 @@ class ItemDelete(AuthenticatedHandler):
 		if method == 'GET':
 			self.values['item'] = item
 			self.render('templates/item-delete.html')
-		else:
+		elif self.auth():
 			# mark as deleted
 			item.deletion_message = self.get_param('message')
 			item.deletion_date = datetime.datetime.now()

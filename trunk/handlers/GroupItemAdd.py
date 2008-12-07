@@ -34,6 +34,10 @@ class GroupItemAdd(AuthenticatedHandler):
 		if not group or not item or item.draft or item.deletion_date:
 			self.not_found()
 			return
+		
+		if not self.auth():
+			return
+		
 		user = self.values['user']
 		gu = self.joined(group)
 		if gu and not item.draft:

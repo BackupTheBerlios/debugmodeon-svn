@@ -31,6 +31,9 @@ class UserContact(AuthenticatedHandler):
 		if not user_to:
 			self.not_found()
 			return
+			
+		if not self.auth():
+			return
 		
 		contact = model.Contact.all().filter('user_from', user).filter('user_to', user_to).get()
 		if not contact:

@@ -34,6 +34,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	{% endif %}
 
 <form id="form" action="/item.edit" method="post" accept-charset="utf-8">
+	<input type="hidden" name="auth" value="{{ auth }}" />
+	
 	{% if key %}
 		<input id="key" type="hidden" name="key" value="{{ key|escape }}" />
 	{% else %}

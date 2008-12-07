@@ -57,11 +57,14 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<input type="hidden" name="redirect_to" value="{{ redirect }}" />
 			<p>
 				<label for="nickname">Usuario:</label>
-				<input id="nickname" type="text" name="nickname"/>
+				<input id="nickname" type="text" name="nickname" style="width:100%" />
 			</p>
 			<p>
 				<label for="password">Contaseña:</label>
-				<input id="password" type="password" name="password"/>
+				<input id="password" type="password" name="password" style="width:100%" />
+			</p>
+			<p>
+				<input type="checkbox" name="remember" value="remember" /> Recordarme en este equipo
 			</p>
 			<p class="button">
 				<input type="submit" value="Iniciar Sesión" />

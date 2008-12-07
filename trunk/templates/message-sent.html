@@ -37,11 +37,16 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		{% for message in messages %}
 			<tr {% if loop.index % 2 == 0 %}class="even"{% endif %}>
 				<td class="center">
-					<a href="/user/{{ message.user_to_nickname }}"><img src="/images/user/thumbnail/{{ message.user_to_nickname }}" alt="{{ message.user_to_nickname }}" title="{{ message.user_to_nickname }}" /></a>
+					<a href="/user/{{ message.user_to_nickname }}">
+						<img src="/images/user/thumbnail/{{ message.user_to_nickname }}"
+						alt="{{ message.user_to_nickname }}" title="{{ message.user_to_nickname }}" /></a>
 				</td>
 				<td class="left"><p><a href="/message.read/{{ message.url_path }}">{{ message.title|escape }}</a></p></td>
 				<td class="right"><p>hace {{ message.creation_date|relativize }}</p></td>
-				<td class="right"><p class="options"><a href="/message.delete?key={{ message.key() }}" onclick="return confirm('¿Seguro que desea eliminar el mensaje?')"><img src="/static/images/cross.png" alt="" class="icon" /> Eliminar mensaje</a></p></td>
+				<td class="right"><p class="options">
+					<a href="/message.delete?key={{ message.key() }}&amp;auth={{ auth }}"
+					onclick="return confirm('¿Seguro que desea eliminar el mensaje?')">
+					<img src="/static/images/cross.png" alt="" class="icon" /> Eliminar mensaje</a></p></td>
 			</tr>
 		{% endfor %}
 		</tbody>

@@ -31,7 +31,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<a href="/user/{{ message.user_from_nickname }}">
 					<img src="/images/user/thumbnail/{{ message.user_from_nickname }}" alt"{{ message.user_from_nickname }}" />
 				</a> <br/>
-				<a href="/user/{{ message.user_from_nickname }}">{{ message.user_from_nickname }}</a> escribió <br/> hace <strong>{{ message.creation_date|relativize }}</strong> <br/>
+				<strong><a href="/user/{{ message.user_from_nickname }}">{{ message.user_from_nickname }}</a></strong> escribió <br/> 
+				hace <strong>{{ message.creation_date|relativize }}</strong> <br/>
 			</p>
 		</div>
 		<div class="grid_7 omega">
@@ -40,8 +41,11 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			</div>
    
 			<p class="options">
-				<a href="/message.edit?user_to={{ message.user_from_nickname }}&amp;title={{ message.title|escape }}"><img src="/static/images/email_edit.png" alt="" class="icon" /> Responder</a>
-				| <a href="/message.delete?key={{ message.key() }}" onclick="return confirm('¿Seguro que desea eliminar el mensaje?')"><img src="/static/images/cross.png" alt="" class="icon" /> Eliminar mensaje</a>
+				<a href="/message.edit?user_to={{ message.user_from_nickname }}&amp;title={{ message.title|quote|escape }}">
+					<img src="/static/images/email_edit.png" alt="" class="icon" /> Responder</a>
+				| <a href="/message.delete?key={{ message.key() }}&amp;auth={{ auth }}"
+					onclick="return confirm('¿Seguro que desea eliminar el mensaje?')">
+					<img src="/static/images/cross.png" alt="" class="icon" /> Eliminar mensaje</a>
 			</p>
    
 		</div>
@@ -54,7 +58,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				<a href="/user/{{ message.user_to_nickname }}">
 					<img src="/images/user/thumbnail/{{ message.user_to_nickname }}" alt"{{ message.user_to_nickname }}" />
 				</a> <br/>
-					enviado a <a href="/user/{{ message.user_to_nickname }}">{{ message.user_to_nickname }}</a> <br/> hace <strong>{{ message.creation_date|relativize }}</strong> <br/>
+					enviado a <strong><a href="/user/{{ message.user_to_nickname }}">{{ message.user_to_nickname }}</a></strong> <br/>
+					hace <strong>{{ message.creation_date|relativize }}</strong> <br/>
 			</p>
 		</div>
 		<div class="grid_7 omega">
@@ -63,8 +68,12 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			</div>
    
 			<p class="options">
-				<a href="/message.edit?user_to={{ message.user_to_nickname }}&amp;title={{ message.title|escape }}"><img src="/static/images/email_edit.png" alt="" class="icon" /> Escribir otro mensaje a {{ message.user_to_nickname }}</a>
-				| <a href="/message.delete?key={{ message.key() }}" onclick="return confirm('¿Seguro que desea eliminar el mensaje?')"><img src="/static/images/cross.png" alt="" class="icon" /> Eliminar mensaje</a>
+				<a href="/message.edit?user_to={{ message.user_to_nickname }}&amp;title={{ message.title|quote|escape }}">
+					<img src="/static/images/email_edit.png" alt="" class="icon" /> Escribir otro mensaje a
+					{{ message.user_to_nickname }}</a>
+				| <a href="/message.delete?key={{ message.key() }}&amp;auth={{ auth }}"
+					onclick="return confirm('¿Seguro que desea eliminar el mensaje?')">
+					<img src="/static/images/cross.png" alt="" class="icon" /> Eliminar mensaje</a>
 			</p>
    
 		</div>

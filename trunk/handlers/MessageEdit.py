@@ -42,7 +42,7 @@ class MessageEdit(AuthenticatedHandler):
 			self.values['title'] = title
 			self.render('templates/message-edit.html')
 			return
-		else:
+		elif self.auth():
 			title = self.get_param('title')
 			message = model.Message(user_from = user,
 				user_from_nickname = user.nickname,

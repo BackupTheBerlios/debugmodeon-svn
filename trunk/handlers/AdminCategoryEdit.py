@@ -53,7 +53,7 @@ class AdminCategoryEdit(AuthenticatedHandler):
 				self.values['title'] = u'Nueva categoría...'
 				self.values['description'] = u'Descripción...'
 				self.render('templates/admin-category-edit.html')
-		else:
+		elif self.auth():
 			if key:
 				# update category
 				category = model.Category.get(key)

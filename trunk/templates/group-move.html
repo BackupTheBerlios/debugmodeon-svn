@@ -33,6 +33,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<p class="message">{{ message }}</p>
 	{% endif %}
 	<form action="/group.move" method="post" accept-charset="utf-8">
+		<input type="hidden" name="auth" value="{{ auth }}" />
 		<div class="form">
 			<p> 
 				<label for="key_orig">Key grupo origen (el que queremos que desaparezca)</label>

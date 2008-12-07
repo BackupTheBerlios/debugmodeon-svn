@@ -29,9 +29,11 @@ class GroupForumSubscribe( AuthenticatedHandler ):
 		key = self.get_param('key')
 		thread = model.Thread.get(key)
 		user = self.values['user']
-		mail=user.email	
-
+		mail = user.email
+		
 		if not mail in thread.subscribers:
+			if not self.auth():
+				return
 			thread.subscribers.append(user.email)
 			thread.put()
 			self.add_user_subscription(user, 'thread', thread.key().id())
@@ -40,11 +42,18 @@ class GroupForumSubscribe( AuthenticatedHandler ):
 			else:	
 				self.redirect('/group.forum/%s' % thread.url_path)
 		else:
-			thread.subscribers.remove(user.email)
-			thread.put()
-			self.remove_user_subscription(user, 'thread', thread.key().id())
-			if self.get_param('x'):
-				self.render_json({ 'action': 'unsubscribed' })
-			else:	
-				self.redirect('/group.forum/%s' % thread.url_path)
+			auth = self.get_param('auth')
+			if not auth:
+				self.values['thread'] = thread
+				self.render('templates/group-forum-subscribe.html')
+			else:
+				if not self.auth():
+					return
+				thread.subscribers.remove(user.email)
+				thread.put()
+				self.remove_user_subscription(user, 'thread', thread.key().id())
+				if self.get_param('x'):
+					self.render_json({ 'action': 'unsubscribed' })
+				else:	
+					self.redirect('/group.forum/%s' % thread.url_path)
 

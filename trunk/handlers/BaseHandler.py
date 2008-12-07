@@ -27,6 +27,7 @@ import re
 import sha
 import img
 import model
+import urllib
 import struct
 import logging
 import datetime
@@ -68,6 +69,7 @@ class BaseHandler(webapp.RequestHandler):
 		env.filters['smiley'] = self.smiley
 		env.filters['pagination'] = self.pagination
 		env.filters['media'] = self.media_content
+		env.filters['quote'] = self.quote
 		return env
 	
 	def get_template(self, env, f):
@@ -151,10 +153,15 @@ class BaseHandler(webapp.RequestHandler):
 			return "error"
 		else:
 			return markdown.markdown(value, [], safe_mode='escape')
+			
+	def quote(self, value):
+		value = self.get_unicode(value)
+		return urllib.quote((value).encode('UTF-8'))
 	
 	def media_content(self,value):
-   	    value=contents.media_content(value)		
-	    return value   
+		value=contents.media_content(value)
+		return value
+	
 	def render_json(self, data):
 		self.response.headers['Content-Type'] = 'application/json;charset=UTF-8'
 		self.response.headers['Pragma'] = 'no-cache'
@@ -198,7 +205,10 @@ class BaseHandler(webapp.RequestHandler):
 		user = self.get_current_user()
 		# user = users.get_current_user()
 		if user:
-			self.values['logout'] = '/user.logout?redirect_to=%s' % redirect  # users.create_logout_url(self.values['redirect'])
+			auth = self.sess['auth']
+			self.values['auth'] = auth
+			# with google accounts: = users.create_logout_url(self.values['redirect'])
+			self.values['logout'] = '/user.logout?redirect_to=%s&auth=%s' % (self.quote(redirect), auth)
 			"""
 			user_data = model.UserData.gql('WHERE email=:1', user.email()).get()
 			if not user_data:
@@ -223,7 +233,7 @@ class BaseHandler(webapp.RequestHandler):
 			self.values['user'] = user
 		else:
 			self.values['user'] = None
-			self.values['login'] = '/user.login?redirect_to=%s' % redirect # users.create_login_url(self.values['redirect'])
+			self.values['login'] = '/user.login?redirect_to=%s' % self.quote(redirect) # users.create_login_url(self.values['redirect'])
 
 	def to_url_path(self, value):
 		value = value.lower()
@@ -379,8 +389,12 @@ class BaseHandler(webapp.RequestHandler):
 	def not_found(self):
 		self.response.clear()
 		self.response.set_status(404)
-
 		self.render('templates/error404.html')
+		
+	def forbidden(self):
+		self.response.clear()
+		self.response.set_status(403)
+		self.render('templates/error403.html')
 	
 	def is_contact(self, this_user):
 		user = self.values['user']
@@ -692,11 +706,14 @@ class BaseHandler(webapp.RequestHandler):
 				follower.followers.remove(nickname)
 				follower.put()
 	
-	def create_event(self, event_type, followers, user, user_to=None, group=None, item=None, thread=None, creation_date=None):
+	def create_event(self, event_type, followers,
+		user, user_to=None, group=None, item=None, thread=None, creation_date=None,
+		response_number=0):
 		event = model.Event(event_type=event_type,
 			followers=followers,
 			user=user,
-			user_nickname=user.nickname)
+			user_nickname=user.nickname,
+			response_number=response_number)
 		
 		if user_to is not None:
 			event.user_to = user_to
@@ -750,3 +767,10 @@ class BaseHandler(webapp.RequestHandler):
 			follower.put()
 		
 		return follower.followers
+		
+	def auth(self):	
+		token = self.values['auth']
+		b = token == self.get_param('auth')
+		if not b:
+			self.forbidden()
+		return b

@@ -38,7 +38,7 @@ class UserChangePassword(AuthenticatedHandler):
 		if method == 'GET':
 			self.values['redirect_to'] = self.request.get('redirect_to')
 			self.render('templates/user-changepassword.html')
-		else:
+		elif self.auth():
 			old_password = self.request.get('old_password')
 			password = self.request.get('password')
 			re_password = self.request.get('re_password')

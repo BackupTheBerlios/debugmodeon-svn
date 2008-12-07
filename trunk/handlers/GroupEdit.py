@@ -57,7 +57,7 @@ class GroupEdit(AuthenticatedHandler):
 				self.values['all_users'] = True
 				self.add_categories()
 				self.render('templates/group-edit.html')
-		else:
+		elif self.auth():
 			if key:
 				# update group
 				group = model.Group.get(key)

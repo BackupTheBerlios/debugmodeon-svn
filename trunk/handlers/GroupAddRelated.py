@@ -36,7 +36,7 @@ class GroupAddRelated(AuthenticatedHandler):
 		if method == 'GET':
 			self.values['m'] = self.get_param('m')
 			self.render('templates/group-add-related.html')
-		else:
+		elif self.auth():
 			group_from = model.Group.get_by_id(int(self.request.get('group_from')))
 			group_to = model.Group.get_by_id(int(self.request.get('group_to')))
 			
