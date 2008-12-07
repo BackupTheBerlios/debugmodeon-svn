@@ -27,6 +27,7 @@ import re
 import sha
 import img
 import model
+import random
 import urllib
 import struct
 import logging
@@ -205,7 +206,10 @@ class BaseHandler(webapp.RequestHandler):
 		user = self.get_current_user()
 		# user = users.get_current_user()
 		if user:
-			auth = self.sess['auth']
+			try:
+				auth = self.sess['auth']
+			except:
+				auth = self.hash(str(random.random()), user.nickname)
 			self.values['auth'] = auth
 			# with google accounts: = users.create_logout_url(self.values['redirect'])
 			self.values['logout'] = '/user.logout?redirect_to=%s&auth=%s' % (self.quote(redirect), auth)
