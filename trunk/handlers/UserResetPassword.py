@@ -48,7 +48,7 @@ class UserResetPassword(BaseHandler):
 				self.values['token'] = token
 				self.values['nickname'] = nickname
 				self.render('templates/user-resetpassword.html')
-		elif self.auth():
+		else:
 			token = self.request.get('token')
 			nickname = self.request.get('nickname')
 			password = self.request.get('password')
