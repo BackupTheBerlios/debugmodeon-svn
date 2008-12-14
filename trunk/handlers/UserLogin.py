@@ -28,12 +28,12 @@ from utilities import session
 from handlers.BaseHandler import *
 
 class UserLogin(BaseHandler):
-
+	
 	def execute(self):
 		session.Session().delete()
-
+		
 		method = self.request.method
-
+		
 		if method == 'GET':
 			self.values['redirect_to'] = self.request.get('redirect_to')
 			self.render('templates/user-login.html')

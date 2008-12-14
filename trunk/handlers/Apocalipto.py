@@ -85,6 +85,13 @@ class Apocalipto(BaseHandler):
 			self.response.out.write('app installed')
 			return
 		
+		return
+		users = model.UserData.all().filter('city', 'zaragoza')
+		adds = []
+		for u in users:
+			adds.append('"%s" <%s>' % (u.nickname, u.email))
+		self.response.out.write(', '.join(adds))
+		return
 		
 		p = int(self.request.get('p'))
 		key = self.request.get('key')

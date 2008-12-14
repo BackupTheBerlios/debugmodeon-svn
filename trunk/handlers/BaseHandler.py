@@ -22,34 +22,15 @@
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-import os
 import re
-import sha
-import img
 import model
-import random
-import urllib
-import struct
-import logging
 import datetime
-import simplejson
-import sys
-import MediaContentFilters as contents
-from utilities import session
-
-from google.appengine.api import mail
-from google.appengine.api import users
-from google.appengine.api import images
-from google.appengine.api import memcache
 
 from google.appengine.ext import db
 from google.appengine.ext import webapp
-from google.appengine.ext.webapp import template
-from google.appengine.runtime.apiproxy_errors import CapabilityDisabledError
-
-from jinja2 import Template, Environment, FileSystemLoader
-
+from google.appengine.api import memcache
 from google.appengine.runtime import apiproxy_errors
+from google.appengine.runtime.apiproxy_errors import CapabilityDisabledError
 
 class BaseHandler(webapp.RequestHandler):
 
@@ -64,6 +45,9 @@ class BaseHandler(webapp.RequestHandler):
 		return value
 		
 	def create_jinja_environment(self):
+		import os
+		from jinja2 import Template, Environment, FileSystemLoader
+		
 		env = Environment(loader=FileSystemLoader(os.path.join(os.path.dirname(__file__), '..', 'templates' )))
 		env.filters['relativize'] = self.relativize
 		env.filters['markdown'] = self.markdown
@@ -106,44 +90,15 @@ class BaseHandler(webapp.RequestHandler):
 			return u"%d meses" % (days / 30, )
 		if days > 0:
 			return u"%d días" % (days, )
-   
+		
 		if seconds > 3600:
 			return u"%d horas" % (seconds / 3600, )
 		if seconds > 60:
 			return u"%d minutos" % (seconds / 60, )
-   
+		
 		return u"%d segundos" % (seconds, )
 		
 	def smiley(self, value):
-		"""
-		value = value.replace(' :)', ' <img src="/static/images/smileys/smile.png" class="icon" alt=":)" />')
-		value = value.replace(' :-)', ' <img src="/static/images/smileys/smile.png" class="icon" alt=":-)" />')
-   
-		value = value.replace(' :D', ' <img src="/static/images/smileys/jokingly.png" class="icon" alt=":D" />')
-		value = value.replace(' :-D', ' <img src="/static/images/smileys/jokingly.png" class="icon" alt=":-D" />')
-   
-		value = value.replace(' :(', ' <img src="/static/images/smileys/sad.png" class="icon" alt=":(" />')
-		value = value.replace(' :-(', ' <img src="/static/images/smileys/sad.png" class="icon" alt=":-(" />')
-   
-		value = value.replace(' :|', ' <img src="/static/images/smileys/indifference.png" class="icon" alt=":|" />')
-		value = value.replace(' :-|', ' <img src="/static/images/smileys/indifference.png" class="icon" alt=":-|" />')
-   
-		value = value.replace(' :O', ' <img src="/static/images/smileys/surprised.png" class="icon" alt=":O" />')
-		value = value.replace(' :/', ' <img src="/static/images/smileys/think.png" class="icon" alt=":/" />')
-		value = value.replace(' :P', ' <img src="/static/images/smileys/tongue.png" class="icon" alt=":P" />')
-		value = value.replace(' :-P', ' <img src="/static/images/smileys/tongue.png" class="icon" alt=":-P" />')
-   
-		value = value.replace(' ;)', ' <img src="/static/images/smileys/wink.png" class="icon" alt=";)" />')
-		value = value.replace(' ;-)', ' <img src="/static/images/smileys/wink.png" class="icon" alt=";-)" />')
-   
-		value = value.replace(' :*)', ' <img src="/static/images/smileys/embarrassed.png" class="icon" alt=":*)" />')
-		value = value.replace(' 8-)', ' <img src="/static/images/smileys/cool.png" class="icon" alt="8-)" />')
-   
-		# value = value.replace(' :'(', ' <img src="/static/images/smileys/cry.png" class="icon" alt=":'(" />')
-		value = value.replace(' :_(', ' <img src="/static/images/smileys/cry.png" class="icon" alt=":_(" />')
-   
-		value = value.replace(' :-X', ' <img src="/static/images/smileys/crossedlips.png" class="icon" alt=":-X" />')
-		"""
 		return value
 
 
@@ -156,14 +111,17 @@ class BaseHandler(webapp.RequestHandler):
 			return markdown.markdown(value, [], safe_mode='escape')
 			
 	def quote(self, value):
+		import urllib
 		value = self.get_unicode(value)
 		return urllib.quote((value).encode('UTF-8'))
 	
 	def media_content(self,value):
+		import MediaContentFilters as contents
 		value=contents.media_content(value)
 		return value
 	
 	def render_json(self, data):
+		import simplejson
 		self.response.headers['Content-Type'] = 'application/json;charset=UTF-8'
 		self.response.headers['Pragma'] = 'no-cache'
 		self.response.headers['Cache-Control'] = 'no-cache'
@@ -196,6 +154,7 @@ class BaseHandler(webapp.RequestHandler):
 
 	def common_stuff(self):
 		self.values = {}
+		from utilities import session
 		self.sess = session.Session()
 
 		self.values['sess'] = self.sess
@@ -209,6 +168,7 @@ class BaseHandler(webapp.RequestHandler):
 			try:
 				auth = self.sess['auth']
 			except:
+				import random
 				auth = self.hash(str(random.random()), user.nickname)
 			self.values['auth'] = auth
 			# with google accounts: = users.create_logout_url(self.values['redirect'])
@@ -376,6 +336,7 @@ class BaseHandler(webapp.RequestHandler):
 		return list(set(tags))
 
 	def hash(self, login, p, times=100):
+		import sha
 		p = p.encode('ascii', 'ignore')
 		p = '%s:%s' % (login, p)
 		for i in range(0, times):
@@ -414,6 +375,7 @@ class BaseHandler(webapp.RequestHandler):
 			group.subscribers = list(set(com))
 
 	def cache(self, key, function, timeout=0):
+		# import logging
 		# logging.debug('looking for %s in the cache' % key)
 		data = memcache.get(key)
 		if data is not None:
@@ -611,6 +573,7 @@ class BaseHandler(webapp.RequestHandler):
 			return None
 	
 	def mail(self, subject, body, to=[], bcc=[]):
+		from google.appengine.api import mail
 		app = self.get_application()
 		subject = "%s %s" % (app.mail_subject_prefix, subject)
 
@@ -633,7 +596,9 @@ class BaseHandler(webapp.RequestHandler):
 			message.send()
 		except apiproxy_errors.OverQuotaError, message:
 			# Record the error in your logs
-			logging.error(message)
+			# import logging
+			# logging.error(message)
+			pass
 			
 	def show_error(self, message):
 		self.values['message'] = message

@@ -22,7 +22,10 @@
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
 
+import img
+
 from google.appengine.ext import db
+from google.appengine.api import images
 from google.appengine.api import memcache
 from handlers.AuthenticatedHandler import *
 
@@ -75,32 +78,32 @@ class UserEdit(AuthenticatedHandler):
 				if not blog.startswith('http'):
 					linkedin = 'http://' + blog
 				user.list_urls.append(blog + '##blog')
-
+				
 			linkedin = self.get_param('linkedin')
 			if linkedin:
 				if not linkedin.startswith('http'):
 					linkedin = 'http://' + linkedin
 				user.list_urls.append(linkedin + '##linkedin')
-
+				
 			ohloh = self.get_param('ohloh')
 			if ohloh:
 				if not ohloh.startswith('http'):
 					linkedin = 'http://' + ohloh
 				user.list_urls.append(ohloh + '##ohloh')
-
+				
 			user.im_addresses = []
 			msn = self.get_param('msn')
 			if msn:
 				user.im_addresses.append(msn + '##msn')
-
+				
 			jabber = self.get_param('jabber')
 			if jabber:
 				user.im_addresses.append(jabber + '##jabber')
-
+				
 			gtalk = self.get_param('gtalk')
 			if gtalk:
 				user.im_addresses.append(gtalk + '##gtalk')
-
+				
 			user.about_user = self.get_param('about_user')
 			user.put()
 			

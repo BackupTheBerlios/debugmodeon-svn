@@ -27,7 +27,6 @@ class MainPage(BaseHandler):
 
 	def execute(self):
 		self.values['tab'] = '/'
-		logging.debug('index page')
 		# memcache.delete('index_items')
 		# memcache.delete('index_groups')
 		# memcache.delete('index_threads')

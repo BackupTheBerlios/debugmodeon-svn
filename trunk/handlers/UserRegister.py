@@ -25,12 +25,8 @@ import re
 import random
 import model
 
-from img import *
 from utilities import session
-from google.appengine.ext import webapp
-from google.appengine.ext import db
 from handlers.BaseHandler import *
-from google.appengine.ext.webapp import template
 
 from os import environ
 from recaptcha import captcha

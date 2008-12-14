@@ -28,7 +28,6 @@ from utilities import session
 from google.appengine.ext import webapp
 from google.appengine.ext import db
 from handlers.AuthenticatedHandler import *
-from google.appengine.ext.webapp import template
 
 class UserChangePassword(AuthenticatedHandler):
 

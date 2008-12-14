@@ -23,27 +23,26 @@ long with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 {% block content %}
 {% if not sent %}
 	<div class="info">
-		<h1>Invita a tus contactos {{failed}}</h1>
+		<h1>Invita a tus contactos</h1>
 	</div>
-	<div>
-	</div>
+	
 	<form action="/invite" method="post" accept-charset="utf-8">
-		<input id="key" type="hidden" name="auth" value="{{ auth }}" />
-		<input id="key" type="hidden" name="key" value="{{ key|escape }}" />
-		<div class="form" align="center">
+		<input type="hidden" name="auth" value="{{ auth }}" />
+		<div class="form" class="center">
 			<p>
-                        <label for="personalmessage">Si prefieres escribir tú  el mensaje que le llegaráa  tu amigo, escríbelo aquí y el mensaje por defecto sera sustituido</label>
-                        <textarea name="personalmessage" rows="5" cols="50" id="personalmessage">{{ personalmessage|escape }}</textarea>
-	                </p>
-			{% if failed %}
-			<p valign="left">
-	       			<font size="7" color="red"><b>No introdujiste direcciones </b></font>
+				<label for="personalmessage">
+					Si prefieres escribir tú el mensaje que le llegará  tus contactos
+					escríbelo aquí. Sino se enviará un texto por defecto.
+				</label>
+				<textarea name="personalmessage" rows="5" cols="50" id="personalmessage">{{ personalmessage|escape }}</textarea>
 			</p>
+			{% if failed %}
+				<p class="error">No introdujiste direcciones. {{ failed }}</p>
 			{% endif %}
 			<p>
-                        <label for="contacts">Añade hasta 20 contactos separados por comas.</label>
-                        <textarea id="contacts" name="contacts" rows="5" cols="50">{{ contacts|escape }}</textarea>
-	                </p>
+				<label for="contacts">Añade hasta 20 contactos separados por comas</label>
+				<textarea id="contacts" name="contacts" rows="5" cols="50">{{ contacts|escape }}</textarea>
+			</p>
 			
 		<p><input type="submit" value="Invitar" /></p>
 		</div>
@@ -53,48 +52,45 @@ long with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<div class="info"><h1>Ya se han enviado tus invitaciones.</h1></div>
 	
 	{% if _users %}
-			<h4>Algunos de tus invitados ya son usuarios de debug_mode=ON</h4>
+	<h4>Algunos de tus invitados ya son usuarios de debug_mode=ON</h4>
 	<table class="grid">
-        	<thead>
-        		<tr> <th></th>
-                       		<th class="left">Usuario</th>
-                       		<th class="left">mail</th>
+		<thead>
+			<tr>
+				<th></th>
+				<th class="left">Usuario</th>
+				<th class="left">email</th>
 			</tr>
 		</thead>
-		<tbody>		
+		<tbody>
 			{% for u in _users %}
-                	<tr {% if loop.index % 2 == 0 %}class="even"{% endif %}>
-                        	<td class="center"><div class="avatar"><a href="/user/{{ u.nickname|escape }}">
-                        		<img src="/images/user/thumbnail/{{ u.nickname }}" alt"{{ u.nickname }}" /></a></div>
+			<tr {% if loop.index % 2 == 0 %}class="even"{% endif %}>
+				<td class="center"><div class="avatar"><a href="/user/{{ u.nickname|escape }}">
+					<img src="/images/user/thumbnail/{{ u.nickname }}" alt"{{ u.nickname }}" /></a></div>
 				</td>
-                        	<td class="left"><strong><a href="/user/{{ u.nickname|escape }}">{{ u.nickname|escape }}</a></strong></td>
-                        	<td class="left"> {{ u.email|escape }}</td>
-                	</tr>
+				<td class="left"><strong><a href="/user/{{ u.nickname|escape }}">{{ u.nickname|escape }}</a></strong></td>
+				<td class="left"> {{ u.email|escape }}</td>
+			</tr>
 			{% endfor %} 
 		</tbody>
 	</table>
-	{% endif%}
+	{% endif %}
 
-{%endif%}
+{% endif %}
 
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="/static/js/validation.js"></script>
 <script type="text/javascript" src="/static/js/prototype.js"></script>
-<script type="text/javascript" src="/static/js/livepipe.js"></script>
-<script type="text/javascript" src="/static/js/textarea.js"></script>
-<script type="text/javascript" src="/static/js/showdown.js"></script>
-<script type="text/javascript" src="/static/js/showtextarea.js"></script>
+<script type="text/javascript" src="/static/js/validation.js"></script>
 
 <script type="text/javascript" charset="utf-8">
 	$('contacts').setAttribute('onkeydown', 'fieldChanged()');
-        function validate_presence(id) {
-                var field = new LiveValidation(id, { validMessage: "", wait: 5 });
-                field.add(Validate.Presence, { failureMessage: "Campo obligatorio" });
-        }
+	function validate_presence(id) {
+		var field = new LiveValidation(id, { validMessage: "", wait: 5 });
+		field.add(Validate.Presence, { failureMessage: "Campo obligatorio" });
+	}
 
-        validate_presence('contacts');
+	validate_presence('contacts');
 </script>
 
 		

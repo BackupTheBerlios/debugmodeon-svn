@@ -20,24 +20,17 @@
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-import re
 import model
 import random
 
-from img import *
-from utilities import session
 from handlers.BaseHandler import *
-
-from google.appengine.ext import webapp
-from google.appengine.ext import db
 from google.appengine.api import mail
-from google.appengine.ext.webapp import template
 
 class UserForgotPassword(BaseHandler):
 
 	def execute(self):
 		method = self.request.method
-
+		
 		if method == 'GET':
 			self.values['redirect_to'] = self.request.get('redirect_to')
 			self.render('templates/user-forgotpassword.html')
@@ -53,7 +46,7 @@ class UserForgotPassword(BaseHandler):
 			
 			# TODO send mail
 			subject = "[debug_mode=ON] Recuperar password"
-   
+			
 			body = """
 Haz click en el siguiente enlace para proceder a establecer tu password
 http://debugmodeon.com/user.resetpassword?nickname=%s&token=%s

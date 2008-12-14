@@ -20,18 +20,8 @@
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-import re
 import model
-import random
-
-from img import *
-from utilities import session
 from handlers.BaseHandler import *
-
-from google.appengine.ext import webapp
-from google.appengine.ext import db
-from google.appengine.api import mail
-from google.appengine.ext.webapp import template
 
 class UserResetPassword(BaseHandler):
 

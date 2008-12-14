@@ -20,6 +20,9 @@
 # along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 # 
 
+import img
+
+from google.appengine.api import images
 from google.appengine.ext import db
 from google.appengine.api import memcache
 from handlers.AuthenticatedHandler import *
