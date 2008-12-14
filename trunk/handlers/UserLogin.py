@@ -51,11 +51,13 @@ class UserLogin(BaseHandler):
 					user.last_login = datetime.datetime.now()
 					user.password = self.hash_password(user.nickname, password) # if you want to change the way the password is hashed
 					user.put()
+					"""
 					if self.get_param('remember') is not None:
 						expires = False
 					else:
 						expires = True
-					self.sess = session.Session(set_cookie_expires=expires)
+					"""
+					self.sess = session.Session()
 					self.sess['user_nickname'] = user.nickname
 					self.sess['user_email'] = user.email
 					self.sess['auth'] = self.hash(str(random.random()), user.nickname)
