@@ -44,16 +44,15 @@ class UserForgotPassword(BaseHandler):
 			u.token = self.hash(str(random.random()), email)
 			u.put()
 			
-			# TODO send mail
-			subject = "[debug_mode=ON] Recuperar password"
+			app = model.Application.all().get()
+			subject = u"Recuperar password"
 			
-			body = """
-Haz click en el siguiente enlace para proceder a establecer tu password
-http://debugmodeon.com/user.resetpassword?nickname=%s&token=%s
-   
-""" % (u.nickname, u.token)
-   
-			mail.send_mail('contacto@debugmodeon.com', u.email, subject, body)
+			body = u"""
+Haz click en el siguiente enlace para proceder a establecer tu password.
+%s/user.resetpassword?nickname=%s&token=%s
+
+""" % (app.url, u.nickname, u.token)
+			self.mail(subject=subject, body=body, to=[u.email])
 			
 			self.values['token'] = u.token
 			self.values['email'] = email

@@ -139,7 +139,7 @@ class GroupEdit(AuthenticatedHandler):
 				
 				user.groups += 1
 				user.put()
-
+				
 				app = model.Application.all().get()
 				if app:
 					app.groups += 1
