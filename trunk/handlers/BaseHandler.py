@@ -144,35 +144,31 @@ class BaseHandler(webapp.RequestHandler):
 		self.common_stuff()
 		self.pre_execute()
 
+	# TODO deprecated. Use self.user instead
 	def get_current_user(self):
-		try:		
-			userKey = self.sess['user_key']
-			user = db.get(userKey)
-			return user
-		except KeyError:
-			return None
-
+		if self.sess.user:
+			user = db.get(self.sess.user)
+		return user
+	
 	def common_stuff(self):
 		self.values = {}
-		from utilities import session
-		self.sess = session.Session()
-
-		self.values['sess'] = self.sess
+		self.user = None
+		
+		import session
+		self.sess = session.Session('1234')
+		if self.sess.load():
+			self.user = self.get_current_user()
+			
 		redirect = '%s?%s' % (self.request.path, self.request.query)
+		self.values['sess'] = self.sess
 		self.values['redirect'] = redirect
 		self.values['app'] = self.get_application()
 		self.values['activity_groups'] = self.groups_by_activity()
-		user = self.get_current_user()
 		# user = users.get_current_user()
-		if user:
-			try:
-				auth = self.sess['auth']
-			except:
-				import random
-				auth = self.hash(str(random.random()), user.nickname)
-			self.values['auth'] = auth
+		if self.user:
+			self.values['auth'] = self.sess.auth
 			# with google accounts: = users.create_logout_url(self.values['redirect'])
-			self.values['logout'] = '/user.logout?redirect_to=%s&auth=%s' % (self.quote(redirect), auth)
+			self.values['logout'] = '/user.logout?redirect_to=%s&auth=%s' % (self.quote(redirect), self.sess.auth)
 			"""
 			user_data = model.UserData.gql('WHERE email=:1', user.email()).get()
 			if not user_data:
@@ -194,8 +190,11 @@ class BaseHandler(webapp.RequestHandler):
 				user_data.put()
 			self.values['user'] = user_data
 			"""
-			self.values['user'] = user
+			# TODO deprecated, use self.user instead
+			self.values['user'] = self.user
 		else:
+			self.user = None
+			# TODO deprecated, use self.user instead
 			self.values['user'] = None
 			self.values['login'] = '/user.login?redirect_to=%s' % self.quote(redirect) # users.create_login_url(self.values['redirect'])
 

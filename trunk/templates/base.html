@@ -50,8 +50,8 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<p class="header right">
 			{% if sess.user %}
 				<span class="header_box1">Hola
-					<a href="/user/{{ sess.user_nickname }}"><strong>{{ sess.user_nickname }}</strong></a>
-				{% if sess.user_rol == 'admin' %}
+					<a href="/user/{{ user.nickname }}"><strong>{{ user.nickname }}</strong></a>
+				{% if user.rol == 'admin' %}
 					| <a href="/admin"><strong>admin</strong></a>
 				{% endif %}
 					| <a href="/user.edit"><strong>preferencias</strong></a>

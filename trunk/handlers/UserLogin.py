@@ -24,13 +24,12 @@ import model
 import random
 import datetime
 
-from utilities import session
 from handlers.BaseHandler import *
 
 class UserLogin(BaseHandler):
 	
 	def execute(self):
-		session.Session().delete()
+		self.sess.valid = False
 		
 		method = self.request.method
 		
@@ -51,20 +50,11 @@ class UserLogin(BaseHandler):
 					user.last_login = datetime.datetime.now()
 					user.password = self.hash_password(user.nickname, password) # if you want to change the way the password is hashed
 					user.put()
-					"""
-					if self.get_param('remember') is not None:
-						expires = False
+					if self.get_param('remember') == 'remember':
+						expires = 1209600
 					else:
-						expires = True
-					"""
-					self.sess = session.Session()
-					self.sess['user_nickname'] = user.nickname
-					self.sess['user_email'] = user.email
-					self.sess['auth'] = self.hash(str(random.random()), user.nickname)
-					if user.rol:
-						self.sess['user_rol'] = user.rol
-					self.sess['user_key'] = user.key()
-					self.sess['user'] = user
+						expires = 7200
+					self.sess.store(str(user.key()), expires)
 					rt = self.request.get('redirect_to')
 					if rt:
 						self.redirect(rt)

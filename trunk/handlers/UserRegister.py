@@ -25,7 +25,6 @@ import re
 import random
 import model
 
-from utilities import session
 from handlers.BaseHandler import *
 
 from os import environ
@@ -160,12 +159,7 @@ El equipo de debug_mode=ON.
 
 """ % (app.url, app.url, app.url, app.url)
 				self.mail(subject=subject, body=body, bcc=user.email)
-				self.sess = session.Session()
-				self.sess['user_nickname'] = user.nickname
-				self.sess['user_email'] = user.email
-				self.sess['user_key'] = user.key()
-				self.sess['user'] = user
-				self.sess['auth'] = self.hash(str(random.random()), user.nickname)
+				self.sess.store(str(user.key()), 7200)
 				rt = self.request.get('redirect_to')
 				if not rt:
 					rt = '/'
