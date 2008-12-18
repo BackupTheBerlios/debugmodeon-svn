@@ -33,7 +33,7 @@ class Session(object):
 					self.auth = h
 					t = int(self.time) # TODO: catch
 					if t > int(time.time()):
-						print self.cookie
+						# print self.cookie
 						return True
 		return False
 	
