@@ -31,9 +31,13 @@ class Invite(BaseHandler):
 		method = self.request.method
 	
 		if not user:
-			self.redirect('/user.login')
+			
+                        self.redirect('/user.login')
 		
 		if method == 'GET':
+		        self.values['personalmessage']="""Te invito a visitar debug_mode=ON, una red social y de contenidos sobre el mundo informatico.
+	                	http://www.debugmodeon.com	 
+                        """   
 			self.render('templates/invite-friends.html')
 			return
 		elif self.auth():

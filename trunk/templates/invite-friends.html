@@ -34,7 +34,7 @@ long with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 					Si prefieres escribir tú el mensaje que le llegará  tus contactos
 					escríbelo aquí. Sino se enviará un texto por defecto.
 				</label>
-				<textarea name="personalmessage" rows="5" cols="50" id="personalmessage">{{ personalmessage|escape }}</textarea>
+				<textarea name="personalmessage" rows="5" cols="50" id="personalmessage">{{ personalmessage }}</textarea>
 			</p>
 			{% if failed %}
 				<p class="error">No introdujiste direcciones. {{ failed }}</p>
