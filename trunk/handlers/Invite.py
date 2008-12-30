@@ -36,23 +36,31 @@ class Invite(BaseHandler):
 		
 		if method == 'GET':
 		        self.values['personalmessage']="""Te invito a visitar debug_mode=ON, una red social y de contenidos sobre el mundo informatico.
-	                	http://www.debugmodeon.com	 
-                        """   
+	                	%s	 
+                        """  % self.get_application().url 
 			self.render('templates/invite-friends.html')
 			return
 		elif self.auth():
-			contacts = self.get_param('contacts').rstrip(' ').rsplit(',',19)
+			
+			contacts = self.get_param('contacts').replace(' ','')
+			contacts = contacts.rsplit(',',19)
 			if contacts[0]=='' or not contacts:
 				self.values['failed']=True
 				self.render('templates/invite-friends.html')
 				return
 			self.values['_users'] = []
+			
+			
+			invitations = []
 			for contact in contacts:
-				u = model.UserData.gql('WHERE email=:1', contact).get()
-				contacts.remove(contact) if not re.match('\S+@\S+\.\S+', contact) else ''
-				if u is not None:
-					self.values['_users'].append(u) 
-					contacts.remove(contact)
+				#FIXME inform the user about bad formed mails
+				if re.match('\S+@\S+\.\S+', contact):
+					u = model.UserData.gql('WHERE email=:1', contact).get()
+					if u:
+						self.values['_users'].append(u) 
+					else:
+						invitations.append(contact)
+				
 			personalmessage =  self.get_param('personalmessage')
 			subject = " %s te invita a participar en debug_mode=ON" % user.nickname  
 			body = """
@@ -64,7 +72,7 @@ class Invite(BaseHandler):
 
 				body="""%s \n\n\n\n\t http://www.debugmodeon.com
 					"""  % self.clean_ascii(personalmessage)
-			self.mail(subject=subject, body=body, bcc=contacts)
+			self.mail(subject=subject, body=body, bcc=invitations)
 	 		
 			self.values['sent'] = True
 			self.render('templates/invite-friends.html')
