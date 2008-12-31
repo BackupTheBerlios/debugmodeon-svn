@@ -50,7 +50,8 @@ long with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 
 {% else %}
 	<div class="info"><h1>Ya se han enviado tus invitaciones.</h1></div>
-	
+	<h4>Se ha enviado una invitación a las siguientes direcciones:</h4>
+	<p> {% for i in invitations %}{{ i }}, {% endfor %}</p>
 	{% if _users %}
 	<h4>Algunos de tus invitados ya son usuarios de debug_mode=ON</h4>
 	<table class="grid">

@@ -75,5 +75,6 @@ class Invite(BaseHandler):
 			self.mail(subject=subject, body=body, bcc=invitations)
 	 		
 			self.values['sent'] = True
+			self.values['invitations'] = invitations
 			self.render('templates/invite-friends.html')
 
