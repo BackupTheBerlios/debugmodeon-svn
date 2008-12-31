@@ -29,7 +29,6 @@ import datetime
 from google.appengine.ext import db
 from google.appengine.ext import webapp
 from google.appengine.api import memcache
-from google.appengine.runtime import apiproxy_errors
 from google.appengine.runtime.apiproxy_errors import CapabilityDisabledError
 
 class BaseHandler(webapp.RequestHandler):
@@ -155,9 +154,13 @@ class BaseHandler(webapp.RequestHandler):
 		self.user = None
 		
 		import session
-		self.sess = session.Session('1234')
-		if self.sess.load():
-			self.user = self.get_current_user()
+		app = model.Application.all().get()
+		if app:
+			self.sess = session.Session(app.session_seed)
+			if self.sess.load():
+				self.user = self.get_current_user()
+		else:
+			self.sess = None
 			
 		redirect = '%s?%s' % (self.request.path, self.request.query)
 		self.values['sess'] = self.sess
@@ -572,7 +575,6 @@ class BaseHandler(webapp.RequestHandler):
 			return None
 	
 	def mail(self, subject, body, to=[], bcc=[]):
-		from google.appengine.api import mail
 		app = self.get_application()
 		subject = "%s %s" % (app.mail_subject_prefix, subject)
 
@@ -581,23 +583,9 @@ class BaseHandler(webapp.RequestHandler):
 
 %s
 """ % (body,app.mail_footer)
-
-		message = mail.EmailMessage(sender=app.mail_sender,
-							subject=subject, body=body)
-		if not to:
-			message.to = app.mail_sender
-		else:
-			message.to = to
 		
-		if bcc:
-			message.bcc = bcc
-		try:
-			message.send()
-		except apiproxy_errors.OverQuotaError, message:
-			# Record the error in your logs
-			# import logging
-			# logging.error(message)
-			pass
+		queue = model.MailQueue(subject=subject, body=body, to=to, bcc=bcc)
+		queue.put()
 			
 	def show_error(self, message):
 		self.values['message'] = message

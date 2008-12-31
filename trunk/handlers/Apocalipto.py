@@ -46,6 +46,8 @@ class Apocalipto(BaseHandler):
 			app.mail_footer = ""
 			app.max_results = 20
 			app.max_results_sublist = 20
+			import sha, random
+			app.session_seed = sha.new(str(random.random())).hexdigest()
 			app.put()
 			
 			user = model.UserData(nickname='admin',
@@ -82,15 +84,14 @@ class Apocalipto(BaseHandler):
 			category.parent_category = parent_category
 			category.put()
 			
-			self.response.out.write('app installed')
+			self.response.out.write('App installed. Created user administrator. nickname="admin", password="1234". Please change the password.')
 			return
+		elif not app.session_seed:	
+			import sha, random
+			app.session_seed = sha.new(str(random.random())).hexdigest()
+			app.put()
+			self.response.out.write('Seed installed')
 		
-		return
-		users = model.UserData.all().filter('city', 'zaragoza')
-		adds = []
-		for u in users:
-			adds.append('"%s" <%s>' % (u.nickname, u.email))
-		self.response.out.write(', '.join(adds))
 		return
 		
 		p = int(self.request.get('p'))

@@ -174,7 +174,7 @@ class GroupUser(db.Model):
 	user = db.ReferenceProperty(UserData,required=True)
 	group = db.ReferenceProperty(Group,required=True)
 	creation_date = db.DateTimeProperty(auto_now_add=True)
-	# denormalization
+	# denormalizationzation
 	user_nickname = db.StringProperty()
 	group_title = db.StringProperty()
 	group_url_path = db.StringProperty()
@@ -260,6 +260,8 @@ class Application(db.Model):
 	max_results = db.IntegerProperty()
 	max_results_sublist = db.IntegerProperty()
 	
+	session_seed = db.StringProperty()
+	
 class Message(db.Model):
 	user_from = db.ReferenceProperty(UserData,required=True,collection_name='mf')
 	user_to = db.ReferenceProperty(UserData,required=True,collection_name='mt')
@@ -323,3 +325,14 @@ class Event(db.Model):
 	response_number = db.IntegerProperty()
 	
 	creation_date = db.DateTimeProperty(auto_now_add=True)
+
+class MailQueue(db.Model):
+	subject = db.StringProperty(required=True)
+	body = db.TextProperty(required=True)
+	to = db.StringListProperty()
+	bcc = db.StringListProperty()
+
+class Recommendation(db.Model):
+	item_from = db.ReferenceProperty(Item,collection_name='recommendations_from')
+	item_to = db.ReferenceProperty(Item,collection_name='recommendations_to')
+	value = db.FloatProperty()

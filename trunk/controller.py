@@ -112,6 +112,7 @@ def main():
 									   ('/admin.category.edit',	AdminCategoryEdit),
 									   ('/group.add.related',	GroupAddRelated),
 									   ('/admin.users',			AdminUsers),
+									   ('/mail.queue',			MailQueue),
 									
 									   ('/apocalipto', 	Apocalipto),
 									   ('/html/.*', 	Static),
