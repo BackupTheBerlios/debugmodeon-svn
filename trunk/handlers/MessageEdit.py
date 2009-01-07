@@ -76,7 +76,7 @@ Leelo en:
 %s/message.inbox
 
 """ % (user.nickname, app.url)
-			self.mail(subject=subject, body=body, to=user_to.email)
+			self.mail(subject=subject, body=body, to=[user_to.email])
 
 			self.redirect('/message.sent')
 
