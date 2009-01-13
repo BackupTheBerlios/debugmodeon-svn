@@ -146,7 +146,7 @@ class Group(search.SearchableModel):
 	owner = db.ReferenceProperty(UserData,required=True)
 	owner_nickname = db.StringProperty()
 	title = db.StringProperty(required=True)
-	description = db.StringProperty(required=True)
+	description = db.StringProperty(required=True, multiline=True)
 	url_path = db.StringProperty(required=True)
 	old_url_path = db.StringProperty()
 	subscribers = db.StringListProperty()

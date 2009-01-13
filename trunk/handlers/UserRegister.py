@@ -158,7 +158,7 @@ Atentamente,
 El equipo de debug_mode=ON.
 
 """ % (app.url, app.url, app.url, app.url)
-				self.mail(subject=subject, body=body, toÅ=[user.email])
+				self.mail(subject=subject, body=body, to=[user.email])
 				self.sess.store(str(user.key()), 7200)
 				rt = self.request.get('redirect_to')
 				if not rt:

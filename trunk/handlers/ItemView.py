@@ -111,22 +111,9 @@ class ItemView(BaseHandler):
 			if all_groups:
 				self.values['all_groups'] = all_groups
 		
-		related = model.Item.all() \
-			.filter('author =', item.author) \
-			.filter('draft =', False) \
-			.filter('deletion_date =', None) \
-			.order('-rating_average').fetch(11)
-		related = [i for i in related]
-		for i in related:
-			if i.key() == item.key():
-				related.remove(i)
-				break
-		if len(related) > 10:
-			related = related[:-1]
 		
 		self.values['content_html'] = self.cache(str(item.key().id()), self.to_html)
 
-		self.values['related'] = related
 		self.render('templates/item-view.html')
 	
 	def to_html(self):

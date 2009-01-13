@@ -60,7 +60,7 @@ class UserContact(AuthenticatedHandler):
 Puedes visitar su perfil en: %s/user/%s
 
 """ % (user.nickname, app.url, app.url, user.nickname)
-			self.mail(subject=subject, body=body, to=user_to.email)
+			self.mail(subject=subject, body=body, to=[user_to.email])
 			
 			if self.get_param('x'):
 				self.render_json({ 'action': 'added' })

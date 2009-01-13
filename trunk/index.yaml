@@ -16,7 +16,7 @@ indexes:
   - name: parent_category
   - name: title
 
-# Used once in query history.
+# Unused in query history -- copied from input.
 - kind: Comment
   properties:
   - name: author
@@ -24,7 +24,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 5 times in query history.
+# Unused in query history -- copied from input.
 - kind: Comment
   properties:
   - name: item
@@ -36,7 +36,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used once in query history.
+# Unused in query history -- copied from input.
 - kind: Contact
   properties:
   - name: user_from
@@ -75,7 +75,7 @@ indexes:
   - name: database
   - name: creation_date
 
-# Unused in query history -- copied from input.
+# Used once in query history.
 - kind: Group
   properties:
   - name: activity
@@ -102,7 +102,7 @@ indexes:
   - name: members
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used 6 times in query history.
 - kind: Group
   properties:
   - name: creation_date
@@ -114,40 +114,40 @@ indexes:
   - name: items
     direction: desc
 
-# Used once in query history.
+# Used 3 times in query history.
 - kind: Group
   properties:
   - name: members
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used once in query history.
 - kind: GroupItem
   properties:
   - name: group
   - name: creation_date
     direction: desc
 
-# Used 10 times in query history.
+# Unused in query history -- copied from input.
 - kind: GroupItem
   properties:
   - name: item
   - name: group_title
 
-# Unused in query history -- copied from input.
+# Used once in query history.
 - kind: GroupUser
   properties:
   - name: group
   - name: creation_date
     direction: desc
 
-# Used once in query history.
+# Unused in query history -- copied from input.
 - kind: GroupUser
   properties:
   - name: user
   - name: creation_date
     direction: desc
 
-# Used 6 times in query history.
+# Unused in query history -- copied from input.
 - kind: GroupUser
   properties:
   - name: user
@@ -160,7 +160,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used once in query history.
+# Unused in query history -- copied from input.
 - kind: Item
   properties:
   - name: author
@@ -178,7 +178,7 @@ indexes:
   - name: last_update
     direction: desc
 
-# Used 5 times in query history.
+# Unused in query history -- copied from input.
 - kind: Item
   properties:
   - name: author
@@ -224,7 +224,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 2 times in query history.
+# Used 7 times in query history.
 - kind: Item
   properties:
   - name: deletion_date
@@ -342,7 +342,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 2 times in query history.
+# Used 3 times in query history.
 - kind: Tag
   properties:
   - name: count
@@ -391,7 +391,7 @@ indexes:
   - name: last_response_date
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used 5 times in query history.
 - kind: Thread
   properties:
   - name: group
@@ -405,7 +405,7 @@ indexes:
   - name: last_update
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used 2 times in query history.
 - kind: Thread
   properties:
   - name: parent_thread
@@ -418,14 +418,14 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used once in query history.
+# Used 3 times in query history.
 - kind: Thread
   properties:
   - name: parent_thread
   - name: last_response_date
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used 4 times in query history.
 - kind: Thread
   properties:
   - name: parent_thread
@@ -438,13 +438,13 @@ indexes:
   - name: thread
   - name: creation_date
 
-# Unused in query history -- copied from input.
+# Used once in query history.
 - kind: UserData
   properties:
   - name: creation_date
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used 5 times in query history.
 - kind: UserData
   properties:
   - name: items
