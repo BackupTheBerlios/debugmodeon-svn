@@ -456,3 +456,11 @@ indexes:
   - name: public
   - name: creation_date
     direction: desc
+
+- kind: Item
+  properties:
+  - name: author_nickname
+  - name: deletion_date
+  - name: draft
+  - name: creation_date
+    direction: desc
