@@ -46,6 +46,7 @@ def main():
 									   ('/item.comment.delete',		ItemCommentDelete),
 									   ('/item.add.groups',			ItemAddGroups),
 									   ('/item.comment.edit',		ItemCommentEdit),
+									   ('/item.visit',				ItemVisit),
 									   # users
 									   ('/user.list',			UserList),
 									   ('/user/.*',				UserView),

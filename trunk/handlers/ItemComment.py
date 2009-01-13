@@ -34,6 +34,7 @@ class ItemComment(AuthenticatedHandler):
 		user = self.values['user']
 		key = self.get_param('key')
 		item = model.Item.get(key)
+		memcache.delete(str(item.key().id()) + '_item')
 		if not item or item.draft or item.deletion_date:
 			self.not_found()
 			return
@@ -91,7 +92,7 @@ class ItemComment(AuthenticatedHandler):
 		followers = list(set(followers))
 		self.create_event(event_type='item.comment',
 			followers=followers, user=user, item=item, response_number=comment.response_number)
-			
+		memcache.add(str(item.key().id()) + '_item', item, 0)
 		subscribers = item.subscribers
 		if subscribers and user.email in subscribers:
 			subscribers.remove(user.email)
@@ -110,7 +111,7 @@ Eliminar suscripcion a este articulo:
 %s/item.comment.subscribe?key=%s
 
 """ % (self.clean_ascii(item.title), app.url, comment_url, app.url, item.url_path, app.url, str(item.key()))
-			self.mail(subject=subject, body=body, bcc=item.subscribers)
+			self.mail(subject=subject, body=body, bcc=subscribers)
 			
 		subscribe = self.get_param('subscribe')
 		if subscribe and not user.email in item.subscribers:

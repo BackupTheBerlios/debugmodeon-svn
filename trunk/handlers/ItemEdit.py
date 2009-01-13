@@ -84,6 +84,7 @@ class ItemEdit(AuthenticatedHandler):
 			if key:
 				# update item
 				item = model.Item.get(key)
+				memcache.delete(str(item.key().id()) + '_html')
 				if not item:
 					self.not_found()
 					return

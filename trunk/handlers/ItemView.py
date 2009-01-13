@@ -24,11 +24,13 @@
 from google.appengine.ext import db
 from handlers.BaseHandler import *
 
+
 class ItemView(BaseHandler):
 
 	def execute(self):
 		url_path = self.request.path.split('/', 2)[2]
-		item = model.Item.get_by_id(int(self.request.path.split('/')[2]))
+		item_id = self.request.path.split('/')[2]
+		item = self.cache(item_id + '_item', self.get_item)
 		
 		if not item:
 			self.not_found()
@@ -50,14 +52,11 @@ class ItemView(BaseHandler):
 			return
 		
 		self.values['tab'] = '/item.list'
-		user = self.values['user']
+		
 		if item.draft and (not user or not user.nickname == item.author_nickname):
 			self.not_found()
 			return
-		
-		if not user or item.author_nickname != user.nickname:
-			item.views = item.views + 1
-			item.put()
+
 
 		if user and user.nickname != item.author_nickname:
 			vote = model.Vote.gql('WHERE user=:1 AND item=:2', user, item).get()
@@ -96,7 +95,8 @@ class ItemView(BaseHandler):
 		self.values['a'] = 'comments'
 		self.values['keywords'] = ', '.join(item.tags)
 		
-		groups = model.GroupItem.all().filter('item', item).order('group_title')
+		#groups = model.GroupItem.all().filter('item', item).order('group_title')
+		groups = self.cache(str(item.key().id()) + '_groups', self.get_groups)
 		self.values['groups'] = list(groups)
 		
 		if user and item.author_nickname == user.nickname:
@@ -110,9 +110,8 @@ class ItemView(BaseHandler):
 				
 			if all_groups:
 				self.values['all_groups'] = all_groups
-		
-		
-		self.values['content_html'] = self.cache(str(item.key().id()), self.to_html)
+
+		self.values['content_html'] = self.cache(str(item.key().id()) + '_html', self.to_html)
 
 		self.render('templates/item-view.html')
 	
@@ -125,3 +124,15 @@ class ItemView(BaseHandler):
 			item.content_html = html
 			item.put()
 		return item.content_html.content
+		
+	def get_groups(self):
+		item = self.values['item']
+		return model.GroupItem.all().filter('item', item).order('group_title')
+		
+	def get_author(self):
+		item = self.values['item']
+		return model.UserData.all().filter('nickname', item.author_nickname).get()
+		
+	def get_item(self):
+		item_id = self.request.path.split('/')[2]
+		return model.Item.get_by_id(int(item_id))

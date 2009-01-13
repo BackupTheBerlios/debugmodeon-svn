@@ -32,6 +32,7 @@ class ItemDelete(AuthenticatedHandler):
 		method = self.request.method
 		user = self.values['user']
 		item = model.Item.get(self.get_param('key'))
+		memcache.delete(str(item.key().id()))
 		if not item:
 			self.not_found()
 			return

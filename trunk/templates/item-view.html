@@ -177,7 +177,7 @@ google_color_text = "000000";
 				<a href="/tag/{{ tag|escape}}">{{ tag|escape}}</a>,
 			{% endfor %}
 			| <a href="#comments"><img src="/static/images/comments.png" class="icon" alt="" /> {{ item.responses }} comentarios</a>
-			| {{ item.views }} visitas
+			| <span id="item_views">{{ item.views }}</span> visitas
 			| <span id="votes">{{item.rating_count}}</span> votos
 			<br/><br/>
 			{% if canadd %}
@@ -215,13 +215,13 @@ google_color_text = "000000";
 	<div class="grid_2 alpha">
 		<a href="/user/{{ item.author_nickname }}">
 		{% if item.author.image_version %}
-			<img src="/images/user/avatar/{{ item.author_nickname }}/{{ item.author.image_version }}" alt="{{ item.author_nickname }}" /></a>
+			<img src="/images/user/avatar/{{ item.author.nickname }}/{{ item.author.image_version }}" alt="{{ item.author.nickname }}" /></a>
 		{% else %}
-			<img src="/images/user/avatar/{{ item.author_nickname }}" alt="{{ item.author_nickname }}" /></a>
+			<img src="/images/user/avatar/{{ item.author.nickname }}" alt="{{ item.author.nickname }}" /></a>
 		{% endif %}
 	</div>
 	<div class="grid_7 omega">
-		<strong>Sobre <a href="/user/{{ item.author_nickname }}">{{ item.author_nickname }}</a>:</strong><br/>
+		<strong>Sobre <a href="/user/{{ item.author.nickname }}">{{ item.author.nickname }}</a>:</strong><br/>
 		{% if item.author.about_user %}
 			{{ item.author.about_user|escape }}
 		{% else %}
@@ -356,6 +356,20 @@ google_color_text = "000000";
 	
 	prettyPrint();
 	
+	function visitItem() {
+		var element = $('item_views');
+		var parameters = "?id={{ item.key().id() }}";
+		{% if user %}
+			parameters = parameters + "&user={{ user.nickname }}"
+		{% endif %}
+		new Ajax.Request("/item.visit" + parameters, {
+			method: 'get',
+			onSuccess: function(transport) {
+				var views = transport.responseText.evalJSON().views;
+				element.innerHTML = views;
+		  	}
+		});
+	}
 	function ajaxFav() {
 		var fav = $('item.favourite');
 		if(fav == null) return;
@@ -385,7 +399,7 @@ google_color_text = "000000";
 	}
 	
 	ajaxFav();
-        
+    visitItem();
 	function ajaxSubs() {
 		var subs = $('item.comment.subscribe');
 		if(subs == null) return;

@@ -24,7 +24,6 @@ import time
 import model
 import datetime
 import markdown
-import BaseHandler
 
 from google.appengine.api import memcache
 from google.appengine.ext import webapp
@@ -59,9 +58,9 @@ class Feed(webapp.RequestHandler):
 				data = self.to_rss(u'Artículos del grupo %s' % group.title, latest)
    
 			elif params[2] == 'user':
-				user = model.UserData.gql('WHERE nickname=:1', params[3]).get()
-				latest = model.Item.gql('WHERE author=:1 AND draft=:2 AND deletion_date=:3 ORDER BY creation_date DESC LIMIT 20', user, False, None)
-				data = self.to_rss(u'Artículos de %s' % user.nickname, latest)
+				#user = model.UserData.gql('WHERE nickname=:1', params[3]).get()
+				latest = model.Item.gql('WHERE author_nickname=:1 AND draft=:2 AND deletion_date=:3 ORDER BY creation_date DESC LIMIT 20', params[3], False, None)
+				data = self.to_rss(u'Artículos de %s' % params[3], latest)
    
 			elif not params[2]:
 				latest = model.Item.gql('WHERE draft=:1 AND deletion_date=:2 ORDER BY creation_date DESC LIMIT 20', False, None)
@@ -103,16 +102,16 @@ class Feed(webapp.RequestHandler):
 		return values
 
 	def to_rss(self, title, latest):
+		import MediaContentFilters as contents
 		items = []
-		base = BaseHandler.BaseHandler()
-		url = base.get_application().url
+		url = self.get_application().url
 		md = markdown.Markdown()
 		for i in latest:
 			if i.author.not_full_rss:
 				content = md.convert(i.description)
 			else:
 				content = md.convert(i.content)
-				content = base.media_content(content)
+				content = contents.media_content(content)
 			item = {
 				'title': i.title,
 				'link': "%s/item/%s" % (url, i.url_path),
@@ -135,3 +134,11 @@ class Feed(webapp.RequestHandler):
 	
 	def to_rfc822(self, date):
 		return date.strftime("%a, %d %b %Y %H:%M:%S GMT")
+		
+	def get_application(self):
+		app = memcache.get('app')
+		import logging
+		if not app:
+			app = model.Application.all().get()
+			memcache.add('app', app, 0)
+		return app

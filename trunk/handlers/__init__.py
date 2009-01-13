@@ -32,6 +32,7 @@ from handlers.ItemCommentSubscribe import *
 from handlers.ItemCommentDelete import *
 from handlers.ItemAddGroups import *
 from handlers.ItemCommentEdit import *
+from handlers.ItemVisit import *
 
 # users
 from handlers.UserList import *
@@ -112,5 +113,6 @@ from handlers.MailQueue import *
 
 from handlers.Apocalipto import *
 from handlers.NotFound import *
+from handlers.BaseRest import *
 
 from handlers.Static import *
