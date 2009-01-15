@@ -730,3 +730,8 @@ class BaseHandler(webapp.RequestHandler):
 		if not b:
 			self.forbidden()
 		return b
+	
+	def create_task(self, task_type, priority, data):
+		import simplejson
+		t = model.Task(task_type=task_type, priority=priority, data=simplejson.dumps(data))
+		t.put()

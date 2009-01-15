@@ -114,6 +114,7 @@ def main():
 									   ('/group.add.related',	GroupAddRelated),
 									   ('/admin.users',			AdminUsers),
 									   ('/mail.queue',			MailQueue),
+									   ('/task.queue',			TaskQueue),
 									
 									   ('/apocalipto', 	Apocalipto),
 									   ('/html/.*', 	Static),

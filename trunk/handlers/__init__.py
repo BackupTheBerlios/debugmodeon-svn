@@ -110,6 +110,7 @@ from handlers.AdminApplication import *
 from handlers.GroupAddRelated import *
 from handlers.AdminUsers import *
 from handlers.MailQueue import *
+from handlers.TaskQueue import *
 
 from handlers.Apocalipto import *
 from handlers.NotFound import *

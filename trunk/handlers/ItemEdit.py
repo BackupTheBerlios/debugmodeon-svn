@@ -193,6 +193,8 @@ class ItemEdit(AuthenticatedHandler):
 				item.url_path = '%d/%s' % (item.key().id(), self.to_url_path(item.title))
 				item.put()
 				
+				# self.create_task('item_recommendation', 1, {'item': item.key().id(), 'offset': 0})
+				
 				memcache.delete('index_items')
 				memcache.delete('tag_cloud')
 				memcache.delete(str(item.key().id()))

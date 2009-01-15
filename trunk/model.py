@@ -336,3 +336,18 @@ class Recommendation(db.Model):
 	item_from = db.ReferenceProperty(Item,collection_name='recommendations_from')
 	item_to = db.ReferenceProperty(Item,collection_name='recommendations_to')
 	value = db.FloatProperty()
+	
+	item_from_title = db.StringProperty(required=True)
+	item_to_title = db.StringProperty(required=True)
+	
+	item_from_author_nickname = db.StringProperty(required=True)
+	item_to_author_nickname = db.StringProperty(required=True)
+	
+	item_from_url_path = db.StringProperty(required=True)
+	item_to_url_path = db.StringProperty(required=True)
+
+class Task(db.Model):
+	task_type = db.StringProperty(required=True)
+	priority = db.IntegerProperty(required=True)
+	data = db.StringProperty(required=True, multiline=True)
+	creation_date = db.DateTimeProperty(auto_now_add=True)
