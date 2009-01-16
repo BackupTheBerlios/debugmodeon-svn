@@ -67,5 +67,6 @@ class GroupForumDelete(AuthenticatedHandler):
 			db.delete(childs)
 			memcache.delete('index_threads')
 			thread.delete()
+			memcache.delete(str(thread.key().id()) + '_thread')
 
 		self.redirect(url)

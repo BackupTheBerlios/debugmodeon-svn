@@ -261,7 +261,15 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			Event.stop(e);
 		});
 	}
+	function visitThread() {
+		new Ajax.Request("/group.forum.visit?id={{ thread.key().id() }}", {
+			method: 'get',
+			onSuccess: function(transport) {
+		  	}
+		});
+	}
 	ajaxSubs();
+	visitThread();
 
 
 </script>

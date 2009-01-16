@@ -33,7 +33,7 @@ class ItemVote(AuthenticatedHandler):
 		
 		if not self.auth():
 			return
-		
+		memcache.delete(str(item.key().id()) + '_item')
 		rating = int(self.get_param('rating'))
 		if rating < 0:
 			rating = 0
@@ -60,7 +60,8 @@ class ItemVote(AuthenticatedHandler):
 				author.rating_average = int(author.rating_total / author.rating_count)
 				author.put()
 				avg = item.rating_average
-				
+		memcache.add(str(item.key().id()) + '_item' )
+		
 		if self.get_param('x'):
 			self.render_json({ 'average': avg, 'votes': item.rating_count })
 		else:

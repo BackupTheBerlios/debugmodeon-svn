@@ -88,6 +88,7 @@ def main():
 									   ('/group.forum.delete',	GroupForumDelete),
 									   ('/group.thread.edit',	GroupThreadEdit),
 									   ('/group.forum.move',	GroupForumMove),
+									   ('/group.forum.visit',	GroupForumVisit),
 									   # group items
 									   ('/group.item.list/.*',	GroupItemList),
 									   ('/group.item.add',		GroupItemAdd),

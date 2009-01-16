@@ -39,6 +39,7 @@ class GroupForumReply(AuthenticatedHandler):
 		user = self.values['user']
 		key = self.get_param('key')
 		thread = model.Thread.get(key)
+		memcache.delete(str(thread.key().id()) + '_thread')
 		if not thread:
 			self.not_found()
 			return
@@ -83,8 +84,12 @@ class GroupForumReply(AuthenticatedHandler):
 		page = response.response_number / results
 		if (response.response_number % results) > 0:
 			page += 1
-		response_url = '/group.forum/%s?p=%d#comment-%d' % (thread.url_path, page, response.response_number)
-					
+		if page != 1:
+			response_url = '/group.forum/%s?p=%d' % (thread.url_path, page)
+		else:
+			response_url = '/group.forum/%s?' % (thread.url_path)
+		memcache.delete(response_url)
+		response_url = response_url + '#comment-%d' % (response.response_number)
 		self.create_group_subscribers(group)
 		group.responses = group.responses + 1
 		group.put()
@@ -127,6 +132,7 @@ Eliminar suscripcion a este hilo:
 		thread.responses += 1
 		thread.last_response_date = datetime.datetime.now()
 		thread.put()
+		memcache.add(str(thread.key().id()) + '_thread', thread, 0)
 		
 		group = thread.group
 		if group.activity:

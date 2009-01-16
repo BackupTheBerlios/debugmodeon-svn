@@ -71,9 +71,12 @@ class GroupThreadEdit(AuthenticatedHandler):
 						for comment in model.Thread.all().filter('parent_thread', thread):
 							comment.title = thread.title
 							comment.put()
+					
 				thread.content = self.get_param('content')
 				thread.put()
 				if thread.parent_thread is None:
+					memcache.delete(str(thread.key().id()) + '_thread')
+					memcache.add(str(thread.key().id()) + '_thread', thread, 0)
 					self.redirect('/group.forum/%s' % (thread.url_path))
 				else:
 					results = 20
@@ -83,7 +86,13 @@ class GroupThreadEdit(AuthenticatedHandler):
 					page = thread.response_number / results
 					if (thread.response_number % results) > 0:
 						page += 1
-					self.redirect('/group.forum/%s?p=%d#comment-%s' % (thread.url_path, page, thread.response_number))
+					if page != 1:
+						response_url = '/group.forum/%s?p=%d' % (thread.url_path, page)
+					else:
+						response_url = '/group.forum/%s?' % (thread.url_path)
+					memcache.delete(response_url)
+					response_url = response_url + '#comment-%d' % (thread.response_number)
+					self.redirect(response_url)
 			else:
 				self.show_error('Comentario no encontrado')
 				return

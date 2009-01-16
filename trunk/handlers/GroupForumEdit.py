@@ -101,6 +101,7 @@ class GroupForumEdit(AuthenticatedHandler):
 			thread.subscribers.append(user.email)
 			self.add_user_subscription(user, 'thread', thread.key().id())
 		thread.put()
+		memcache.add(str(thread.key().id()) + '_thread', thread, 0)
 		group.threads += 1
 		if group.activity:
 			group.activity += 5

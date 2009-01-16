@@ -557,7 +557,10 @@ class BaseHandler(webapp.RequestHandler):
 					if i == p:
 						s = u'%s <li class="active">%d</li>' % (s, i)
 					else:
-						s = u'%s <li><a href="?p=%d&amp;%s">%d</a></li>' % (s, i, common, i)
+						if i == 1:
+							s = u'%s <li><a href="?%s">%d</a></li>' % (s, common, i)
+						else:
+							s = u'%s <li><a href="?p=%d&amp;%s">%d</a></li>' % (s, i, common, i)
 					i += 1
 			else:
 				s = u'%s <li class="active">Página %d </li>' % (s, p)

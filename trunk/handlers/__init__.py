@@ -78,6 +78,7 @@ from handlers.GroupForumSubscribe import *
 from handlers.GroupForumDelete import *
 from handlers.GroupThreadEdit import *
 from handlers.GroupForumMove import *
+from handlers.GroupForumVisit import *
 # group items
 from handlers.GroupItemList import *
 from handlers.GroupItemAdd import *

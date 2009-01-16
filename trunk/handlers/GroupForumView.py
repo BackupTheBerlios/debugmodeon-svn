@@ -31,7 +31,9 @@ class GroupForumView(BaseHandler):
 		self.values['tab'] = '/group.list'
 		user = self.values['user']
 		url_path = self.request.path.split('/', 2)[2]
-		thread = model.Thread.all().filter('url_path', url_path).filter('parent_thread', None).get()
+		thread_id = self.request.path.split('/')[2]
+		thread = self.cache(thread_id + '_thread', self.get_thread)
+		#thread = model.Thread.all().filter('url_path', url_path).filter('parent_thread', None).get()
 		if not thread:
 			# TODO: try with the id in the url_path and redirect
 			self.not_found()
@@ -47,10 +49,10 @@ class GroupForumView(BaseHandler):
 			self.redirect('/group.forum/%s' % thread.url_path)
 			return
 		# end migration
-		if thread.views is None:
+		'''if thread.views is None:
 			thread.views = 0;
 		thread.views += 1
-		thread.put()
+		thread.put()'''
 		
 		group = thread.group
 
@@ -62,8 +64,9 @@ class GroupForumView(BaseHandler):
 		app = self.get_application()
 		if app.max_results_sublist:
 			results = app.max_results_sublist
-		responses = self.paging(query, results, 'creation_date', thread.responses, ['creation_date'])
-		
+		key = '%s?%s' % (self.request.path, self.request.query)
+		responses = self.paging(query, results, 'creation_date', thread.responses, ['creation_date'], key=key, timeout=0)
+		#responses = self.cache(url_path, self.get_responses)
 		# migration
 		if not thread.author_nickname:
 			thread.author_nickname = thread.author.nickname
@@ -90,4 +93,9 @@ class GroupForumView(BaseHandler):
 
 		self.values['a'] = 'comments'
 		self.render('templates/group-forum-view.html')
+		
+	def get_thread(self):
+		url_path = self.request.path.split('/', 2)[2]
+		return model.Thread.all().filter('url_path', url_path).filter('parent_thread', None).get()
+
 		

@@ -28,6 +28,7 @@ class GroupForumSubscribe( AuthenticatedHandler ):
 	def execute(self):
 		key = self.get_param('key')
 		thread = model.Thread.get(key)
+		memcache.delete(str(thread.key().id()) + '_thread')
 		user = self.values['user']
 		mail = user.email
 		
@@ -37,6 +38,7 @@ class GroupForumSubscribe( AuthenticatedHandler ):
 			thread.subscribers.append(user.email)
 			thread.put()
 			self.add_user_subscription(user, 'thread', thread.key().id())
+			memcache.add(str(thread.key().id()) + '_thread', thread, 0)
 			if self.get_param('x'):
 				self.render_json({ 'action': 'subscribed' })
 			else:	

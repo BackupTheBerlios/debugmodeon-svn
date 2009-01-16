@@ -28,6 +28,7 @@ class ItemCommentSubscribe( AuthenticatedHandler ):
 	def execute(self):
 		key  = self.get_param('key')
 		item = model.Item.get(key)
+		memcache.delete(str(item.key().id()) + '_item')
 		user = self.values['user']
 		mail = user.email
 		
@@ -37,6 +38,7 @@ class ItemCommentSubscribe( AuthenticatedHandler ):
 			item.subscribers.append(mail)
 			item.put()
 			self.add_user_subscription(user, 'item', item.key().id())
+			memcache.add(str(item.key().id()) + '_item', item, 0)
 			if self.get_param('x'):
 				self.render_json({ 'action': 'subscribed' })
 			else:
@@ -44,6 +46,7 @@ class ItemCommentSubscribe( AuthenticatedHandler ):
 		else:
 			auth = self.get_param('auth')
 			if not auth:
+				memcache.add(str(item.key().id()) + '_item', item, 0)
 				self.values['item'] = item
 				self.render('templates/item-comment-subscribe.html')
 			else:
@@ -52,6 +55,7 @@ class ItemCommentSubscribe( AuthenticatedHandler ):
 				item.subscribers.remove(mail)
 				item.put()
 				self.remove_user_subscription(user, 'item', item.key().id())
+				memcache.add(str(item.key().id()) + '_item', item, 0)
 				if self.get_param('x'):
 					self.render_json({ 'action': 'unsubscribed' })
 				else:
