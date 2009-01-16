@@ -30,7 +30,7 @@ class TaskQueue(webapp.RequestHandler):
 	def get(self):
 		self.response.headers['Content-Type'] = 'text/plain;charset=utf-8'
 		
-		task = model.Task.all().order('priority').get()
+		task = model.Task.all().order('-priority').get()
 		
 		if not task:
 			self.response.out.write('No pending tasks')
@@ -46,6 +46,21 @@ class TaskQueue(webapp.RequestHandler):
 			task.data = simplejson.dumps(data)
 			task.put()
 			self.response.out.write('Task executed but not finished %s %s' % (task.task_type, task.data))
+		
+	def begin_recommendations(self, data):
+		offset = data['offset']
+		items = model.Item.all().filter('draft', False).filter('deletion_date', None).order('creation_date').fetch(1, offset)
+		print 'items: %d' % len(items)
+		if len(items) == 0:
+			return None
+
+		next = items[0]
+		data['offset'] += 1
+
+		t = model.Task(task_type='item_recommendation', priority=0, data=simplejson.dumps({'item': next.key().id(), 'offset': 0}))
+		t.put()
+
+		return data
 	
 	def item_recommendation(self, data):
 		
@@ -90,7 +105,7 @@ class TaskQueue(webapp.RequestHandler):
 		next = items[0]
 		data['offset'] += 1
 		
-		if next.key().id() != item.key().id():
+		if next.key().id() != item.key().id() and not next.draft and next.deletion_date is None:
 			diff = tanimoto(item.tags, next.tags)
 			if diff > 0:
 				create_recommendation(item, next, diff)

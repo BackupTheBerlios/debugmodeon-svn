@@ -464,3 +464,15 @@ indexes:
   - name: draft
   - name: creation_date
     direction: desc
+
+- kind: Task
+  properties:
+  - name: priority
+    direction: desc
+
+- kind: Item
+  properties:
+  - name: deletion_date
+  - name: draft
+  - name: creation_date
+

@@ -109,6 +109,7 @@ class ItemEdit(AuthenticatedHandler):
 					item.url_path = '%d/%s' % (item.key().id(), self.to_url_path(item.title))
 				add_groups = False
 				if item.draft and not draft:
+					self.create_recommendations(item)
 					item.draft = draft
 					user.items += 1
 					user.draft_items -=1
@@ -193,13 +194,12 @@ class ItemEdit(AuthenticatedHandler):
 				item.url_path = '%d/%s' % (item.key().id(), self.to_url_path(item.title))
 				item.put()
 				
-				# self.create_task('item_recommendation', 1, {'item': item.key().id(), 'offset': 0})
-				
 				memcache.delete('index_items')
 				memcache.delete('tag_cloud')
 				memcache.delete(str(item.key().id()))
 				
 				if not draft:
+					self.create_recommendations(item)
 					user.items += 1
 					user.put()
 					self.update_tags(tags)
@@ -223,3 +223,6 @@ class ItemEdit(AuthenticatedHandler):
 						self.redirect('/item/%s' % item.url_path)
 					else:
 						self.redirect('/item.add.groups?key=%s' % str(item.key()))
+	
+	def create_recommendations(self, item):
+		self.create_task('item_recommendation', 1, {'item': item.key().id(), 'offset': 0})

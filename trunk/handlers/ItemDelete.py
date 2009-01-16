@@ -84,6 +84,15 @@ class ItemDelete(AuthenticatedHandler):
 				f.user.put()
 				f.delete()
 			
+			
+			rc = model.Recommendation.all().filter('item_from', item)
+			for r in rc:
+				r.delete()
+				
+			rc = model.Recommendation.all().filter('item_to', item)
+			for r in rc:
+				r.delete()
+			
 			# decrement votes and delete relationships
 			# vt = model.Vote.all().filter('item =', item)
 			# for v in vt:
