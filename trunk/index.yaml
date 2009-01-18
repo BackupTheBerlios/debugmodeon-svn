@@ -476,3 +476,9 @@ indexes:
   - name: draft
   - name: creation_date
 
+- kind: Recommendation
+  properties:
+  - name: item_from
+  - name: value
+    direction: desc
+

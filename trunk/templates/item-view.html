@@ -76,7 +76,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<p class="end-box">&nbsp;</p>
 	</div>
 
-{% if related %}
+{# if related %}
 <div class="box">
 	<p class="title">Otros artículos de {{ item.author_nickname }}</p>
 	<ul>
@@ -90,7 +90,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	<p class="more"><a href="/user/{{ item.author_nickname }}">Ver todos »</a></p>
 	<p class="end-box">&nbsp;</p>
 </div>
-{% endif %}
+{% endif #}
 
 {% endblock %}
 
@@ -229,6 +229,19 @@ google_color_text = "000000";
 		{% endif %} 
 	</div>
 	<div class="clear">&nbsp;</div>
+
+{% if related %}
+	<div class="grid_9 alpha omega">
+		<h3><a name="related">Artículos relacionados</a></h3>
+		<ul>
+		{% for rel in related %}
+			<li><strong><a href="/item/{{ rel.item_to_url_path }}">{{ rel.item_to_title|escape }}</a></strong></li>
+		{% endfor %}
+		</ul>
+	</div>
+	<div class="clear">&nbsp;</div>	
+{% endif %}
+
 {% if not item.draft %}
 {% if len != 0 %}
 	<div class="grid_9 alpha omega">

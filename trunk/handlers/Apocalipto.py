@@ -30,8 +30,8 @@ class Apocalipto(BaseHandler):
 	def get(self):
 		self.response.headers['Content-Type'] = 'text/plain'
 		
-		# self.create_task('begin_recommendations', 2, {'offset': 0})
-		# self.response.out.write('Item recommendations scheduled tasks have begun')
+		# self.create_task('delete_recommendations', 2, {'offset': 0})
+		# self.response.out.write('Delete recommendations scheduled tasks have begun')
 		# return
 		
 		app = model.Application.all().get()

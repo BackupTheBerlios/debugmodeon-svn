@@ -46,6 +46,23 @@ class TaskQueue(webapp.RequestHandler):
 			task.data = simplejson.dumps(data)
 			task.put()
 			self.response.out.write('Task executed but not finished %s %s' % (task.task_type, task.data))
+	
+	def delete_recommendations(self, data):
+		offset = data['offset']
+		recs = model.Recommendation.all().fetch(1, offset)
+		if len(recs) == 0:
+			return None
+
+		next = recs[0]
+
+		item_to   = next.item_to
+		item_from = next.item_from
+		if item_from.draft or item_to.draft or item_from.deletion_date is not None or item_to.deletion_date is not None:
+			next.delete()
+		else:
+			data['offset'] += 1
+
+		return data
 		
 	def begin_recommendations(self, data):
 		offset = data['offset']
@@ -82,6 +99,9 @@ class TaskQueue(webapp.RequestHandler):
 		def create_recommendation(item_from, item_to, value):
 			r = model.Recommendation.all().filter('item_from', item_from).filter('item_to', item_to).get()
 			if not r:
+				if not item_from.author_nickname:
+					item_from.author_nickname = item_from.author.nickname
+					item_from.put()
 				r = model.Recommendation(item_from=item_from,
 					item_to=item_to,
 					value=value,
@@ -96,16 +116,18 @@ class TaskQueue(webapp.RequestHandler):
 			r.put()
 		
 		item = model.Item.get_by_id(data['item'])
+		if item.draft or item.deletion_date is not None:
+			return None
 		offset = data['offset']
 		
-		items = model.Item.all().order('creation_date').fetch(1, offset)
+		items = model.Item.all().filter('draft', False).filter('deletion_date', None).order('creation_date').fetch(1, offset)
 		if not items:
 			return None
 		
 		next = items[0]
 		data['offset'] += 1
 		
-		if next.key().id() != item.key().id() and not next.draft and next.deletion_date is None:
+		if next.key().id() != item.key().id():
 			diff = tanimoto(item.tags, next.tags)
 			if diff > 0:
 				create_recommendation(item, next, diff)

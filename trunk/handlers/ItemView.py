@@ -112,6 +112,8 @@ class ItemView(BaseHandler):
 				self.values['all_groups'] = all_groups
 
 		self.values['content_html'] = self.cache(str(item.key().id()) + '_html', self.to_html)
+		
+		# self.values['related'] = list(model.Recommendation.all().filter('item_from', item).order('-value').fetch(5))
 
 		self.render('templates/item-view.html')
 	
