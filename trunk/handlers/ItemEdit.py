@@ -109,7 +109,6 @@ class ItemEdit(AuthenticatedHandler):
 					item.url_path = '%d/%s' % (item.key().id(), self.to_url_path(item.title))
 				add_groups = False
 				if item.draft and not draft:
-					self.create_recommendations(item)
 					item.draft = draft
 					user.items += 1
 					user.draft_items -=1
@@ -126,6 +125,9 @@ class ItemEdit(AuthenticatedHandler):
 						app.put()
 					memcache.delete('app')
 					add_groups = True
+				
+				if not item.draft:
+					self.create_recommendations(item)
 				
 				if not item.author_nickname:
 					item.author_nickname = user.nickname
