@@ -60,6 +60,20 @@ pre {
 	overflow: auto;
 }
 
+blockquote {
+	background-color: #fff;
+	font-style: italic;
+	margin: 5px;
+	margin-left: 20px;
+	border: 1px dashed #777;
+	padding: 5px;
+	color: #777;
+}
+
+.comment-deleted {
+	color: #777;
+}
+
 /* display the individual items next to each other, not one-per-line */
 .tag-cloud { margin:0; padding:10px; text-align: center }
 .tag-cloud li { display: inline; margin:0; padding:0; }

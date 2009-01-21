@@ -41,6 +41,11 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			<a href="/group.forum.list/{{ group.url_path }}">
 				<img src="/static/images/comments.png" alt="" class="icon" /> {{ group.threads }} temas en el foro
 			</a>
+			{% if joined == 'True' %}
+			| <a href="/group.forum.list/{{ group.url_path }}#new">
+				<img src="/static/images/page_white_edit.png" alt="" class="icon" /> Iniciar nuevo tema
+			</a>
+			{% endif %}
 			| <a href="/group.item.list/{{ group.url_path }}">
 				<img src="/static/images/page_white_edit.png" alt="" class="icon" /> {{ group.items }} artículos
 			</a>
@@ -60,12 +65,12 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 			</a>
 	{% endif %}
 	{% if user.nickname == group.owner_nickname or user.rol == 'admin' %}
-			| <strong><a href="/group.edit?key={{ group.key() }}">
+			<br/>
+			<strong><a href="/group.edit?key={{ group.key() }}">
 				<img src="/static/images/page_white_edit.png" alt="" class="icon" /> Editar grupo</a>
 			</strong>
 	{% endif %}
 	{% if user.rol == 'admin' %}
-		<br/>
 		<a href="/group.delete?key={{ group.key() }}&amp;auth={{ auth }}">
 			<img src="/static/images/cross.png" class="icon" alt="" /> Eliminar grupo
 		</a>

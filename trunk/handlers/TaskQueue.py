@@ -63,6 +63,22 @@ class TaskQueue(webapp.RequestHandler):
 			data['offset'] += 1
 
 		return data
+	
+	def update_recommendations(self, data):
+		offset = data['offset']
+		recs = model.Recommendation.all().fetch(1, offset)
+		if len(recs) == 0:
+			return None
+
+		next = recs[0]
+
+		item_to   = next.item_to
+		item_from = next.item_from
+		
+		self.calculate_recommendation(item_from, item_to)
+		data['offset'] += 1
+
+		return data
 		
 	def begin_recommendations(self, data):
 		offset = data['offset']
@@ -80,41 +96,6 @@ class TaskQueue(webapp.RequestHandler):
 		return data
 	
 	def item_recommendation(self, data):
-		
-		def tanimoto(v1, v2):
-			c1,c2,shr=0,0,0
-			
-			all = []
-			all.extend(v1)
-			all.extend(v2)
-			
-			l = len(all)
-			shr = l - len(list(set(all)))
-			
-			c1 = len(v1)
-			c2 = len(v2)
-			
-			return (float(shr) / float(c1+c2-shr))
-		
-		def create_recommendation(item_from, item_to, value):
-			r = model.Recommendation.all().filter('item_from', item_from).filter('item_to', item_to).get()
-			if not r:
-				if not item_from.author_nickname:
-					item_from.author_nickname = item_from.author.nickname
-					item_from.put()
-				r = model.Recommendation(item_from=item_from,
-					item_to=item_to,
-					value=value,
-					item_from_title=item_from.title,
-					item_to_title=item_to.title,
-					item_from_author_nickname=item_from.author_nickname,
-					item_to_author_nickname=item_to.author_nickname,
-					item_from_url_path=item_from.url_path,
-					item_to_url_path=item_to.url_path)
-			elif r.value == value:
-				return
-			r.put()
-		
 		item = model.Item.get_by_id(data['item'])
 		if item.draft or item.deletion_date is not None:
 			return None
@@ -127,10 +108,50 @@ class TaskQueue(webapp.RequestHandler):
 		next = items[0]
 		data['offset'] += 1
 		
-		if next.key().id() != item.key().id():
-			diff = tanimoto(item.tags, next.tags)
-			if diff > 0:
-				create_recommendation(item, next, diff)
-				create_recommendation(next, item, diff)		
-			
+		self.calculate_recommendation(next, item)
+		
 		return data
+	
+	def calculate_recommendation(self, next, item):
+		def distance(v1, v2):
+			all = []
+			all.extend(v1)
+			all.extend(v2)
+
+			return float(len(all) - len(set(all)))
+			
+		def create_recommendation(item_from, item_to, value):
+			return model.Recommendation(item_from=item_from,
+				item_to=item_to,
+				value=value,
+				item_from_title=item_from.title,
+				item_to_title=item_to.title,
+				item_from_author_nickname=item_from.author_nickname,
+				item_to_author_nickname=item_to.author_nickname,
+				item_from_url_path=item_from.url_path,
+				item_to_url_path=item_to.url_path)
+		
+		if next.key().id() == item.key().id():
+			return
+			
+		r1 = model.Recommendation.all().filter('item_from', item).filter('item_to', next).get()
+		r2 = model.Recommendation.all().filter('item_from', next).filter('item_to', item).get()
+		diff = distance(item.tags, next.tags)
+		if diff > 0:
+			if not r1:
+				r1 = create_recommendation(item, next, diff)
+			else:
+				r1.value = diff
+				
+			if not r2:
+				r2 = create_recommendation(next, item, diff)
+			else:
+				r2.value = diff
+				
+			r1.put()
+			r2.put()
+		else:
+			if r1:
+				r1.delete()
+			if r2:
+				r2.delete()

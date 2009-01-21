@@ -77,10 +77,12 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<p><input type="submit" value="Publicar artículo" />&nbsp;<input id="save_draft" type="submit" name="save_draft" value="Guardar Borrador" />&nbsp;<label id="auto_saved"></label></p>
 	{% endif %}
 
+		{#
 		<p>
 			<label for="preview">Vista previa</label>
 			<div class="comment"><div id="markdown_formatted"></div></div>
 		</p>
+		#}
 	</div>
 </form>
 {% endblock %}
@@ -113,23 +115,31 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 				parameters: pars,
 				onSuccess: function(transport, json) {
 					modified = false;
-					var saved = transport.responseText.evalJSON().saved;
+					json = transport.responseText.evalJSON();
+					var saved = json.saved;
 					if (saved) {
-						var updated = transport.responseText.evalJSON().updated;
+						var updated = json.updated;
 						if (!updated) {
-							var key = transport.responseText.evalJSON().key;
+							var key = json.key;
 							$('key').value = key;
-							var draft_items = transport.responseText.evalJSON().draft_items;
+							var draft_items = json.draft_items;
 							$('drafts').innerHTML = "<img src='/static/images/page_white_text.png' alt='' class='icon' /> Borradores (" + draft_items + ")";
 						}	
 						var date = new Date();
-						$('auto_saved').innerHTML = "Guardado automáticamente a las " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+						var hours = date.getHours();
+						if(hours < 10) hours = '0'+hours;
+						var min = date.getMinutes();
+						if(min < 10) min = '0'+min;
+						var sec = date.getSeconds();
+						if(sec < 10) sec = '0'+sec;
+						$('auto_saved').innerHTML = "Guardado automáticamente a las " + hours + ":" + min + ":" + sec;
 
 					}
 					setTimeout("saveChanges()", 30000);
 				},
 				onFailure: function() {
 					parent.innerHTML = 'Ocurrió un error :(';
+					setTimeout("saveChanges()", 60000);
 				}
 			});
 		} else {

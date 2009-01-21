@@ -56,7 +56,7 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 <form action="/group.item.add" method="post" accept-charset="utf-8">
 	<input type="hidden" name="auth" value="{{ auth }}" />
 	<input type="hidden" name="item" value="{{ item.key() }}" />
-	<p><select name="group">
+	<p><select name="group" style="width:100%">
 {% for group in all_groups %}
 	<option value="{{ group.group.key() }}">{{ group.group_title|escape }}</option>
 {% endfor %}
@@ -286,11 +286,11 @@ google_color_text = "000000";
 	{% else %}
 	<div class="grid_2 alpha">&nbsp;</div>
 	<div class="grid_7 omega">
-		<div class="comment">
+		<div class="comment comment-deleted">
 			<p class="comment-anchor">
 				<a href="#comment-{{ comment.response_number }}" name="comment-{{ comment.response_number }}">#{{ comment.response_number }}</a>&nbsp;&nbsp;&nbsp;
 			</p>
-			Borrado. Razón: {{ comment.deletion_message }}
+			Comentario borrado. Razón: {{ comment.deletion_message }}
 		</div>
 	</div>
 	<div class="clear">&nbsp;</div>
@@ -334,11 +334,12 @@ google_color_text = "000000";
 						                
 			<p><input type="submit" value="Publicar comentario" />&nbsp;<input type="submit" name="preview" value="Previsualizar" /></p>
 		</form>
-		
+		{#
 		<p>
 			<label for="preview">Vista previa</label>
 			<div class="comment"><div id="markdown_formatted"></div></div>
 		</p>
+		#}
 	</div>
 	<div class="clear">&nbsp;</div>
 {% endif %}
@@ -363,6 +364,10 @@ google_color_text = "000000";
 <script type="text/javascript" src="/static/js/prettify.js"></script>
 <script type="text/javascript" charset="utf-8">
 	var d = $$('#item pre');
+	d.each(function(node) {
+		node.addClassName('prettyprint');
+	});
+	var d = $$('.comment pre');
 	d.each(function(node) {
 		node.addClassName('prettyprint');
 	});

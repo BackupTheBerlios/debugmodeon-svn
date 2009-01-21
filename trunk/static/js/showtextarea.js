@@ -3,13 +3,14 @@ var textarea = new Control.TextArea('markdown_example');
 var toolbar = new Control.TextArea.ToolBar(textarea);
 toolbar.container.id = 'markdown_toolbar'; //for css styles
 
-//preview of markdown text
+/* preview of markdown text
 var converter = new Showdown.converter;
 var converter_callback = function(value){
 	$('markdown_formatted').update(converter.makeHtml(value));
 }
 converter_callback(textarea.getValue());
 textarea.observe('change',converter_callback);
+*/
 
 //buttons
 toolbar.addButton('Italics',function(){

@@ -145,11 +145,11 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 	{% else %}
 	<div class="grid_2 alpha">&nbsp;</div>
 	<div class="grid_7 omega">
-		<div class="comment">
+		<div class="comment comment-deleted">
 			<p class="comment-anchor">
 				<a href="#comment-{{ comment.response_number }}" name="comment-{{ comment.response_number }}">#{{ comment.response_number }}</a>&nbsp;&nbsp;&nbsp;
 			</p>
-			Borrado. Razón: {{ comment.deletion_message }}
+			Respuesta borrada. Razón: {{ comment.deletion_message }}
 		</div>
 	</div>
 	<div class="clear">&nbsp;</div>
@@ -187,18 +187,18 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 		<span id="subscribe_box">
 		{% if cansubscribe %}
 		<p>
-			<input type="checkbox" name="subscribe" value="True" id="subscribe" />Suscribirme por email
+			<input type="checkbox" name="subscribe" value="True" id="subscribe" checked="checked" />Suscribirme por email
 		</p>
 		{% endif %}
 		</span>
 
 		<p><input type="submit" value="Publicar respuesta" />&nbsp;<input type="submit" name="preview" value="Previsualizar" /></p>
-
+		{#
 		<p>
 			<label for="preview">Vista previa</label>
 			<div class="comment"><div id="markdown_formatted"></div></div>
 		</p>
-
+		#}
 		</div>
 	</form>
 	</div>
