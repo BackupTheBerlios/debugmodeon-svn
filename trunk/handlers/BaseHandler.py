@@ -154,7 +154,8 @@ class BaseHandler(webapp.RequestHandler):
 		self.user = None
 		
 		import session
-		app = model.Application.all().get()
+		#app = model.Application.all().get()
+		app = self.get_application()
 		if app:
 			self.sess = session.Session(app.session_seed)
 			if self.sess.load():

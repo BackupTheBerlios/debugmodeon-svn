@@ -60,7 +60,7 @@ class ItemVote(AuthenticatedHandler):
 				author.rating_average = int(author.rating_total / author.rating_count)
 				author.put()
 				avg = item.rating_average
-		memcache.add(str(item.key().id()) + '_item' )
+		memcache.add(str(item.key().id()) + '_item', item, 0)
 		
 		if self.get_param('x'):
 			self.render_json({ 'average': avg, 'votes': item.rating_count })
