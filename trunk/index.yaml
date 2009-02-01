@@ -481,4 +481,11 @@ indexes:
   - name: item_from
   - name: value
     direction: desc
+- kind: Thread
+  properties:
+  - name: author
+  - name: parent_thread
+  - name: creation_date
+    direction: desc
+
 

@@ -1,0 +1,67 @@
+{#
+(C) Copyright 2008 Ignacio Andreu <plunchete at gmail dot com>
+
+This file is part of "debug_mode_on".
+
+"debug_mode_on" is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"debug_mode_on" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
+#}
+
+{% extends "base.html" %}
+{% block title %} {{ this_user.nickname }}: hilos iniciados {% endblock %}
+{% block head %}
+	<!-- TODO -->
+{% endblock %}
+
+{% block content %}
+	<h1><img src="/images/user/thumbnail/{{ this_user.nickname }}" alt="{{ this_user.nickname}}" style="vertical-align: middle" /> <a href="/user/{{ this_user.nickname }}">{{ this_user.nickname }}</a>: hilos iniciados</h1>
+
+	<div class="grid_9 alpha omega">
+	<table class="grid">
+	<thead>
+		<tr>
+			<th class="center">Grupo</th>
+			<th class="left">Tema</th>
+			<th class="right">Visitas</th>
+			<th class="right">Respuestas</th>
+			<th class="right">Actualizado</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for thread in threads %}
+		<tr {% if loop.index % 2 == 0 %}class="even"{% endif %}>
+			<td class="center"><a href="/group/{{ thread.group_url_path }}">
+				<img src="/images/group/thumbnail/{{ thread.group.key().id() }}"
+					alt="{{ thread.group_title|escape }}" title="{{ thread.group_title|escape }}" /></a></td>
+			<td class="left">
+				<strong>
+					<a href="/group.forum/{{ thread.url_path }}">{{ thread.title|escape }}</a>
+					{% if app.max_results_sublist and thread.responses > app.max_results_sublist %}
+						<br/> Páginas:
+						{% for page in range(1, ((thread.responses / app.max_results_sublist)|round(0, 'ceil') +1)) %}
+							&nbsp;<a href="/group.forum/{{ thread.url_path }}?p={{ page }}">[{{ page }}]</a>
+						{% endfor %}
+					{% endif %}
+				</strong>
+			</td>
+			<td class="right">{{ thread.views }}</td>
+			<td class="right">{{ thread.responses }}</td>
+			<td class="right">hace {{ thread.last_response_date|relativize }}</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+	</table>
+	{% include 'inc-pagination.html' %}
+	</div>
+	<div class="clear">&nbsp;</div>
+{% endblock %}

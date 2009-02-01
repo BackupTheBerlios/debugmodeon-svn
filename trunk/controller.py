@@ -65,6 +65,7 @@ def main():
 									   ('/user.contact',		UserContact),
 									   ('/user.promote',			UserPromote),
 									   ('/user.events',			UserEvents),
+									   ('/user.forums/.*',		UserForums),
 									   # messages
 									   ('/message.edit',		MessageEdit),
 									   ('/message.sent',		MessageSent),
