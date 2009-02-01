@@ -78,7 +78,7 @@ class Feed(webapp.RequestHandler):
 	
 	def threads_to_rss(self, title, threads):
 		items = []
-		url = 'http://debugmodeon.com'
+		url = self.get_application().url
 		md = markdown.Markdown()
 		for i in threads:
 			item = {
