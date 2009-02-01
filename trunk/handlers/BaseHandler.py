@@ -131,6 +131,10 @@ class BaseHandler(webapp.RequestHandler):
 		self.execute()
 
 	def get(self):
+		if self.request.url.split('/')[2] == 'debugmodeon.com':
+			self.redirect('http://www.debugmodeon.com/'+self.request.url.split('/', 3)[3], permanent=True)
+			return
+		
 		try:
 			self.common_stuff()
 			self.pre_execute()
