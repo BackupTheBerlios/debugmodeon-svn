@@ -66,8 +66,8 @@ class UserEdit(AuthenticatedHandler):
 				if not user.image_version:
 					user.image_version = 1
 				else:
-					memcache.delete('/images/group/avatar/%s/%d' % (user.nickname, user.image_version))
-					memcache.delete('/images/group/thumbnail/%s/%d' % (user.nickname, user.image_version))
+					memcache.delete('/images/user/avatar/%s/%d' % (user.nickname, user.image_version))
+					memcache.delete('/images/user/thumbnail/%s/%d' % (user.nickname, user.image_version))
 					user.image_version += 1
 				memcache.delete('/images/user/avatar/%s' % (user.nickname))
 				memcache.delete('/images/user/thumbnail/%s' % (user.nickname))
