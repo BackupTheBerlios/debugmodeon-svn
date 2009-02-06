@@ -38,7 +38,7 @@ class UserForgotPassword(BaseHandler):
 			email = self.request.get('email')
 			u = model.UserData.all().filter('email =', email).get()
 			if not u:
-				self.show_error(email, 'No se encuentra un usuario con esa dirección')
+				self.show_error(email, u'No se encuentra un usuario con esa dirección')
 				return
 			
 			u.token = self.hash(str(random.random()), email)

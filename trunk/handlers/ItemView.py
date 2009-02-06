@@ -95,8 +95,8 @@ class ItemView(BaseHandler):
 		self.values['a'] = 'comments'
 		self.values['keywords'] = ', '.join(item.tags)
 		
-		#groups = model.GroupItem.all().filter('item', item).order('group_title')
-		groups = self.cache(str(item.key().id()) + '_groups', self.get_groups)
+		groups = model.GroupItem.all().filter('item', item).order('group_title')
+		# groups = self.cache(str(item.key().id()) + '_groups', self.get_groups)
 		self.values['groups'] = list(groups)
 		
 		if user and item.author_nickname == user.nickname:
