@@ -39,7 +39,11 @@ class MailQueue(webapp.RequestHandler):
 		if not next:
 			self.response.out.write('No pending mail')
 			return
-			
+		if not next.bcc and not next.to:
+			self.response.out.write('email without recipients')
+			next.delete()
+			return
+				
 		if next.bcc:
 			bcc = next.bcc[:n]
 			del next.bcc[:n]
