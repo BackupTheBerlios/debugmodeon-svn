@@ -35,7 +35,7 @@ class MailQueue(webapp.RequestHandler):
 		n = 10
 		
 		next = model.MailQueue.all().get()
-		
+		sent = None	
 		if not next:
 			self.response.out.write('No pending mail')
 			return
