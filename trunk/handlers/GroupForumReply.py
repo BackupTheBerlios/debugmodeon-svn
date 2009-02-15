@@ -82,6 +82,14 @@ class GroupForumReply(AuthenticatedHandler):
 		if app.max_results_sublist:
 			results = app.max_results_sublist
 		page = response.response_number / results
+		if (response.response_number % results) == 1:
+			#delete previous page from the cache
+			if page != 1:
+				previous_url = '/group.forum/%s?p=%d' % (thread.url_path, page)
+			else:
+				previous_url = '/group.forum/%s?' % (thread.url_path)
+			memcache.delete(previous_url)
+			
 		if (response.response_number % results) > 0:
 			page += 1
 		if page != 1:

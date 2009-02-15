@@ -65,6 +65,8 @@ class GroupForumView(BaseHandler):
 		if app.max_results_sublist:
 			results = app.max_results_sublist
 		key = '%s?%s' % (self.request.path, self.request.query)
+		import logging
+		logging.debug(key)
 		responses = self.paging(query, results, 'creation_date', thread.responses, ['creation_date'], key=key, timeout=0)
 		#responses = self.cache(url_path, self.get_responses)
 		# migration

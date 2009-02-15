@@ -40,7 +40,11 @@ along with "debug_mode_on".  If not, see <http://www.gnu.org/licenses/>.
 					{% if app.max_results_sublist and thread.responses > app.max_results_sublist %}
 						<br/> Páginas:
 						{% for page in range(1, ((thread.responses / app.max_results_sublist)|round(0, 'ceil') +1)) %}
-							&nbsp;<a href="/group.forum/{{ thread.url_path }}?p={{ page }}">[{{ page }}]</a>
+							{% if page == 1%}
+								&nbsp;<a href="/group.forum/{{ thread.url_path }}">[{{ page }}]</a>
+							{% else %}
+								&nbsp;<a href="/group.forum/{{ thread.url_path }}?p={{ page }}">[{{ page }}]</a>
+							{% endif %}
 						{% endfor %}
 					{% endif %}
 				</strong>
