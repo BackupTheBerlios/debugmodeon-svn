@@ -75,7 +75,7 @@ indexes:
   - name: database
   - name: creation_date
 
-# Used once in query history.
+# Unused in query history -- copied from input.
 - kind: Group
   properties:
   - name: activity
@@ -102,7 +102,7 @@ indexes:
   - name: members
     direction: desc
 
-# Used 6 times in query history.
+# Unused in query history -- copied from input.
 - kind: Group
   properties:
   - name: creation_date
@@ -114,7 +114,7 @@ indexes:
   - name: items
     direction: desc
 
-# Used 3 times in query history.
+# Unused in query history -- copied from input.
 - kind: Group
   properties:
   - name: members
@@ -221,10 +221,26 @@ indexes:
 # Unused in query history -- copied from input.
 - kind: Item
   properties:
+  - name: author_nickname
+  - name: deletion_date
+  - name: draft
   - name: creation_date
     direction: desc
 
-# Used 7 times in query history.
+# Unused in query history -- copied from input.
+- kind: Item
+  properties:
+  - name: creation_date
+    direction: desc
+
+# Unused in query history -- copied from input.
+- kind: Item
+  properties:
+  - name: deletion_date
+  - name: draft
+  - name: creation_date
+
+# Used 8 times in query history.
 - kind: Item
   properties:
   - name: deletion_date
@@ -330,6 +346,13 @@ indexes:
     direction: desc
 
 # Unused in query history -- copied from input.
+- kind: Recommendation
+  properties:
+  - name: item_from
+  - name: value
+    direction: desc
+
+# Unused in query history -- copied from input.
 - kind: Record
   properties:
   - name: form
@@ -342,10 +365,16 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 3 times in query history.
+# Unused in query history -- copied from input.
 - kind: Tag
   properties:
   - name: count
+    direction: desc
+
+# Unused in query history -- copied from input.
+- kind: Task
+  properties:
+  - name: priority
     direction: desc
 
 # Unused in query history -- copied from input.
@@ -353,6 +382,14 @@ indexes:
   properties:
   - name: author
   - name: group
+  - name: parent_thread
+  - name: creation_date
+    direction: desc
+
+# Unused in query history -- copied from input.
+- kind: Thread
+  properties:
+  - name: author
   - name: parent_thread
   - name: creation_date
     direction: desc
@@ -418,7 +455,7 @@ indexes:
   - name: creation_date
     direction: desc
 
-# Used 3 times in query history.
+# Used 4 times in query history.
 - kind: Thread
   properties:
   - name: parent_thread
@@ -438,13 +475,13 @@ indexes:
   - name: thread
   - name: creation_date
 
-# Used once in query history.
+# Unused in query history -- copied from input.
 - kind: UserData
   properties:
   - name: creation_date
     direction: desc
 
-# Used 5 times in query history.
+# Unused in query history -- copied from input.
 - kind: UserData
   properties:
   - name: items
@@ -456,36 +493,3 @@ indexes:
   - name: public
   - name: creation_date
     direction: desc
-
-- kind: Item
-  properties:
-  - name: author_nickname
-  - name: deletion_date
-  - name: draft
-  - name: creation_date
-    direction: desc
-
-- kind: Task
-  properties:
-  - name: priority
-    direction: desc
-
-- kind: Item
-  properties:
-  - name: deletion_date
-  - name: draft
-  - name: creation_date
-
-- kind: Recommendation
-  properties:
-  - name: item_from
-  - name: value
-    direction: desc
-- kind: Thread
-  properties:
-  - name: author
-  - name: parent_thread
-  - name: creation_date
-    direction: desc
-
-
