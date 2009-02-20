@@ -151,7 +151,7 @@ class GroupMove(AuthenticatedHandler):
 				group_user.group = group_dest
 				group_dest.members += 1
 				group_dest.subscribers.append(group_user.user.email)
-				self.add_follower(group=group, nickname=group_user.user.nickname)
+				self.add_follower(group=group_dest, nickname=group_user.user.nickname)
 				self.add_user_subscription(group_user.user, 'group', group_dest.key().id())
 				if group_dest.activity:
 					group_dest.activity += 1
